@@ -1,0 +1,12 @@
+name = "ibk-fss-brief-trigger"
+main = "src/index.js"
+compatibility_date = "2026-06-25"
+
+# 08:00 KST = 23:00 UTC(전날), 월~금. Cloudflare cron은 UTC 기준.
+# (FSC 브리핑 07:30과 30분 간격 — 실행·알림 충돌 회피. 결정 B)
+# Cloudflare Workers Cron은 GitHub schedule보다 정시성이 훨씬 높음.
+[triggers]
+crons = ["0 23 * * 0-4"]
+
+# GH_PAT 은 코드에 두지 말고 secret 으로:
+#   wrangler secret put GH_PAT

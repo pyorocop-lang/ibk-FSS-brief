@@ -1,0 +1,673 @@
+"use strict";
+/**
+ * briefV2.js — IBK 아침에 읽는 규제 변화 보고서 생성기
+ * 수정 이력:
+ *   v3.0  2026.06.20  전면 재작성 (표 제거, Amazon+Axios 원칙 적용)
+ *   v3.1  2026.06.20  our_action fallback 보완 + ensureTone() 추가
+ *   v3.2  2026.06.20  가독성 개선 (타입 스케일 4단계 / 간격 통일 / 구분선 정리 / \n → 별도 단락)
+ */
+
+const fs   = require("fs");
+const path = require("path");
+
+const {
+  Document, Packer, Paragraph, TextRun,
+  AlignmentType, LevelFormat, BorderStyle,
+} = require("docx");
+
+// ──────────────────────────────────────────────────────────────
+// 날짜 계산
+// ──────────────────────────────────────────────────────────────
+const _argIdx  = process.argv.indexOf("--date");
+const _argDate = _argIdx >= 0 ? process.argv[_argIdx + 1] : null;
+const BASE_DATE = (_argDate && /^\d{8}$/.test(_argDate))
+  ? new Date(+_argDate.slice(0,4), +_argDate.slice(4,6)-1, +_argDate.slice(6,8))
+  : new Date();
+const _DOW = ["일","월","화","수","목","금","토"];
+const TODAY_CODE  = `${BASE_DATE.getFullYear()}${String(BASE_DATE.getMonth()+1).padStart(2,"0")}${String(BASE_DATE.getDate()).padStart(2,"0")}`;
+const TODAY_LABEL = `${BASE_DATE.getFullYear()}. ${String(BASE_DATE.getMonth()+1).padStart(2,"0")}. ${String(BASE_DATE.getDate()).padStart(2,"0")}. (${_DOW[BASE_DATE.getDay()]})`;
+
+// ──────────────────────────────────────────────────────────────
+// crawl_result.json 로드
+// ──────────────────────────────────────────────────────────────
+const CRAWL_PATH = path.join(__dirname, "reports", TODAY_CODE, "crawl_result.json");
+let crawlData = null;
+if (fs.existsSync(CRAWL_PATH)) {
+  try {
+    crawlData = JSON.parse(fs.readFileSync(CRAWL_PATH, "utf8"));
+    console.log(`[REPORT] crawl_result.json 로드 완료 — 수집 ${crawlData.items ? crawlData.items.length : 0}건`);
+  } catch(e) {
+    console.warn("[REPORT] crawl_result.json 파싱 실패:", e.message);
+  }
+}
+
+// ──────────────────────────────────────────────────────────────
+// 색상 상수
+// ──────────────────────────────────────────────────────────────
+const ibkBlue  = "0D2F8B";
+const skyBlue  = "1E88BC";
+const red      = "C0392B";
+const lightRed = "C0392B";  // 구분선용 — 두께로 역할 구분
+const gray1    = "666666";
+const gray2    = "999999";
+const blk      = "1A1A1A";
+
+// ──────────────────────────────────────────────────────────────
+// 타입 스케일 (4단계 고정 — v3.2)
+// ──────────────────────────────────────────────────────────────
+const TS = {
+  title:    36,   // 문서 제목
+  law:      24,   // 🔴 법령명 헤더
+  opening:  21,   // 오프닝 문장
+  sub:      19,   // 소제목 (뭐가 바뀌나요? 등)
+  body:     19,   // 본문 — Bold로만 소제목과 구분
+  caption:  17,   // 보조 (날짜, 출처, 나머지 항목 설명)
+};
+
+// ──────────────────────────────────────────────────────────────
+// 간격 상수 (2규칙 통일 — v3.2)
+// sub_before : 소제목 위 공백
+// body_after : 본문 단락 아래 공백
+// ──────────────────────────────────────────────────────────────
+const GAP = {
+  sub_before:  120,
+  body_after:   32,
+  section_gap: 480,   // SP_LARGE
+  item_gap:    280,   // SP_MEDIUM
+  micro:       120,   // SP_SMALL
+};
+
+// ──────────────────────────────────────────────────────────────
+// 크롤 아이템 → REPORT 포맷 변환
+// ──────────────────────────────────────────────────────────────
+function mapCrawlerItem(it) {
+  function ddayStr(dateStr) {
+    if (!dateStr) return "";
+    const d = Math.ceil((new Date(dateStr.replace(/\./g, "-")) - new Date()) / 86400000);
+    return d < 0 ? "마감완료" : `D-${d}`;
+  }
+  const deadlineDday = it.deadline_status || ddayStr(it.deadline);
+  const enforceDday  = ddayStr(it.enforce_date);
+  return {
+    noticeId:     String(it.noticeId),
+    title:        it.title || "",
+    grade:        it.grade || "하",
+    ministry:     it.ministry || "금융위원회",
+    from:         (it.notice_date  || "미확인").replace(/-/g, "."),
+    to:           (it.deadline     || "미확인").replace(/-/g, "."),
+    dday:         deadlineDday || "미확인",
+    enforce:      (it.enforce_date || "").replace(/\./g, "-"),
+    enforceLabel: enforceDday ? `${enforceDday} 시행` : "",
+    ctrl_insight: it.ctrl_insight || "",
+    ibkDept:       it.dept || "",
+    related_depts: Array.isArray(it.related_depts) ? it.related_depts.slice(0, 4) : [],
+    what_changes:  Array.isArray(it.what_changes) && it.what_changes.length > 0
+      ? it.what_changes : [],
+    our_action:    Array.isArray(it.our_action) && it.our_action.length > 0
+      ? it.our_action : [],
+    tg_key:       it.tg_key || "",
+    term:         it.term || null,
+  };
+}
+
+// ──────────────────────────────────────────────────────────────
+// REPORT 구성
+// ──────────────────────────────────────────────────────────────
+const _isRegul   = it => (it.title||"").includes("규정변경예고") || (it.title||"").includes("규정제정예고");
+const _allItems  = crawlData ? (crawlData.items  || []) : [];
+const _newGraded = crawlData
+  ? (crawlData.graded || crawlData.newGraded || []).map(mapCrawlerItem)
+  : [];
+
+const REPORT = {
+  date:        TODAY_LABEL,
+  dateCode:    TODAY_CODE,
+  totalNew:     _allItems.length,
+  totalFetched: crawlData ? (crawlData.totalFetched || _allItems.length) : 0,
+  totalLegis:  _allItems.filter(it => !_isRegul(it)).length,
+  totalRegul:  _allItems.filter(it =>  _isRegul(it)).length,
+  ibkTotal:    _newGraded.length,
+  urgentTotal: _newGraded.filter(g => g.grade === "상").length,
+  graded:      _newGraded,
+  deadlines:   crawlData ? (crawlData.deadlines || []) : [],
+  term:        crawlData ? (crawlData.term || null) : null,
+  noUpdate:    crawlData ? !!crawlData.noUpdate : false,
+};
+
+// ──────────────────────────────────────────────────────────────
+// 헬퍼
+// ──────────────────────────────────────────────────────────────
+
+function rf(sz, color, bold = false) {
+  return { font: "맑은 고딕", size: sz, color, bold };
+}
+
+function sp(line) {
+  return new Paragraph({
+    spacing: { line, lineRule: "exact" },
+    children: [new TextRun({ text: "", size: 1 })],
+  });
+}
+const SP_LARGE  = () => sp(GAP.section_gap);
+const SP_MEDIUM = () => sp(GAP.item_gap);
+const SP_SMALL  = () => sp(GAP.micro);
+
+/**
+ * 구분선 — v3.2: 색상 제거, 두께로만 역할 구분
+ *   role "section" : 두께 6, ibkBlue  — 헤더/마무리
+ *   role "item"    : 두께 4, BBBBBB   — 🔴 항목 앞
+ *   role "minor"   : 두께 2, DDDDDD   — 나머지/마감/용어
+ */
+function divider(role = "minor") {
+  const map = {
+    section: { color: ibkBlue, size: 6 },
+    item:    { color: "BBBBBB", size: 4 },
+    minor:   { color: "DDDDDD", size: 2 },
+  };
+  const { color, size } = map[role] || map.minor;
+  return new Paragraph({
+    border: { bottom: { style: BorderStyle.SINGLE, color, size, space: 1 } },
+    spacing: { after: 0, before: 0 },
+    children: [new TextRun({ text: "", size: 1 })],
+  });
+}
+
+function shortTitle(title) {
+  return (title || "")
+    .replace(/[｢「」｣]/g, "")
+    .replace(/\s*(일부개정령안|일부개정고시안|규정변경예고|규정제정예고|입법예고).*/g, "")
+    .trim();
+}
+
+function gradeEmoji(grade) {
+  return grade === "상" ? "🔴" : grade === "중" ? "🔶" : "🔹";
+}
+
+/** 소제목 단락 — before:120 고정 */
+function subHeading(text, color = ibkBlue) {
+  return new Paragraph({
+    spacing: { before: GAP.sub_before, after: 0 },
+    children: [new TextRun({ text, ...rf(TS.sub, color, true) })],
+  });
+}
+
+/** 본문 단락 — after:32 고정 */
+function bodyPara(children, spacingAfter = GAP.body_after) {
+  return new Paragraph({
+    spacing: { before: 0, after: spacingAfter },
+    children,
+  });
+}
+
+/** 불릿 단락 — after:32 고정 */
+function bulletPara(text, color = blk, bold = false) {
+  return new Paragraph({
+    style: "ListParagraph",
+    numbering: { reference: "bullets", level: 0 },
+    spacing: { before: 0, after: GAP.body_after },
+    children: [new TextRun({ text, ...rf(TS.body, color, bold) })],
+  });
+}
+
+function ensureTone(text, fieldName = "") {
+  if (!text) return text;
+  const violations = [
+    /하여야\s*합니다/, /검토가\s*필요합니다/, /상기\s*법령에\s*따르면/,
+    /준수\s*의무가\s*있습니다/, /하시기\s*바랍니다/, /이행하여야/,
+    /[가-힣]합니다/, /입니다\./, /필요합니다/, /할\s*수\s*있어요/,
+  ];
+  if (violations.some(re => re.test(text))) {
+    console.warn(`[TONE WARN]${fieldName ? ` (${fieldName})` : ""}: "${text.slice(0, 40)}"`);
+  }
+  return text;
+}
+
+// ──────────────────────────────────────────────────────────────
+// 섹션 빌더
+// ──────────────────────────────────────────────────────────────
+
+function buildHeader(data) {
+  return [
+    sp(600),
+    bodyPara(
+      [new TextRun({ text: data.date, ...rf(TS.caption, gray1) })],
+      20
+    ),
+    new Paragraph({
+      spacing: { before: 0, after: 60 },
+      children: [
+        new TextRun({ text: "🌞 ", size: TS.title, color: blk }),
+        new TextRun({ text: "아침에 읽는 규제 변화", ...rf(TS.title, ibkBlue, true) }),
+        new TextRun({ text: "  ", size: 22 }),
+        new TextRun({ text: "IBK AI Agent 법령 모니터링  —  내부통제점검팀", ...rf(TS.caption + 2, skyBlue, true) }),
+      ],
+    }),
+    divider("section"),
+    SP_MEDIUM(),
+  ];
+}
+
+function buildOpening(data) {
+  if (data.noUpdate) {
+    return [
+      bodyPara([new TextRun({ text: "오늘 금융위원회 신규 입법예고는 없었어요.", ...rf(TS.opening, blk) })], 24),
+      bodyPara([new TextRun({ text: "전일과 동일한 내용이에요. 아래는 현재 진행 중인 법령 현황이에요.", ...rf(TS.body, gray1) })]),
+      SP_MEDIUM(),
+    ];
+  }
+
+  if (!data.graded || data.graded.length === 0) {
+    return [
+      bodyPara([new TextRun({ text: "오늘은 금융위원회 신규 입법·개정 예고가 없었어요.", ...rf(TS.opening, blk) })], 24),
+      bodyPara([new TextRun({ text: "기존 내규와 점검 체계를 재점검하는 시간으로 활용해보세요 🙂", ...rf(TS.body, gray1) })]),
+      SP_LARGE(),
+    ];
+  }
+
+  const urgentCount = data.graded.filter(it => it.grade === "상").length;
+  return [
+    bodyPara([new TextRun({ text: `오늘 금융위원회에서 입법·개정 예고한 법령은 ${data.totalNew}개예요.`, ...rf(TS.opening, blk) })], 16),
+    bodyPara([
+      new TextRun({ text: `그 중 지금 바로 챙겨야 할 건 `, ...rf(TS.opening, blk) }),
+      new TextRun({ text: `${urgentCount}개`, ...rf(TS.opening, urgentCount > 0 ? red : blk, true) }),
+      new TextRun({ text: `예요.`, ...rf(TS.opening, blk) }),
+    ]),
+    SP_MEDIUM(),
+  ];
+}
+
+function buildUrgentItems(items) {
+  const urgentItems = (items || []).filter(it => it.grade === "상").slice(0, 2);
+  if (urgentItems.length === 0) return [];
+
+  const sections = [];
+
+  urgentItems.forEach(item => {
+    const name         = shortTitle(item.title);
+    const dept         = item.ibkDept || "내부통제총괄부";
+    const relDepts     = item.related_depts || [];
+    const changes      = (item.what_changes || []).slice(0, 2);
+    const actions      = (item.our_action   || []).slice(0, 3);
+    const action       = actions[0] || "";
+    const insight      = item.ctrl_insight || "";
+
+    const ddayText = item.dday && item.dday !== "미확인" ? `  ·  ${item.dday}` : "";
+
+    const actionHint = action
+      ? action.replace(/^.*?담당자라면\s*/, "").replace(/꼭\s*확인해\s*보세요.*$/, "확인해야 해요")
+      : insight
+        ? (() => {
+            const core = insight.replace(/^.*?의\s*/, "").replace(/가\s*직접\s*영향을\s*받아요\.?$/, "").trim();
+            return core ? `${core} 영향 여부를 확인해야 해요` : "관련 내규를 확인해야 해요";
+          })()
+        : "관련 내규를 확인해야 해요";
+
+    // ── 법령 헤더 블록 ──
+    sections.push(
+      divider("item"),
+      SP_SMALL(),
+      // 법령명 — TS.law (24pt)
+      new Paragraph({
+        spacing: { before: 0, after: 12 },
+        children: [
+          new TextRun({ text: `🔴 ${name}`, ...rf(TS.law, red, true) }),
+          new TextRun({ text: ddayText, ...rf(TS.caption, gray1) }),
+        ],
+      }),
+      // 오프닝 액션 — TS.body (19pt)
+      bodyPara([
+        new TextRun({ text: `${dept}라면 오늘 `, ...rf(TS.body, blk) }),
+        new TextRun({ text: actionHint, ...rf(TS.body, blk, true) }),
+      ], GAP.body_after * 2),
+    );
+
+    // 협조부서 라인
+    if (relDepts.length > 0) {
+      sections.push(
+        bodyPara([
+          new TextRun({ text: "협조부서: ", ...rf(TS.caption, gray1, true) }),
+          new TextRun({ text: relDepts.join(" · "), ...rf(TS.caption, gray1) }),
+        ]),
+      );
+    }
+
+    // 뭐가 바뀌나요?
+    if (changes.length > 0) {
+      sections.push(subHeading("뭐가 바뀌나요?"));
+      changes.forEach(c => sections.push(bulletPara(ensureTone(c, "what_changes"))));
+    }
+
+    // 왜 중요한가요?
+    if (insight) {
+      sections.push(
+        subHeading("왜 중요한가요?"),
+        bodyPara([new TextRun({ text: ensureTone(insight, "ctrl_insight"), ...rf(TS.body, blk) })]),
+      );
+    }
+
+    // 할 일
+    if (actions.length > 0) {
+      sections.push(subHeading("할 일"));
+      actions.forEach(a => sections.push(bulletPara(ensureTone(a, "our_action"), ibkBlue, true)));
+    }
+
+    sections.push(SP_LARGE());
+  });
+
+  return sections;
+}
+
+function buildOtherItems(items) {
+  let urgentSeen = 0;
+  const others = (items || []).filter(it => {
+    if (it.grade === "상") { urgentSeen++; return urgentSeen > 2; }
+    return true;
+  });
+  if (others.length === 0) return [];
+
+  const sections = [
+    divider("minor"),
+    SP_SMALL(),
+    // 소그룹 제목
+    new Paragraph({
+      spacing: { before: 0, after: 24 },
+      children: [new TextRun({ text: "그 외 오늘 체크할 법령", ...rf(TS.sub, gray1, true) })],
+    }),
+  ];
+
+  others.forEach(item => {
+    const emoji     = gradeEmoji(item.grade);
+    const name      = shortTitle(item.title);
+    const dept      = item.ibkDept || "내부통제총괄부";
+    const relDepts  = item.related_depts || [];
+    const change    = ensureTone((item.what_changes || [])[0] || item.ctrl_insight || "", "other");
+    const ddayTxt   = item.dday && item.dday !== "미확인" ? `  ${item.dday}` : "";
+    const deptLabel = relDepts.length > 0
+      ? `${dept} 외 ${relDepts.length}개 부서`
+      : dept;
+
+    // 법령명 줄 — TS.body Bold
+    sections.push(
+      new Paragraph({
+        spacing: { before: 0, after: 6 },
+        children: [
+          new TextRun({ text: `${emoji} `, ...rf(TS.body, blk) }),
+          new TextRun({ text: name, ...rf(TS.body, blk, true) }),
+          new TextRun({ text: ddayTxt, ...rf(TS.caption, gray2) }),
+        ],
+      }),
+    );
+
+    // 요약 줄 — TS.caption, 들여쓰기 (별도 Paragraph, \n 제거)
+    sections.push(
+      new Paragraph({
+        indent: { left: 300 },
+        spacing: { before: 0, after: GAP.body_after * 2 },
+        children: [
+          new TextRun({
+            text: change ? `${change}  →  ${deptLabel}` : `→  ${deptLabel}`,
+            ...rf(TS.caption, gray1),
+          }),
+        ],
+      }),
+    );
+  });
+
+  sections.push(SP_LARGE());
+  return sections;
+}
+
+function buildDeadlineSummary(data) {
+  const allItems = data.graded || [];
+  if (allItems.length < 3) return [];
+
+  const urgentDeadlines = allItems.filter(it => {
+    const n = parseInt((it.dday || "").replace("D-", ""));
+    return !isNaN(n) && n <= 7;
+  });
+  if (urgentDeadlines.length < 2) return [];
+
+  const sections = [
+    divider("minor"),
+    SP_SMALL(),
+    new Paragraph({
+      spacing: { before: 0, after: 20 },
+      children: [new TextRun({ text: "📅 이번 주 마감 요약", ...rf(TS.sub, ibkBlue, true) })],
+    }),
+  ];
+
+  urgentDeadlines.slice(0, 3).forEach(it => {
+    const name = shortTitle(it.title).slice(0, 18);
+    const dept = it.ibkDept || "내부통제총괄부";
+    sections.push(
+      bodyPara([
+        new TextRun({ text: `${it.dday}  `, ...rf(TS.body, red, true) }),
+        new TextRun({ text: `${name}`, ...rf(TS.body, blk) }),
+        new TextRun({ text: `  →  ${dept}`, ...rf(TS.caption, gray1) }),
+      ]),
+    );
+  });
+
+  sections.push(SP_LARGE());
+  return sections;
+}
+
+function buildTerm(data) {
+  const t = data.term;
+  if (!t || !t.word) return [];
+
+  return [
+    divider("minor"),
+    SP_SMALL(),
+    new Paragraph({
+      spacing: { before: 0, after: 16 },
+      children: [
+        new TextRun({ text: "📖 오늘의 용어  ", ...rf(TS.sub, ibkBlue, true) }),
+        new TextRun({ text: "(처음 보시는 분만)", ...rf(TS.caption, gray2) }),
+      ],
+    }),
+    bodyPara([
+      new TextRun({ text: `${t.word}란?  `, ...rf(TS.body, blk, true) }),
+      new TextRun({ text: t.def, ...rf(TS.body, blk) }),
+    ]),
+    bodyPara([new TextRun({ text: `(${t.src})`, ...rf(TS.caption, gray2) })]),
+    SP_LARGE(),
+  ];
+}
+
+function buildClosing(data) {
+  if (!data.graded || data.graded.length === 0) return [];
+
+  const topUrgent   = data.graded.find(it => it.grade === "상");
+  const urgentCount = data.graded.filter(it => it.grade === "상").length;
+  const dept        = topUrgent ? (topUrgent.ibkDept || "관련 부서") : "관련 부서";
+  const dday        = topUrgent ? topUrgent.dday : "";
+  const ddayStr     = dday && dday !== "마감완료" && dday !== "미확인" ? ` ${dday} 마감이에요.` : "";
+
+  const closingText = urgentCount >= 2
+    ? `D-day 마감 법령이 ${urgentCount}개예요. 오늘 안에 관련 부서에 확인 요청해 주세요.`
+    : topUrgent
+      ? `${dept}에${ddayStr} 오늘 안에 확인 요청해 주세요.`
+      : "관련 부서에 시행일 전 준비 현황을 확인해 주세요.";
+
+  return [
+    divider("section"),
+    SP_SMALL(),
+    new Paragraph({
+      spacing: { before: 0, after: 16 },
+      children: [new TextRun({ text: "오늘 하나만 기억하세요.", ...rf(TS.sub, ibkBlue, true) })],
+    }),
+    bodyPara([new TextRun({ text: closingText, ...rf(TS.opening, blk, true) })]),
+    SP_MEDIUM(),
+  ];
+}
+
+// ──────────────────────────────────────────────────────────────
+// Telegram 메시지
+// ──────────────────────────────────────────────────────────────
+function buildTgMsg(data) {
+  const now  = new Date(Date.now() + 9 * 3600 * 1000);
+  const time = `${String(now.getUTCHours()).padStart(2,"0")}:${String(now.getUTCMinutes()).padStart(2,"0")}`;
+  const fetched = data.totalFetched || data.totalNew || 0;
+
+  // Scenario noUpdate — 전일 대비 변동 없음
+  if (data.noUpdate) {
+    return [
+      `🔔 내부통제 동향 알림 (${time})`,
+      `${fetched}건 수집 · 전일 대비 변동 없음`,
+      `✅ 신규 입법예고 없음 — 기존 진행건 모니터링 유지`,
+    ].join("\n");
+  }
+
+  // Scenario AB — IBK 영향 없음
+  if (!data.graded || data.graded.length === 0) {
+    return [
+      `🔔 내부통제 동향 알림 (${time})`,
+      `${fetched}건 수집 · IBK 영향 없음`,
+      `✅ 추가 조치 불필요`,
+    ].join("\n");
+  }
+
+  const rank   = { 상: 3, 중: 2, 하: 1 };
+  const sorted = [...data.graded].sort((a, b) => (rank[b.grade] || 0) - (rank[a.grade] || 0));
+  const urgentItems = sorted.filter(it => it.grade === "상");
+  const urgentCount = urgentItems.length;
+  const reviewCount = data.graded.length - urgentCount;
+
+  // 법령명: tg_key 우선, 없으면 shortTitle 축약
+  const lawName = (item) => item.tg_key || shortTitle(item.title);
+
+  // WHEN 표시: D-N이면 "D-N (마감일)", 완료면 "마감 {날짜}", 없으면 "일정 미확인"
+  const whenStr = (item) => {
+    if (/^D-\d+$/.test(item.dday || "")) return `${item.dday} (${item.to})`;
+    if (item.to && item.to !== "미확인")   return `마감 ${item.to}`;
+    return "일정 미확인";
+  };
+
+  // WHO 표시: 주담당 + 협조부서
+  const whoStr = (item) => {
+    const parts = [item.ibkDept].filter(Boolean);
+    if (item.related_depts && item.related_depts.length > 0)
+      parts.push(...item.related_depts.slice(0, 2).map(d => `${d}(협조)`));
+    return parts.join(" · ") || "담당부서 미확인";
+  };
+
+  // 즉시검토 항목 상세 블록 (WHAT/WHEN/WHO/HOW/WHY)
+  const urgentBlock = (item, idx) => {
+    const what = (item.what_changes || [])[0] || "";
+    const how  = (item.our_action  || [])[0] || "";
+    const why  = item.ctrl_insight || "";
+    return [
+      `━━ 🔴 즉시검토 ${idx} ━━`,
+      `${lawName(item)} [${item.ibkDept || "담당부서"}]`,
+      what ? `WHAT  ${what}` : null,
+      `WHEN  ${whenStr(item)}`,
+      `WHO   ${whoStr(item)}`,
+      how  ? `HOW   ${how}` : null,
+      why  ? `WHY   ${why}` : null,
+    ].filter(Boolean).join("\n");
+  };
+
+  // 검토 항목 한 줄 요약 (Scenario C의 줄, 또는 비긴급 항목)
+  const reviewLine = (item) => {
+    const what = (item.what_changes || [])[0] || shortTitle(item.title);
+    return `${gradeEmoji(item.grade)} [${item.ibkDept || ""}] ${lawName(item)}: ${what}`;
+  };
+
+  // Scenario C — 즉시검토 없음
+  if (urgentCount === 0) {
+    const lines = [
+      `🔔 내부통제 동향 알림 (${time})`,
+      `${fetched}건 수집 · 검토 ${data.graded.length}건`,
+      "",
+      reviewLine(sorted[0]),
+    ];
+    if (sorted[1]) lines.push(reviewLine(sorted[1]));
+    return lines.join("\n");
+  }
+
+  // Scenario D/E — 즉시검토 1건 이상
+  const header = [
+    `🔔 내부통제 동향 알림 (${time})`,
+    `${fetched}건 수집 · 즉시검토 ${urgentCount}건🔴 · 검토 ${reviewCount}건`,
+  ];
+
+  const blocks = urgentItems
+    .slice(0, 2)
+    .map((item, i) => urgentBlock(item, `${i + 1}/${urgentCount}`));
+
+  return [...header, "", ...blocks].join("\n");
+}
+
+// ──────────────────────────────────────────────────────────────
+// 문서 조립
+// ──────────────────────────────────────────────────────────────
+function buildDocument(data) {
+  const children = [
+    ...buildHeader(data),
+    ...buildOpening(data),
+    ...buildUrgentItems(data.graded),
+    ...buildOtherItems(data.graded),
+    ...buildDeadlineSummary(data),
+    ...buildTerm(data),
+    ...buildClosing(data),
+  ];
+
+  return new Document({
+    numbering: {
+      config: [{
+        reference: "bullets",
+        levels: [{
+          level: 0,
+          format: LevelFormat.BULLET,
+          text: "•",
+          alignment: AlignmentType.LEFT,
+          style: { paragraph: { indent: { left: 340, hanging: 240 } } },
+        }],
+      }],
+    },
+    styles: {
+      default: {
+        document: { run: { font: "맑은 고딕", size: TS.body } },
+      },
+    },
+    sections: [{
+      properties: {
+        page: {
+          size: { width: 11906, height: 16838 },
+          margin: { top: 850, right: 1020, bottom: 850, left: 1020, header: 708, footer: 708, gutter: 0 },
+        },
+      },
+      children,
+    }],
+  });
+}
+
+// ──────────────────────────────────────────────────────────────
+// 실행
+// ──────────────────────────────────────────────────────────────
+const outDir  = path.join(__dirname, "reports", REPORT.dateCode);
+if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+const outFile = path.join(outDir, `${REPORT.dateCode}_morning_brief.docx`);
+
+Packer.toBuffer(buildDocument(REPORT))
+  .then(buf => {
+    if (fs.existsSync(outFile)) {
+      try { fs.unlinkSync(outFile); } catch(e) {}
+    }
+    fs.writeFileSync(outFile, buf);
+
+    if (crawlData) {
+      crawlData.tgMsg = buildTgMsg(REPORT);
+      fs.writeFileSync(CRAWL_PATH, JSON.stringify(crawlData, null, 2), "utf8");
+    }
+
+    console.log("✅ 생성 완료:", outFile);
+    console.log("\n── TG_MSG ─────────────────────────────────────");
+    console.log(buildTgMsg(REPORT));
+    console.log("───────────────────────────────────────────────");
+  })
+  .catch(e => {
+    console.error("❌ 생성 실패:", e.message);
+    process.exit(1);
+  });

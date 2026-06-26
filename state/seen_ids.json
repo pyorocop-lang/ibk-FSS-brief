@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "updatedAt": null,
+  "note": "중복방지 ledger — 이미 보고한 제재/경영유의 건의 고유키. 클라우드 실행의 유일한 상태 저장소(repo). 매 실행 STEP1 fss_crawler가 대조해 신규만 추출, STEP6에서 커밋.",
+  "openInfo": {},
+  "openInfoImpr": {}
+}
