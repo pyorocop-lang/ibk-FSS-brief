@@ -1,0 +1,90 @@
+name: diag-fss-access
+
+# 일회용 진단: 해외(GitHub-hosted, Azure US) 러너에서 FSS 제재/경영유의
+# 엔드포인트가 접근되는지 1회 확인한다. (PROJECT_BRIEF §7-C, §9 1단계)
+# 수동 실행 전용. 통과하면 FSC식 완전 클라우드 구조 성립. 막히면 트리거 재설계.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Runner 위치 확인 (어느 나라/IP에서 호출하는지)
+        run: |
+          echo "== runner egress IP / geo =="
+          curl -sS -m 20 https://ipinfo.io/json || echo "(ipinfo 실패 — 무시)"
+          echo
+
+      - name: FSS 접근 진단
+        env:
+          UA: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+        run: |
+          set -u
+          pass=0; fail=0
+
+          # $1=라벨  $2=URL  $3=콘텐츠 검증용 정규식(빈값이면 생략)
+          probe () {
+            label="$1"; url="$2"; needle="${3:-}"
+            echo "==================================================================="
+            echo "[$label]"
+            echo "URL: $url"
+            out="resp_$(echo "$label" | tr -cd 'A-Za-z0-9').bin"
+            # 응답 본문은 파일로, 메타는 stdout으로
+            meta=$(curl -sS -L -m 40 --retry 2 --retry-delay 3 \
+                        -A "$UA" \
+                        -H "Accept-Language: ko-KR,ko;q=0.9" \
+                        -o "$out" \
+                        -w "code=%{http_code} size=%{size_download} time=%{time_total}s ip=%{remote_ip}" \
+                        "$url" 2>err.txt) || true
+            echo "$meta"
+            code=$(echo "$meta" | sed -n 's/.*code=\([0-9]*\).*/\1/p')
+            [ -s err.txt ] && { echo "curl-stderr: $(cat err.txt)"; }
+
+            ok=1
+            [ "${code:-000}" = "200" ] || { echo "  -> HTTP 비정상($code)"; ok=0; }
+            if [ -n "$needle" ]; then
+              if grep -qE "$needle" "$out" 2>/dev/null; then
+                echo "  -> 콘텐츠 OK ('$needle' 발견, 차단/에러 페이지 아님)"
+              else
+                echo "  -> 콘텐츠 의심: '$needle' 미발견 (차단/빈/에러 페이지 가능)"
+                echo "     본문 앞부분:"; head -c 400 "$out" | tr '\n' ' '; echo
+                ok=0
+              fi
+            fi
+            if [ "$ok" = 1 ]; then pass=$((pass+1)); echo "RESULT: PASS"; else fail=$((fail+1)); echo "RESULT: FAIL"; fi
+            echo
+          }
+
+          DATE_E=$(date -u +%Y-%m-%d)
+          DATE_S=$(date -u -d "30 days ago" +%Y-%m-%d)
+
+          # 1) 제재공시 목록 — 행에 examMgmtNo 링크가 있어야 정상
+          probe "제재공시 목록(openInfo)" \
+            "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&sdate=${DATE_S}&edate=${DATE_E}&pageIndex=1" \
+            "examMgmtNo"
+
+          # 2) 경영유의 목록 — PDF 다운로드 링크(fss.hpdownload)가 있어야 정상
+          probe "경영유의 목록(openInfoImpr)" \
+            "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=1" \
+            "hpdownload"
+
+          # 3) 제재공시 상세 HTML (실제 1건) — 선택적 접근까지 되는지
+          probe "제재공시 상세(view)" \
+            "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&examMgmtNo=202500609&emOpenSeq=1" \
+            ""
+
+          # 4) 경영유의 PDF 첨부 다운로드 (실제 1건, %PDF 매직바이트 확인)
+          probe "경영유의 PDF 다운로드(hpdownload)" \
+            "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202500493_12_%EA%B0%9C%EC%84%A0%EC%82%AC%ED%95%AD+%EB%93%B1+%EA%B3%B5%EA%B0%9C%28%EC%97%90%EC%8A%A4%EB%B9%84%EC%95%84%EC%9D%B4%EC%A0%80%EC%B6%95%EC%9D%80%ED%96%89%29.pdf" \
+            "%PDF"
+
+          echo "==================================================================="
+          echo "SUMMARY: PASS=$pass FAIL=$fail"
+          if [ "$fail" -gt 0 ]; then
+            echo "::warning::FSS 해외 접근 진단에서 FAIL $fail건 — 차단/제약 가능성. 로그 확인 후 트리거 재설계 검토."
+          else
+            echo "FSS 해외(US 러너) 접근 전부 정상 — FSC식 완전 클라우드 구조 성립 가능."
+          fi
