@@ -1,6 +1,8 @@
 # 변경 이력
 
 ## 2026-06-26
+- fix: briefV2.js 를 FSC 2767b36 기준으로 갱신 (A-02/B-02 fallback 배지 · B-09 섹션 격리)
+  - 왜: 2단계 복사 시점 이후 FSC에 2767b36이 커밋돼 FSS 복사본이 개선 이전(674줄)이었음 → 현재본(699줄)으로 동기화. 다른 재사용 자산 13종은 일치 확인됨
 - chore: 2단계 골격 이식 — FSC 재사용 자산 복사 + FSS 타겟 변경
   - 왜: 1단계 검증 종료(해외접근 PASS, 결정 A/B/C/D 확정) → FSC 멀티에이전트 골격을 FSS repo로 이식
   - 복사: briefV2.js·validator.js·archivist.js·notify_telegram.js·package(+pdf-parse)·knowledge/·docs/·SKILL.md·workflow.md·cloud-trigger/·daily-brief.yml

@@ -78,6 +78,15 @@ const GAP = {
 };
 
 // ──────────────────────────────────────────────────────────────
+// Fallback(키워드 추정) 배지 — A-02/B-02
+// LLM 분석 실패 시 키워드 규칙이 채운 항목임을 보고서에 명시한다.
+// (항목을 숨기지 않고 '검토 필요' 라벨만 붙여 신뢰 오인을 방지)
+// ──────────────────────────────────────────────────────────────
+const FALLBACK_BADGE = "(키워드 추정 — 검토 필요) ";
+const withFallbackBadge = (text, item) =>
+  item && item._fallback && text ? `${FALLBACK_BADGE}${text}` : text;
+
+// ──────────────────────────────────────────────────────────────
 // 크롤 아이템 → REPORT 포맷 변환
 // ──────────────────────────────────────────────────────────────
 function mapCrawlerItem(it) {
@@ -99,6 +108,7 @@ function mapCrawlerItem(it) {
     enforce:      (it.enforce_date || "").replace(/\./g, "-"),
     enforceLabel: enforceDday ? `${enforceDday} 시행` : "",
     ctrl_insight: it.ctrl_insight || "",
+    _fallback:    it._fallback || false,   // A-02/B-02: fallback(키워드 추정) 표식 전달
     ibkDept:       it.dept || "",
     related_depts: Array.isArray(it.related_depts) ? it.related_depts.slice(0, 4) : [],
     what_changes:  Array.isArray(it.what_changes) && it.what_changes.length > 0
@@ -341,7 +351,7 @@ function buildUrgentItems(items) {
     if (insight) {
       sections.push(
         subHeading("왜 중요한가요?"),
-        bodyPara([new TextRun({ text: ensureTone(insight, "ctrl_insight"), ...rf(TS.body, blk) })]),
+        bodyPara([new TextRun({ text: withFallbackBadge(ensureTone(insight, "ctrl_insight"), item), ...rf(TS.body, blk) })]),
       );
     }
 
@@ -380,7 +390,7 @@ function buildOtherItems(items) {
     const name      = shortTitle(item.title);
     const dept      = item.ibkDept || "내부통제총괄부";
     const relDepts  = item.related_depts || [];
-    const change    = ensureTone((item.what_changes || [])[0] || item.ctrl_insight || "", "other");
+    const change    = withFallbackBadge(ensureTone((item.what_changes || [])[0] || item.ctrl_insight || "", "other"), item);
     const ddayTxt   = item.dday && item.dday !== "미확인" ? `  ${item.dday}` : "";
     const deptLabel = relDepts.length > 0
       ? `${dept} 외 ${relDepts.length}개 부서`
@@ -564,7 +574,7 @@ function buildTgMsg(data) {
       `WHEN  ${whenStr(item)}`,
       `WHO   ${whoStr(item)}`,
       how  ? `HOW   ${how}` : null,
-      why  ? `WHY   ${why}` : null,
+      why  ? `WHY   ${withFallbackBadge(why, item)}` : null,
     ].filter(Boolean).join("\n");
   };
 
@@ -602,15 +612,30 @@ function buildTgMsg(data) {
 // ──────────────────────────────────────────────────────────────
 // 문서 조립
 // ──────────────────────────────────────────────────────────────
+// B-09: 섹션 빌더를 개별 try-catch로 격리한다. 한 섹션의 데이터 오류가
+// 보고서 전체 생성을 막지 않도록 부분 실패를 허용하고, 실패는 문서에 가시화한다.
+function safeSection(label, fn) {
+  try {
+    return fn();
+  } catch (e) {
+    console.error(`⚠️ 섹션 [${label}] 생성 실패 — 건너뜀:`, e.message);
+    return [
+      new Paragraph({
+        children: [new TextRun({ text: `(이 섹션은 데이터 오류로 생성되지 못했습니다 — ${label})`, ...rf(TS.caption, gray2) })],
+      }),
+    ];
+  }
+}
+
 function buildDocument(data) {
   const children = [
-    ...buildHeader(data),
-    ...buildOpening(data),
-    ...buildUrgentItems(data.graded),
-    ...buildOtherItems(data.graded),
-    ...buildDeadlineSummary(data),
-    ...buildTerm(data),
-    ...buildClosing(data),
+    ...safeSection("header",   () => buildHeader(data)),
+    ...safeSection("opening",  () => buildOpening(data)),
+    ...safeSection("urgent",   () => buildUrgentItems(data.graded)),
+    ...safeSection("other",    () => buildOtherItems(data.graded)),
+    ...safeSection("deadline", () => buildDeadlineSummary(data)),
+    ...safeSection("term",     () => buildTerm(data)),
+    ...safeSection("closing",  () => buildClosing(data)),
   ];
 
   return new Document({
