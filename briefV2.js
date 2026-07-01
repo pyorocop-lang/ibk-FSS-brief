@@ -105,6 +105,7 @@ function mapCrawlerItem(it) {
     ministry:     it.ministry || "금융위원회",
     from:         (it.notice_date  || "미확인").replace(/-/g, "."),
     to:           (it.deadline     || "미확인").replace(/-/g, "."),
+    sanctionDate: (it.actionDate || it.postDate || "").replace(/-/g, "."),   // FSS 제재조치일·게시일 (마감 없음)
     dday:         deadlineDday || "미확인",
     enforce:      (it.enforce_date || "").replace(/\./g, "-"),
     enforceLabel: enforceDday ? `${enforceDday} 시행` : "",
@@ -247,10 +248,10 @@ function buildHeader(data) {
     new Paragraph({
       spacing: { before: 0, after: 60 },
       children: [
-        new TextRun({ text: "🌞 ", size: TS.title, color: blk }),
-        new TextRun({ text: "아침에 읽는 규제 변화", ...rf(TS.title, ibkBlue, true) }),
+        new TextRun({ text: "⚖️ ", size: TS.title, color: blk }),
+        new TextRun({ text: "오늘의 제재·경영유의 브리핑", ...rf(TS.title, ibkBlue, true) }),
         new TextRun({ text: "  ", size: 22 }),
-        new TextRun({ text: "IBK AI Agent 법령 모니터링  —  내부통제점검팀", ...rf(TS.caption + 2, skyBlue, true) }),
+        new TextRun({ text: "IBK AI Agent 제재사례 모니터링  —  내부통제점검팀", ...rf(TS.caption + 2, skyBlue, true) }),
       ],
     }),
     divider("section"),
@@ -261,27 +262,27 @@ function buildHeader(data) {
 function buildOpening(data) {
   if (data.noUpdate) {
     return [
-      bodyPara([new TextRun({ text: "오늘 금융위원회 신규 입법예고는 없었어요.", ...rf(TS.opening, blk) })], 24),
-      bodyPara([new TextRun({ text: "전일과 동일한 내용이에요. 아래는 현재 진행 중인 법령 현황이에요.", ...rf(TS.body, gray1) })]),
+      bodyPara([new TextRun({ text: "오늘 금융감독원 신규 제재·경영유의는 없었어요.", ...rf(TS.opening, blk) })], 24),
+      bodyPara([new TextRun({ text: "전일 이후 새로 공개된 건이 없어요. 기존 진행건 점검을 유지해 주세요.", ...rf(TS.body, gray1) })]),
       SP_MEDIUM(),
     ];
   }
 
   if (!data.graded || data.graded.length === 0) {
     return [
-      bodyPara([new TextRun({ text: "오늘은 금융위원회 신규 입법·개정 예고가 없었어요.", ...rf(TS.opening, blk) })], 24),
-      bodyPara([new TextRun({ text: "기존 내규와 점검 체계를 재점검하는 시간으로 활용해보세요 🙂", ...rf(TS.body, gray1) })]),
+      bodyPara([new TextRun({ text: "오늘은 IBK 연관 신규 제재·경영유의가 없었어요.", ...rf(TS.opening, blk) })], 24),
+      bodyPara([new TextRun({ text: "기존 점검 체계를 재점검하는 시간으로 활용해보세요 🙂", ...rf(TS.body, gray1) })]),
       SP_LARGE(),
     ];
   }
 
   const urgentCount = data.graded.filter(it => it.grade === "상").length;
   return [
-    bodyPara([new TextRun({ text: `오늘 금융위원회에서 입법·개정 예고한 법령은 ${data.totalNew}개예요.`, ...rf(TS.opening, blk) })], 16),
+    bodyPara([new TextRun({ text: `오늘 금융감독원이 공개한 제재·경영유의는 ${data.totalNew}건이에요.`, ...rf(TS.opening, blk) })], 16),
     bodyPara([
-      new TextRun({ text: `그 중 지금 바로 챙겨야 할 건 `, ...rf(TS.opening, blk) }),
-      new TextRun({ text: `${urgentCount}개`, ...rf(TS.opening, urgentCount > 0 ? red : blk, true) }),
-      new TextRun({ text: `예요.`, ...rf(TS.opening, blk) }),
+      new TextRun({ text: `그 중 지금 바로 살펴봐야 할 건 `, ...rf(TS.opening, blk) }),
+      new TextRun({ text: `${urgentCount}건`, ...rf(TS.opening, urgentCount > 0 ? red : blk, true) }),
+      new TextRun({ text: `이에요.`, ...rf(TS.opening, blk) }),
     ]),
     SP_MEDIUM(),
   ];
@@ -382,7 +383,7 @@ function buildOtherItems(items) {
     // 소그룹 제목
     new Paragraph({
       spacing: { before: 0, after: 24 },
-      children: [new TextRun({ text: "그 외 오늘 체크할 법령", ...rf(TS.sub, gray1, true) })],
+      children: [new TextRun({ text: "그 외 오늘의 제재·경영유의", ...rf(TS.sub, gray1, true) })],
     }),
   ];
 
@@ -496,10 +497,10 @@ function buildClosing(data) {
   const ddayStr     = dday && dday !== "마감완료" && dday !== "미확인" ? ` ${dday} 마감이에요.` : "";
 
   const closingText = urgentCount >= 2
-    ? `D-day 마감 법령이 ${urgentCount}개예요. 오늘 안에 관련 부서에 확인 요청해 주세요.`
+    ? `오늘 우선 살펴볼 제재사례가 ${urgentCount}건이에요. ${dept} 등 관련 부서에 유사 업무 점검을 제안해 주세요.`
     : topUrgent
-      ? `${dept}에${ddayStr} 오늘 안에 확인 요청해 주세요.`
-      : "관련 부서에 시행일 전 준비 현황을 확인해 주세요.";
+      ? `오늘은 ${dept}의 유사 업무 점검 여지를 먼저 챙겨보세요.`
+      : "관련 부서와 유사 업무 점검 여지를 살펴보세요.";
 
   return [
     divider("section"),
@@ -525,8 +526,8 @@ function buildTgMsg(data) {
   if (data.noUpdate) {
     return [
       `🔔 내부통제 동향 알림 (${time})`,
-      `${fetched}건 수집 · 전일 대비 변동 없음`,
-      `✅ 신규 입법예고 없음 — 기존 진행건 모니터링 유지`,
+      `${fetched}건 확인 · 신규 없음`,
+      `✅ 신규 제재·경영유의 없음 — 기존 점검 유지`,
     ].join("\n");
   }
 
@@ -550,9 +551,7 @@ function buildTgMsg(data) {
 
   // WHEN 표시: D-N이면 "D-N (마감일)", 완료면 "마감 {날짜}", 없으면 "일정 미확인"
   const whenStr = (item) => {
-    if (/^D-\d+$/.test(item.dday || "")) return `${item.dday} (${item.to})`;
-    if (item.to && item.to !== "미확인")   return `마감 ${item.to}`;
-    return "일정 미확인";
+    return item.sanctionDate ? `조치·게시일 ${item.sanctionDate}` : "일자 미확인";
   };
 
   // WHO 표시: 주담당 + 협조부서

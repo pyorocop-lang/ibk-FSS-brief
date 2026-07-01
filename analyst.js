@@ -197,6 +197,7 @@ function applyAnalysis(item, r) {
   return {
     ...item,
     grade:         finalGrade,
+    title:         item.title || item.org || "",   // briefV2 헤드라인용(제재대상 기관명). FSS 항목엔 title 없음 → org 주입
     what_changes:  Array.isArray(r.what_changes) ? r.what_changes.slice(0, 2) : [],
     our_action:    Array.isArray(r.our_action)   ? r.our_action.slice(0, 3)   : [],
     ctrl_insight:  r.ctrl_insight || "",

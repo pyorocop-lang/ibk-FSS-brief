@@ -1,6 +1,11 @@
 # 변경 이력
 
 ## 2026-07-01
+- feat: 4단계 통합 — briefV2 FSS 렌더링 정합 (docx + tgMsg 완주 검증)
+  - analyst: `title=org` 주입 — FSS 항목엔 title 없어 briefV2 헤드라인이 빈칸이던 것 해결(briefV2 로직 무수정)
+  - briefV2: **FSC 도메인 하드코딩 문자열만 FSS로 지역화**(로직·레이아웃·구조 불변). 헤더("오늘의 제재·경영유의 브리핑")·오프닝(금융감독원/제재·경영유의/N건)·"그 외 제재·경영유의"·클로징(유사업무 점검 제안)·tgMsg(신규 제재·경영유의 없음)·WHEN(마감D-day→조치·게시일 sanctionDate)
+  - 파이프라인 완주 검증: crawler→analyst→briefV2→validator(pass)→archivist. docx FSS 라벨 확인·FSC 라벨 제거, tgMsg WHAT/WHEN/WHO/HOW/WHY 제재 도메인 적절(예: 한국보험금융 명의차용→자산관리사업부 점검)
+  - 남은 폴리시(비차단): validator 103 issues(pass=true, 대부분 경고) · LLM 간헐 톤 이탈("위반입니다") — 5단계 때 점검
 - feat: analyst.js + FSS 제재 벤치마킹 시스템 프롬프트 (3단계)
   - 임무 = 3문항: 타행 제재사례에 대해 ①IBK 유사업무 있나 ②동일 위험 재발 가능성 ③무엇을 점검. 점검 제안형·단정 금지(법적 민감성 강제)
   - 옛 프로젝트(실패한 Claude Cowork) 문서에서 **도메인만 흡수, 구조는 미차용**(사용자 지침): RED/ORANGE/GREEN 위험기준→grade(상/중/하) 매핑, 위반유형 A~F 분류, 용어 풀이 표준, Toss 톤. briefV2 무수정(필드명 재사용)
