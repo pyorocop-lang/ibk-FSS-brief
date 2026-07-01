@@ -1,6 +1,10 @@
 # 변경 이력
 
 ## 2026-07-01
+- fix: 최초 실행 과거건 범람 방지 (seed 모드 graded 격리)
+  - 문제: seed 모드에서도 graded를 채워, 첫 클라우드 실행에 과거 누적건(예 20건)이 전부 '신규'로 텔레그램 범람
+  - 수정: crawler는 seed 시 items·ledger만 채우고 graded/newGraded는 비움 / analyst는 graded만 분석(items 폴백 제거)
+  - 검증: seed→graded 0→analyst 0건 종료 · ledger 1건 제거→newItems 1·graded 1(신한투자증권) 정상 보고
 - feat: 4단계 통합 — briefV2 FSS 렌더링 정합 (docx + tgMsg 완주 검증)
   - analyst: `title=org` 주입 — FSS 항목엔 title 없어 briefV2 헤드라인이 빈칸이던 것 해결(briefV2 로직 무수정)
   - briefV2: **FSC 도메인 하드코딩 문자열만 FSS로 지역화**(로직·레이아웃·구조 불변). 헤더("오늘의 제재·경영유의 브리핑")·오프닝(금융감독원/제재·경영유의/N건)·"그 외 제재·경영유의"·클로징(유사업무 점검 제안)·tgMsg(신규 제재·경영유의 없음)·WHEN(마감D-day→조치·게시일 sanctionDate)

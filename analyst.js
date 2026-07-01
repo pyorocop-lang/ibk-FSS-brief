@@ -237,8 +237,8 @@ async function analyzePool(items, useApi, concurrency) {
   try { crawlData = JSON.parse(fs.readFileSync(CRAWL_PATH, "utf8")); }
   catch (e) { console.error(`[ANALYST] JSON 파싱 실패: ${e.message}`); process.exit(2); }
 
-  // FSS: crawler가 dedup으로 신규만 담으므로 graded == 신규 IBK관련. 없으면 분석 0건.
-  const srcItems = crawlData.graded && crawlData.graded.length ? crawlData.graded : (crawlData.items || []);
+  // FSS: crawler가 dedup으로 신규 IBK관련만 graded에 담음(seed·무신규 시 []). items로 폴백 금지(과거건 범람 방지).
+  const srcItems = Array.isArray(crawlData.graded) ? crawlData.graded : [];
   if (srcItems.length === 0) { console.log("[ANALYST] 분석 대상 0건 (신규 없음) — 종료"); process.exit(0); }
 
   const useApi = !!API_KEY;

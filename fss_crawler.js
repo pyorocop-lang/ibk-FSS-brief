@@ -293,9 +293,12 @@ async function collectSanctions(result, ledger, rawDir, pdfDir, maxPages, seedMo
       const sc = scoreItem(entry);
       entry.grade = grade(sc.score); entry.score = sc.score; entry.isIBK = sc.isIBK; entry.bankTarget = sc.bankTarget;
 
-      result.items.push(entry);
-      if (!seedMode) result.newItems.push(entry);
-      if (entry.grade) { result.graded.push(entry); if (!seedMode) result.newGraded.push(entry); }
+      result.items.push(entry);   // items = 이번 실행 신규 원본(기록·감사용). seed모드에선 과거 베이스라인.
+      if (!seedMode) {
+        // graded/newGraded는 '보고 대상' — seed(최초)에선 비워 과거건 범람 방지. items·ledger엔 남겨 재알림만 차단.
+        result.newItems.push(entry);
+        if (entry.grade) { result.graded.push(entry); result.newGraded.push(entry); }
+      }
       ledMap[key] = { seenDate: result.dateCode, org: entry.org, title: entry.sanctionTargets.기관.slice(0, 40) };
       console.log(`  ${entry.grade ? "["+entry.grade+"]" : "[-]"} 제재 ${entry.org} (${key})`);
     }
@@ -342,9 +345,12 @@ async function collectMngImpr(result, ledger, rawDir, pdfDir, maxPages, seedMode
       const sc = scoreItem(entry);
       entry.grade = grade(sc.score); entry.score = sc.score; entry.isIBK = sc.isIBK; entry.bankTarget = sc.bankTarget;
 
-      result.items.push(entry);
-      if (!seedMode) result.newItems.push(entry);
-      if (entry.grade) { result.graded.push(entry); if (!seedMode) result.newGraded.push(entry); }
+      result.items.push(entry);   // items = 이번 실행 신규 원본(기록·감사용). seed모드에선 과거 베이스라인.
+      if (!seedMode) {
+        // graded/newGraded는 '보고 대상' — seed(최초)에선 비워 과거건 범람 방지. items·ledger엔 남겨 재알림만 차단.
+        result.newItems.push(entry);
+        if (entry.grade) { result.graded.push(entry); result.newGraded.push(entry); }
+      }
       ledMap[key] = { seenDate: result.dateCode, org, title: "" };
       console.log(`  ${entry.grade ? "["+entry.grade+"]" : "[-]"} 경영유의 ${org} (${key})`);
     }
