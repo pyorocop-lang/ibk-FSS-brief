@@ -1,6 +1,12 @@
 # 변경 이력
 
 ## 2026-07-01
+- feat: fss_crawler.js — 제재공시·경영유의 2소스 수집기 (3단계 착수)
+  - 실측 우선(추정 금지): 실제 HTML 확인 결과 "내용보기"는 순수 `<a href>` — 제재공시→`view.do?examMgmtNo&emOpenSeq`(dl/dt/dd 메타+PDF첨부), 경영유의→PDF 직행(`fss.hpdownload`). href에서 상세경로 추출(하드코딩 없음). onclick/form/AJAX 아님 확인
+  - 구현: 목록 파서 + 상세 파서(bd-view dl/dt/dd) + 첨부 PDF 다운로드·pdf-parse 본문 + 표준 JSON 변환 + raw HTML·PDF 증빙 저장(reports/{date}/{slot}/raw·pdfs)
+  - dedup: state/seen_ids.json ledger(키=examMgmtNo_emOpenSeq / 파일명ID), 최초 실행 시드모드(과거건 범람 방지). 중요도 등급(은행대상·핵심업무·제재강도·IBK직접)
+  - 계약 준수: require("./runslot") reports/{date}/{slot}, 성공 시 crawl_result+ledger·실패 시 failure_meta 격리. FSS는 프록시/OPEN API 계층 없음(순수 스크래핑, 차단없음 검증)
+  - 로컬 실검증: 20건(제재10+경영유의10) 파싱·PDF본문(325~4345자)·등급·ledger·증빙 정상. 다음: analyst.js(제재 벤치마킹 프롬프트)
 - chore: 워크플로/cloud-trigger를 최신 아키텍처로 재동기화 (2/2 — 오케스트레이션)
   - daily-brief.yml: 최신 골격(런슬롯 reports/{date}/{slot}·failure_meta 실패격리·`-X theirs` 감사커밋) 채택 + FSS 델타: STEP1→fss_crawler.js, LAWMAKING_*·프록시 env 제거, STEP6 state/seen_ids.json 커밋, name/concurrency(fss-brief)/artifact 변경. FSS는 08:00 단일 슬롯(am)
   - cloud-trigger: 최신(/diag egress 점검 엔드포인트 포함) + FSS 타겟(REPO=ibk-FSS-brief, DIAG_ALLOW=www.fss.or.kr, 단일 cron `0 23 * * 0-4`, README 재작성)
