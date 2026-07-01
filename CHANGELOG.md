@@ -1,6 +1,12 @@
 # 변경 이력
 
 ## 2026-07-01
+- feat: analyst.js + FSS 제재 벤치마킹 시스템 프롬프트 (3단계)
+  - 임무 = 3문항: 타행 제재사례에 대해 ①IBK 유사업무 있나 ②동일 위험 재발 가능성 ③무엇을 점검. 점검 제안형·단정 금지(법적 민감성 강제)
+  - 옛 프로젝트(실패한 Claude Cowork) 문서에서 **도메인만 흡수, 구조는 미차용**(사용자 지침): RED/ORANGE/GREEN 위험기준→grade(상/중/하) 매핑, 위반유형 A~F 분류, 용어 풀이 표준, Toss 톤. briefV2 무수정(필드명 재사용)
+  - 구현: agents/analyst_system_prompt.md(+knowledge/ 동적주입) · Claude Haiku 병렬(cap3, 직렬 병목 회피) · fallback(키워드) · risk_grade→grade 승격 · 종합등급(overallGrade). 분석 대상은 crawler dedup 통과 신규건뿐(재분석 없음)
+  - 글자수 상한 완화(what 120/insight 150/action 200) — 제재 분석은 실질 우선, 분량은 briefV2가 조절
+  - 로컬 LLM 실검증: 신한투자증권 자기거래→자산관리사업부, 우리은행 금리우대 불일치→여신기획부 점검 등 정확. 다음: briefV2 FSS 렌더링 정합 확인
 - feat: fss_crawler.js — 제재공시·경영유의 2소스 수집기 (3단계 착수)
   - 실측 우선(추정 금지): 실제 HTML 확인 결과 "내용보기"는 순수 `<a href>` — 제재공시→`view.do?examMgmtNo&emOpenSeq`(dl/dt/dd 메타+PDF첨부), 경영유의→PDF 직행(`fss.hpdownload`). href에서 상세경로 추출(하드코딩 없음). onclick/form/AJAX 아님 확인
   - 구현: 목록 파서 + 상세 파서(bd-view dl/dt/dd) + 첨부 PDF 다운로드·pdf-parse 본문 + 표준 JSON 변환 + raw HTML·PDF 증빙 저장(reports/{date}/{slot}/raw·pdfs)
