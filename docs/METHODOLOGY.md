@@ -8,11 +8,11 @@
 
 ### 단일 스크립트 방식의 한계
 
-초기에는 크롤 → 분석 → 보고서 생성을 하나의 스크립트에서 처리했다. 다음 문제가 반복됐다.
+초기에는 수집 → 분석 → 보고서 생성을 하나의 스크립트에서 처리했다. 다음 문제가 반복됐다.
 
 | 문제 | 영향 |
 |---|---|
-| 한 단계 실패가 전체 중단 | 크롤 성공해도 분석 오류 시 보고서 없음 |
+| 한 단계 실패가 전체 중단 | 수집 성공해도 분석 오류 시 보고서 없음 |
 | 코드 수정 시 전체 재검증 필요 | 유지보수 비용 급증 |
 | LLM 응답 품질 모니터링 불가 | 잘못된 부서명·어미 오류 방치 |
 | 로컬 실행만 가능 | PC 꺼져 있으면 파이프라인 중단 |
@@ -28,7 +28,7 @@ flowchart LR
 
     subgraph AFTER["멀티에이전트 방식 (현재)"]
         direction TB
-        A1["① 크롤 에이전트\n로컬 (한국 IP)"]
+        A1["① 수집 에이전트\n클라우드 (OPEN API 1차\n+ 스크래핑 fallback)"]
         A2["② 분석 에이전트\n클라우드 (Claude API)"]
         A3["③ 보고서 에이전트\n클라우드"]
         A4["④ 검증 에이전트\n클라우드"]
@@ -46,19 +46,28 @@ flowchart LR
 | 장애 격리 | 분석 에이전트가 실패해도 fallback 모드로 계속 진행 |
 | 독립 배포 | 각 에이전트를 개별 수정·재실행 가능 |
 | 관심사 분리 | 수집·분석·보고서·검증·아카이브가 각자의 책임만 가짐 |
-| 실행 환경 분리 | 크롤링(로컬 한국 IP) ↔ 분석(GitHub Actions 클라우드) |
+| 수집 소스 이중화 | 정부입법지원센터 OPEN API 1차 ↔ FSC HTML 스크래핑 fallback |
 | LLM 품질 관리 | validator.js가 LLM 출력을 별도 검증 |
 
-### 로컬 + 클라우드 하이브리드를 선택한 이유
+### 수집 방식의 변천: 로컬 하이브리드 → 완전 클라우드(OPEN API)
 
 ```
-문제: FSC(금융위원회) 웹사이트는 해외 IP를 차단한다
-      GitHub Actions 러너는 미국 소재 → 직접 크롤 불가
+[1단계 — 초기 가정] FSC 웹사이트가 해외 IP를 차단한다고 보고
+      크롤링만 로컬 PC(한국 IP)에서 수행 → crawl_result.json을 git push →
+      GitHub Actions가 이어받아 분석·보고서·아카이브 실행 (로컬+클라우드 하이브리드)
 
-해결: 크롤링만 로컬 PC에서 수행 (한국 IP)
-      crawl_result.json을 git push → GitHub Actions가 이어받음
-      분석·보고서·아카이브는 항상 켜져 있는 클라우드에서 실행
+[2단계 — 현재] 로컬 의존을 제거하기 위해 수집을 클라우드로 이전.
+      1차: 정부입법지원센터 OPEN API (금융위 소관 진행중 예고만, 사전 대응 목적)
+      2차: FSC HTML 스크래핑 fallback (API 실패 시)
+      → 수집~알림 전부 GitHub Actions 단일 Job에서 실행 (로컬 PC 불필요)
 ```
+
+> **egress 과제 — 해결됨(2026-06-30):** 데이터소스 전환(스크래핑→API) 자체는 옳았으나, 실측 결과
+> 차단의 본질은 "FSC의 해외 IP 차단"이 아니라 **GitHub 러너 IP → 한국 정부망(FSC·OPEN API 공통)
+> 직결의 timeout(egress)**이었다. FSC와 OPEN API 둘 다 러너에서 timeout이 나고,
+> 미국 별도 서버(WebFetch)·서울 함수에서는 도달한다. **해결책 KR 경유 프록시(Vercel 서울 icn1)를
+> 도입·운영 검증 완료** — 러너→프록시→API 경로로 정시 런이 57초에 정상 성공한다(`docs/egress_해결제안_KR프록시_20260630.md`).
+> 장기 안정화(KR 고정 IP + 공인 IP 등록)는 후속 과제로 남는다.
 
 ---
 
@@ -167,7 +176,7 @@ flowchart LR
 
 | 에이전트 | exitCode 0 | exitCode 1 | exitCode 2 |
 |---|---|---|---|
-| fsc_crawler.js | 정상 | — | 크롤 실패 → 파이프라인 중단 |
+| fsc_crawler.js | 정상 | — | 수집 실패(API+스크래핑 모두) → 파이프라인 중단 |
 | analyst.js | 정상 | fallback 모드 (계속) | 치명 오류 → 중단 |
 | briefV2.js | 정상 | — | DOCX 생성 실패 → 중단 |
 | validator.js | 통과 | 경고 (계속) | 오류 → status=warn |
@@ -176,11 +185,14 @@ flowchart LR
 ### Fallback 계층 구조
 
 ```
-fsc_crawler.js 실패 처리:
-  1차: HTML 파싱 → summary 추출 (기본)
-  2차: PDF 첨부파일 다운로드 → 텍스트 추출 (HTML 실패 시)
-  3차: 통합입법예고센터 검색 (PDF 실패 시)
-  최종: summary 원본 유지하고 계속 진행
+fsc_crawler.js 수집 소스 계층:
+  1차: 정부입법지원센터 OPEN API (lawmaking_api.js, 금융위 소관 진행중 예고만)
+       - 입법예고 ogLmPp?cptOfiOrgCd=1160100&diff=0
+       - 규정변경예고(행정예고) ptcpAdmPp?asndOfiNm=금융위원회&closing=N
+  2차: FSC HTML 스크래핑 fallback (https://www.fsc.go.kr/po040301) — API 실패 시
+  재시도: 각 시도 최대 3회(120초 간격)
+  실패 격리: 모두 실패하면 crawl_result.json에 error 필드 기록 → exit 1 (failure_meta 격리)
+  ⚠️ 러너→한국 정부망 직결은 egress로 1·2차 모두 timeout이나, KR 경유 프록시(Vercel icn1)로 해결·검증 완료(2026-06-30)
 
 analyst.js 실패 처리:
   1차: Claude API 추론 (ANTHROPIC_API_KEY 있을 때)
@@ -232,7 +244,8 @@ IBK기업은행 내부통제점검팀의 특성상 감사 추적이 가능해야
 | 감사 요구사항 | 설계 결정 |
 |---|---|
 | 분석 근거 보존 | crawl_result.json에 원문 URL + summary 포함 |
-| PDF 원문 보관 | fsc_crawler.js가 reports/DATE/pdfs/ 에 항상 저장 |
+| PDF 원문 보관 | fsc_crawler.js가 reports/DATE/{slot}/pdfs/ 에 항상 저장 |
+| 런별 산출물 분리 | reports/DATE/{am\|pm}/ 슬롯 폴더로 **런별 분리 보존(덮어쓰기 금지)** — 같은 날 2회 실행도 각각 독립 산출물로 공존 |
 | 실행 이력 추적 | run_manifest.jsonl에 모든 실행 기록 누적 |
 | 보고서 버전 관리 | GitHub Artifacts에 90일 보관 |
 | 파이프라인 로그 | archivist.js가 logs/DATE/pipeline.log 이동·보존 |
@@ -240,4 +253,4 @@ IBK기업은행 내부통제점검팀의 특성상 감사 추적이 가능해야
 
 ---
 
-_last updated: 2026-06-23_
+_last updated: 2026-06-30 (수집=OPEN API 1차/스크래핑 fallback · 완전 클라우드 이전 · 슬롯 분리 보존 · egress 과제)_

@@ -36,7 +36,9 @@ const TODAY = argDate && /^\d{8}$/.test(argDate)
 const TIMESTAMP = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 
 const ROOT        = __dirname;
-const REPORT_DIR  = path.join(ROOT, "reports", TODAY);
+const { reportDir, reportDocxName, resolveSlot } = require("./runslot");
+const REPORT_SLOT = resolveSlot();            // D6: 슬롯 확정(am/pm) — docx 파일명·경로 일치용
+const REPORT_DIR  = reportDir(ROOT, TODAY, REPORT_SLOT);   // reports/{date}/{slot} — 런별 분리 보존
 const LOGS_DIR    = path.join(ROOT, "logs", TODAY);
 const MANIFEST    = path.join(ROOT, "logs", "run_manifest.jsonl");
 const PIPELINE_LOG = path.join(ROOT, "pipeline_run.log");
@@ -78,18 +80,32 @@ function archivePipelineLog() {
 // ─── 2. 실행 메타데이터 수집 ──────────────────────────────────
 function buildMeta() {
   let crawlCount = 0, ibkCount = 0, urgentCount = 0, reportExists = false;
+  let errMsg = argStatus === "error" ? argMsg : "";
 
-  const crawlPath = path.join(REPORT_DIR, "crawl_result.json");
-  if (fs.existsSync(crawlPath)) {
-    try {
-      const data = JSON.parse(fs.readFileSync(crawlPath, "utf8"));
-      crawlCount  = data.total    || (data.items  || []).length;
-      ibkCount    = data.ibkTotal || (data.graded || data.items || []).length;
-      urgentCount = (data.graded  || data.items || []).filter(i => i.grade === "상").length;
-    } catch (e) {}
+  // 실패 결과 격리(Codex): 실패 run은 crawl_result.json(성공본)을 덮지 않으므로,
+  //   error 상태에서 이전 성공본의 카운트를 잘못 집계하지 않도록 0으로 둔다.
+  //   실패 원인은 격리 파일(failure_meta.json)에서 보강한다.
+  if (argStatus !== "error") {
+    const crawlPath = path.join(REPORT_DIR, "crawl_result.json");
+    if (fs.existsSync(crawlPath)) {
+      try {
+        const data = JSON.parse(fs.readFileSync(crawlPath, "utf8"));
+        crawlCount  = data.total    || (data.items  || []).length;
+        ibkCount    = data.ibkTotal || (data.graded || data.items || []).length;
+        urgentCount = (data.graded  || data.items || []).filter(i => i.grade === "상").length;
+      } catch (e) {}
+    }
+  } else {
+    const failPath = path.join(REPORT_DIR, "failure_meta.json");
+    if (fs.existsSync(failPath)) {
+      try {
+        const f = JSON.parse(fs.readFileSync(failPath, "utf8"));
+        if (f.error && !errMsg) errMsg = f.error;
+      } catch (e) {}
+    }
   }
 
-  const docxPath = path.join(REPORT_DIR, `${TODAY}_morning_brief.docx`);
+  const docxPath = path.join(REPORT_DIR, reportDocxName(TODAY, REPORT_SLOT));
   reportExists = fs.existsSync(docxPath);
 
   return {
@@ -101,7 +117,7 @@ function buildMeta() {
     ibk_count:     ibkCount,
     urgent_count:  urgentCount,
     report_ok:     reportExists,
-    error_msg:     argStatus === "error" ? argMsg : "",
+    error_msg:     errMsg,
   };
 }
 
@@ -166,19 +182,32 @@ function applyRetentionPolicy() {
       .forEach(d => {
         const dirDate = new Date(+d.slice(0,4), +d.slice(4,6)-1, +d.slice(6,8));
         const dirPath = path.join(reportsRoot, d);
+        // 슬롯 분리 보존(reports/{date}/{slot}/) + 레거시 평탄 파일을 함께 정리한다.
+        //   날짜 폴더 직속 파일(레거시)과 한 단계 아래 슬롯 폴더 내 파일을 모두 대상.
+        //   (pdfs 등 하위 폴더는 기존과 동일하게 보존정책 비대상)
+        const purgeFile = (full, name) => {
+          if (name.endsWith(".json") && dirDate < cutoffs.json) {
+            try { fs.unlinkSync(full); console.log(`[ARCHIVIST] 삭제(30일): ${name}`); } catch(e) {}
+          } else if (name.endsWith(".docx") && dirDate < cutoffs.docx) {
+            try { fs.unlinkSync(full); console.log(`[ARCHIVIST] 삭제(90일): ${name}`); } catch(e) {}
+          }
+        };
         try {
           fs.readdirSync(dirPath).forEach(f => {
             const full = path.join(dirPath, f);
-            if (f.endsWith(".json") && dirDate < cutoffs.json) {
-              try { fs.unlinkSync(full); console.log(`[ARCHIVIST] 삭제(30일): ${f}`); } catch(e) {}
-            } else if (f.endsWith(".docx") && dirDate < cutoffs.docx) {
-              try { fs.unlinkSync(full); console.log(`[ARCHIVIST] 삭제(90일): ${f}`); } catch(e) {}
+            let isDir = false;
+            try { isDir = fs.statSync(full).isDirectory(); } catch(e) {}
+            if (isDir) {
+              try {
+                fs.readdirSync(full).forEach(sf => purgeFile(path.join(full, sf), sf));
+                if (fs.readdirSync(full).length === 0) fs.rmdirSync(full);  // 빈 슬롯 폴더 정리
+              } catch(e) {}
+            } else {
+              purgeFile(full, f);   // 레거시 평탄 파일
             }
           });
-          // 폴더가 비었으면 삭제
-          if (fs.readdirSync(dirPath).length === 0) {
-            fs.rmdirSync(dirPath);
-          }
+          // 날짜 폴더가 비었으면 삭제
+          if (fs.readdirSync(dirPath).length === 0) fs.rmdirSync(dirPath);
         } catch(e) {}
       });
   }

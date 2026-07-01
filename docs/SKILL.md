@@ -1,7 +1,9 @@
 # ibk-legis-morning-brief Skill
 
-> **v2.3 기준** — IBK_아침에읽는규제변화_v2.3_Final_20260610.docx XML 실측값으로 작성.
-> 아래 수치를 임의로 변경하지 말 것. 수정 시 반드시 버전 표기.
+> **v2.4 기준 (뉴스레터형)** — 실제 출력 생성기 `briefV2.js`와 일치하도록 작성.
+> 보고서는 `🌞/🔴/🔹/📖` 시맨틱 헤더의 뉴스레터형이다. v2.3의 ❶~❺ 고정번호·대시보드 3칸표·
+> 체크포인트 세칙그룹·마감캘린더 5열표는 **폐지**(현행 미생성). 디자인 상수(폰트·마진·색·타입스케일)는
+> CLAUDE.md "디자인 상수(변경 금지)"와 동일하다. 수치 변경 시 반드시 버전 표기.
 
 ---
 
@@ -9,635 +11,136 @@
 
 | 조건 | 값 |
 |------|-----|
-| 스케줄 | 평일 07:00 KST |
-| 입력 | `crawl_result_graded.json` (크롤링 + Claude 등급 판정 결과) |
-| 출력 | `reports/legis/{YYYYMMDD}_morning_brief.docx` |
-| 의존 스킬 | `anthropic-skills:docx` |
-
-수동 트리거: "오늘 입법예고 브리핑", "법령 모니터링 보고서 생성", "아침 규제 변화 보고서"
+| 스케줄 | 평일 06:00(am)·16:00(pm) KST (Cloudflare Workers Cron → workflow_dispatch) |
+| 입력 | `reports/{YYYYMMDD}/{slot}/crawl_result.json` (수집 + Claude 분석 결과) |
+| 출력 | `reports/{YYYYMMDD}/{slot}/{YYYYMMDD}_{morning\|afternoon}_brief.docx` |
+| 생성기 | `briefV2.js` (docx 라이브러리) |
 
 ---
 
-## 페이지 설정 (실측)
+## 페이지 설정 (실측 — 변경 금지)
 
 ```javascript
-// A4 portrait
 page: {
-  size:   { width: 11906, height: 16838 },          // DXA
+  size:   { width: 11906, height: 16838 },          // A4 portrait, DXA
   margin: { top: 850, right: 1020, bottom: 850, left: 1020,
             header: 708, footer: 708, gutter: 0 }   // DXA
 }
 // 본문폭 CW = 11906 - 1020 - 1020 = 9866 DXA
 ```
 
----
+## 폰트 · 색상 상수 (briefV2.js 실측)
 
-## 색상 상수 (실측)
+모든 텍스트: **맑은 고딕**.
 
 ```javascript
-const ibkBlue   = "0D2F8B";   // 섹션 헤딩 배경 / 액션 텍스트 / 체크리스트 헤더
-const skyBlue   = "1E88BC";   // 대시보드 2열 배경
-const skyText   = "CCE8F5";   // skyBlue 배경 위 텍스트
-const red       = "C0392B";   // 대시보드 3열 배경 / 즉시검토 강조
-const redText   = "FFBBBB";   // red 배경 위 텍스트
-const lightBlue = "D0E4F5";   // 요약 카드 / 다음액션 카드 배경
-const lightRed  = "FDE8E8";   // 법령카드 헤더 배경 / 사고사례 카드 배경
-const darkPurple= "555577";   // 체크리스트 헤더 우측셀 배경 (첫 번째 그룹)
-const gray1     = "666666";   // 날짜, 대시보드 레이블, 출처 메타
-const gray2     = "888888";   // 세칙 조문 근거 (subbullet)
-const black     = "1A1A1A";   // 일반 본문
-const white     = "FFFFFF";
+const ibkBlue = "0D2F8B";   // 소제목·액션·강조 / 헤더 구분선·마무리
+const skyBlue = "1E88BC";   // 부제(IBK AI Agent …)
+const red     = "C0392B";   // 🔴 즉시검토 법령명·강조
+const gray1   = "666666";   // 날짜·캡션·메타·"그 외" 제목
+const gray2   = "999999";   // 보조 캡션(용어 출처 등)
+const blk     = "1A1A1A";   // 일반 본문
 ```
 
----
-
-## 폰트
-
-모든 텍스트: **맑은 고딕** (`rFonts: { ascii, cs, eastAsia, hAnsi: "맑은 고딕" }`)
-
----
-
-## 간격 · 스페이서 (실측)
+## 타입 스케일 (4단계 고정 — v3.2)
 
 ```javascript
-// 섹션 헤딩 단락
-spacing: { before: 280, after: 140 }
+const TS = {
+  title:   36,   // 문서 제목 "🌞 아침에 읽는 규제 변화"
+  law:     24,   // 🔴 법령명 헤더
+  opening: 21,   // 오프닝/마무리 문장
+  sub:     19,   // 소제목 (뭐가 바뀌나요? 등) · 본문(Bold로 구분)
+  body:    19,
+  caption: 17,   // 날짜·출처·"그 외" 항목 설명
+};
+```
 
-// 섹션 간 스페이서 (line 방식 빈 단락)
-const SP_LARGE  = { line: 560, lineRule: "exact" };   // 섹션 사이
-const SP_MEDIUM = { line: 320, lineRule: "exact" };   // 체크리스트 그룹 사이
-const SP_SMALL  = { line: 160, lineRule: "exact" };   // 카드·표 사이
-const SP_MICRO  = { line:  80, lineRule: "exact" };   // 체크리스트 헤더 직후
-const SP_HEADER = { line: 600, lineRule: "exact" };   // 문서 최상단 여백
-const SP_TITLE  = { line: 240, lineRule: "exact" };   // 제목 직후
-const SP_RULE   = { after: 0, before: 0 };             // 구분선 단락
+## 간격 · 스페이서 · 구분선 (실측)
 
-// 불릿 spacing
-bulAfter:    40     // 뭐가 바뀌나요? 불릿
-bulAfterBig: 48     // 우리 업무에는요? 불릿 / 체크 action 불릿
-subAfter:    28     // 세칙 조문 근거 subbullet
-sectionBefore: 80  // 소제목 (뭐가 바뀌나요? etc.) before
-sectionAfterH: 36  // 소제목 after
-bodyAfter:   60    // 한줄 요약 단락 after
-bodyAfter2:  80    // 체크 포인트 intro 단락 after
-cardAfter:   50    // 요약 카드 내부 줄 after (마지막 줄 제외)
-saccardAfter:36   // 사고사례 카드 내부 불릿 after (마지막 줄 0)
+```javascript
+const GAP = {
+  sub_before:  120,   // 소제목 위 공백
+  body_after:   32,   // 본문/불릿 단락 아래 공백
+  section_gap: 480,   // SP_LARGE — 섹션 사이
+  item_gap:    280,   // SP_MEDIUM
+  micro:       120,   // SP_SMALL
+};
+// 스페이서 빈 단락은 sz:1, lineRule:"exact" (줄 높이 과대 방지)
+
+// 구분선(divider) — 색이 아니라 '두께'로 역할 구분
+//   role "section": 두께6 ibkBlue  — 헤더/마무리
+//   role "item"   : 두께4 BBBBBB    — 🔴 항목 앞
+//   role "minor"  : 두께2 DDDDDD    — 그 외/마감/용어
+
+// 불릿 numbering: reference "bullets"(•) / "subbullets"(–) — 동일 abstractNum 혼용 금지
 ```
 
 ---
 
-## 불릿 numbering config (실측)
+## 문서 구조 (뉴스레터형 — 조립 순서)
 
-```javascript
-numbering: {
-  config: [
-    {
-      reference: "bullets",
-      levels: [{
-        level: 0,
-        format: LevelFormat.BULLET,
-        text: "•",
-        alignment: AlignmentType.LEFT,
-        style: { paragraph: { indent: { left: 340, hanging: 240 } } }
-      }]
-    },
-    {
-      reference: "subbullets",
-      levels: [{
-        level: 0,
-        format: LevelFormat.BULLET,
-        text: "–",
-        alignment: AlignmentType.LEFT,
-        style: { paragraph: { indent: { left: 680, hanging: 240 } } }
-      }]
-    }
-  ]
-}
-// numId:2 → bullets  (main •)
-// numId:3 → subbullets  (reference –)
-// 반드시 별도 reference — 동일 abstractNum 혼용 금지
+briefV2.js `buildDocument`가 아래 7개 빌더를 순서대로 조립한다(각 `safeSection`으로 장애 격리).
+**고정 2개**(header·opening)는 항상, **조건부 5개**는 콘텐츠가 있을 때만 출력한다.
+
+| # | 섹션 | 빌더 | 출력 조건 | 핵심 마커/내용 |
+|---|------|------|-----------|----------------|
+| 1 | 🌞 헤더 | `buildHeader` | **항상** | 날짜 "YYYY. MM. DD. (요일)" + "🌞 아침에 읽는 규제 변화" + "IBK AI Agent 법령 모니터링 — 내부통제점검팀" + 구분선(section) |
+| 2 | 요약 오프닝 | `buildOpening` | **항상** | 아래 3분기 |
+| 3 | 🔴 즉시검토 카드 | `buildUrgentItems` | 상(score≥4) 1건 이상 | 상 등급 **최대 2건** |
+| 4 | 🔹 그 외 오늘 체크할 법령 | `buildOtherItems` | 위 2건 외 항목 존재 | "그 외 오늘 체크할 법령" + 🔶/🔹 목록 |
+| 5 | 📅 이번 주 마감 요약 | `buildDeadlineSummary` | graded≥3 **및** D-7 이내≥2 | "📅 이번 주 마감 요약" + D-7 이내 최대 3건 |
+| 6 | 📖 오늘의 용어 | `buildTerm` | `term.word` 존재 | "📖 오늘의 용어 (처음 보시는 분만)" + 정의 + (출처) |
+| 7 | 오늘 하나만 | `buildClosing` | graded≥1 | 구분선(section) + "오늘 하나만 기억하세요." + 한 줄 |
+
+### 2. 요약 오프닝 3분기 (buildOpening)
+
+| 분기 | 조건 | 문구 |
+|------|------|------|
+| noUpdate | `data.noUpdate` | "오늘 금융위원회 신규 입법예고는 없었어요." + "전일과 동일한 내용이에요 …" |
+| 빈 상태 | graded 0건 | "오늘은 금융위원회 신규 입법·개정 예고가 없었어요." + "기존 내규와 점검 체계를 재점검하는 시간으로 …" |
+| 일반 | graded≥1 | "오늘 금융위원회에서 입법·개정 예고한 법령은 {N}개예요." + "그 중 지금 바로 챙겨야 할 건 {상 등급 수}개예요." (상≥1이면 빨강 강조) |
+
+> **빈 상태 처리 원칙:** v2.3처럼 빈 섹션 헤딩을 고정 출력하지 않는다. graded가 없으면 오프닝 문구가 안내를 대신하고, 조건부 섹션(3~7)은 자연히 생략된다.
+
+### 3. 🔴 즉시검토 카드 (buildUrgentItems) — 상 등급 최대 2건, 각 카드 구성
+
 ```
+divider("item")
+🔴 {약칭}   ·  D-{n}                         (TS.law=24, red, Bold)
+{주담당부서}라면 오늘 {핵심 액션 힌트}        (TS.body=19, Bold 일부)
+협조부서: {관련부서 · 관련부서}               (관련부서 있을 때, TS.caption gray1)
+뭐가 바뀌나요?                               (subHeading, ibkBlue) — what_changes 불릿 최대 2
+왜 중요한가요?                               (subHeading) — ctrl_insight 한 줄
+할 일                                        (subHeading) — our_action 불릿 최대 3 (ibkBlue Bold)
+```
+> LLM이 못 채운 항목은 `(키워드 추정 — 검토 필요)` 배지를 붙여 노출(항목 숨김 금지 — 신뢰 오인 방지).
+
+### 4. 🔹 그 외 오늘 체크할 법령 (buildOtherItems)
+"그 외 오늘 체크할 법령" 소제목 아래, 상 등급 상위 2건을 제외한 나머지를 한 줄 카드로:
+`{🔶|🔹} {약칭}  D-{n}` + 들여쓴 요약줄 `{핵심변경}  →  {주담당}[ 외 N개 부서]`.
+
+### 5~7. 마감 요약 · 용어 · 마무리
+- **📅 이번 주 마감 요약:** D-7 이내 항목을 `{D-n} {약칭} → {부서}` 로 최대 3건.
+- **📖 오늘의 용어:** `{용어}란? {정의}` + `({출처})`.
+- **오늘 하나만 기억하세요:** 상 등급 2건↑이면 "D-day 마감 법령이 {N}개예요. 오늘 안에 …", 1건이면 부서·D-day 안내.
 
 ---
 
-## 문서 구조 상세
-
-### 0. 문서 상단
-
-```
-[SP_HEADER] 빈 단락 (sz:1)
-
-날짜 단락: "2026. 06. 10. (수)"
-  font: 맑은 고딕, sz:19(9.5pt), color:gray1(666666), Bold:false
-  spacing: { after:20, before:0 }, indent.left:0
-
-제목 단락 (단일 단락, 4개 run):
-  run1: "🌞 "        sz:36(18pt) color:black(1A1A1A) Bold:false
-  run2: "아침에 읽는 규제 변화"  sz:36(18pt) color:ibkBlue(0D2F8B) Bold:true
-  run3: "  "          sz:24(12pt) color:black Bold:false
-  run4: "IBK AI Agent 법령 모니터링  —  내부통제점검팀"
-                      sz:20(10pt) color:skyBlue(1E88BC) Bold:true
-  spacing: { after:60, before:0 }, indent.left:0
-
-구분선 단락: bottom border { style:SINGLE, color:ibkBlue(0D2F8B), sz:2 }
-  spacing: { after:0, before:0 }
-
-[SP_TITLE] 빈 단락 (sz:1)
-```
-
----
-
-### ❶ 오늘의 요약
-
-#### 섹션 헤딩 단락
-```javascript
-{
-  shading: { fill: ibkBlue, val: "clear" },
-  spacing: { before: 280, after: 140 },
-  indent: { left: 0 },
-  keepNext: true,
-  children: [TextRun("❶  오늘의 요약", {
-    font: "맑은 고딕", bold:true, sz:23, color:white
-  })]
-}
-```
-
-#### 대시보드 3칸 표
-
-```javascript
-Table({
-  width: { size: 9866, type: WidthType.DXA },
-  columnWidths: [3288, 3288, 3290],
-  borders: { all: { style:SINGLE, color:"auto", sz:4 } },   // 외곽 테이블 border
-  rows: [TableRow([
-    // 열 1 — 신규 입법예고
-    TableCell({
-      width: { size:3288, type:DXA },
-      borders: { all: { style:SINGLE, color:"CCCCCC", sz:1 } },
-      shading: { fill:"FFFFFF", val:"clear" },
-      margins: { top:100, left:120, bottom:100, right:120 },
-      children: [
-        Paragraph({ jc:"center", children:[
-          TextRun("신규 입법예고", { font:"맑은 고딕", sz:15, color:gray1, bold:false })
-        ]}),
-        Paragraph({ spacing:{before:10}, jc:"center", children:[
-          TextRun("N건", { font:"맑은 고딕", sz:34, color:black, bold:true })
-        ]}),
-        Paragraph({ jc:"center", children:[
-          TextRun("오늘 기준", { font:"맑은 고딕", sz:14, color:gray1, bold:false })
-        ]}),
-      ]
-    }),
-    // 열 2 — 기업은행 영향
-    TableCell({
-      width: { size:3288, type:DXA },
-      borders: { all: { style:"none", color:white, sz:0 } },   // 테두리 없음
-      shading: { fill:skyBlue, val:"clear" },
-      margins: { top:100, left:120, bottom:100, right:120 },
-      children: [
-        Paragraph({ jc:"center", children:[
-          TextRun("기업은행 영향", { font:"맑은 고딕", sz:15, color:skyText, bold:false })
-        ]}),
-        Paragraph({ spacing:{before:10}, jc:"center", children:[
-          TextRun("N건", { font:"맑은 고딕", sz:34, color:white, bold:true })
-        ]}),
-        Paragraph({ jc:"center", children:[
-          TextRun("기업은행에 영향", { font:"맑은 고딕", sz:14, color:skyText, bold:false })
-        ]}),
-      ]
-    }),
-    // 열 3 — 즉시 검토
-    TableCell({
-      width: { size:3290, type:DXA },
-      borders: { all: { style:"none", color:white, sz:0 } },   // 테두리 없음
-      shading: { fill:red, val:"clear" },
-      margins: { top:100, left:120, bottom:100, right:120 },
-      children: [
-        Paragraph({ jc:"center", children:[
-          TextRun("즉시 검토", { font:"맑은 고딕", sz:15, color:redText, bold:false })
-        ]}),
-        Paragraph({ spacing:{before:10}, jc:"center", children:[
-          TextRun("N건", { font:"맑은 고딕", sz:34, color:white, bold:true })
-        ]}),
-        Paragraph({ jc:"center", children:[
-          TextRun("7월 전 반영", { font:"맑은 고딕", sz:14, color:redText, bold:false })
-          // ↑ 내용은 실제 데이터로 대체
-        ]}),
-      ]
-    }),
-  ])]
-})
-```
-
-#### [SP_SMALL] 스페이서
-
-#### 핵심 요약 카드 (단일열 표)
-
-```javascript
-Table({
-  width: { size:9866, type:DXA },
-  columnWidths: [9866],
-  rows: [TableRow([TableCell({
-    width: { size:9866, type:DXA },
-    borders: { all: { style:"none", color:white, sz:0 } },
-    shading: { fill:lightBlue, val:"clear" },
-    margins: { top:160, left:200, bottom:160, right:200 },
-    children: [
-      // 3줄, 각 spacing.after:50 (마지막은 기본)
-      Paragraph({ spacing:{after:50}, children:[
-        TextRun("오늘 [법령명] [핵심변경]이 있어요.", { font:"맑은 고딕", sz:20, color:black, bold:true })
-      ]}),
-      Paragraph({ spacing:{after:50}, children:[
-        TextRun("[핵심 영향 한 줄]. ", { font:"맑은 고딕", sz:20, color:black, bold:true }),
-        TextRun("[추가 설명].", { font:"맑은 고딕", sz:20, color:black, bold:false })
-      ]}),
-      Paragraph({ children:[
-        TextRun("[마감/시행 관련 한 줄]. ", { font:"맑은 고딕", sz:20, color:black, bold:true }),
-        TextRun("[지금 해야 할 것].", { font:"맑은 고딕", sz:20, color:black, bold:false })
-      ]}),
-    ]
-  })])]
-})
-```
-
-#### [SP_LARGE] 스페이서
-
----
-
-### ❷ 법령 브리핑
-
-> grade="상"→"중"→"하" 순. 각 법령마다 아래 구조 반복.
-
-#### 섹션 헤딩 (❶과 동일 패턴)
-
-#### 법령 카드 헤더 (단일열 표)
-
-```javascript
-// grade="상": 즉시 검토 스타일
-TableCell({
-  borders: {
-    top:    { style:SINGLE, color:red,   sz:6 },
-    left:   { style:SINGLE, color:red,   sz:6 },
-    bottom: { style:SINGLE, color:"CCCCCC", sz:1 },
-    right:  { style:SINGLE, color:"CCCCCC", sz:1 },
-  },
-  shading: { fill:lightRed, val:"clear" },
-  margins: { top:110, left:180, bottom:110, right:180 },
-  children: [
-    Paragraph({ spacing:{after:28}, children:[
-      TextRun("🔴 즉시 검토", { font:"맑은 고딕", sz:18, color:red, bold:true }),
-      TextRun("  ·  [소관부처]  ·  예고 YYYY.MM.DD.  ·  의견 마감 YYYY.MM.DD.",
-              { font:"맑은 고딕", sz:16, color:gray1, bold:false }),
-    ]}),
-    Paragraph({ children:[
-      TextRun("｢[법령명]｣ [개정안명]", { font:"맑은 고딕", sz:21, color:red, bold:true })
-    ]}),
-  ]
-})
-
-// grade="중": 관심 모니터링 스타일
-// - border: top+left color:skyBlue sz:6
-// - shading: D0E4F5
-// - 🟡 관심 모니터링 / color:skyBlue sz:18
-
-// grade="하": 참고 스타일
-// - border: top+left color:gray1 sz:2
-// - shading: FFFFFF
-// - 🟢 참고 / color:gray1 sz:18
-```
-
-#### [SP_SMALL] 스페이서
-
-#### 한줄 요약 단락
-
-```javascript
-Paragraph({
-  spacing: { after:60, before:0 }, indent: { left:0 },
-  children: [
-    TextRun("한줄 요약  ", { font:"맑은 고딕", sz:19, color:ibkBlue, bold:true }),
-    TextRun("[왜 IBK에 중요한지 한 문장]", { font:"맑은 고딕", sz:19, color:black, bold:false }),
-  ]
-})
-```
-
-#### 뭐가 바뀌나요? 소제목 + 불릿
-
-```javascript
-// 소제목
-Paragraph({
-  spacing: { before:80, after:36 }, indent: { left:0 }, keepNext:true,
-  children: [TextRun("뭐가 바뀌나요?", { font:"맑은 고딕", sz:18, color:ibkBlue, bold:true })]
-})
-
-// 불릿 (3~5개)
-Paragraph({
-  style: "ListParagraph",
-  numbering: { reference:"bullets", level:0 },
-  spacing: { after:40, before:0 }, keepLines:true,
-  children: [TextRun("[변경사항]", { font:"맑은 고딕", sz:20, color:black, bold:false })]
-})
-```
-
-#### 우리 업무에는요? 소제목 + 불릿
-
-```javascript
-// 소제목 — 동일 패턴
-Paragraph({
-  spacing: { before:80, after:36 }, keepNext:true,
-  children: [TextRun("우리 업무에는요?", { font:"맑은 고딕", sz:18, color:ibkBlue, bold:true })]
-})
-
-// 액션 불릿 (Bold ibkBlue)
-Paragraph({
-  style: "ListParagraph",
-  numbering: { reference:"bullets", level:0 },
-  spacing: { after:48, before:0 }, keepLines:true,
-  children: [TextRun("[액션 항목]", { font:"맑은 고딕", sz:20, color:ibkBlue, bold:true })]
-})
-
-// 참고 불릿 (regular black)
-Paragraph({
-  style: "ListParagraph",
-  numbering: { reference:"bullets", level:0 },
-  spacing: { after:40, before:0 }, keepLines:true,
-  children: [TextRun("[참고 사항]", { font:"맑은 고딕", sz:20, color:black, bold:false })]
-})
-```
-
-#### [SP_SMALL] 스페이서
-
-#### 다음 액션 카드 (단일열 표)
-
-```javascript
-TableCell({
-  borders: { all: { style:"none", color:white, sz:0 } },
-  shading: { fill:lightBlue, val:"clear" },
-  margins: { top:160, left:200, bottom:160, right:200 },
-  children: [Paragraph({
-    children: [
-      TextRun("👉  ", { font:"맑은 고딕", sz:19, color:black, bold:false }),
-      TextRun("[담당부서]가 [행동]을 [기한]까지 완료해 주세요.",
-              { font:"맑은 고딕", sz:19, color:ibkBlue, bold:false }),
-    ]
-  })]
-})
-```
-
-#### [SP_LARGE] 스페이서
-
----
-
-### ❸ 내부통제점검팀 체크 포인트
-
-> grade="상" 항목이 하나라도 있을 때만 섹션 생성.
-
-#### 섹션 헤딩
-
-#### 근거 부제 단락
-
-```javascript
-Paragraph({
-  spacing: { after:60, before:0 }, indent: { left:0 },
-  children: [TextRun(
-    "근거: 「내부통제 점검·조사 및 조치에 관한 세칙」 (2026.4.2. 제2차 개정)",
-    { font:"맑은 고딕", sz:16, color:gray1, italic:true }
-  )]
-})
-```
-
-#### 사고사례 카드 (단일열 표)
-
-```javascript
-TableCell({
-  borders: { all: { style:"none", color:white, sz:0 } },
-  shading: { fill:lightRed, val:"clear" },
-  margins: { top:160, left:200, bottom:160, right:200 },
-  children: [
-    Paragraph({ spacing:{after:36}, children:[
-      TextRun("📌  관련 사고 사례 & 맥락",
-              { font:"맑은 고딕", sz:19, color:red, bold:true })
-    ]}),
-    // 불릿: "• " red + 본문 black (수동 run 방식)
-    Paragraph({ spacing:{after:36}, children:[
-      TextRun("• ", { font:"맑은 고딕", sz:19, color:red, bold:false }),
-      TextRun("[사고사례 내용]", { font:"맑은 고딕", sz:19, color:black, bold:false }),
-    ]}),
-    // ... 최대 3개
-    Paragraph({ spacing:{after:0}, children:[
-      TextRun("• ", { font:"맑은 고딕", sz:19, color:red }),
-      TextRun("[사례 없으면: 유사 제재 사례: 해당 없음]", { font:"맑은 고딕", sz:19, color:black }),
-    ]}),
-  ]
-})
-```
-
-**⚠️ 사고사례 카드 내부는 numbering 불릿이 아닌 수동 "• " run 방식 사용.**
-
-#### [SP_SMALL] 스페이서
-
-#### 체크리스트 intro 단락
-
-```javascript
-Paragraph({
-  spacing: { after:80, before:0 }, indent: { left:0 },
-  children: [
-    TextRun("세칙 해당 조항에 의거해 지금 챙겨야 할 점검 포인트를 정리했어요. ",
-            { font:"맑은 고딕", sz:20, color:black, bold:true }),
-    TextRun("파란색은 즉시 액션이 필요한 항목이에요.",
-            { font:"맑은 고딕", sz:20, color:black, bold:false }),
-  ]
-})
-```
-
-#### 체크리스트 헤더 표 (2열: 8466 + 1400)
-
-```javascript
-// 세칙 조항 그룹마다 반복
-Table({
-  width: { size:9866, type:DXA },
-  columnWidths: [8466, 1400],
-  rows: [TableRow([
-    TableCell({
-      width: { size:8466, type:DXA },
-      borders: { all: { style:"none", color:white, sz:0 } },
-      shading: { fill:ibkBlue, val:"clear" },
-      margins: { top:80, left:160, bottom:80, right:80 },
-      children: [Paragraph({ keepNext:true, children:[
-        TextRun("세칙 제7·8·9조  |  점검 품의 & 사전 준비",
-                { font:"맑은 고딕", sz:18, color:white, bold:true })
-      ]})]
-    }),
-    TableCell({
-      width: { size:1400, type:DXA },
-      borders: { all: { style:"none", color:white, sz:0 } },
-      shading: { fill:darkPurple, val:"clear" },  // 첫 번째 그룹: 555577
-      // 이후 그룹: ibkBlue(0D2F8B)
-      margins: { top:80, left:80, bottom:80, right:80 },
-      children: [Paragraph({ keepNext:true, jc:"center", children:[
-        TextRun("지금 챙길 것", { font:"맑은 고딕", sz:16, color:white, bold:true })
-      ]})]
-    }),
-  ])]
-})
-```
-
-#### [SP_MICRO] 스페이서 (line:40)
-
-#### 체크리스트 불릿
-
-```javascript
-// 액션 항목 (Bold ibkBlue)
-Paragraph({
-  style: "ListParagraph",
-  numbering: { reference:"bullets", level:0 },
-  spacing: { after:48, before:0 }, keepLines:true,
-  children: [TextRun("[챙길 액션]", { font:"맑은 고딕", sz:20, color:ibkBlue, bold:true })]
-})
-
-// 세칙 조문 근거 (gray subbullet, reference:"subbullets")
-Paragraph({
-  style: "ListParagraph",
-  numbering: { reference:"subbullets", level:0 },
-  spacing: { after:28, before:0 }, keepLines:true,
-  children: [TextRun("제7조 제2항 — ① 목적 ② 부문·방법 ...",
-                     { font:"맑은 고딕", sz:17, color:gray2, bold:false })]
-})
-
-// 일반 안내 불릿 (black)
-Paragraph({
-  style: "ListParagraph",
-  numbering: { reference:"bullets", level:0 },
-  spacing: { after:40, before:0 }, keepLines:true,
-  children: [TextRun("[안내 사항]", { font:"맑은 고딕", sz:20, color:black, bold:false })]
-})
-```
-
-**세칙 조항 그룹 구성 (고정):**
-1. `세칙 제7·8·9조  |  점검 품의 & 사전 준비`  (우측셀: 555577)
-2. `세칙 제5·6·10·11조  |  현장 점검 실시`     (우측셀: 0D2F8B)
-3. `세칙 제12·13·19조  |  결과 정리 & 보고`    (우측셀: 0D2F8B)
-4. `세칙 제15·16조  |  조치 & 통보`           (우측셀: 0D2F8B)
-5. `세칙 제17·18조  |  이행 관리`             (우측셀: 0D2F8B)
-
-그룹 사이: [SP_MEDIUM] 스페이서 (line:320)
-
-#### [SP_LARGE] 스페이서
-
----
-
-### ❹ 마감 캘린더
-
-#### 섹션 헤딩
-
-#### 마감 캘린더 표 (5열)
-
-```javascript
-// columnWidths 합계 = 9866 (실제 XML 기준: 700+3900+1700+1700+1766 = 9766 — 실측 확인 필요)
-// 임시: 700+3900+1700+1700+1866 = 9866 으로 조정
-Table({
-  columnWidths: [700, 3900, 1700, 1700, 1866],
-  // 헤더 행: ibkBlue 배경, 흰 텍스트
-  // 데이터 행: D-14이내=lightRed bg, D-30이내=lightBlue bg, 나머지=white bg
-  rows: [
-    // 헤더
-    TableRow([
-      TableCell({ shading:{fill:ibkBlue}, children:[TextRun("D-day", {color:white, bold:true, sz:17})] }),
-      TableCell({ shading:{fill:ibkBlue}, children:[TextRun("법령명",   {color:white, bold:true, sz:17})] }),
-      TableCell({ shading:{fill:ibkBlue}, children:[TextRun("마감일",   {color:white, bold:true, sz:17})] }),
-      TableCell({ shading:{fill:ibkBlue}, children:[TextRun("담당",     {color:white, bold:true, sz:17})] }),
-      TableCell({ shading:{fill:ibkBlue}, children:[TextRun("중요도",   {color:white, bold:true, sz:17})] }),
-    ]),
-    // 데이터 행 (동적 생성)
-    // days_left <= 14: shading fill=lightRed
-    // days_left <= 30: shading fill=lightBlue
-    // 없으면: "이번 주 마감 건 없음" 단일 행
-  ]
-})
-```
-
-#### [SP_LARGE] 스페이서
-
----
-
-### ❺ 오늘의 규제 용어
-
-#### 섹션 헤딩
-
-#### 용어 카드 (단일열 표, lightBlue 배경)
-
-```javascript
-TableCell({
-  shading: { fill:lightBlue, val:"clear" },
-  borders: { all: { style:"none", color:white, sz:0 } },
-  margins: { top:160, left:200, bottom:160, right:200 },
-  children: [Paragraph({
-    children: [
-      TextRun("[용어]", { font:"맑은 고딕", sz:22, color:ibkBlue, bold:true }),
-      TextRun(": [30자 이내 정의]  ", { font:"맑은 고딕", sz:20, color:black, bold:false }),
-      TextRun("([출처 조항])", { font:"맑은 고딕", sz:18, color:gray1, bold:false }),
-    ]
-  })]
-})
-```
-
-#### [SP_LARGE] 스페이서
-
----
-
-### 마무리 — 오늘 할 일은 하나예요
-
-#### 섹션 헤딩 (ibkBlue 배경 단락, 동일 패턴)
-
-#### 마무리 카드 (단일열 표, lightBlue 배경)
-
-```javascript
-TableCell({
-  shading: { fill:lightBlue, val:"clear" },
-  borders: { all: { style:"none", color:white, sz:0 } },
-  margins: { top:160, left:200, bottom:160, right:200 },
-  children: [Paragraph({
-    children: [
-      TextRun("오늘은 ", { font:"맑은 고딕", sz:22, color:black, bold:false }),
-      TextRun("[법령명] [핵심 액션 한 가지]", { font:"맑은 고딕", sz:22, color:ibkBlue, bold:true }),
-      TextRun(" 하나예요.", { font:"맑은 고딕", sz:22, color:black, bold:false }),
-    ]
-  })]
-})
-```
-
----
-
-## 섹션 넘버링 규칙
-
-**❶ ~ ❺ 번호는 항상 고정 출력한다.** 콘텐츠 유무와 관계없이 5개 섹션 헤딩을 모두 표시하여 독자가 "2·3·4번은 어디 있지?"라는 혼란을 겪지 않도록 한다.
-
-해당 콘텐츠가 없는 섹션은 헤딩 바로 아래에 **단일 안내 문구 단락**만 출력하고 [SP_LARGE] 스페이서 후 다음 섹션으로 넘어간다.
-
-```
-섹션 헤딩 (ibkBlue 배경)
-  └─ 안내 문구 단락 (sz:20, color:gray1)
-[SP_LARGE]
-```
-
-| 섹션 | 안내 문구 (콘텐츠 없을 때) |
-|------|---------------------------|
-| ❷ 법령 브리핑 | "오늘은 IBK 관련 법령 브리핑이 없습니다." |
-| ❸ 체크 포인트 | "오늘은 즉시 검토가 필요한 항목이 없습니다." |
-| ❹ 마감 캘린더 | "향후 30일 이내 의견 제출 마감 건이 없습니다." |
-
----
-
-## 섹션 생성 조건 요약
-
-| 섹션 | 생성 조건 | 없을 때 처리 |
-|------|-----------|-------------|
-| 제목·날짜 | 항상 | — |
-| ❶ 오늘의 요약 | 항상 | 대시보드 전부 0, 카드에 "오늘은 IBK 관련 신규 입법예고가 없었습니다." |
-| ❷ 법령 브리핑 | **항상 (헤딩 고정)** | 안내 문구만 출력 |
-| ❸ 체크 포인트 | **항상 (헤딩 고정)** | 안내 문구만 출력 |
-| ❹ 마감 캘린더 | **항상 (헤딩 고정)** | 안내 문구만 출력 |
-| ❺ 규제 용어 | 항상 | — |
-| 마무리 | 항상 | — |
+## Telegram 메시지 (tgMsg — briefV2 `buildTgMsg`)
+
+보고서와 별개로 crawl_result.json `tgMsg`에 기록(완료 알림 본문). 시나리오별 형식:
+
+| 시나리오 | 형식 |
+|----------|------|
+| 즉시검토 있음 | 헤더 "🔔 내부통제 동향 알림 (HH:MM)" + "{N}건 수집 · 즉시검토 {M}건🔴 · 검토 {K}건" + 각 🔴 블록(WHAT/WHEN/WHO/HOW/WHY) |
+| 검토만 있음 | 헤더 + "{N}건 수집 · 검토 {K}건" + 🔶/🔹 항목 |
+| 영향 없음 | 헤더 + "{N}건 수집" + "✅ IBK 영향 없음 — 추가 조치 불필요" |
+| 변동 없음(noUpdate, 전일 대비) | 헤더 + "{N}건 수집 · 전일 대비 변동 없음" + "✅ 신규 입법예고 없음 …" |
+
+> 즉시검토(WHAT/WHEN/WHO/HOW/WHY) 포맷은 다행(多行)·장문이 정상이다. validator C1(글자수)·C2(줄수)는 **경고가 아니라 정보(info)** 로 기록한다.
+>
+> ※ **pm 오전 대비 델타 마감**은 위 tgMsg(briefV2)와 별개로 `notify_telegram.js`가 생성한다: 오전 대비 신규 graded 0건이면
+> "🔔 내부통제 동향 알림 (HH:MM) / {N}건 수집 · 오전 대비 변동 없음 / ✅ 신규 입법·행정 예고 없음 — 기존 진행건 모니터링 유지"를 전송(무음 아님).
 
 ---
 
@@ -647,10 +150,10 @@ TableCell({
 def grade(score, days_left):
     if days_left <= 14: score += 2
     elif days_left <= 30: score += 1
-    # score: tier1 매칭 +3, tier2 매칭 +1 (ibk-keywords.md 참조)
-    if score >= 4: return "상"   # 🔴 즉시 검토
-    if score >= 2: return "중"   # 🟡 관심 모니터링
-    if score >= 1: return "하"   # 🟢 참고
+    # tier1 매칭 +3, tier2 +1 (ibk-keywords.md)
+    if score >= 4: return "상"   # 🔴 즉시검토
+    if score >= 2: return "중"   # 🔶 관심 모니터링
+    if score >= 1: return "하"   # 🔹 참고
     return None                  # 제외
 ```
 
@@ -658,13 +161,13 @@ def grade(score, days_left):
 
 ## 주의 사항
 
-1. **스페이서 단락 sz:1** — 빈 단락은 반드시 `<w:sz w:val="1"/>` 적용. 기본 크기 단락으로 만들면 줄 높이가 과도하게 커짐.
-2. **keepNext:true** — 섹션 헤딩에 필수. 페이지 끝에서 헤딩만 고립 방지.
-3. **keepLines:true** — 불릿 항목에 필수. 항목 중간 페이지 나눔 방지.
-4. **강제 PageBreak 사용 금지** — 스페이서 단락으로만 간격 조절.
-5. **섹션 번호: ❶❷❸❹❺** — "1." 자동 목록 변환 방지 위해 원문자 사용.
-6. **사고사례 카드 불릿** — numbering 방식이 아닌 수동 "• " run 방식 사용.
-7. **subbullets reference 분리** — bullets와 동일 abstractNum 공유 금지.
+1. **스페이서 단락 sz:1** — 빈 단락은 `lineRule:"exact"` + sz:1. 기본 크기로 두면 줄 높이 과대.
+2. **시맨틱 헤더 사용** — 섹션 식별은 🌞/🔴/🔶/🔹/📅/📖 이모지. ❶❷❸❹❺ 원문자 번호는 폐지.
+3. **빈 섹션 헤딩 고정 출력 금지** — 조건부 섹션(3~7)은 콘텐츠 없으면 생략. 빈 상태는 오프닝 문구로 안내.
+4. **safeSection 장애 격리** — 섹션 빌더가 throw해도 placeholder 한 줄로 대체하고 나머지 섹션은 계속 생성.
+5. **fallback 배지** — LLM 미채움 항목은 `(키워드 추정 — 검토 필요)` 라벨로 노출(숨김 금지).
+6. **subbullets reference 분리** — bullets와 동일 abstractNum 공유 금지.
+7. **파일명 슬롯 일치** — docx 파일명은 슬롯 라벨(am→morning / pm→afternoon)을 반영한다(`reportDocxName(date, slot)`).
 
 ---
 
@@ -672,12 +175,12 @@ def grade(score, days_left):
 
 | 파일 | 용도 |
 |------|------|
-| `ibk-keywords.md` | 법령 필터링 키워드 사전 |
-| `tone-guide.md` | 라이팅 원칙 |
-| `crawler/moleg_crawler.py` | 법제처 수집 |
-| `세칙 PDF` | ❸ 조항 근거 원문 |
+| `briefV2.js` | 보고서 생성기 (이 명세의 권위 기준) |
+| `knowledge/ibk-keywords.md` | 법령 필터링 키워드 사전 |
+| `knowledge/tone-guide.md` | 라이팅 8원칙 |
+| `validator.js` | 보고서 구조·항목 품질·tgMsg 검증 |
 
 ---
 
-_v2.3 기준 실측 작성 — 2026-06-12_
-_원본: IBK_아침에읽는규제변화_v2.3_Final_20260610.docx_
+_v2.4 (뉴스레터형) — briefV2.js 실측 일치 작성 · 2026-06-30_
+_이전: v2.3 (IBK_아침에읽는규제변화_v2.3_Final_20260610.docx 기준 — 대시보드/체크리스트형, 폐지)_

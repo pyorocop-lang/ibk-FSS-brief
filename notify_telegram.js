@@ -15,12 +15,15 @@
 const https = require("https");
 const fs    = require("fs");
 const path  = require("path");
+const { reportDir } = require("./runslot");
 
 // ── CLI 파싱 ──
 const argv      = process.argv.slice(2);
 const msgIdx    = argv.indexOf("--msg");
 const directMsg = msgIdx >= 0 ? argv[msgIdx + 1] : null;
 const fromCrawl = argv.includes("--from-crawl-result");
+const deltaIdx   = argv.indexOf("--delta-since");
+const deltaSince = deltaIdx >= 0 ? argv[deltaIdx + 1] : null;  // 오후 델타 기준(오전 crawl_result.json)
 
 // ── 환경변수 ──
 const BOT_TOKEN  = process.env.TELEGRAM_BOT_TOKEN;
@@ -75,13 +78,43 @@ async function main() {
   let message = directMsg;
 
   if (fromCrawl) {
-    const crawlPath = path.join(__dirname, "reports", REPORT_DATE, "crawl_result.json");
+    const crawlPath = path.join(reportDir(__dirname, REPORT_DATE), "crawl_result.json");  // reports/{date}/{slot}
+    let data;
     try {
-      const data = JSON.parse(fs.readFileSync(crawlPath, "utf8"));
-      message = data.tgMsg || data.kakaoMsg;
+      data = JSON.parse(fs.readFileSync(crawlPath, "utf8"));
     } catch (e) {
       console.error(`[TELEGRAM] crawl_result.json 읽기 실패: ${e.message}`);
       process.exit(1);
+    }
+    message = data.tgMsg || data.kakaoMsg;
+
+    // 오후 델타 게이트: --delta-since <오전 crawl_result.json> 가 주어지면,
+    //   오전본 대비 신규 IBK 관련(graded)이 있으면 [오후 추가 감지] 전체 알림,
+    //   신규가 0이면 무음이 아니라 '오전 대비 변동 없음' 마감 알림을 보낸다.
+    //   → 시작 알림만 있고 완료 알림이 없어 "죽었나?" 오인하는 것을 방지(시작→끝 짝 보장).
+    //   오전본을 못 읽으면(오전 실패/미존재) 게이트 미적용 → 평소대로 전체 전송(놓침 방지).
+    if (deltaSince) {
+      let baseIds = null;
+      try {
+        const base = JSON.parse(fs.readFileSync(deltaSince, "utf8"));
+        baseIds = new Set((base.items || []).map(i => String(i.noticeId)));
+      } catch (e) {
+        console.warn(`[TELEGRAM] 델타 기준(${deltaSince}) 읽기 실패 — 게이트 미적용, 평소대로 전송: ${e.message}`);
+      }
+      if (baseIds) {
+        const newGraded = (data.graded || []).filter(i => !baseIds.has(String(i.noticeId)));
+        if (newGraded.length === 0) {
+          // 신규 없음 → '변동 없음' 마감 알림(항상 완료 알림). 보고서·기록은 이미 생성·보존됨.
+          const n = (typeof data.totalFetched === "number") ? data.totalFetched : (data.items || []).length;
+          const kst = new Date(Date.now() + 9 * 3600 * 1000);
+          const hhmm = `${String(kst.getUTCHours()).padStart(2, "0")}:${String(kst.getUTCMinutes()).padStart(2, "0")}`;
+          message = `🔔 내부통제 동향 알림 (${hhmm})\n${n}건 수집 · 오전 대비 변동 없음\n✅ 신규 입법·행정 예고 없음 — 기존 진행건 모니터링 유지`;
+          console.log("[TELEGRAM] 오후 델타: 오전 이후 신규 없음 — '변동 없음' 마감 알림 전송");
+        } else {
+          message = `🔔 [오후 추가 ${newGraded.length}건 감지]\n` + (message || "");
+          console.log(`[TELEGRAM] 오후 델타: 신규 IBK 관련 ${newGraded.length}건 → 알림 전송`);
+        }
+      }
     }
   }
 

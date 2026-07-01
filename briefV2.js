@@ -30,7 +30,8 @@ const TODAY_LABEL = `${BASE_DATE.getFullYear()}. ${String(BASE_DATE.getMonth()+1
 // ──────────────────────────────────────────────────────────────
 // crawl_result.json 로드
 // ──────────────────────────────────────────────────────────────
-const CRAWL_PATH = path.join(__dirname, "reports", TODAY_CODE, "crawl_result.json");
+const { reportDir, reportDocxName, resolveSlot } = require("./runslot");
+const CRAWL_PATH = path.join(reportDir(__dirname, TODAY_CODE), "crawl_result.json");  // reports/{date}/{slot}
 let crawlData = null;
 if (fs.existsSync(CRAWL_PATH)) {
   try {
@@ -671,9 +672,10 @@ function buildDocument(data) {
 // ──────────────────────────────────────────────────────────────
 // 실행
 // ──────────────────────────────────────────────────────────────
-const outDir  = path.join(__dirname, "reports", REPORT.dateCode);
+const RUN_SLOT_RESOLVED = resolveSlot();   // am/pm — 폴더·파일명 라벨 일치(D6 수정: 파일명도 슬롯 반영)
+const outDir  = reportDir(__dirname, REPORT.dateCode, RUN_SLOT_RESOLVED);   // reports/{date}/{slot} — 런별 분리 보존
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
-const outFile = path.join(outDir, `${REPORT.dateCode}_morning_brief.docx`);
+const outFile = path.join(outDir, reportDocxName(REPORT.dateCode, RUN_SLOT_RESOLVED));  // {date}_{morning|afternoon}_brief.docx
 
 Packer.toBuffer(buildDocument(REPORT))
   .then(buf => {

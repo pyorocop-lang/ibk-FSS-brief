@@ -17,11 +17,16 @@
  *      B2. our_action 배열이 비었거나 1개 미만
  *      B3. summary 원본이 너무 짧음 (< 50자 → PDF 미수집 의심)
  *      B4. ctrl_insight 빈 문자열 (Analyst Agent 미실행 의심)
- *   C. 텔레그램 메시지 검증
- *      C1. 전체 글자 수 200자 이하
- *      C2. 5줄 이하 구조 준수
- *      C3. 필수 줄 패턴 포함 여부
- *      C4. IBK영향 없음 메시지 형식 검증
+ *   C. 텔레그램 메시지 검증 (뉴스레터형 tgMsg)
+ *      C0. 메시지 출처·존재
+ *      C1. 전체 글자 수 (즉시검토 WHAT/WHEN/WHO/HOW/WHY 포맷은 장문 허용 → info)
+ *      C2. 줄 수 (즉시검토 블록은 다행 허용 → info)
+ *      C3. 시나리오별 필수 줄 패턴 (즉시검토/검토만)
+ *      C4. IBK영향 없음 메시지 형식
+ *   D. 보고서 구조 검증 (뉴스레터형 docx 실측 — SKILL.md v2.4)
+ *      D1. 🌞 헤더 / D2. 요약 오프닝 (항상)
+ *      D3. 🔴 즉시검토 / D4. 🔹 그 외 / D5. 📅 마감요약 / D6. 📖 용어 / D7. 마무리 (데이터 조건부)
+ *      → crawl_result 데이터로 기대 섹션을 계산해 docx 실제 출력과 대조
  *
  * 실행: node validator.js [--date YYYYMMDD]
  *        briefV2.js 완료 직후, archivist.js 직전에 호출
@@ -45,7 +50,9 @@ const TODAY = argDate && /^\d{8}$/.test(argDate)
   : `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
 
 const ROOT       = __dirname;
-const REPORT_DIR = path.join(ROOT, "reports", TODAY);
+const { reportDir, reportDocxName, resolveSlot } = require("./runslot");
+const REPORT_SLOT = resolveSlot();
+const REPORT_DIR = reportDir(ROOT, TODAY, REPORT_SLOT);   // reports/{date}/{slot} — 런별 분리 보존
 const CRAWL_PATH = path.join(REPORT_DIR, "crawl_result.json");
 const LOG_PATH   = path.join(ROOT, "pipeline_run.log");
 
@@ -267,8 +274,85 @@ function validateTgMsg(logContent, crawlData) {
   info("C_CONTENT", "TG_MSG", `메시지 내용:\n${fullText}`);
 }
 
+// ─── D. 보고서 구조 검증 (뉴스레터형 — docx 실측) ─────────────
+// crawl_result 데이터로 '있어야 할 섹션'을 계산하고, 실제 docx 본문에 그 섹션이
+// 출력됐는지 대조한다. (briefV2 safeSection 누락·회귀를 자동 포착)
+async function validateReportStructure(crawlData) {
+  // 슬롯 폴더에서 보고서 docx 탐색 — 파일명 라벨 불일치에도 견고하도록 glob
+  let docxFile = null;
+  try {
+    const preferred = reportDocxName(TODAY, REPORT_SLOT);   // 슬롯 일치 파일명 우선
+    const files = fs.readdirSync(REPORT_DIR).filter(f => /_brief\.docx$/.test(f));
+    docxFile = files.includes(preferred) ? preferred : (files.sort().pop() || null);
+  } catch (e) { /* dir 없음 */ }
+  if (!docxFile) {
+    err("D0", "REPORT", `보고서 docx 없음 — ${REPORT_DIR}`);
+    return;
+  }
+
+  let text = "";
+  try {
+    const JSZip = require("jszip");   // docx 의존성에 포함 — 없으면 구조검증만 생략(치명 아님)
+    const buf = fs.readFileSync(path.join(REPORT_DIR, docxFile));
+    const zip = await JSZip.loadAsync(buf);
+    const xml = await zip.file("word/document.xml").async("string");
+    text = xml.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+  } catch (e) {
+    info("D0", "REPORT", `구조 검증 생략 — docx 파싱 불가 (${e.message})`);
+    return;
+  }
+
+  const has = (s) => text.includes(s);
+  const graded      = (crawlData && crawlData.graded) || [];
+  const urgentCount = graded.filter(g => g.grade === "상").length;
+  const shownUrgent = Math.min(2, urgentCount);
+  const hasOthers   = graded.length - shownUrgent > 0;
+  const term        = crawlData && crawlData.term && crawlData.term.word;
+  const ddayNum = (g) => {
+    const m = String(g.dday || g.deadline_status || "").match(/D-(\d+)/);
+    return m ? parseInt(m[1], 10) : NaN;
+  };
+  const within7      = graded.filter(g => { const n = ddayNum(g); return !isNaN(n) && n <= 7; }).length;
+  const deadlineCond = graded.length >= 3 && within7 >= 2;
+
+  const rendered = [];
+  // 고정 섹션
+  if (has("아침에 읽는 규제 변화")) rendered.push("🌞헤더");
+  else warn("D1", "REPORT", '🌞 헤더("아침에 읽는 규제 변화") 누락');
+
+  const openingOk = graded.length > 0
+    ? (has("예고한 법령은") || has("챙겨야 할 건"))
+    : has("없었어요");
+  if (openingOk) rendered.push("요약");
+  else warn("D2", "REPORT", "요약 오프닝 문구 누락");
+
+  // 조건부 섹션
+  if (urgentCount > 0) {
+    if (has("🔴") && has("뭐가 바뀌나요?") && has("할 일")) rendered.push("🔴즉시검토");
+    else warn("D3", "REPORT", "🔴 즉시검토 카드 구성요소 누락 (🔴/뭐가 바뀌나요?/할 일)");
+  }
+  if (hasOthers) {
+    if (has("그 외 오늘 체크할 법령")) rendered.push("🔹그외");
+    else warn("D4", "REPORT", "🔹 '그 외 오늘 체크할 법령' 섹션 누락");
+  }
+  if (deadlineCond) {
+    if (has("이번 주 마감 요약")) rendered.push("📅마감요약");
+    else warn("D5", "REPORT", "📅 '이번 주 마감 요약' 섹션 누락 (조건 충족인데 미출력)");
+  }
+  if (term) {
+    if (has("오늘의 용어")) rendered.push("📖용어");
+    else warn("D6", "REPORT", "📖 '오늘의 용어' 섹션 누락 (term 존재)");
+  }
+  if (graded.length > 0) {
+    if (has("오늘 하나만 기억하세요")) rendered.push("마무리");
+    else warn("D7", "REPORT", "'오늘 하나만 기억하세요.' 마무리 누락");
+  }
+
+  info("D_STRUCT", "REPORT", `보고서: ${docxFile} · 출력 섹션: ${rendered.join(" · ") || "(없음)"}`);
+}
+
 // ─── MAIN ─────────────────────────────────────────────────────
-(function main() {
+(async function main() {
   console.log(`\n${"═".repeat(55)}`);
   console.log("  VALIDATOR — IBK 브리핑 품질 검증");
   console.log(`  대상일: ${TODAY}`);
@@ -301,6 +385,10 @@ function validateTgMsg(logContent, crawlData) {
   console.log("\n[C] 텔레그램 메시지 검증");
   const logContent = fs.existsSync(LOG_PATH) ? fs.readFileSync(LOG_PATH, "utf8") : "";
   validateTgMsg(logContent, crawlData);
+
+  // D: 보고서 구조 검증 (뉴스레터형 docx — 데이터 기대 섹션과 대조)
+  console.log("\n[D] 보고서 구조 검증");
+  await validateReportStructure(crawlData);
 
   // ── 결과 출력 ──────────────────────────────────────────────
   const errors = issues.filter(i => i.level === "ERROR");
@@ -342,7 +430,7 @@ function validateTgMsg(logContent, crawlData) {
   try {
     if (!fs.existsSync(REPORT_DIR)) fs.mkdirSync(REPORT_DIR, { recursive: true });
     fs.writeFileSync(resultPath, JSON.stringify(result, null, 2), "utf8");
-    console.log(`\n  📄 검증 결과 저장: reports/${TODAY}/validation_result.json`);
+    console.log(`\n  📄 검증 결과 저장: reports/${TODAY}/${REPORT_SLOT}/validation_result.json`);
   } catch (e) {
     console.warn(`  검증 결과 저장 실패: ${e.message}`);
   }
