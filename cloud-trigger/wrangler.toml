@@ -2,9 +2,10 @@ name = "ibk-fss-brief-trigger"
 main = "src/index.js"
 compatibility_date = "2026-06-25"
 
-# 08:00 KST = 23:00 UTC(전날), 월~금. Cloudflare cron은 UTC 기준.
-# (FSC 브리핑 07:30과 30분 간격 — 실행·알림 충돌 회피. 결정 B)
-# Cloudflare Workers Cron은 GitHub schedule보다 정시성이 훨씬 높음.
+# 정시 발화 1회 — Cloudflare cron은 UTC 기준:
+#   08:00 KST = 23:00 UTC(전날), 월~금  → 단일 슬롯(am)
+# FSS 제재는 부정기 발행이라 하루 1회로 충분. FSC 브리핑(06:00/16:00)과 시각 분리(결정 B).
+# 대시보드 실제 설정과 일치. (wrangler로는 스케줄 쓰기가 막혀 있어 대시보드에서 직접 추가/변경)
 [triggers]
 crons = ["0 23 * * 0-4"]
 

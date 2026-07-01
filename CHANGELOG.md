@@ -1,6 +1,10 @@
 # 변경 이력
 
 ## 2026-07-01
+- chore: 워크플로/cloud-trigger를 최신 아키텍처로 재동기화 (2/2 — 오케스트레이션)
+  - daily-brief.yml: 최신 골격(런슬롯 reports/{date}/{slot}·failure_meta 실패격리·`-X theirs` 감사커밋) 채택 + FSS 델타: STEP1→fss_crawler.js, LAWMAKING_*·프록시 env 제거, STEP6 state/seen_ids.json 커밋, name/concurrency(fss-brief)/artifact 변경. FSS는 08:00 단일 슬롯(am)
+  - cloud-trigger: 최신(/diag egress 점검 엔드포인트 포함) + FSS 타겟(REPO=ibk-FSS-brief, DIAG_ALLOW=www.fss.or.kr, 단일 cron `0 23 * * 0-4`, README 재작성)
+  - 잔재 스윕 통과: lawmaking/moleg/proxy/morning-brief/06:00·16:00 없음
 - chore: 재사용 인프라를 Daily-Morning-brief 최신(48bd6ff)으로 재동기화 (1/2 — 인프라)
   - 왜: 2단계는 GitHub과 분기된 로컬 FSC 클론에서 복사됨 → 정본(GitHub main)을 새 clone해 재동기화. 원칙(사용자 확정): FSC 원본 불수정·구조만 복제·아키텍처 유지·수집계층만 교체·KR프록시 미도입
   - 갱신(정본 verbatim): briefV2·validator·archivist·notify_telegram·package.json·SKILL.md·workflow.md·knowledge/*(+매핑_방법론·발표스크립트)·docs/*

@@ -9,6 +9,10 @@ const OWNER = "pyorocop-lang";
 const REPO = "ibk-FSS-brief";
 const WORKFLOW = "daily-brief.yml";
 
+// Diagnostic endpoint for egress checks. Keep this allowlisted so the Worker
+// cannot become an open proxy.
+const DIAG_ALLOW = ["www.fss.or.kr"];
+
 export default {
   async scheduled(event, env, ctx) {
     const url = `https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/${WORKFLOW}/dispatches`;
@@ -27,6 +31,52 @@ export default {
       console.error(`dispatch 실패 status=${res.status} body=${body}`);
     } else {
       console.log("workflow_dispatch 발화 성공");
+    }
+  },
+
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    if (url.pathname !== "/diag") {
+      return new Response(
+        "ibk-fss-brief-trigger - use /diag?url=https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476",
+        { status: 200 },
+      );
+    }
+
+    const colo = (request.cf && request.cf.colo) || "?";
+    let target;
+    try {
+      target = new URL(url.searchParams.get("url"));
+    } catch (error) {
+      return Response.json({ error: "bad url", colo }, { status: 400 });
+    }
+
+    if (!DIAG_ALLOW.includes(target.hostname)) {
+      return Response.json({ error: "host not allowed", allow: DIAG_ALLOW, colo }, { status: 403 });
+    }
+
+    const start = Date.now();
+    try {
+      const response = await fetch(target.href, {
+        headers: {
+          "User-Agent": "Mozilla/5.0",
+          "Accept-Encoding": "identity",
+        },
+        cf: { cacheTtl: 0, cacheEverything: false },
+      });
+      const body = await response.arrayBuffer();
+      return Response.json({
+        ok: true,
+        status: response.status,
+        ms: Date.now() - start,
+        bytes: body.byteLength,
+        colo,
+      });
+    } catch (error) {
+      return Response.json(
+        { ok: false, ms: Date.now() - start, err: String(error), colo },
+        { status: 502 },
+      );
     }
   },
 };
