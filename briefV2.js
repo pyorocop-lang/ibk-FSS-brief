@@ -523,8 +523,8 @@ function buildTgMsg(data) {
   const urgentCount = alertItems.filter(it => it.grade === "상").length;
   const orgName = (item) => shortTitle(item.title) || item.tg_key || "제재대상";
 
-  // 항목 블록 — [제재대상(기관·계층)] → 무슨 일 → IBK 연관(부서·재발위험) → 점검.
-  //   ※ 제재받은 곳(제재대상)과 점검할 IBK 부서(IBK 연관/점검)를 명확히 분리해 혼동을 없앤다.
+  // 항목 블록 — [제재대상(기관·계층)] → 왜 제재를 받았나요? → IBK에서도 발생 가능한가요?(부서·재발위험) → 이런 부분을 점검하시면 좋아요.
+  //   ※ 제재받은 곳(제재대상)과 점검할 IBK 부서(발생가능성/점검)를 명확히 분리해 혼동을 없앤다.
   const itemBlock = (item) => {
     const meta = [item.sanctionDate, item.sanction_type].filter(Boolean).join(" · ");
     const what = (item.what_changes || [])[0] || "";
@@ -532,9 +532,9 @@ function buildTgMsg(data) {
     const how  = (item.our_action || [])[0] || "";
     return [
       `${gradeEmoji(item.grade)} 제재대상: ${orgName(item)} [${item.tierLabel || "기관"}]${meta ? ` · ${meta}` : ""}`,
-      what ? `   • 무슨 일: ${what}` : null,
-      why  ? `   • IBK 연관: ${withFallbackBadge(why, item)}` : null,
-      how  ? `   • 점검: ${how}` : null,
+      what ? `   • 왜 제재를 받았나요? ${what}` : null,
+      why  ? `   • IBK에서도 발생 가능한가요? ${withFallbackBadge(why, item)}` : null,
+      how  ? `   • 이런 부분을 점검하시면 좋아요: ${how}` : null,
     ].filter(Boolean).join("\n");
   };
 
