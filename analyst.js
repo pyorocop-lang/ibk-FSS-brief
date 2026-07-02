@@ -53,7 +53,9 @@ const K_DEPT    = loadFile(KNOWLEDGE_DIR, "ibk-dept-mapping.md");
 const K_ORG     = loadFile(KNOWLEDGE_DIR, "ibk_org_chart.md");
 const K_MAPPING = loadFile(KNOWLEDGE_DIR, "ibk_mapping_rules.md");
 const K_ACTION  = loadFile(KNOWLEDGE_DIR, "ibk_action_rules.md");
+const K_TONE    = loadFile(KNOWLEDGE_DIR, "tone-guide.md");   // 라이팅 원칙(토스 8원칙) — 문체·종결어미·제안형의 근거 문서
 const SYSTEM_PROMPT = BASE_PROMPT
+  + (K_TONE    ? `\n\n---\n## [참조] 라이팅 원칙 — Tone Guide (반드시 준수)\n${K_TONE}\n\n> ※ 위 Tone Guide 예시는 FSC 법령 브리핑용입니다. FSS는 **동일한 8원칙을 제재·경영유의 맥락**에 적용하세요(입법예고→제재사례, 시행일·마감 개념 없음). 특히 원칙 7(동사 종결)·원칙 4(제안형)를 what_changes·ctrl_insight·our_action에 그대로 적용.` : "")
   + (K_DEPT    ? `\n\n---\n## [참조] IBK 부서 매핑 기준\n${K_DEPT}`    : "")
   + (K_ORG     ? `\n\n---\n## [참조] IBK 조직도\n${K_ORG}`             : "")
   + (K_MAPPING ? `\n\n---\n## [참조] 법령-내규 매핑 규칙\n${K_MAPPING}` : "")

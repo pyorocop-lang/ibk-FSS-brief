@@ -80,6 +80,20 @@ function grade(score) {
 }
 
 // ─────────────────────────────────────────────────────────────
+// 제재대상 기관 계층 (Tier) — IBK 벤치마킹 관점 (knowledge/fss_tier_methodology.md)
+//   T0 IBK 직접 / T1 은행(저축은행 제외) / T2 인접 금융업권 / T3 주변·비은행(환전·대부·GA 등)
+//   알림 포함 = T0·T1·T2 전건, T3 제외 / 보고서 = 전건 포함. (2026-07-02 표준 방법론)
+// ─────────────────────────────────────────────────────────────
+function classifyTier(org) {
+  const o = (org || "").replace(/\s/g, "");
+  if (/기업은행|중소기업은행|IBK/i.test(o)) return "T0";
+  if ((/은행/.test(o) && !/저축은행/.test(o)) || /카카오뱅크|토스뱅크|케이뱅크/.test(o)) return "T1";
+  if (/저축은행|금융지주|금융복합기업집단|지주회사|생명보험|손해보험|화재해상|생명|화재|증권|자산운용|투자자문|투자일임|자산신탁|부동산신탁|신탁|카드|캐피탈|캐피털|여신전문|종합금융/.test(o)) return "T2";
+  return "T3";  // 대부·환전영업소·소액송금·보험/금융 판매대리점(GA)·에셋·금융서비스·P2P·크라우드펀딩·조합 등
+}
+const TIER_LABEL = { T0: "IBK직접", T1: "은행", T2: "인접금융", T3: "주변" };
+
+// ─────────────────────────────────────────────────────────────
 // HTTP GET (리다이렉트 최대 3회, timeout 60초 — 해외 러너 대응)
 // ─────────────────────────────────────────────────────────────
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
@@ -292,6 +306,7 @@ async function collectSanctions(result, ledger, rawDir, pdfDir, maxPages, seedMo
       };
       const sc = scoreItem(entry);
       entry.grade = grade(sc.score); entry.score = sc.score; entry.isIBK = sc.isIBK; entry.bankTarget = sc.bankTarget;
+      entry.tier = classifyTier(entry.org); entry.tierLabel = TIER_LABEL[entry.tier];
 
       result.items.push(entry);   // items = 이번 실행 신규 원본(기록·감사용). seed모드에선 과거 베이스라인.
       if (!seedMode) {
@@ -344,6 +359,7 @@ async function collectMngImpr(result, ledger, rawDir, pdfDir, maxPages, seedMode
       };
       const sc = scoreItem(entry);
       entry.grade = grade(sc.score); entry.score = sc.score; entry.isIBK = sc.isIBK; entry.bankTarget = sc.bankTarget;
+      entry.tier = classifyTier(entry.org); entry.tierLabel = TIER_LABEL[entry.tier];
 
       result.items.push(entry);   // items = 이번 실행 신규 원본(기록·감사용). seed모드에선 과거 베이스라인.
       if (!seedMode) {

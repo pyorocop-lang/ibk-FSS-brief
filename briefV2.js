@@ -119,7 +119,17 @@ function mapCrawlerItem(it) {
       ? it.our_action : [],
     tg_key:       it.tg_key || "",
     term:         it.term || null,
+    source:       it.source || "",              // 제재공시 / 경영유의
+    tier:         it.tier || "T3",              // 기관 계층 (T0 IBK / T1 은행 / T2 인접금융 / T3 주변)
+    tierLabel:    it.tierLabel || "",
   };
+}
+// 기관 계층 정렬 가중치 (T0>T1>T2>T3, 그 안에서 grade)
+const TIER_RANK = { T0: 4, T1: 3, T2: 2, T3: 1 };
+const GRADE_RANK = { "상": 3, "중": 2, "하": 1 };
+function byTierGrade(a, b) {
+  return (TIER_RANK[b.tier] || 0) - (TIER_RANK[a.tier] || 0)
+      || (GRADE_RANK[b.grade] || 0) - (GRADE_RANK[a.grade] || 0);
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -404,6 +414,7 @@ function buildOtherItems(items) {
         spacing: { before: 0, after: 6 },
         children: [
           new TextRun({ text: `${emoji} `, ...rf(TS.body, blk) }),
+          new TextRun({ text: item.tierLabel ? `[${item.tierLabel}] ` : "", ...rf(TS.caption, gray1) }),
           new TextRun({ text: name, ...rf(TS.body, blk, true) }),
           new TextRun({ text: ddayTxt, ...rf(TS.caption, gray2) }),
         ],
@@ -531,45 +542,42 @@ function buildTgMsg(data) {
     ].join("\n");
   }
 
-  // Scenario AB — IBK 영향 없음
-  if (!data.graded || data.graded.length === 0) {
+  const graded = data.graded || [];
+  // ★ 표준 방법론: 알림 = T0·T1·T2 전건, T3(주변·환전영업소·GA 등) 제외(보고서엔 수록). tier→grade 순.
+  const alertItems = [...graded].filter(it => it.tier !== "T3").sort(byTierGrade);
+  const excludedT3 = graded.length - alertItems.length;
+
+  // 알림 대상(T0~T2) 없음 — 신규가 없거나 전부 주변기관(T3)
+  if (alertItems.length === 0) {
+    const tail = excludedT3 > 0 ? `주변기관 ${excludedT3}건은 참고용(보고서 수록)` : "추가 조치 불필요";
     return [
       `🔔 내부통제 동향 알림 (${time})`,
-      `${fetched}건 수집 · IBK 영향 없음`,
-      `✅ 추가 조치 불필요`,
+      `${fetched}건 확인 · IBK 유관 신규 없음`,
+      `✅ ${tail}`,
     ].join("\n");
   }
 
-  const rank   = { 상: 3, 중: 2, 하: 1 };
-  const sorted = [...data.graded].sort((a, b) => (rank[b.grade] || 0) - (rank[a.grade] || 0));
-  const urgentItems = sorted.filter(it => it.grade === "상");
-  const urgentCount = urgentItems.length;
-  const reviewCount = data.graded.length - urgentCount;
+  const urgentItems = alertItems.filter(it => it.grade === "상");
+  const reviewItems = alertItems.filter(it => it.grade !== "상");
 
-  // 법령명: tg_key 우선, 없으면 shortTitle 축약
   const lawName = (item) => item.tg_key || shortTitle(item.title);
-
-  // WHEN 표시: D-N이면 "D-N (마감일)", 완료면 "마감 {날짜}", 없으면 "일정 미확인"
-  const whenStr = (item) => {
-    return item.sanctionDate ? `조치·게시일 ${item.sanctionDate}` : "일자 미확인";
-  };
-
-  // WHO 표시: 주담당 + 협조부서
-  const whoStr = (item) => {
+  const whenStr = (item) => item.sanctionDate ? `조치·게시일 ${item.sanctionDate}` : "일자 미확인";
+  const whoStr  = (item) => {
     const parts = [item.ibkDept].filter(Boolean);
     if (item.related_depts && item.related_depts.length > 0)
       parts.push(...item.related_depts.slice(0, 2).map(d => `${d}(협조)`));
     return parts.join(" · ") || "담당부서 미확인";
   };
+  const tag = (item) => item.tierLabel || "";   // 은행/인접금융/IBK직접
 
-  // 즉시검토 항목 상세 블록 (WHAT/WHEN/WHO/HOW/WHY)
+  // 🔴 상 등급 상세 블록 (WHAT/WHEN/WHO/HOW/WHY)
   const urgentBlock = (item, idx) => {
     const what = (item.what_changes || [])[0] || "";
     const how  = (item.our_action  || [])[0] || "";
     const why  = item.ctrl_insight || "";
     return [
-      `━━ 🔴 즉시검토 ${idx} ━━`,
-      `${lawName(item)} [${item.ibkDept || "담당부서"}]`,
+      `━━ 🔴 즉시점검 ${idx} ━━`,
+      `${lawName(item)} · ${tag(item)} [${item.ibkDept || "담당부서"}]`,
       what ? `WHAT  ${what}` : null,
       `WHEN  ${whenStr(item)}`,
       `WHO   ${whoStr(item)}`,
@@ -577,36 +585,16 @@ function buildTgMsg(data) {
       why  ? `WHY   ${withFallbackBadge(why, item)}` : null,
     ].filter(Boolean).join("\n");
   };
+  // 🔶🔹 한 줄 요약
+  const reviewLine = (item) =>
+    `${gradeEmoji(item.grade)} [${tag(item)}·${item.ibkDept || ""}] ${lawName(item)}: ${(item.what_changes || [])[0] || shortTitle(item.title)}`;
 
-  // 검토 항목 한 줄 요약 (Scenario C의 줄, 또는 비긴급 항목)
-  const reviewLine = (item) => {
-    const what = (item.what_changes || [])[0] || shortTitle(item.title);
-    return `${gradeEmoji(item.grade)} [${item.ibkDept || ""}] ${lawName(item)}: ${what}`;
-  };
-
-  // Scenario C — 즉시검토 없음
-  if (urgentCount === 0) {
-    const lines = [
-      `🔔 내부통제 동향 알림 (${time})`,
-      `${fetched}건 수집 · 검토 ${data.graded.length}건`,
-      "",
-      reviewLine(sorted[0]),
-    ];
-    if (sorted[1]) lines.push(reviewLine(sorted[1]));
-    return lines.join("\n");
-  }
-
-  // Scenario D/E — 즉시검토 1건 이상
-  const header = [
-    `🔔 내부통제 동향 알림 (${time})`,
-    `${fetched}건 수집 · 즉시검토 ${urgentCount}건🔴 · 검토 ${reviewCount}건`,
-  ];
-
-  const blocks = urgentItems
-    .slice(0, 2)
-    .map((item, i) => urgentBlock(item, `${i + 1}/${urgentCount}`));
-
-  return [...header, "", ...blocks].join("\n");
+  const headCount = `${fetched}건 수집 · 즉시점검 ${urgentItems.length}건🔴 · 검토 ${reviewItems.length}건`
+    + (excludedT3 > 0 ? ` · 주변 ${excludedT3}건 제외` : "");
+  const parts = [`🔔 내부통제 동향 알림 (${time})`, headCount, ""];
+  urgentItems.forEach((it, i) => { parts.push(urgentBlock(it, `${i + 1}/${urgentItems.length}`)); parts.push(""); });
+  reviewItems.forEach(it => parts.push(reviewLine(it)));
+  return parts.join("\n").trim();
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -628,6 +616,8 @@ function safeSection(label, fn) {
 }
 
 function buildDocument(data) {
+  // 보고서 항목을 기관 계층(tier)→위험도 순으로 정렬 — 은행·인접금융이 주변기관(T3)보다 위. T3도 수록(하위).
+  if (Array.isArray(data.graded)) data.graded = [...data.graded].sort(byTierGrade);
   const children = [
     ...safeSection("header",   () => buildHeader(data)),
     ...safeSection("opening",  () => buildOpening(data)),

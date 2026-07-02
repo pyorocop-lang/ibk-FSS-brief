@@ -156,6 +156,13 @@ function validateItem(item, idx) {
     }
   });
 
+  // ── A7b. 해요체 종결 (Tone Guide 원칙 7) — what_changes·ctrl_insight 개조식·명사형 금지 ──
+  //   해요체는 "요"로 끝난다. 개조식(~함/~음/~됨/~않음/~부과/~적발) 종결이면 경고.
+  [...wc, item.ctrl_insight || ""].filter(Boolean).forEach(s => {
+    const t = s.trim().replace(/["'”’.]+$/, "");
+    if (!/요$/.test(t)) warn("A7b", label, `해요체 종결 아님(원칙 7): "…${t.slice(-18)}"`);
+  });
+
   // ── A8. 톤 — 즉시검토(🔴)에서 평어 사용 ──
   if (grade === "상") {
     oa.forEach(a => {
