@@ -1,12 +1,75 @@
-# IBK FSS 제재·경영유의 브리핑 파이프라인
+# 문서 지도 (정본 인덱스) — IBK FSS 제재·경영유의 브리핑
 
 > IBK기업은행 내부통제점검팀 — 금융감독원(FSS) 제재공시·경영유의사항 자동 수집·분석·보고서 생성
+> **이 문서가 저장소 문서의 허브(단일 진입점)입니다.** 아래 표에서 "알고 싶은 것"을 고르면 그 주제의 **정본 문서 하나**로 갑니다.
+
+---
+
+## 🧭 이걸 알고 싶다면 → 이 문서 하나
+
+| 알고 싶은 것 | 정본 문서 | 대상 독자 |
+|---|---|---|
+| **이 프로젝트가 뭔지 30초 요약** | [../README.md](../README.md) (저장소 랜딩) | 처음 온 사람 |
+| **왜/어떻게 설계됐나 (기획안·결정사항)** | [business/PROJECT_BRIEF.md](business/PROJECT_BRIEF.md) | 기획·설계 |
+| **경영진 1‑페이지 보고** | [business/EXECUTIVE_BRIEF.md](business/EXECUTIVE_BRIEF.md) | C‑Level |
+| **설계 철학·글쓰기(해요체) 원칙** | [business/METHODOLOGY.md](business/METHODOLOGY.md) | 기획·리뷰 |
+| **전체 시스템 구조·데이터 흐름** | [technical/ARCHITECTURE.md](technical/ARCHITECTURE.md) | 개발 |
+| **에이전트 6종 역할·입출력** | [technical/AGENT_ORG_CHART.md](technical/AGENT_ORG_CHART.md) | 개발 |
+| **DOCX 보고서 레이아웃 실측값** | [technical/SKILL.md](technical/SKILL.md) | 개발 (수정 시 briefV2.js 동반) |
+| **매일 어떻게 도는가 (실행 절차·오류 대응)** | [operations/workflow.md](operations/workflow.md) | 운영 |
+| **공식 산출 문서 세트 (보고·인수인계·질의)** | [deliverables/](deliverables/01_SOD.md) — SOD·BRD·업무·기술·Q&A | 보고·인수인계 |
+| **유사 아키텍처 프로젝트 교훈 체크리스트** | [history/LESSONS_LEARNED.md](history/LESSONS_LEARNED.md) | 아키텍트 (FSC 회고) |
+| **개발·커밋 지침 (에이전트/기여자)** | [../CLAUDE.md](../CLAUDE.md) | 기여자 |
+| **변경 이력** | [../CHANGELOG.md](../CHANGELOG.md) | 전체 |
+
+> 코드가 런타임에 읽는 지식 파일(`knowledge/`·`agents/`)은 **문서가 아니라 파이프라인 입력**이라 이 지도에 넣지 않습니다. 그 정본 관계는 각 파일 상단과 [business/METHODOLOGY.md](business/METHODOLOGY.md)를 참조하세요.
+
+---
+
+## 📁 폴더 구조 (대상 독자별)
+
+```
+문서 루트
+├── README.md              ← 저장소 랜딩 (프로젝트 30초 요약)
+├── CLAUDE.md              ← 개발·커밋 지침 (에이전트/기여자용, 하네스가 읽음)
+├── CHANGELOG.md           ← 변경 이력
+├── workflow.md · SKILL.md · PROJECT_BRIEF.md   ← 포인터 stub (정본은 docs/ 아래)
+└── docs/
+    ├── README.md          ← 이 파일 (정본 지도)
+    ├── business/          경영·기획·방법론
+    │   ├── PROJECT_BRIEF.md
+    │   ├── EXECUTIVE_BRIEF.md
+    │   └── METHODOLOGY.md
+    ├── technical/         개발·구조·명세
+    │   ├── ARCHITECTURE.md
+    │   ├── AGENT_ORG_CHART.md
+    │   └── SKILL.md
+    ├── operations/        운영·실행 절차
+    │   └── workflow.md    ← 워크플로우 단일 정본
+    ├── deliverables/      공식 산출 문서 세트 (보고·인수인계·질의)
+    │   ├── 01_SOD.md · 02_BRD.md · 03_BUSINESS_DOC.md
+    │   └── 04_TECH_DOC.md · 05_QNA.md
+    └── history/           이력·교훈
+        └── LESSONS_LEARNED.md
+```
+
+---
+
+## 🔒 정본 유지 원칙
+
+1. **한 주제 = 정본 하나.** 같은 주제를 두 문서가 설명하지 않는다. 중복이 생기면 하나만 정본으로 남기고 나머지는 "정본은 여기" 포인터 stub으로 강등한다(옛 내용은 git 이력에 보존).
+2. **대상 독자별 폴더.** business(경영·기획) / technical(개발) / operations(운영) / deliverables(공식 산출물) / history(이력·교훈). 새 문서는 독자 기준으로 배치한다.
+3. **코드·설정·`knowledge/`·`agents/`는 문서 재편 대상이 아니다.** 코드가 읽는 파일은 이동·개명하지 않는다.
+4. **수치·사양은 코드와 함께 갱신.** 예: `technical/SKILL.md`의 폰트 수치는 `briefV2.js` 변경과 같은 커밋에서 갱신한다.
+5. **랜딩·지도·정본의 역할 분리.** 루트 `README.md`=랜딩, `docs/README.md`=지도, 각 주제 문서=정본. 서로를 가리키되 내용을 복제하지 않는다.
+
+> **`business/` vs `deliverables/` 구분:** `business/`는 설계·방법론의 **리빙 레퍼런스**(왜/어떻게 만들었나), `deliverables/`는 보고·인수인계용 **공식 산출물 세트**(SOD·BRD·업무·기술·Q&A, 현행 스냅샷)이다.
 
 ---
 
 ## 한 줄 요약
 
-매일 08:00 KST에 외부 Cloudflare Workers Cron이 GitHub Actions를 트리거하면, 단일 클라우드 Job이 금융감독원(FSS) 신규 제재공시·경영유의사항을 2소스에서 스크래핑(중복방지 원장 seen_ids와 대조)하고 Claude AI가 IBK 벤치마킹 관점으로 분석해, 자가점검 액션이 담긴 DOCX 보고서와 Telegram 알림을 생성하는 완전 클라우드 파이프라인이다. 산출물은 런별 슬롯(am/pm)으로 분리 보존한다. (로컬 PC 불필요)
+매일 08:00 KST에 외부 Cloudflare Workers Cron이 GitHub Actions를 트리거하면, 단일 클라우드 Job이 금융감독원(FSS) 신규 제재공시·경영유의사항을 2소스에서 스크래핑(중복방지 원장 `state/seen_ids.json`과 대조)하고 Claude AI가 IBK 벤치마킹 관점으로 분석해, 자가점검 액션이 담긴 DOCX 보고서와 Telegram 알림을 생성하는 완전 클라우드 파이프라인이다. 산출물은 런별 슬롯(am/pm)으로 분리 보존한다. (로컬 PC 불필요)
 
 > **사후 모니터링:** 타행·인접 금융회사의 실제 제재사례로 IBK 유사 취약점을 자가점검하고, IBK 직접 제재 시 즉시 대응한다. (법령 시행 전 예방 목적의 입법예고 브리핑과 구분)
 
@@ -23,18 +86,18 @@ flowchart LR
     GH -->|"④ 완료 알림"| TG["📱 Telegram"]
 ```
 
-**완전 클라우드 — 단일 실행 환경:**
-
 | 환경 | 역할 | 이유 |
 |---|---|---|
 | Cloudflare Workers Cron | 매일 08:00 KST 트리거 (`workflow_dispatch`, cron `0 23 * * *`) | GitHub schedule cron은 지연·누락이 잦음 |
-| GitHub Actions (클라우드) | 수집·분석·보고서·검증·아카이브·알림 (단일 Job) | 24/7 안정적 실행 ※ FSS는 해외 IP 차단 없음이 검증됨(미국 러너 PASS) → 프록시 불필요 |
+| GitHub Actions (클라우드) | 수집·분석·보고서·검증·아카이브·알림 (단일 Job) | 24/7 안정 실행 · FSS 해외 IP 차단 없음 검증(미국 러너 PASS) → 프록시 불필요 |
+
+단계별 상세·오류 대응은 [operations/workflow.md](operations/workflow.md), 구조는 [technical/ARCHITECTURE.md](technical/ARCHITECTURE.md)를 본다.
 
 ---
 
 ## 에이전트 구성
 
-모든 단계는 GitHub Actions 단일 Job(클라우드)에서 순차 실행된다.
+모든 단계는 GitHub Actions 단일 Job(클라우드)에서 순차 실행된다. 역할·입출력 상세는 [technical/AGENT_ORG_CHART.md](technical/AGENT_ORG_CHART.md).
 
 | 순서 | 파일 | 역할 |
 |---|---|---|
@@ -50,7 +113,7 @@ flowchart LR
 
 ## 중요도 체계 (Tier × 위험도)
 
-제재 마감(D-day) 개념은 없다. 기관 계층 Tier와 위험도로 선별·정렬한다.
+제재 마감(D-day) 개념은 없다. 기관 계층 Tier와 위험도로 선별·정렬한다. 상세: `knowledge/fss_tier_methodology.md`.
 
 | Tier | 대상 | 알림 | 보고서 |
 |---|---|---|---|
@@ -59,7 +122,18 @@ flowchart LR
 | **T2** 인접금융 | 금융지주·저축은행·보험·증권·카드·캐피탈 등 | ✅ | ✅ |
 | **T3** 주변 | 대부업·환전영업소·소액송금·GA 등 | ❌ (헤더에 건수만 표기) | ✅ (하위 수록) |
 
-위험도(상/중/하)는 제재수위·IBK 핵심업무 연관·재발 가능성으로 analyst가 판정한다. 상세: `knowledge/fss_tier_methodology.md`.
+---
+
+## 빠른 시작 (최초 1회 설정)
+
+완전 클라우드 운영이므로 평상시 로컬 작업은 필요 없다.
+
+1. **요구사항** — GitHub CLI(`gh`, 수동 실행용) · Telegram 봇(FSS 전용 신규 봇) · Anthropic API 키 · Cloudflare Workers 계정(`cloud-trigger/`)
+2. **GitHub Secrets (최초 1회)** — `ANTHROPIC_API_KEY` · `TELEGRAM_BOT_TOKEN` · `TELEGRAM_CHAT_ID`
+3. **트리거 배포 (최초 1회)** — `cloud-trigger/`의 Cloudflare Workers Cron(`0 23 * * *`)이 GitHub `workflow_dispatch` 호출. 배포는 `cloud-trigger/README.md` 참고.
+4. **수동 실행** — `gh workflow run "IBK FSS Sanction Brief" --ref main`
+
+절차·오류 대응 전체는 [operations/workflow.md](operations/workflow.md)를 따른다.
 
 ---
 
@@ -75,129 +149,6 @@ flowchart LR
 
 ---
 
-## 빠른 시작
-
-완전 클라우드 운영이므로 평상시 로컬 작업은 필요 없다. 아래는 최초 1회 설정과 수동 실행 방법이다.
-
-### 1. 요구사항
-
-- GitHub CLI (`gh`) 설치 및 로그인 (수동 실행용)
-- Telegram 봇 1개 — **FSS 전용 신규 봇** (FSC 법령 알림 채널과 분리)
-- Anthropic API 키
-- (트리거용) Cloudflare Workers 계정 — `cloud-trigger/` 참고
-
-### 2. GitHub Secrets 등록 (최초 1회)
-
-| Secret | 값 |
-|---|---|
-| `ANTHROPIC_API_KEY` | Anthropic API 키 |
-| `TELEGRAM_BOT_TOKEN` | FSS 전용 봇 토큰 |
-| `TELEGRAM_CHAT_ID` | 사용자 Telegram 채팅 ID |
-
-### 3. 트리거 배포 (최초 1회)
-
-`cloud-trigger/`의 Cloudflare Workers Cron(`0 23 * * *` = 08:00 KST 매일)이 GitHub `workflow_dispatch`를 호출한다. 배포 방법은 `cloud-trigger/README.md`를 참고한다.
-
-### 4. 수동 실행
-
-```powershell
-gh workflow run "IBK FSS Sanction Brief" --ref main
-```
-
-→ 단일 GitHub Actions Job이 수집부터 알림까지 전부 클라우드에서 실행한다. (발화시각으로 am/pm 슬롯 자동 판별 — 08:00 정시 실행은 am 슬롯)
-
----
-
-## 디렉토리 구조
-
-```
-ibk-FSS-brief/
-├── .github/workflows/
-│   ├── daily-brief.yml      ← 메인 클라우드 워크플로우 (수집~알림 단일 Job)
-│   └── diag-fss-access.yml  ← FSS 해외 IP 접근 진단(1회성 검증, PASS)
-├── cloud-trigger/           ← Cloudflare Workers Cron (08:00 KST 트리거)
-├── fss_crawler.js           ← ① 수집기 (FSS 2소스 스크래핑 + seen_ids dedup)
-├── runslot.js               ← am/pm 슬롯·경로 결정 헬퍼
-├── analyst.js               ← ② LLM 분석 (Tier·위험도·부서)
-├── briefV2.js               ← ③ DOCX 생성 + tgMsg 구성
-├── validator.js             ← ④ 검증
-├── archivist.js             ← ⑤ 아카이브
-├── notify_telegram.js       ← Telegram 알림 발송
-├── state/
-│   └── seen_ids.json        ← 중복방지 원장 (유일한 상태 저장소)
-├── knowledge/
-│   ├── fss_tier_methodology.md    ← 기관 Tier × 위험도 선별 방법론
-│   ├── ibk_action_rules.md        ← 부서 배정·자가점검 액션 추론 지침
-│   ├── ibk-dept-mapping.md        ← IBK 부서 매핑
-│   ├── ibk_org_chart.md           ← IBK 조직도
-│   ├── ibk_mapping_rules.md       ← 제재사유-내규 매핑
-│   ├── ibk-keywords.md            ← Tier 판정 키워드
-│   └── tone-guide.md              ← 라이팅 원칙(해요체)
-├── docs/
-│   ├── README.md           ← 이 파일
-│   ├── ARCHITECTURE.md     ← 전체 시스템 아키텍처
-│   ├── AGENT_ORG_CHART.md  ← 에이전트 조직도
-│   ├── workflow.md         ← 일별 워크플로우
-│   ├── METHODOLOGY.md      ← 설계 철학·글쓰기 원칙
-│   ├── LESSONS_LEARNED.md  ← 기술 교훈 체크리스트
-│   ├── EXECUTIVE_BRIEF.md  ← 경영진 보고
-│   └── SKILL.md            ← DOCX 레이아웃 명세
-├── reports/{DATE}/{slot}/         ← slot ∈ {am, pm} · 런별 분리 보존
-│   ├── crawl_result.json          ← 수집+분석 데이터
-│   ├── DATE_{morning|afternoon}_brief.docx  ← 최종 보고서
-│   ├── pdfs/                      ← PDF 원문 (감사용)
-│   └── validation_result.json     ← 검증 결과
-└── logs/
-    └── run_manifest.jsonl         ← 실행 매니페스트(감사 추적)
-```
-
----
-
-## 관련 문서
-
-| 문서 | 내용 |
-|---|---|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | 전체 시스템 구조, 데이터 흐름, 외부 서비스 |
-| [AGENT_ORG_CHART.md](AGENT_ORG_CHART.md) | 에이전트 계층도, 입출력 명세 |
-| [workflow.md](workflow.md) | 단계별 일별 실행 절차, 오류 대응 |
-| [METHODOLOGY.md](METHODOLOGY.md) | 멀티에이전트 설계 이유, 글쓰기 원칙 |
-| [LESSONS_LEARNED.md](LESSONS_LEARNED.md) | 기술 교훈 — 유사 아키텍처 프로젝트 필독 체크리스트 |
-| [EXECUTIVE_BRIEF.md](EXECUTIVE_BRIEF.md) | 경영진·C-Level 보고 요약 |
-| [SKILL.md](SKILL.md) | DOCX 레이아웃 실측값 (수정 금지) |
-| [deliverables/](deliverables/01_SOD.md) | 공식 산출 문서 5종 — [SOD](deliverables/01_SOD.md) · [BRD](deliverables/02_BRD.md) · [업무문서](deliverables/03_BUSINESS_DOC.md)(AI 아키텍처 시각화 포함) · [기술문서](deliverables/04_TECH_DOC.md) · [예상질의답변](deliverables/05_QNA.md) |
-
----
-
-## Telegram 알림 예시
-
-**IBK 관심(T0·T1·T2) 있는 경우:**
-```
-🔔 FSS 제재·경영유의 브리핑 (08:04)
-소관부처: 금융감독원 | 신규 5건 · IBK 관심 2건 🚨 (T3 1건 제외)
-🔴 ○○은행: 자금세탁방지(AML) 내부통제 미비로 기관경고·과태료
-📋 자금세탁방지부의 고객확인(KYC)·의심거래보고 절차 자가점검을 제안해요
-```
-
-**IBK 관심 대상 없는 경우:**
-```
-🔔 FSS 제재·경영유의 브리핑 (08:04)
-소관부처: 금융감독원 | 신규 3건 (전부 T3)
-✅ IBK 벤치마킹 관심 대상 없음 — 기존 점검 체계 유지
-```
-
----
-
-## 향후 계획
-
-| Phase | 내용 | 상태 |
-|---|---|---|
-| Phase 1~4 | FSS 2소스 수집·dedup · Claude 분석(Tier·위험도) · DOCX 보고서 · Telegram 알림 | ✅ 완료 |
-| Phase 5 | MS Teams 알림 채널 추가 | 🔲 검토 중 |
-| Phase 6 | 이메일 DOCX 자동 발송 | 🔲 검토 중 |
-| Phase 7 | 제재 이력 대시보드(기관·유형별 추이) | 🔲 검토 중 |
-
----
-
 _담당: IBK기업은행 내부통제점검팀_
 
-_last updated: 2026-07-02 (FSS 현행 구현 기준 갱신)_
+_last updated: 2026-07-02 (문서 재편 — 대상 독자별 분류 + 정본 지도 신설, deliverables 세트 통합)_

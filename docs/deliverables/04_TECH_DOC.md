@@ -2,7 +2,7 @@
 
 > **프로젝트**: IBK FSS 제재·경영유의 브리핑 (ibk-FSS-brief)
 > **작성일**: 2026-07-02 · **상태**: 라이브 (현행 구현 기준)
-> **관련 문서**: [SOD](01_SOD.md) · [BRD](02_BRD.md) · [업무문서](03_BUSINESS_DOC.md) · [예상질의답변](05_QNA.md) · 상세 다이어그램: [ARCHITECTURE.md](../ARCHITECTURE.md)
+> **관련 문서**: [SOD](01_SOD.md) · [BRD](02_BRD.md) · [업무문서](03_BUSINESS_DOC.md) · [예상질의답변](05_QNA.md) · 상세 다이어그램: [ARCHITECTURE.md](../technical/ARCHITECTURE.md)
 
 ---
 

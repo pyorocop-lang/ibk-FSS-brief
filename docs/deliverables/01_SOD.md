@@ -3,7 +3,7 @@
 > **프로젝트**: IBK FSS 제재·경영유의 브리핑 (ibk-FSS-brief)
 > **주관**: IBK기업은행 내부통제점검팀
 > **작성일**: 2026-07-02 · **상태**: 구현·클라우드 라이브 완료
-> **관련 문서**: [BRD](02_BRD.md) · [업무문서](03_BUSINESS_DOC.md) · [기술문서](04_TECH_DOC.md) · [예상질의답변](05_QNA.md) · [PROJECT_BRIEF](../../PROJECT_BRIEF.md)
+> **관련 문서**: [BRD](02_BRD.md) · [업무문서](03_BUSINESS_DOC.md) · [기술문서](04_TECH_DOC.md) · [예상질의답변](05_QNA.md) · [PROJECT_BRIEF](../business/PROJECT_BRIEF.md)
 
 ---
 

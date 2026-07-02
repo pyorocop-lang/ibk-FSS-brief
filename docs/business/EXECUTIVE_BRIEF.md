@@ -176,7 +176,7 @@
 |---|---|
 | 담당팀 | 내부통제점검팀 |
 | 시스템 저장소 | GitHub (pyorocop-lang/ibk-FSS-brief) |
-| 기술 문서 | `docs/README.md`, `docs/ARCHITECTURE.md`, `docs/workflow.md` |
+| 기술 문서 | `docs/README.md`(정본 지도), `docs/technical/ARCHITECTURE.md`, `docs/operations/workflow.md` |
 
 ---
 

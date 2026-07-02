@@ -1,10 +1,17 @@
 # 변경 이력
 
 ## 2026-07-02
+- docs: 문서 디렉터리 재편 — 대상 독자별 분류 + 주제별 정본 단일화 + 정본 지도 신설
+  - 왜: docs/가 평면 나열이고 같은 주제(워크플로우 등)를 여러 문서가 설명해 제3자가 "어느 게 정본인지" 즉시 못 고름. 실행 로직은 0줄 변경(순수 문서만 git mv + 링크 갱신).
+  - 분류(git mv, 이력 보존): docs/business(PROJECT_BRIEF·EXECUTIVE_BRIEF·METHODOLOGY) / technical(ARCHITECTURE·AGENT_ORG_CHART·SKILL) / operations(workflow) / history(LESSONS_LEARNED). deliverables/(SOD·BRD·업무·기술·Q&A)는 공식 산출물 세트로 유지·통합
+  - 정본 단일화: 워크플로우 요약(루트)+상세(docs) 중복 → docs/operations/workflow.md 단일 정본으로 통합. 루트 workflow.md·PROJECT_BRIEF.md·SKILL.md는 "정본은 여기" 포인터 stub으로 강등
+  - 정본 지도: docs/README.md를 "알고 싶은 것 → 정본 하나" 매핑표 + 폴더 구조 + 정본 유지 원칙으로 재작성. 루트 README·CLAUDE가 이 지도를 진입점으로 가리킴
+  - 링크 정합: 이동으로 깨지는 상대링크 전수 갱신(deliverables의 ../ARCHITECTURE·../../PROJECT_BRIEF 포함), 자동 링크 체커로 clickable broken=0 검증
+  - 불건드림: 코드가 런타임에 읽는 knowledge/(6종)·agents/analyst_system_prompt.md와 모든 .js/.yml/cloud-trigger는 이동·수정 제외(grep으로 사전 식별)
 - docs: 공식 산출 문서 5종 신설 (docs/deliverables/)
   - 왜: 내부 보고·인수인계·질의 대응용 표준 문서 세트(SOD·BRD·업무·기술·Q&A)가 없어 매번 개별 문서(ARCHITECTURE 등)를 발췌해야 했음 — 현행 라이브 구현 기준으로 일괄 정본화
   - 01_SOD.md(방향 정의서: 배경·방향·목표·범위·결정 A~D·로드맵) · 02_BRD.md(업무 요구사항: BR/FR/NFR/데이터/수용기준 AC-1~7) · 03_BUSINESS_DOC.md(업무문서: 운영 절차 + **AI 적용 아키텍처 시각화**(mermaid 2종·AI 적용지점 표)) · 04_TECH_DOC.md(기술문서: 컴포넌트·워크플로우·상태관리·Secrets·제약) · 05_QNA.md(예상질의답변: 비개발자 11문·개발자 15문)
-  - docs/README.md 관련 문서 표에 deliverables/ 링크 추가
+  - docs/README.md 정본 지도에 deliverables/ 세트 편입
 - docs: 저장소 전면 현행화 + 문서간 정합성 확보 (FSC 입법 잔재 제거)
   - 왜: 다수 문서가 자매프로젝트(FSC 입법예고) 골격 이식 시점의 서술로 남아 현행 FSS 제재 구현과 광범위 불일치(fsc_crawler/lawmaking·OPEN API·KR프록시·06:00/16:00·금융위 입법예고 등)
   - 루트: CLAUDE.md(기획단계→라이브)·README.md·workflow.md·SKILL.md·PROJECT_BRIEF.md 현행 재작성

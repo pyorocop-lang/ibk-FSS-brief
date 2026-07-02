@@ -1,15 +1,16 @@
-# 일별 워크플로우
+# 워크플로우 (정본)
 
-> IBK FSS 제재·경영유의 브리핑 파이프라인 — 단계별 실행 절차 (완전 클라우드)
-> 이 문서는 루트 [workflow.md](../workflow.md)(현행 요약)의 **단계별 상세** 편이다. 개념·포맷은 루트를, 실행 절차·타임라인·오류 대응은 이 문서를 본다.
+> IBK FSS 제재·경영유의 브리핑 파이프라인 — 개념 · 단계별 실행 절차 · 오류 대응 (완전 클라우드)
+> **이 문서가 워크플로우의 단일 정본이다.** (루트 `workflow.md`는 이 문서를 가리키는 포인터)
 
-표시 규칙:  
-🤖 = 완전 자동  
-🖐 = 수동 개입 필요  
+표시 규칙:
+🤖 = 완전 자동
+🖐 = 수동 개입 필요
 ⚠️ = 이슈 발생 시 수동 확인
 
-> **아키텍처 요약:** 수집부터 알림까지 전부 GitHub Actions 단일 Job에서 실행된다(로컬 PC 불필요). 수집은 **금융감독원(FSS) 2소스 직접 스크래핑**(제재공시 openInfo HTML+PDF / 경영유의 openInfoImpr PDF) + `state/seen_ids.json` dedup. 산출물은 런별 슬롯(am/pm)으로 분리 보존.
+> **아키텍처 요약:** 매일 08:00 KST 외부 **Cloudflare Workers Cron**(`cloud-trigger/`, cron `0 23 * * *` = 23:00 UTC)이 GitHub `workflow_dispatch`(워크플로우명 `IBK FSS Sanction Brief`)를 호출하면, 수집부터 알림까지 전부 **GitHub Actions 단일 Job**에서 실행된다(로컬 PC 불필요). 수집은 **금융감독원(FSS) 2소스 직접 스크래핑**(제재공시 openInfo HTML+PDF / 경영유의 openInfoImpr PDF) + `state/seen_ids.json` dedup. 산출물은 런별 슬롯(am/pm)으로 분리 보존한다(`runslot.js`).
 > ✅ FSS는 해외 IP 차단이 없어(미국 러너 접근 PASS, `diag-fss-access.yml`) **KR 프록시·OPEN API·FSC fallback 없이 직결 스크래핑**한다. 콜드스타트·일시장애는 재시도로 흡수한다.
+> GitHub 자체 schedule cron은 ~11h 지연·누락이 확인돼 제거했다 — 정시성은 Cloudflare가 책임진다.
 
 ---
 
@@ -40,11 +41,67 @@ sequenceDiagram
         JOB->>JOB: STEP3 briefV2.js (docx + tgMsg)
         JOB->>JOB: STEP4 validator.js (품질 검증)
         JOB->>JOB: STEP5 archivist.js (아카이브)
-        JOB->>GH: STEP6 감사 커밋 (crawl_result·run_meta·manifest)
+        JOB->>GH: STEP6 감사 커밋 (crawl_result·run_meta·manifest·seen_ids)
         JOB->>GH: 보고서 Artifact 업로드 (90일 보관)
         JOB->>TG: 완료 알림 (tgMsg)
     end
 ```
+
+### 전체 파이프라인 (STEP별 산출물)
+
+```
+[Trigger] 매일 08:00 KST  Cloudflare Workers Cron → GitHub workflow_dispatch
+    │  (수동: gh workflow run "IBK FSS Sanction Brief" --ref main)
+    ▼
+[GitHub Actions 단일 Job — .github/workflows/daily-brief.yml]
+    ├─ 시작 알림  notify_telegram.js  ─── "⚙️ {DATE} 브리핑 생성 시작합니다."
+    ├─ STEP1  fss_crawler.js  ── FSS 2소스 수집 + seen_ids dedup (최대 3회 재시도, 120초 간격)
+    │            → reports/{DATE}/{SLOT}/crawl_result.json (신규건만 graded[])
+    │            실패 시 failure_meta.json만 기록(성공본 비파괴) → 3회 실패 시 오류 알림·중단
+    ├─ STEP2  analyst.js  ───── Claude Haiku LLM 분석 (graded[]만, 병렬 CONCURRENCY=3)
+    │            Tier기반 IBK 벤치마킹 · tone-guide 주입 · 부서 배정 · tgMsg 생성
+    │            → crawl_result.json 갱신 · exit 0=정상 / 1=fallback(계속) / 2=치명(중단)
+    ├─ STEP3  briefV2.js  ───── Word 보고서(docx) + tgMsg 기록
+    │            → reports/{DATE}/{SLOT}/{DATE}_{morning|afternoon}_brief.docx
+    ├─ STEP4  validator.js  ─── 품질 검증 (톤·절삭·tgMsg·보고서 구조)
+    │            → validation_result.json · exit 0=통과 / 1=경고 / 2=오류→status=warn
+    ├─ STEP5  archivist.js  ─── 감사 메타 + 로그 정리 (항상 실행)
+    │            → run_meta.json · logs/run_manifest.jsonl(누적)
+    ├─ STEP6  감사 커밋·push  ── crawl_result · run_meta · run_manifest · state/seen_ids.json
+    └─ Artifact 업로드(fss-brief-{DATE}-{SLOT}, 90일) + 완료 알림
+                 node notify_telegram.js --from-crawl-result
+
+[오류 알림] 워크플로우 if: failure() → "❌ 브리핑 오류 발생 ({DATE}/{SLOT})"
+```
+
+> **런 슬롯(runslot.js):** 산출물은 `reports/{DATE}/{SLOT}/`에 런별 분리 보존(덮어쓰기 금지 = 감사 추적). SLOT은 발화시각 KST로 판별(<12=am, ≥12=pm). 08:00 정시 발화는 단일 슬롯(am). 수동 오후 재실행 시 pm으로 자동 분리돼 오전 기록을 덮지 않는다.
+
+---
+
+## Telegram 알림 포맷 (출처: crawl_result.json의 tgMsg)
+
+briefV2.js `buildTgMsg` 생성. **질문형 라벨 + 질문·답변 2계층 레이아웃**(총평단 리뷰 반영). 알림 포함 대상은 Tier T0·T1·T2 전건(T3 주변은 제외, 헤더에 건수만 표기) — [knowledge/fss_tier_methodology.md](../../knowledge/fss_tier_methodology.md).
+
+**신규 IBK 유관 건이 있을 때:**
+```
+🔔 FSS 제재·경영유의 브리핑 (HH:MM)
+금감원 신규 중 IBK 유관 N건 (🔴 즉시점검 M) · 주변 K건 참고
+
+🔶 제재대상: {기관} [{계층}] · {일자} · {제재유형}
+
+• 왜 제재를 받았나요?
+   {제재 사유}
+
+• IBK에서도 발생 가능한가요?
+   {IBK 부서·재발 가능성}
+
+• 이런 부분을 점검하시면 좋아요
+   {점검 제안}
+```
+
+**신규 IBK 유관 없을 때:** `🔔 FSS 제재·경영유의 브리핑` + `금감원 신규 확인 · IBK 유관 없음` + `✅ …`
+
+> 보고서(DOCX) 레이아웃·폰트 위계의 정본은 [../technical/SKILL.md](../technical/SKILL.md)이다(수치 임의 변경 금지).
 
 ---
 
@@ -159,7 +216,7 @@ node archivist.js --date 20260625 --status ok    # 아카이브만
 
 ```
 1. GitHub → Actions → 실패한 실행 → 로그 확인
-2. ANTHROPIC_API_KEY Secret 유효 여부 확인
+2. ANTHROPIC_API_KEY Secret 유효 여부 확인 (크레딧 잔액 부족도 여기서 fallback 유발)
 3. Run workflow(또는 gh workflow run)로 재실행
 4. analyst exitCode=1은 fallback 모드 (정상 계속), exitCode=2만 치명 중단
 ```
@@ -171,6 +228,18 @@ node archivist.js --date 20260625 --status ok    # 아카이브만
 2. workflow_dispatch 권한·Worker secret GH_PAT 만료 여부 확인
 3. 임시로 gh workflow run "IBK FSS Sanction Brief" --ref main 으로 수동 트리거
 ```
+
+---
+
+## 에러 핸들링 매트릭스
+
+| 실패 지점 | 감지 | 대응 |
+|---|---|---|
+| 수집 실패 | failure_meta.json 존재 | 최대 3회 재시도 → 실패 시 중단(성공본 비파괴) → Telegram 오류 알림 |
+| Analyst API 오류 | exitCode=1 | fallback(키워드) 모드로 계속 |
+| Analyst 치명 오류 | exitCode=2 | 파이프라인 중단 → 오류 알림 |
+| 검증 오류 | exitCode=2 | status=warn으로 계속 → archivist 기록 |
+| API 키 미설정/크레딧 부족 | Anthropic 오류 | fallback 모드(exitCode=1) — 크레딧 충전 필요 |
 
 ---
 
@@ -190,4 +259,4 @@ node archivist.js --date 20260625 --status ok    # 아카이브만
 
 ---
 
-_last updated: 2026-07-02 (FSS 현행 구현 기준 갱신)_
+_last updated: 2026-07-02 (문서 재편 — 워크플로우 단일 정본으로 통합)_
