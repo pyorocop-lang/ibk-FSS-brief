@@ -85,7 +85,7 @@ function validateItem(item, idx) {
   const label = `[${idx+1}] ${(item.title || "").slice(0, 20)}`;
   const wc    = item.what_changes || [];
   const oa    = item.our_action   || [];
-  const sum   = item.summary      || "";
+  const sum   = item.summary      || item.bodyText || "";   // FSS는 PDF 본문을 bodyText에 담음
   const grade = item.grade        || "하";
 
   // ── B. 절삭 검사 ──
@@ -114,14 +114,13 @@ function validateItem(item, idx) {
     warn("A1", label, `핵심 선행 위반: 도입부로 시작 — "${wc[0].slice(0,40)}"`);
   }
 
-  // ── A2. 문장 길이 ──
-  // what_changes: 40자 기준 (원칙 2)
-  // our_action: [부서][행동][날짜] 구조 → 55자 기준 (원칙 4+6 병행 적용 시 불가피)
+  // ── A2. 문장 길이 (FSS 완화 — 제재 분석은 실질 내용 우선) ──
+  // what_changes: 120자 / our_action: 200자 (analyst 프롬프트 상한과 일치)
   wc.forEach(sent => {
-    if (sent.length > 40) warn("A2", label, `what_changes 40자 초과 (${sent.length}자): "${sent.slice(0,45)}…"`);
+    if (sent.length > 120) warn("A2", label, `what_changes 120자 초과 (${sent.length}자): "${sent.slice(0,45)}…"`);
   });
   oa.forEach(sent => {
-    if (sent.length > 60) warn("A2", label, `our_action 60자 초과 (${sent.length}자): "${sent.slice(0,55)}…"`);
+    if (sent.length > 200) warn("A2", label, `our_action 200자 초과 (${sent.length}자): "${sent.slice(0,55)}…"`);
   });
 
   // ── A3. 금지 표현 ──
@@ -144,11 +143,7 @@ function validateItem(item, idx) {
 
   // ── A5. 빈말 이미 A3에서 처리 ──
 
-  // ── A6. 숫자·날짜 구체성 ──
-  const ddayVal = item.dday || item.deadline_status || "";
-  if (!ddayVal || ddayVal === "미확인") {
-    warn("A6", label, "D-day 미표기 — 의견 마감일 또는 시행일이 없음");
-  }
+  // ── A6. (FSS 미적용) 제재·경영유의는 의견마감·시행일(D-day) 개념이 없음 — 검사 제외 ──
 
   // ── A7. 동사 종결 ──
   oa.forEach(a => {
@@ -317,11 +312,11 @@ async function validateReportStructure(crawlData) {
 
   const rendered = [];
   // 고정 섹션
-  if (has("아침에 읽는 규제 변화")) rendered.push("🌞헤더");
-  else warn("D1", "REPORT", '🌞 헤더("아침에 읽는 규제 변화") 누락');
+  if (has("제재·경영유의 브리핑")) rendered.push("⚖️헤더");
+  else warn("D1", "REPORT", '⚖️ 헤더("오늘의 제재·경영유의 브리핑") 누락');
 
   const openingOk = graded.length > 0
-    ? (has("예고한 법령은") || has("챙겨야 할 건"))
+    ? (has("공개한 제재·경영유의는") || has("살펴봐야 할 건"))
     : has("없었어요");
   if (openingOk) rendered.push("요약");
   else warn("D2", "REPORT", "요약 오프닝 문구 누락");
@@ -332,8 +327,8 @@ async function validateReportStructure(crawlData) {
     else warn("D3", "REPORT", "🔴 즉시검토 카드 구성요소 누락 (🔴/뭐가 바뀌나요?/할 일)");
   }
   if (hasOthers) {
-    if (has("그 외 오늘 체크할 법령")) rendered.push("🔹그외");
-    else warn("D4", "REPORT", "🔹 '그 외 오늘 체크할 법령' 섹션 누락");
+    if (has("그 외 오늘의 제재·경영유의")) rendered.push("🔹그외");
+    else warn("D4", "REPORT", "🔹 '그 외 오늘의 제재·경영유의' 섹션 누락");
   }
   if (deadlineCond) {
     if (has("이번 주 마감 요약")) rendered.push("📅마감요약");

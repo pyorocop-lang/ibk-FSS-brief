@@ -108,7 +108,7 @@ async function main() {
           const n = (typeof data.totalFetched === "number") ? data.totalFetched : (data.items || []).length;
           const kst = new Date(Date.now() + 9 * 3600 * 1000);
           const hhmm = `${String(kst.getUTCHours()).padStart(2, "0")}:${String(kst.getUTCMinutes()).padStart(2, "0")}`;
-          message = `🔔 내부통제 동향 알림 (${hhmm})\n${n}건 수집 · 오전 대비 변동 없음\n✅ 신규 입법·행정 예고 없음 — 기존 진행건 모니터링 유지`;
+          message = `🔔 내부통제 동향 알림 (${hhmm})\n${n}건 확인 · 신규 없음\n✅ 신규 제재·경영유의 없음 — 기존 점검 유지`;
           console.log("[TELEGRAM] 오후 델타: 오전 이후 신규 없음 — '변동 없음' 마감 알림 전송");
         } else {
           message = `🔔 [오후 추가 ${newGraded.length}건 감지]\n` + (message || "");

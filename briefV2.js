@@ -1,6 +1,6 @@
 "use strict";
 /**
- * briefV2.js — IBK 아침에 읽는 규제 변화 보고서 생성기
+ * briefV2.js — IBK FSS 제재·경영유의 브리핑 보고서 생성기
  * 수정 이력:
  *   v3.0  2026.06.20  전면 재작성 (표 제거, Amazon+Axios 원칙 적용)
  *   v3.1  2026.06.20  our_action fallback 보완 + ensureTone() 추가
@@ -102,7 +102,7 @@ function mapCrawlerItem(it) {
     noticeId:     String(it.noticeId),
     title:        it.title || "",
     grade:        it.grade || "하",
-    ministry:     it.ministry || "금융위원회",
+    ministry:     it.ministry || "금융감독원",
     from:         (it.notice_date  || "미확인").replace(/-/g, "."),
     to:           (it.deadline     || "미확인").replace(/-/g, "."),
     sanctionDate: (it.actionDate || it.postDate || "").replace(/-/g, "."),   // FSS 제재조치일·게시일 (마감 없음)

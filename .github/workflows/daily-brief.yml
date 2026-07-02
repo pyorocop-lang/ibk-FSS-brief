@@ -165,13 +165,9 @@ jobs:
       - name: 완료 알림 (Telegram)
         if: success()
         run: |
-          if [ "$RUN_SLOT" = "pm" ]; then
-            # 오후(pm): 오전(am) 이후 신규 IBK 관련이 있을 때만 알림(델타 게이트).
-            #   없으면 생략 — 보고서·crawl_result 기록은 슬롯폴더에 이미 생성·보존됨.
-            node notify_telegram.js --from-crawl-result --delta-since "reports/${TODAY}/am/crawl_result.json"
-          else
-            node notify_telegram.js --from-crawl-result
-          fi
+          # FSS는 08:00 단일 실행(단일 슬롯) — FSC식 pm 델타 게이트 미사용.
+          #   항상 briefV2가 만든 FSS tgMsg(제재·경영유의 도메인)를 전송.
+          node notify_telegram.js --from-crawl-result
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
