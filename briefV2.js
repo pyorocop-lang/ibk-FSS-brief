@@ -530,12 +530,15 @@ function buildTgMsg(data) {
     const what = (item.what_changes || [])[0] || "";
     const why  = item.ctrl_insight || "";
     const how  = (item.our_action || [])[0] || "";
-    return [
-      `${gradeEmoji(item.grade)} 제재대상: ${orgName(item)} [${item.tierLabel || "기관"}]${meta ? ` · ${meta}` : ""}`,
-      what ? `   • 왜 제재를 받았나요? ${what}` : null,
-      why  ? `   • IBK에서도 발생 가능한가요? ${withFallbackBadge(why, item)}` : null,
-      how  ? `   • 이런 부분을 점검하시면 좋아요: ${how}` : null,
-    ].filter(Boolean).join("\n");
+    // 질문(불릿)과 답변(들여쓰기 다음 줄)을 2계층으로 분리 — 같은 줄 혼재 시 가독성·집중도 저하(총평단 3차 리뷰).
+    const qa = (q, a) => a ? `• ${q}\n   ${a}` : null;
+    const head = `${gradeEmoji(item.grade)} 제재대상: ${orgName(item)} [${item.tierLabel || "기관"}]${meta ? ` · ${meta}` : ""}`;
+    const blocks = [
+      qa("왜 제재를 받았나요?", what),
+      qa("IBK에서도 발생 가능한가요?", why ? withFallbackBadge(why, item) : ""),
+      qa("이런 부분을 점검하시면 좋아요", how),
+    ].filter(Boolean);
+    return [head, "", blocks.join("\n\n")].join("\n");
   };
 
   const parts = [
