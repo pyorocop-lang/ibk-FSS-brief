@@ -164,6 +164,7 @@ ibk-FSS-brief/
 | [LESSONS_LEARNED.md](LESSONS_LEARNED.md) | 기술 교훈 — 유사 아키텍처 프로젝트 필독 체크리스트 |
 | [EXECUTIVE_BRIEF.md](EXECUTIVE_BRIEF.md) | 경영진·C-Level 보고 요약 |
 | [SKILL.md](SKILL.md) | DOCX 레이아웃 실측값 (수정 금지) |
+| [deliverables/](deliverables/01_SOD.md) | 공식 산출 문서 5종 — [SOD](deliverables/01_SOD.md) · [BRD](deliverables/02_BRD.md) · [업무문서](deliverables/03_BUSINESS_DOC.md)(AI 아키텍처 시각화 포함) · [기술문서](deliverables/04_TECH_DOC.md) · [예상질의답변](deliverables/05_QNA.md) |
 
 ---
 

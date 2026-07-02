@@ -1,6 +1,10 @@
 # 변경 이력
 
 ## 2026-07-02
+- docs: 공식 산출 문서 5종 신설 (docs/deliverables/)
+  - 왜: 내부 보고·인수인계·질의 대응용 표준 문서 세트(SOD·BRD·업무·기술·Q&A)가 없어 매번 개별 문서(ARCHITECTURE 등)를 발췌해야 했음 — 현행 라이브 구현 기준으로 일괄 정본화
+  - 01_SOD.md(방향 정의서: 배경·방향·목표·범위·결정 A~D·로드맵) · 02_BRD.md(업무 요구사항: BR/FR/NFR/데이터/수용기준 AC-1~7) · 03_BUSINESS_DOC.md(업무문서: 운영 절차 + **AI 적용 아키텍처 시각화**(mermaid 2종·AI 적용지점 표)) · 04_TECH_DOC.md(기술문서: 컴포넌트·워크플로우·상태관리·Secrets·제약) · 05_QNA.md(예상질의답변: 비개발자 11문·개발자 15문)
+  - docs/README.md 관련 문서 표에 deliverables/ 링크 추가
 - docs: 저장소 전면 현행화 + 문서간 정합성 확보 (FSC 입법 잔재 제거)
   - 왜: 다수 문서가 자매프로젝트(FSC 입법예고) 골격 이식 시점의 서술로 남아 현행 FSS 제재 구현과 광범위 불일치(fsc_crawler/lawmaking·OPEN API·KR프록시·06:00/16:00·금융위 입법예고 등)
   - 루트: CLAUDE.md(기획단계→라이브)·README.md·workflow.md·SKILL.md·PROJECT_BRIEF.md 현행 재작성
