@@ -1,10 +1,10 @@
 {
   "date": "20260702",
-  "timestamp": "2026-07-02 06:38:36",
+  "timestamp": "2026-07-02 06:48:04",
   "status": "ok",
   "duration_sec": 0,
-  "crawl_total": 1,
-  "ibk_count": 1,
+  "crawl_total": 2,
+  "ibk_count": 2,
   "urgent_count": 0,
   "report_ok": true,
   "error_msg": ""
