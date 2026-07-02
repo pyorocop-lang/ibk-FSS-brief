@@ -57,12 +57,12 @@ const blk      = "1A1A1A";
 // 타입 스케일 (4단계 고정 — v3.2)
 // ──────────────────────────────────────────────────────────────
 const TS = {
-  title:    36,   // 문서 제목
-  law:      24,   // 🔴 법령명 헤더
-  opening:  21,   // 오프닝 문장
-  sub:      19,   // 소제목 (뭐가 바뀌나요? 등)
-  body:     19,   // 본문 — Bold로만 소제목과 구분
-  caption:  17,   // 보조 (날짜, 출처, 나머지 항목 설명)
+  title:    36,   // 18pt 문서 제목
+  law:      26,   // 13pt 제재대상 헤더 (본문과 뚜렷이 구분)
+  opening:  22,   // 11pt 오프닝 문장
+  sub:      20,   // 10pt 라벨 (무슨 일 / IBK 발생 가능 / 점검)
+  body:     20,   // 10pt 본문 (가독성 위해 9.5→10pt 상향)
+  caption:  18,   //  9pt 보조 (계층·일자·유형)
 };
 
 // ──────────────────────────────────────────────────────────────
@@ -299,84 +299,52 @@ function buildOpening(data) {
   ];
 }
 
-function buildUrgentItems(items) {
-  const urgentItems = (items || []).filter(it => it.grade === "상").slice(0, 2);
-  if (urgentItems.length === 0) return [];
-
+// 항목 카드 — 전 건 동일 구조: [제재대상(기관·계층·일자)] → 무슨 일 → IBK에도 발생 가능? → 점검.
+//   ★ 제재받은 곳(제재대상)과 IBK 점검 부서(IBK 발생 가능·점검)를 명확히 분리한다.
+//   ★ "IBK에도 발생 가능한가요?"(ctrl_insight)로 재발 가능성을 명시. tier→위험도 정렬은 buildDocument에서.
+function buildItems(items) {
+  const list = items || [];
+  if (list.length === 0) return [];
   const sections = [];
 
-  urgentItems.forEach(item => {
-    const name         = shortTitle(item.title);
-    const dept         = item.ibkDept || "내부통제총괄부";
-    const relDepts     = item.related_depts || [];
-    const changes      = (item.what_changes || []).slice(0, 2);
-    const actions      = (item.our_action   || []).slice(0, 3);
-    const action       = actions[0] || "";
-    const insight      = item.ctrl_insight || "";
-
-    const ddayText = item.dday && item.dday !== "미확인" ? `  ·  ${item.dday}` : "";
-
-    const actionHint = action
-      ? action.replace(/^.*?담당자라면\s*/, "").replace(/꼭\s*확인해\s*보세요.*$/, "확인해야 해요")
-      : insight
-        ? (() => {
-            const core = insight.replace(/^.*?의\s*/, "").replace(/가\s*직접\s*영향을\s*받아요\.?$/, "").trim();
-            return core ? `${core} 영향 여부를 확인해야 해요` : "관련 내규를 확인해야 해요";
-          })()
-        : "관련 내규를 확인해야 해요";
-
-    // ── 법령 헤더 블록 ──
-    sections.push(
-      divider("item"),
-      SP_SMALL(),
-      // 법령명 — TS.law (24pt)
-      new Paragraph({
-        spacing: { before: 0, after: 12 },
-        children: [
-          new TextRun({ text: `🔴 ${name}`, ...rf(TS.law, red, true) }),
-          new TextRun({ text: ddayText, ...rf(TS.caption, gray1) }),
-        ],
-      }),
-      // 오프닝 액션 — TS.body (19pt)
-      bodyPara([
-        new TextRun({ text: `${dept}라면 오늘 `, ...rf(TS.body, blk) }),
-        new TextRun({ text: actionHint, ...rf(TS.body, blk, true) }),
-      ], GAP.body_after * 2),
-    );
-
-    // 협조부서 라인
-    if (relDepts.length > 0) {
-      sections.push(
-        bodyPara([
-          new TextRun({ text: "협조부서: ", ...rf(TS.caption, gray1, true) }),
-          new TextRun({ text: relDepts.join(" · "), ...rf(TS.caption, gray1) }),
-        ]),
-      );
-    }
-
-    // 뭐가 바뀌나요?
-    if (changes.length > 0) {
-      sections.push(subHeading("뭐가 바뀌나요?"));
-      changes.forEach(c => sections.push(bulletPara(ensureTone(c, "what_changes"))));
-    }
-
-    // 왜 중요한가요?
-    if (insight) {
-      sections.push(
-        subHeading("왜 중요한가요?"),
-        bodyPara([new TextRun({ text: withFallbackBadge(ensureTone(insight, "ctrl_insight"), item), ...rf(TS.body, blk) })]),
-      );
-    }
-
-    // 할 일
-    if (actions.length > 0) {
-      sections.push(subHeading("할 일"));
-      actions.forEach(a => sections.push(bulletPara(ensureTone(a, "our_action"), ibkBlue, true)));
-    }
-
-    sections.push(SP_LARGE());
+  const label = (t) => new Paragraph({
+    spacing: { before: GAP.sub_before, after: 0 },
+    children: [new TextRun({ text: t, ...rf(TS.sub, ibkBlue, true) })],
+  });
+  const bodyLine = (text, color = blk) => new Paragraph({
+    indent: { left: 160 },
+    spacing: { before: 0, after: GAP.body_after },
+    children: [new TextRun({ text, ...rf(TS.body, color) })],
   });
 
+  list.forEach(item => {
+    const org   = shortTitle(item.title) || item.tg_key || "제재대상";
+    const meta  = [item.tierLabel, item.sanctionDate, item.sanction_type].filter(Boolean).join("  ·  ");
+    const what  = (item.what_changes || [])[0] || "";
+    const why   = item.ctrl_insight || "";
+    const how   = (item.our_action || [])[0] || "";
+    const isUrg = item.grade === "상";
+
+    sections.push(divider("item"), SP_SMALL());
+    // 제재대상 헤더 (기관명 굵게 — 상=빨강, 그 외=IBK블루)
+    sections.push(new Paragraph({
+      spacing: { before: 0, after: meta ? 4 : 10 },
+      children: [
+        new TextRun({ text: `${gradeEmoji(item.grade)} 제재대상  `, ...rf(TS.law, blk, true) }),
+        new TextRun({ text: org, ...rf(TS.law, isUrg ? red : ibkBlue, true) }),
+      ],
+    }));
+    if (meta) sections.push(new Paragraph({
+      spacing: { before: 0, after: 12 },
+      children: [new TextRun({ text: meta, ...rf(TS.caption, gray1) })],
+    }));
+
+    if (what) { sections.push(label("무슨 일이 있었나요?"));       sections.push(bodyLine(ensureTone(what, "what_changes"))); }
+    if (why)  { sections.push(label("IBK에도 발생 가능한가요?")); sections.push(bodyLine(withFallbackBadge(ensureTone(why, "ctrl_insight"), item))); }
+    if (how)  { sections.push(label("무엇을 점검할까요?"));         sections.push(bodyLine(ensureTone(how, "our_action"), ibkBlue)); }
+
+    sections.push(SP_MEDIUM());
+  });
   return sections;
 }
 
@@ -605,8 +573,7 @@ function buildDocument(data) {
   const children = [
     ...safeSection("header",   () => buildHeader(data)),
     ...safeSection("opening",  () => buildOpening(data)),
-    ...safeSection("urgent",   () => buildUrgentItems(data.graded)),
-    ...safeSection("other",    () => buildOtherItems(data.graded)),
+    ...safeSection("items",    () => buildItems(data.graded)),
     ...safeSection("deadline", () => buildDeadlineSummary(data)),
     ...safeSection("term",     () => buildTerm(data)),
     ...safeSection("closing",  () => buildClosing(data)),

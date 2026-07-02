@@ -328,14 +328,12 @@ async function validateReportStructure(crawlData) {
   if (openingOk) rendered.push("요약");
   else warn("D2", "REPORT", "요약 오프닝 문구 누락");
 
-  // 조건부 섹션
-  if (urgentCount > 0) {
-    if (has("🔴") && has("뭐가 바뀌나요?") && has("할 일")) rendered.push("🔴즉시검토");
-    else warn("D3", "REPORT", "🔴 즉시검토 카드 구성요소 누락 (🔴/뭐가 바뀌나요?/할 일)");
-  }
-  if (hasOthers) {
-    if (has("그 외 오늘의 제재·경영유의")) rendered.push("🔹그외");
-    else warn("D4", "REPORT", "🔹 '그 외 오늘의 제재·경영유의' 섹션 누락");
+  // 항목 카드 (제재대상 → 무슨 일 → IBK에도 발생 가능? → 점검)
+  if (graded.length > 0) {
+    if (has("제재대상") && has("무슨 일이 있었나요?") && has("무엇을 점검할까요?")) rendered.push("항목카드");
+    else warn("D3", "REPORT", "항목 카드 구성요소 누락 (제재대상/무슨 일이 있었나요?/무엇을 점검할까요?)");
+    if (has("IBK에도 발생 가능한가요?")) rendered.push("IBK발생가능성");
+    else warn("D4", "REPORT", "'IBK에도 발생 가능한가요?'(재발 가능성) 항목 누락");
   }
   if (deadlineCond) {
     if (has("이번 주 마감 요약")) rendered.push("📅마감요약");
