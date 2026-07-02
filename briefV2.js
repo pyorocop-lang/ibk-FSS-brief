@@ -120,6 +120,7 @@ function mapCrawlerItem(it) {
     tg_key:       it.tg_key || "",
     term:         it.term || null,
     source:       it.source || "",              // 제재공시 / 경영유의
+    sanction_type: it.sanction_type || "",       // 제재유형 (과태료/기관경고/경영유의 등)
     tier:         it.tier || "T3",              // 기관 계층 (T0 IBK / T1 은행 / T2 인접금융 / T3 주변)
     tierLabel:    it.tierLabel || "",
   };
@@ -533,13 +534,11 @@ function buildTgMsg(data) {
   const time = `${String(now.getUTCHours()).padStart(2,"0")}:${String(now.getUTCMinutes()).padStart(2,"0")}`;
   const fetched = data.totalFetched || data.totalNew || 0;
 
-  // Scenario noUpdate — 전일 대비 변동 없음
+  const HEADER = `🔔 FSS 제재·경영유의 브리핑 (${time})`;
+
+  // Scenario noUpdate — 신규 없음
   if (data.noUpdate) {
-    return [
-      `🔔 내부통제 동향 알림 (${time})`,
-      `${fetched}건 확인 · 신규 없음`,
-      `✅ 신규 제재·경영유의 없음 — 기존 점검 유지`,
-    ].join("\n");
+    return [HEADER, `금감원 신규 확인 · 변동 없음`, `✅ 신규 제재·경영유의 없음 — 기존 점검 유지`].join("\n");
   }
 
   const graded = data.graded || [];
@@ -549,51 +548,36 @@ function buildTgMsg(data) {
 
   // 알림 대상(T0~T2) 없음 — 신규가 없거나 전부 주변기관(T3)
   if (alertItems.length === 0) {
-    const tail = excludedT3 > 0 ? `주변기관 ${excludedT3}건은 참고용(보고서 수록)` : "추가 조치 불필요";
-    return [
-      `🔔 내부통제 동향 알림 (${time})`,
-      `${fetched}건 확인 · IBK 유관 신규 없음`,
-      `✅ ${tail}`,
-    ].join("\n");
+    const tail = excludedT3 > 0 ? `주변기관(환전·대부·대리점 등) ${excludedT3}건은 참고용 — 보고서에만 수록` : "추가 조치 불필요";
+    return [HEADER, `금감원 신규 확인 · IBK 유관 없음`, `✅ ${tail}`].join("\n");
   }
 
-  const urgentItems = alertItems.filter(it => it.grade === "상");
-  const reviewItems = alertItems.filter(it => it.grade !== "상");
+  const urgentCount = alertItems.filter(it => it.grade === "상").length;
+  const orgName = (item) => shortTitle(item.title) || item.tg_key || "제재대상";
 
-  const lawName = (item) => item.tg_key || shortTitle(item.title);
-  const whenStr = (item) => item.sanctionDate ? `조치·게시일 ${item.sanctionDate}` : "일자 미확인";
-  const whoStr  = (item) => {
-    const parts = [item.ibkDept].filter(Boolean);
-    if (item.related_depts && item.related_depts.length > 0)
-      parts.push(...item.related_depts.slice(0, 2).map(d => `${d}(협조)`));
-    return parts.join(" · ") || "담당부서 미확인";
-  };
-  const tag = (item) => item.tierLabel || "";   // 은행/인접금융/IBK직접
-
-  // 🔴 상 등급 상세 블록 (WHAT/WHEN/WHO/HOW/WHY)
-  const urgentBlock = (item, idx) => {
+  // 항목 블록 — [제재대상(기관·계층)] → 무슨 일 → IBK 연관(부서·재발위험) → 점검.
+  //   ※ 제재받은 곳(제재대상)과 점검할 IBK 부서(IBK 연관/점검)를 명확히 분리해 혼동을 없앤다.
+  const itemBlock = (item) => {
+    const meta = [item.sanctionDate, item.sanction_type].filter(Boolean).join(" · ");
     const what = (item.what_changes || [])[0] || "";
-    const how  = (item.our_action  || [])[0] || "";
     const why  = item.ctrl_insight || "";
+    const how  = (item.our_action || [])[0] || "";
     return [
-      `━━ 🔴 즉시점검 ${idx} ━━`,
-      `${lawName(item)} · ${tag(item)} [${item.ibkDept || "담당부서"}]`,
-      what ? `WHAT  ${what}` : null,
-      `WHEN  ${whenStr(item)}`,
-      `WHO   ${whoStr(item)}`,
-      how  ? `HOW   ${how}` : null,
-      why  ? `WHY   ${withFallbackBadge(why, item)}` : null,
+      `${gradeEmoji(item.grade)} 제재대상: ${orgName(item)} [${item.tierLabel || "기관"}]${meta ? ` · ${meta}` : ""}`,
+      what ? `   • 무슨 일: ${what}` : null,
+      why  ? `   • IBK 연관: ${withFallbackBadge(why, item)}` : null,
+      how  ? `   • 점검: ${how}` : null,
     ].filter(Boolean).join("\n");
   };
-  // 🔶🔹 한 줄 요약
-  const reviewLine = (item) =>
-    `${gradeEmoji(item.grade)} [${tag(item)}·${item.ibkDept || ""}] ${lawName(item)}: ${(item.what_changes || [])[0] || shortTitle(item.title)}`;
 
-  const headCount = `${fetched}건 수집 · 즉시점검 ${urgentItems.length}건🔴 · 검토 ${reviewItems.length}건`
-    + (excludedT3 > 0 ? ` · 주변 ${excludedT3}건 제외` : "");
-  const parts = [`🔔 내부통제 동향 알림 (${time})`, headCount, ""];
-  urgentItems.forEach((it, i) => { parts.push(urgentBlock(it, `${i + 1}/${urgentItems.length}`)); parts.push(""); });
-  reviewItems.forEach(it => parts.push(reviewLine(it)));
+  const parts = [
+    HEADER,
+    `금감원 신규 중 IBK 유관 ${alertItems.length}건`
+      + (urgentCount ? ` (🔴 즉시점검 ${urgentCount})` : "")
+      + (excludedT3 > 0 ? ` · 주변 ${excludedT3}건 참고` : ""),
+    "",
+  ];
+  alertItems.forEach((it, i) => { parts.push(itemBlock(it)); if (i < alertItems.length - 1) parts.push(""); });
   return parts.join("\n").trim();
 }
 
