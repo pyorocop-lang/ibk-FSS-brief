@@ -1,6 +1,13 @@
 # 변경 이력
 
 ## 2026-07-02
+- docs: 저장소 전면 현행화 + 문서간 정합성 확보 (FSC 입법 잔재 제거)
+  - 왜: 다수 문서가 자매프로젝트(FSC 입법예고) 골격 이식 시점의 서술로 남아 현행 FSS 제재 구현과 광범위 불일치(fsc_crawler/lawmaking·OPEN API·KR프록시·06:00/16:00·금융위 입법예고 등)
+  - 루트: CLAUDE.md(기획단계→라이브)·README.md·workflow.md·SKILL.md·PROJECT_BRIEF.md 현행 재작성
+  - docs/ 8종(ARCHITECTURE·AGENT_ORG_CHART·EXECUTIVE_BRIEF·README·METHODOLOGY·SKILL·workflow·LESSONS_LEARNED) FSS 도메인·08:00 단일·2소스·Tier·질문형 2계층으로 갱신, LESSONS는 FSC 귀속 라벨 부착
+  - knowledge: tone-guide 예시 FSS 제재 벤치마킹으로 교체(D-day 제거), ibk-dept-mapping을 정본 ibk_mapping_rules와 정합화(개인·신용정보→정보보호총괄부, 전자금융 소관→개인디지털사업부), mapping_rules 프레이밍 정리, 死문서 3종(매핑_방법론·발표스크립트·ibk-keywords)에 "참고용·비참조(FSC)" 배너
+  - cron 통일: wrangler.toml·cloud-trigger/README를 실제 대시보드값 `0 23 * * *`(매일)로 정정
+  - 코드 정합: validator C시리즈 FSC 정규식(내부통제 동향 알림/WHAT·WHEN·WHO)→실제 FSS tgMsg(제재대상 카드·질문형 라벨)로 교체(오경고 해소), archivist 헤더 주석(run_pipeline.vbs→daily-brief.yml STEP5)
 - feat: Telegram 질문/답변 2계층 레이아웃(총평단 3차 리뷰) — 질문은 불릿 라인, 답변은 다음 줄 들여쓰기·그룹 간 빈 줄로 분리(같은 줄 혼재 시 가독성·집중도 저하 해소)
 - feat: Telegram 항목 라벨 질문형 전환(총평단 2차 리뷰) — "무슨 일→왜 제재를 받았나요?", "IBK 연관→IBK에서도 발생 가능한가요?", "점검→이런 부분을 점검하시면 좋아요"
 - fix: analyst MAX_TOKENS 1024→2048 (한국어 11필드 분석 truncation→JSON 미완결→폴백 방지; 우리은행 실측 사례)

@@ -10,7 +10,7 @@
  *  5. Word 임시 파일(~$) 자동 삭제
  *
  * 실행: node archivist.js [--date YYYYMMDD] [--status ok|error] [--duration 초]
- *        파이프라인 완료 직후 run_pipeline.vbs에서 호출
+ *        GitHub Actions 워크플로우(daily-brief.yml) STEP5에서 호출
  */
 
 const fs   = require("fs");

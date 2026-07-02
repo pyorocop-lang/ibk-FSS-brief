@@ -1,7 +1,8 @@
-# IBK FSS 제재 브리핑 — 프로젝트 기획안 (v0.1, 기획 단계)
+# IBK FSS 제재 브리핑 — 프로젝트 기획안 → 구현 완료
 
-> 작성일 2026-06-26 · 상태: **기획 확정 전** · 코드 미구현
-> 자매 프로젝트: [Daily-Morning-brief](https://github.com/pyorocop-lang/Daily-Morning-brief) (FSC 입법예고 브리핑) — 아키텍처 원본
+> 작성일 2026-06-26 · **상태: 구현·클라우드 라이브 완료 (2026-07-02)** · 이 문서는 설계 배경/이력 + 현행 반영
+> 자매 프로젝트: [Daily-Morning-brief](https://github.com/pyorocop-lang/Daily-Morning-brief) (FSC 입법예고 브리핑) — 아키텍처 원본(읽기 전용)
+> 운영 개요는 [workflow.md](workflow.md), 개발 지침은 [CLAUDE.md](CLAUDE.md), 상세 아키텍처는 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ---
 
@@ -38,19 +39,19 @@
 ## 4. 아키텍처 (FSC 미러 — 완전 클라우드)
 
 ```
-Cloudflare Workers Cron (평일 08:00 KST*)
-  → GitHub workflow_dispatch
+Cloudflare Workers Cron (매일 08:00 KST, cron "0 23 * * *")
+  → GitHub workflow_dispatch (워크플로우명 "IBK FSS Sanction Brief")
   → 단일 GitHub Actions Job (ubuntu-latest):
-      STEP0  시작 알림            notify_telegram.js
-      STEP1  크롤(2소스)+신규추출  fss_crawler.js      → reports/{DATE}/fss_result.json
-      STEP2  분석(Claude)         analyst.js          (제재유형 분류·IBK연관·부서·재발방지액션·tgMsg)
-      STEP3  보고서(docx)         briefV2.js
+      시작 알림                  notify_telegram.js
+      STEP1  크롤(2소스)+dedup    fss_crawler.js      → reports/{DATE}/{SLOT}/crawl_result.json (신규건만 graded[])
+      STEP2  분석(Claude Haiku)   analyst.js          (Tier기반 IBK 벤치마킹·부서·점검제안·tgMsg, tone-guide 주입)
+      STEP3  보고서(docx)         briefV2.js          → {DATE}_{morning|afternoon}_brief.docx
       STEP4  검증                 validator.js
-      STEP5  아카이브+ledger갱신   archivist.js        → state/seen_ids.json
-      STEP6  감사 커밋·push        fss_result·run_meta·manifest·seen_ids
-      STEP7  Artifact 업로드 + 완료 알림
+      STEP5  아카이브             archivist.js        → run_meta.json
+      STEP6  감사 커밋·push        crawl_result·run_meta·manifest·state/seen_ids.json
+      Artifact 업로드(fss-brief-{DATE}-{SLOT}) + 완료 알림
 ```
-\* 08:00 권장 이유: 기존 FSC 브리핑(07:30)과 알림·실행 충돌 회피. → §7 결정항목 (B)
+\* 08:00 실행: 기존 FSC 브리핑과 시각 분리(결정 B). SLOT은 발화시각 KST로 판별(runslot.js) — 08:00은 am 단일. 수집 실패 시 failure_meta.json만 쓰고 성공본 비파괴.
 
 **신규 제재 0건일 때:** "오늘 신규 제재 없음" 1줄 조용한 알림(또는 무알림). 오인 보고 금지.
 
@@ -66,29 +67,31 @@ FSS 목록은 과거 건이 누적 노출되므로 날짜만으로 신규를 못
 
 ---
 
-## 6. 중요도 판정 (FSS 버전 초안)
+## 6. 중요도 판정 (구현 = 기관 계층 Tier × 위험도)
 
-| 신호 | 가중 |
-|---|---|
-| 제재대상이 은행/유사 업권(시중·국책·중소금융) | + |
-| 사유가 IBK 핵심업무: 여신·자금세탁(AML)·내부통제·불완전판매·전자금융·정보보호 | + |
-| 제재 강도: 과징금 규모 / 기관경고 / 영업정지 | + |
-| **IBK 직접 제재·언급** | 최상 🔴 |
+정본: [knowledge/fss_tier_methodology.md](knowledge/fss_tier_methodology.md). 은행 제재와 환전영업소 제재를 같은 무게로 취급하지 않는다 — **기관 계층을 먼저 나누고, 그 안에서 위험도를 잰다.**
 
-→ 상(🔴) 즉시검토 / 중(🔶) 관심 / 하(🔹) 참고 — FSC와 동일한 3단계 표기 유지.
+| 계층 | 대상 | 처리 |
+|---|---|---|
+| **T0** IBK직접 | 기업은행·IBK | 최상 — 무조건 |
+| **T1** 은행 | 시중·국책·지방·인터넷전문 등 | 직접 벤치마킹 |
+| **T2** 인접금융 | 금융지주·저축은행·보험·증권·카드·캐피탈 등 | 유사 업무 가능 |
+| **T3** 주변 | 대부·환전영업소·GA·P2P 등 | 참고 |
+
+- 위험도(analyst): 제재수위·IBK 핵심업무 연관·재발 가능성 → 상(🔴)/중(🔶)/하(🔹).
+- **Telegram 알림 = T0·T1·T2 전건(T3 제외, 헤더에 건수 표기) / DOCX 보고서 = 전건**, 정렬 Tier→위험도.
+- ※ 제재는 시행일·의견마감(D-day) 개념 없음.
 
 ---
 
-## 7. 확정 필요 결정사항 (새 창에서 합의 후 진행)
+## 7. 결정사항 (전부 확정·종결)
 
-| # | 항목 | 권장안 | 비고 |
+| # | 항목 | 결정 | 결과 |
 |---|---|---|---|
-| **A** | Telegram 봇 | **신규 봇 분리** | 제재 알림이 FSC 법령 알림과 섞이지 않음. 간편 우선 시 기존 brief_bot 재사용도 가능 |
-| **B** | 실행 시각 | **평일 08:00 KST** | 07:30 FSC와 충돌 회피 |
-| **C** | FSS 해외 IP 차단 여부 | **최초 1회 클라우드 진단 필수** | FSC 때 교훈 — 미국 러너에서 크롤 가능한지 먼저 검증. 차단 시 OpenAPI/프록시 검토 |
-| **D** | OpenAPI 우선 검토 | data.go.kr 금감원 제재 API 존재 시 **크롤보다 우선** | HTML 크롤보다 안정적 |
-
-> A·B는 §10 Secrets·Cron에 반영. C·D는 **1단계 착수 작업**(아래 §9).
+| **A** | Telegram 봇 | **신규 봇 분리** | FSS 전용 봇 생성, Secrets 등록 완료 |
+| **B** | 실행 시각 | **08:00 KST** | Cloudflare cron `0 23 * * *`(매일). 드롭다운이 평일범위(0-4)를 못 받아 매일로 설정 — 주말 0건은 조용한 알림이라 무해 |
+| **C** | FSS 해외 IP 차단 | **차단 없음(PASS)** | 미국 러너 4종 접근 검증(diag-fss-access.yml) → 프록시 미도입, 직결 수집 |
+| **D** | OpenAPI 우선 검토 | **API 없음** | FSS OPEN API에 제재/경영유의 엔드포인트 없음 → HTML/PDF 크롤 채택 |
 
 ---
 
@@ -107,21 +110,22 @@ FSS 목록은 과거 건이 누적 노출되므로 날짜만으로 신규를 못
 
 ---
 
-## 9. 단계별 실행 로드맵
+## 9. 단계별 실행 로드맵 (전 단계 완료)
 
-- **1단계 — 타당성 검증 (착수 즉시)**: FSS OpenAPI 존재 확인(D) → 없으면 FSS 해외 IP 차단 1회 진단(C). 크롤 경로 확정.
-- **2단계 — 골격 이식**: FSC에서 재사용 자산 복사, 워크플로우/cloud-trigger repo 타겟 변경.
-- **3단계 — 신규 모듈**: `fss_crawler.js`(2소스+dedup), `analyst.js` 제재분석 프롬프트, `seen_ids.json` ledger.
-- **4단계 — 통합·검증**: workflow_dispatch 수동 실행 → 신규/0건/IBK직접제재 3케이스 확인.
-- **5단계 — 정시화**: Cloudflare Cron 08:00 KST, Secrets 등록, 운영 전환.
+- ✅ **1단계 — 타당성 검증**: FSS OpenAPI 없음 확인(D) → 해외 IP 차단 없음 진단(C). 크롤 경로 확정(openInfo HTML / openInfoImpr PDF).
+- ✅ **2단계 — 골격 이식**: FSC 재사용 자산 복사(runslot 포함), 워크플로우/cloud-trigger repo 타겟 변경.
+- ✅ **3단계 — 신규 모듈**: `fss_crawler.js`(2소스+dedup+Tier), `analyst.js`(제재 벤치마킹, tone-guide 주입), `seen_ids.json` ledger.
+- ✅ **4단계 — 통합·검증**: workflow_dispatch 실행으로 신규/0건 케이스·실제 Telegram·DOCX 확인.
+- ✅ **5단계 — 정시화**: Cloudflare Cron 08:00 KST, Secrets 3종 등록, 라이브 운영 전환.
 
 ---
 
-## 10. 운영 설정 (예정)
+## 10. 운영 설정 (현행)
 
-- **GitHub Secrets**: `ANTHROPIC_API_KEY` · `TELEGRAM_BOT_TOKEN` · `TELEGRAM_CHAT_ID` (봇 결정 A 후 확정)
-- **Cloudflare Cron**: `0 23 * * 0-4` (= 08:00 KST, 결정 B 후 확정)
-- **산출물**: `reports/{DATE}/{DATE}_fss_brief.docx`(90일) · `fss_result.json`(30일) · `state/seen_ids.json`(영구) · `logs/`
+- **GitHub Secrets (3)**: `ANTHROPIC_API_KEY` · `TELEGRAM_BOT_TOKEN` · `TELEGRAM_CHAT_ID`
+- **Cloudflare Worker secret**: `GH_PAT` (workflow_dispatch 호출용)
+- **Cloudflare Cron**: `0 23 * * *` (= 08:00 KST 매일)
+- **산출물**: `reports/{DATE}/{SLOT}/{DATE}_{morning|afternoon}_brief.docx`(90일) · `crawl_result.json`·`run_meta.json`·`validation_result.json`(30일) · `state/seen_ids.json`(영구) · `logs/run_manifest.jsonl`(누적)
 
 ---
 
@@ -129,7 +133,7 @@ FSS 목록은 과거 건이 누적 노출되므로 날짜만으로 신규를 못
 
 | 리스크 | 대응 |
 |---|---|
-| FSS 해외 IP 차단 가능성(미검증) | 1단계 진단 필수. 차단 시 OpenAPI 우선, 그래도 안 되면 트리거 방식 재설계 |
-| 제재 본문이 PDF·첨부 위주 | PDF 파싱(FSC의 pdf-parse 재사용) |
+| FSS 해외 IP 차단 가능성 | ✅ 해소 — 차단 없음 검증(미국 러너 PASS), 직결 수집 |
+| 제재 본문이 PDF·첨부 위주 | ✅ 대응 — pdf-parse로 openInfo 상세·openInfoImpr 첨부 파싱 |
 | 부정기 발행 → dedup 오류 시 중복/누락 알림 | ledger 키 설계 신중(상세 URL 우선), 감사 커밋으로 추적 |
 | 제재사례 오분석(법적 민감) | 분석은 "점검 제안"형으로만, 단정 금지 (tone-guide 준수) |

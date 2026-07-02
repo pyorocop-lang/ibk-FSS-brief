@@ -213,70 +213,47 @@ function validateTgMsg(logContent, crawlData) {
   const lines = block.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const fullText = lines.join("\n");
 
-  // ── C1. 전체 글자 수 (WHAT/WHEN/WHO/HOW/WHY 포맷은 200자 초과 허용) ──
+  // ── C1. 전체 글자 수 (질문·답변 2계층 카드라 길이 제한 없음 — info) ──
   const charCount = fullText.replace(/\s/g, "").length;
   info("C1", "TG_MSG", `글자 수: ${charCount}자`);
 
-  // ── C2. 줄 수 (즉시검토 블록 포맷은 5줄 초과 허용) ──
+  // ── C2. 줄 수 (카드당 여러 줄이라 info) ──
   info("C2", "TG_MSG", `줄 수: ${lines.length}줄`);
 
-  const isNoImpact = /IBK\s*영향\s*없음/.test(fullText) || /추가\s*조치\s*불필요/.test(fullText);
-  const isUrgent   = /즉시검토\s*\d+건/.test(fullText);
+  // FSS tgMsg 형식(briefV2 buildTgMsg): 신규 IBK 유관 없음 vs 제재대상 카드
+  const isNoAlert = /IBK\s*유관\s*없음/.test(fullText);
 
-  if (isNoImpact) {
-    // ── C4. 영향 없음 형식 (Scenario AB) ──
-    if (!lines[0].includes("내부통제 동향 알림")) {
-      warn("C4", "TG_MSG", `줄1 형식 오류: "🔔 내부통제 동향 알림 (HH:MM)" 필요`);
+  // 공통: 줄1 헤더에 'FSS 제재·경영유의 브리핑'
+  if (!/FSS 제재·경영유의 브리핑/.test(lines[0] || "")) {
+    warn("C4", "TG_MSG", `줄1 헤더 형식 오류: "🔔 FSS 제재·경영유의 브리핑 (HH:MM)" 필요`);
+  }
+
+  if (isNoAlert) {
+    // ── 신규 IBK 유관 없음 ──
+    if (!lines.some(l => /금감원\s*신규/.test(l))) {
+      warn("C4", "TG_MSG", "신규 확인 문구('금감원 신규 …') 누락");
     }
-    if (!lines.some(l => /\d+건\s*수집/.test(l))) {
-      warn("C4", "TG_MSG", "줄2에 수집건수(N건 수집) 표기 누락");
-    }
-  } else if (isUrgent) {
-    // ── C3. 즉시검토 있음 (Scenario D/E) — WHAT/WHEN/WHO/HOW/WHY 블록 ──
-    const checks = [
-      { re: /내부통제 동향 알림/,   desc: "헤더: '내부통제 동향 알림 (HH:MM)'" },
-      { re: /\d+건\s*수집/,        desc: "수집건수 'N건 수집'" },
-      { re: /즉시검토\s*\d+건🔴/,  desc: "'즉시검토 N건🔴'" },
-      { re: /━━.*즉시검토/,        desc: "즉시검토 블록 구분선" },
-      { re: /^WHAT\s+/m,           desc: "WHAT 줄" },
-      { re: /^WHEN\s+/m,           desc: "WHEN 줄" },
-      { re: /^WHO\s+/m,            desc: "WHO 줄" },
-      { re: /^HOW\s+/m,            desc: "HOW 줄" },
-    ];
-    checks.forEach(({ re, desc }) => {
-      if (!re.test(fullText)) {
-        warn("C3", "TG_MSG", `필수 요소 누락: ${desc}`);
-      }
-    });
   } else {
-    // ── C3. 검토 항목만 있음 (Scenario C) ──
+    // ── 신규 IBK 유관 건 있음 — 제재대상 카드 + 질문형 2계층 라벨 ──
     const checks = [
-      { re: /내부통제 동향 알림/,  desc: "헤더: '내부통제 동향 알림 (HH:MM)'" },
-      { re: /\d+건\s*수집/,       desc: "수집건수 'N건 수집'" },
-      { re: /검토\s*\d+건/,       desc: "'검토 N건'" },
-      { re: /[🔶🔹]/,             desc: "중요도 아이콘 (🔶/🔹)" },
+      { re: /금감원\s*신규\s*중\s*IBK\s*유관\s*\d+건/, desc: "요약 '금감원 신규 중 IBK 유관 N건'" },
+      { re: /제재대상[:：]/,                     desc: "'제재대상:' 카드 헤더" },
+      { re: /[🔴🔶🔹]/,                          desc: "중요도 아이콘 (🔴/🔶/🔹)" },
+      { re: /왜 제재를 받았나요\?/,              desc: "라벨 '왜 제재를 받았나요?'" },
+      { re: /IBK에서도 발생 가능한가요\?/,        desc: "라벨 'IBK에서도 발생 가능한가요?'" },
+      { re: /이런 부분을 점검하시면 좋아요/,      desc: "라벨 '이런 부분을 점검하시면 좋아요'" },
     ];
     checks.forEach(({ re, desc }) => {
       if (!re.test(fullText)) {
         warn("C3", "TG_MSG", `필수 요소 누락: ${desc}`);
       }
     });
-
-    // 핵심변경 20자 초과 여부 (줄3)
-    const line3 = lines[2] || "";
-    const colonIdx = line3.indexOf(":");
-    if (colonIdx > 0) {
-      const keyChange = line3.slice(colonIdx + 1).trim();
-      if (keyChange.length > 20) {
-        warn("C3", "TG_MSG", `줄3 핵심변경 20자 초과 (${keyChange.length}자): "${keyChange}"`);
-      }
-    }
   }
 
   info("C_CONTENT", "TG_MSG", `메시지 내용:\n${fullText}`);
 }
 
-// ─── D. 보고서 구조 검증 (뉴스레터형 — docx 실측) ─────────────
+// ─── D. 보고서 구조 검증 (제재 카드 — docx 실측) ─────────────
 // crawl_result 데이터로 '있어야 할 섹션'을 계산하고, 실제 docx 본문에 그 섹션이
 // 출력됐는지 대조한다. (briefV2 safeSection 누락·회귀를 자동 포착)
 async function validateReportStructure(crawlData) {
