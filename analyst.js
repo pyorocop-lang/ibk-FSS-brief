@@ -25,7 +25,7 @@ const AGENTS_DIR    = path.join(ROOT, "agents");
 const KNOWLEDGE_DIR = path.join(ROOT, "knowledge");
 const API_KEY       = process.env.ANTHROPIC_API_KEY || "";
 const MODEL         = process.env.ANALYST_MODEL || "claude-haiku-4-5-20251001";
-const MAX_TOKENS    = 1024;
+const MAX_TOKENS    = 2048;   // 한국어 11개 필드 분석이 1024를 초과해 잘리면 JSON 미완결→파싱실패→폴백(2026-07-02 우리은행 사례). Haiku라 비용 무시.
 const CONCURRENCY   = 3;   // 신규 다건일 때 소규모 병렬(직렬 병목 회피). Haiku Tier1 50RPM 여유 내.
 
 function getArg(name, def = "") {
