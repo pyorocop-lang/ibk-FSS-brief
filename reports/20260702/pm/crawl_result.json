@@ -1,6 +1,6 @@
 {
   "dateCode": "20260702",
-  "crawledAt": "2026-07-02T07:30:11.819Z",
+  "crawledAt": "2026-07-02T07:49:56.855Z",
   "source": "FSS 제재공시(openInfo) + 경영유의(openInfoImpr) 스크래핑",
   "collectMode": "scrape",
   "ledgerSeeded": false,
@@ -68,7 +68,7 @@
       "org": "신한투자증권 주식회사",
       "postDate": "2026-06-30",
       "actionDate": "2026-06-30",
-      "dept": "금융소비자보호부",
+      "dept": "자산관리사업부",
       "sanctionTargets": {
         "기관": "",
         "임원": "",
@@ -85,7 +85,7 @@
       "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-02&pageIndex=1&examMgmtNo=202500072&emOpenSeq=1",
       "examMgmtNo": "202500072",
       "emOpenSeq": "1",
-      "grade": "하",
+      "grade": "중",
       "score": 2,
       "isIBK": false,
       "bankTarget": true,
@@ -93,23 +93,30 @@
       "tierLabel": "인접금융",
       "title": "신한투자증권 주식회사",
       "what_changes": [
-        "신한투자증권에 제재가 부과됐어요."
+        "투자권유자문인력(임직원)이 타인 명의 계좌 2개를 통해 주식 매매(약 2.58억 원)를 했어요. 회사에 매매명세 통보와 계좌개설 신고를 하지 않았어요.",
+        "임직원 개인 주식매매 시 소속회사 자기명의 계좌를 써야 하는데, 계좌 신고·월별 통지 의무를 위반했어요."
       ],
       "our_action": [
-        "금융소비자보호부 담당자라면 관련 통제 절차를 점검해 보세요."
+        "자산관리사업부 담당자라면 투자권유·상품판매 인력이 개인 주식 거래용으로 신고한 계좌가 정말 본인 명의인지, 타인 명의 계좌를 몰래 쓰고 있지 않은지 점검해 보세요.",
+        "금융소비자보호부 담당자라면 임직원 거래 관리 내규에 '월별 매매명세 통지 + 신규 계좌개설 신고' 항목이 완전하게 있는지, 그리고 실제 점검 빈도가 충분한지 살펴보세요.",
+        "준법지원부 담당자라면 '자본시장과금융투자업에관한법률' 제63조 준수 점검 대상에 모든 투자권유·상문인력이 포함되어 있는지 확인해 보세요."
       ],
-      "ctrl_insight": "금융소비자보호부의 유사 업무 점검 여지를 살펴보세요.",
+      "ctrl_insight": "자산관리사업부의 투자권유·상품판매 인력이 운영하는 임직원 거래계좌 관리 프로세스에도 같은 점검 지점이 있어요. 타인 명의 계좌 사용 여부와 월별 거래 보고 완전성을 확인해 볼 수 있어요.",
       "related_depts": [
-        "금융소비자지원부"
+        "금융소비자보호부",
+        "준법지원부"
       ],
-      "tg_key": "신한투자증권 제재",
-      "sanction_type": "제재",
-      "risk_basis": "경미 또는 IBK 연관 약함",
-      "workflow_type": "B",
-      "term": null,
-      "_llm": false,
-      "_fallback": true,
-      "_api_error": "Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+      "tg_key": "신한투증 임직원거래 계좌 타명의 위반",
+      "sanction_type": "문책경고(견책상당)",
+      "risk_basis": "임직원 1명 문책경고(견책상당) 처분 / 자본시장법 제63조 위반 / 신한투자증권",
+      "workflow_type": "D",
+      "term": {
+        "word": "투자권유자문인력",
+        "def": "고객에게 주식·펀드 등 투자상품을 권유하거나 자문하는 증권사 직원",
+        "src": "자본시장법 용어"
+      },
+      "_llm": true,
+      "_fallback": false
     },
     {
       "key": "202600082_11",
@@ -153,7 +160,7 @@
       "term": null,
       "_llm": false,
       "_fallback": true,
-      "_api_error": "Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+      "_api_error": "JSON 파싱 실패: ```json\n{\n  \"what_changes\": [\n    \"우리은행은 대출금리우대 대상자 판정 시 급여이체 실적 확인 절차가 명확하지 않아서"
     }
   ],
   "newItems": [
@@ -219,7 +226,7 @@
       "org": "신한투자증권 주식회사",
       "postDate": "2026-06-30",
       "actionDate": "2026-06-30",
-      "dept": "금융소비자보호부",
+      "dept": "자산관리사업부",
       "sanctionTargets": {
         "기관": "",
         "임원": "",
@@ -236,7 +243,7 @@
       "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-02&pageIndex=1&examMgmtNo=202500072&emOpenSeq=1",
       "examMgmtNo": "202500072",
       "emOpenSeq": "1",
-      "grade": "하",
+      "grade": "중",
       "score": 2,
       "isIBK": false,
       "bankTarget": true,
@@ -244,23 +251,30 @@
       "tierLabel": "인접금융",
       "title": "신한투자증권 주식회사",
       "what_changes": [
-        "신한투자증권에 제재가 부과됐어요."
+        "투자권유자문인력(임직원)이 타인 명의 계좌 2개를 통해 주식 매매(약 2.58억 원)를 했어요. 회사에 매매명세 통보와 계좌개설 신고를 하지 않았어요.",
+        "임직원 개인 주식매매 시 소속회사 자기명의 계좌를 써야 하는데, 계좌 신고·월별 통지 의무를 위반했어요."
       ],
       "our_action": [
-        "금융소비자보호부 담당자라면 관련 통제 절차를 점검해 보세요."
+        "자산관리사업부 담당자라면 투자권유·상품판매 인력이 개인 주식 거래용으로 신고한 계좌가 정말 본인 명의인지, 타인 명의 계좌를 몰래 쓰고 있지 않은지 점검해 보세요.",
+        "금융소비자보호부 담당자라면 임직원 거래 관리 내규에 '월별 매매명세 통지 + 신규 계좌개설 신고' 항목이 완전하게 있는지, 그리고 실제 점검 빈도가 충분한지 살펴보세요.",
+        "준법지원부 담당자라면 '자본시장과금융투자업에관한법률' 제63조 준수 점검 대상에 모든 투자권유·상문인력이 포함되어 있는지 확인해 보세요."
       ],
-      "ctrl_insight": "금융소비자보호부의 유사 업무 점검 여지를 살펴보세요.",
+      "ctrl_insight": "자산관리사업부의 투자권유·상품판매 인력이 운영하는 임직원 거래계좌 관리 프로세스에도 같은 점검 지점이 있어요. 타인 명의 계좌 사용 여부와 월별 거래 보고 완전성을 확인해 볼 수 있어요.",
       "related_depts": [
-        "금융소비자지원부"
+        "금융소비자보호부",
+        "준법지원부"
       ],
-      "tg_key": "신한투자증권 제재",
-      "sanction_type": "제재",
-      "risk_basis": "경미 또는 IBK 연관 약함",
-      "workflow_type": "B",
-      "term": null,
-      "_llm": false,
-      "_fallback": true,
-      "_api_error": "Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+      "tg_key": "신한투증 임직원거래 계좌 타명의 위반",
+      "sanction_type": "문책경고(견책상당)",
+      "risk_basis": "임직원 1명 문책경고(견책상당) 처분 / 자본시장법 제63조 위반 / 신한투자증권",
+      "workflow_type": "D",
+      "term": {
+        "word": "투자권유자문인력",
+        "def": "고객에게 주식·펀드 등 투자상품을 권유하거나 자문하는 증권사 직원",
+        "src": "자본시장법 용어"
+      },
+      "_llm": true,
+      "_fallback": false
     },
     {
       "key": "202600082_11",
@@ -304,14 +318,18 @@
       "term": null,
       "_llm": false,
       "_fallback": true,
-      "_api_error": "Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+      "_api_error": "JSON 파싱 실패: ```json\n{\n  \"what_changes\": [\n    \"우리은행은 대출금리우대 대상자 판정 시 급여이체 실적 확인 절차가 명확하지 않아서"
     }
   ],
   "noUpdate": false,
   "error": null,
-  "analyzedAt": "2026-07-02T07:30:21.076Z",
+  "analyzedAt": "2026-07-02T07:51:06.243Z",
   "analyzeMode": "llm",
   "overallGrade": "중",
-  "term": null,
-  "tgMsg": "🔔 FSS 제재·경영유의 브리핑 (16:30)\n금감원 신규 중 IBK 유관 2건\n\n🔶 제재대상: 우리은행 [은행] · 2026.06.24 · 경영유의·개선사항\n   • 무슨 일: 우리은행에 경영유의·개선사항이 통보됐어요.\n   • IBK 연관: (키워드 추정 — 검토 필요) 여신기획부의 유사 업무 점검 여지를 살펴보세요.\n   • 점검: 여신기획부 담당자라면 관련 통제 절차를 점검해 보세요.\n\n🔹 제재대상: 신한투자증권 주식회사 [인접금융] · 2026.06.30 · 제재\n   • 무슨 일: 신한투자증권에 제재가 부과됐어요.\n   • IBK 연관: (키워드 추정 — 검토 필요) 금융소비자보호부의 유사 업무 점검 여지를 살펴보세요.\n   • 점검: 금융소비자보호부 담당자라면 관련 통제 절차를 점검해 보세요."
+  "term": {
+    "word": "투자권유자문인력",
+    "def": "고객에게 주식·펀드 등 투자상품을 권유하거나 자문하는 증권사 직원",
+    "src": "자본시장법 용어"
+  },
+  "tgMsg": "🔔 FSS 제재·경영유의 브리핑 (16:51)\n금감원 신규 중 IBK 유관 2건\n\n🔶 제재대상: 우리은행 [은행] · 2026.06.24 · 경영유의·개선사항\n   • 무슨 일: 우리은행에 경영유의·개선사항이 통보됐어요.\n   • IBK 연관: (키워드 추정 — 검토 필요) 여신기획부의 유사 업무 점검 여지를 살펴보세요.\n   • 점검: 여신기획부 담당자라면 관련 통제 절차를 점검해 보세요.\n\n🔶 제재대상: 신한투자증권 주식회사 [인접금융] · 2026.06.30 · 문책경고(견책상당)\n   • 무슨 일: 투자권유자문인력(임직원)이 타인 명의 계좌 2개를 통해 주식 매매(약 2.58억 원)를 했어요. 회사에 매매명세 통보와 계좌개설 신고를 하지 않았어요.\n   • IBK 연관: 자산관리사업부의 투자권유·상품판매 인력이 운영하는 임직원 거래계좌 관리 프로세스에도 같은 점검 지점이 있어요. 타인 명의 계좌 사용 여부와 월별 거래 보고 완전성을 확인해 볼 수 있어요.\n   • 점검: 자산관리사업부 담당자라면 투자권유·상품판매 인력이 개인 주식 거래용으로 신고한 계좌가 정말 본인 명의인지, 타인 명의 계좌를 몰래 쓰고 있지 않은지 점검해 보세요."
 }
