@@ -54,7 +54,7 @@ ibk-FSS-brief/
   | 제재공시 | `/fss/job/openInfo/list.do?menuNo=200476` | `view.do` HTML(`bd-view` dl/dt/dd 메타) + 제재내용 PDF 첨부 | `examMgmtNo_emOpenSeq` |
   | 경영유의 | `/fss/job/openInfoImpr/list.do?menuNo=200483` | 상세페이지 없음 — 바로 PDF (`/fss.hpdownload?...`) | 첨부 파일명 선두 ID (예: `202600082_11`) |
 - **Tier 분류**: `classifyTier(org)` — 기관명 키워드로 T0(IBK직접)/T1(은행)/T2(인접금융)/T3(주변). 우선순위 T0→T1→T2→T3, 미매칭 T3.
-- **신규 판별**: 전체 목록 수집 → `state/seen_ids.json`에 없는 키만 `graded[]`(분석 대상)로 편입.
+- **신규 판별**: 전체 목록 수집 → **게시일(postDate) ≥ 앵커 `REPORT_SINCE`(기본 `2026-07-03`, env 재정의) AND `state/seen_ids.json`에 없는 키**만 `graded[]`(분석 대상)로 편입. 앵커 이전 게시분(백로그)은 레저에만 등록하고 상세수집·보고에서 완전 제외(게시일 파싱 실패는 fail-open). `backlogSkipped`·`reportSince`를 crawl_result에 기록.
 - **시드 모드**: ledger가 비어 있으면 items·ledger만 채우고 `graded`/`newGraded`는 비운다 (최초 실행 과거건 범람 방지 — 2026-07-01 수정).
 - **실패 격리 계약**: 성공 시 `crawl_result.json` 작성 + ledger 갱신 + 기존 failure_meta 삭제. 실패 시 `failure_meta.json`(error 필드)만 작성하고 성공본·ledger는 비파괴.
 - **증빙**: raw HTML → `raw/`, PDF → `pdfs/` 저장.

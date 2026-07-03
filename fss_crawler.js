@@ -237,6 +237,14 @@ function fileIdFromHpdownload(href) {
   return id ? id[1] : fname.slice(0, 40);
 }
 
+// ── 게시일 커트오프 (고정 앵커) ──────────────────────────────
+//   "신규"의 기준을 레저 부재만이 아니라 FSS 실제 게시일(postDate)로 앵커링한다.
+//   게시일 ≥ REPORT_SINCE 인 건만 보고(newItems/graded). 그 이전 게시분은 '백로그' —
+//   레저에만 등록해 재검토를 막고 알림·보고에선 완전 제외한다(레저는 중복방지 보조).
+//   근거: FSS 목록엔 과거 공시가 누적 노출돼, 레저 부재만으론 오래된 공시가 '신규'로 샜다
+//   (총평단 2026-07-03 지적: 게시일 7/2·6/26 건이 당일 신규로 오인 보고). env로 재정의 가능.
+const REPORT_SINCE = (process.env.REPORT_SINCE || "2026-07-03").trim();
+
 // ── seen_ids ledger ─────────────────────────────────────────
 const LEDGER_PATH = path.join(__dirname, "state", "seen_ids.json");
 function loadLedger() {
@@ -276,6 +284,14 @@ async function collectSanctions(result, ledger, rawDir, pdfDir, maxPages, seedMo
       const isNew = !ledMap[key];
       // 상세 파싱 + PDF는 신규 건만(부하·차단 경감). 기존 건은 목록 메타만 스킵.
       if (!isNew) continue;
+
+      // 게시일 커트오프: 앵커 이전 게시분은 백로그 — 레저에만 등록하고 상세수집·보고를 완전 건너뛴다.
+      //   게시일 파싱 실패(빈값)는 fail-open(보고)해 파싱 글리치로 실제 건을 놓치지 않는다.
+      if (postDate && postDate < REPORT_SINCE) {
+        ledMap[key] = { seenDate: result.dateCode, org, title: "", backlog: true };
+        result.backlogSkipped++;
+        continue;
+      }
 
       await sleep(1000);
       let meta = {}, attachments = [], bodyText = null;
@@ -342,6 +358,14 @@ async function collectMngImpr(result, ledger, rawDir, pdfDir, maxPages, seedMode
       const isNew = !ledMap[key];
       if (!isNew) continue;
 
+      // 게시일 커트오프: 앵커 이전 게시분은 백로그 — 레저에만 등록하고 PDF수집·보고를 완전 건너뛴다.
+      //   게시일 파싱 실패(빈값)는 fail-open(보고).
+      if (postDate && postDate < REPORT_SINCE) {
+        ledMap[key] = { seenDate: result.dateCode, org, title: "", backlog: true };
+        result.backlogSkipped++;
+        continue;
+      }
+
       const pdfUrl = absUrl(row.href);
       const safe = org.replace(/[^\w가-힣.\- ]/g, "").trim().slice(0, 40);
       let bodyText = null;
@@ -405,6 +429,8 @@ async function main() {
     ledgerSeeded: seedMode,
     totalFetched: 0,
     items: [], graded: [], newItems: [], newGraded: [],
+    backlogSkipped: 0,   // 게시일 앵커(REPORT_SINCE) 이전 백로그 — 레저 등록·보고 제외 건수
+    reportSince: REPORT_SINCE,
     noUpdate: false, error: null,
   };
 
@@ -415,7 +441,7 @@ async function main() {
     await collectMngImpr(result, ledger, rawDir, pdfDir, maxPages, seedMode);
 
     result.noUpdate = !seedMode && result.newGraded.length === 0 && result.newItems.length === 0;
-    console.log(`[FSS 크롤러] 완료 — 신규 ${result.newItems.length}건(IBK관련 ${result.newGraded.length}) / 누적수집 ${result.totalFetched}`);
+    console.log(`[FSS 크롤러] 완료 — 신규 ${result.newItems.length}건(IBK관련 ${result.newGraded.length}) / 백로그 제외 ${result.backlogSkipped}건(게시일<${REPORT_SINCE}) / 누적수집 ${result.totalFetched}`);
     if (result.noUpdate) console.log(`[FSS 크롤러] ✅ 신규 없음 (noUpdate=true)`);
   } catch (e) {
     result.error = e.message;

@@ -27,7 +27,7 @@
 | 구분 | AS-IS | TO-BE (구현 완료) |
 |---|---|---|
 | 신규 공시 확인 | 담당자가 FSS 게시판 2곳 수동 순회 | 매일 08:00·16:00 자동 수집·신규 판별 |
-| 신규/기존 구분 | 육안 대조 (목록에 과거 건 누적 노출) | `state/seen_ids.json` ledger 자동 대조 |
+| 신규/기존 구분 | 육안 대조 (목록에 과거 건 누적 노출) | 게시일 앵커(REPORT_SINCE) + `state/seen_ids.json` ledger 자동 대조 |
 | IBK 연관성 분석 | 담당자 개인 역량 의존 | LLM이 제재 핵심·발생 가능성·점검 제안·부서를 표준 틀로 산출 |
 | 중요도 선별 | 없음 (전건 동일 취급) | 기관 계층(T0~T3) × 위험도(상/중/하) |
 | 전달 | 없음 (개인 확인) | Telegram 알림 + DOCX 보고서 |
@@ -58,7 +58,7 @@
 |---|---|---|
 | FR-11 | 제재공시(menuNo=200476, 상세 HTML+PDF)와 경영유의(menuNo=200483, PDF 직결) 2소스를 수집한다. | `fss_crawler.js` |
 | FR-12 | 상세 경로는 목록 HTML 앵커 href에서 추출한다 (경로 추정·하드코딩 금지). | `fss_crawler.js` |
-| FR-13 | `state/seen_ids.json`과 대조해 **신규 건만** 분석 대상(`graded[]`)으로 선별한다. dedup 키: 제재공시=`examMgmtNo_emOpenSeq`, 경영유의=첨부 파일명 선두 ID. | `fss_crawler.js` |
+| FR-13 | **게시일(postDate) ≥ 앵커 `REPORT_SINCE`(기본 2026-07-03) AND `state/seen_ids.json`에 없는 건**만 분석 대상(`graded[]`)으로 선별한다. 앵커 이전 게시분(백로그)은 레저 등록·보고 제외(게시일 파싱 실패는 fail-open). dedup 키: 제재공시=`examMgmtNo_emOpenSeq`, 경영유의=첨부 파일명 선두 ID. | `fss_crawler.js` |
 | FR-14 | 최초 실행(ledger 빈 상태)은 **시드 모드**로 과거건을 보고 대상에서 제외하고 ledger만 채운다 (초기 알림 범람 방지). | `fss_crawler.js` |
 | FR-15 | 수집 실패 시 `failure_meta.json`만 기록하고 성공본(`crawl_result.json`)·ledger는 건드리지 않는다 (실패 격리). | `fss_crawler.js` + `daily-brief.yml` |
 | FR-16 | 원본 HTML·PDF를 `reports/{DATE}/{SLOT}/raw/`, `/pdfs/`에 증빙 보존한다. | `fss_crawler.js` |

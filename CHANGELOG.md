@@ -1,6 +1,12 @@
 # 변경 이력
 
 ## 2026-07-03
+- feat: 신규 판정에 게시일 앵커(REPORT_SINCE) 도입 — 과거 누적 공시 '당일 신규' 오인 차단
+  - 왜: 기존 "신규 = 레저(seen_ids)에 없는 key"는 FSS 실제 게시 시점과 무관 → 목록에 누적된 오래된 공시(게시일 7/2 하나은행·6/26 생보3사)가 '당일 신규'로 오인 보고됨(총평단 2026-07-03 지적).
+  - fix(fss_crawler.js): "게시일(postDate) ≥ 앵커 REPORT_SINCE(env, 기본 2026-07-03) AND 레저에 없던 건"만 보고(newItems/graded). 앵커 이전 게시분(백로그)은 레저에만 등록(재검토 차단)하고 상세수집·알림·보고에서 완전 제외. 게시일 파싱 실패는 fail-open(보고)해 실제 건 누락 방지. crawl_result에 backlogSkipped·reportSince 기록. 레저는 중복방지(특히 08:00·16:00 두 실행 간) 보조로 병행.
+  - 검증: 앵커 경계 판정(7/2·6/26→백로그 제외 / 7/3+→보고 / 빈값→fail-open) 실코드 통과, node -c OK.
+  - 문서 정합: 신규 판별을 정의하는 전 문서(CLAUDE·README·docs/README 계열·PROJECT_BRIEF §5·METHODOLOGY·ARCHITECTURE·01_SOD·02_BRD·03_BUSINESS_DOC·04_TECH_DOC)에 게시일 앵커 반영. 05_QNA에 "'오늘'이 언제인가(수집일≠공시일)·백로그 처리" Q 추가.
+  - fix(문구): 05_QNA am 서술 "그날 확인된"(오답) → "전날 오후(pm) 확인 이후 새로 게시된"(정확). am/pm은 레저 커밋 기반 연속 델타 창(am=전날 pm 이후, pm=오늘 am 이후).
 - feat: 오후 16:00 KST 스케줄러 추가 — 하루 2회 발화(FSC Morning brief 동형) + pm 델타 게이트
   - 왜: FSC와 동일한 오전/오후 커버리지 요청(사용자 지시). 오전 이후 게시되는 제재·경영유의를 당일 오후에 포착. 결정 B를 "08:00 단일"에서 "08:00·16:00 2회"로 반전.
   - 트리거: `cloud-trigger/wrangler.toml` crons에 `0 7 * * *`(16:00 KST) 추가 → `["0 23 * * *", "0 7 * * *"]`. Cloudflare 대시보드에도 두 cron 등록·실발화 확인(wrangler 스케줄 쓰기 차단이라 대시보드가 실소스). worker `scheduled`는 두 cron 동일 dispatch — 슬롯은 러너가 KST 시각으로 판별(<12=am, ≥12=pm), 코드 로직 무변경.

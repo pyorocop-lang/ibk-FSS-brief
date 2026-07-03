@@ -58,10 +58,13 @@ flowchart LR
   ① 제재공시   https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476   (SOURCES.sanction)
   ② 경영유의   https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483 (SOURCES.mngimpr)
 
-중복 방지 (핵심):
-  state/seen_ids.json 에 소스별 ledger(openInfo / openInfoImpr)를 유지.
-  발행이 부정기적이고 클라우드에서만 실행되므로, git repo가 유일한 상태 저장소다.
-  최초 실행(seedMode)은 게시분을 신규로 쏟아내지 않도록 ledger 시드만 채운다.
+신규 판별 (핵심) = 게시일 앵커 + 중복방지 ledger 병행:
+  ① 게시일 앵커: 게시일(postDate) ≥ REPORT_SINCE(기본 2026-07-03)인 건만 보고.
+     앵커 이전 게시분(백로그)은 레저에만 등록하고 알림·보고·상세수집에서 완전 제외.
+     (레저 부재만 보면 과거 누적 공시가 '당일 신규'로 샜다 — 총평단 2026-07-03 지적.)
+  ② 중복방지 ledger: state/seen_ids.json 에 소스별(openInfo / openInfoImpr) 고유키 유지.
+     같은 건 재알림 차단(특히 08:00·16:00 두 실행 간). git repo가 유일한 상태 저장소.
+  → "게시일 ≥ 앵커 AND 레저에 없던 건"만 신규. 최초 실행(seedMode)도 초기 범람을 막는다.
 
 산출:
   성공 → crawl_result.json 작성 + state/seen_ids.json 갱신 (+ 있으면 failure_meta 삭제)

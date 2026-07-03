@@ -193,7 +193,7 @@ flowchart LR
 | DOCX 보고서 | Artifact `fss-brief-{DATE}-{SLOT}` | 90일 | 부서 공유·점검 실행 |
 | PDF 원문 | 동 Artifact `pdfs/` | 90일 | 감사 증빙·인적 검증 |
 | 수집+분석 데이터 | `reports/{DATE}/{SLOT}/crawl_result.json` (git) | 영구 | 이력 조회 |
-| 중복방지 원장 | `state/seen_ids.json` (git) | 영구 | 신규 판별 상태 |
+| 중복방지 원장 | `state/seen_ids.json` (git) | 영구 | 신규 판별 상태 (게시일 앵커 REPORT_SINCE와 병행) |
 | 실행 매니페스트 | `logs/run_manifest.jsonl` (git) | 영구 | 감사 추적 |
 
 ---
