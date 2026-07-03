@@ -132,7 +132,7 @@ SP_MEDIUM
 
 ## Telegram 메시지 (tgMsg — briefV2.js `buildTgMsg`)
 
-보고서와 별개로 crawl_result.json `tgMsg`에 기록(완료 알림 본문). **헤더는 항상 `🔔 FSS 제재·경영유의 브리핑 (HH:MM)`.**
+보고서와 별개로 crawl_result.json `tgMsg`에 기록(완료 알림 본문). **헤더는 항상 `🔔 금융감독원 제재·경영유의 브리핑 (HH:MM)`.**
 
 **알림 대상 규칙:** `alertItems` = graded 중 **T3(주변기관: 환전·대부·대리점 등) 제외** = T0·T1·T2 전건, `byTierGrade` 순 정렬. 제외된 T3 건수는 "참고"로만 언급(보고서에는 전건 수록).
 

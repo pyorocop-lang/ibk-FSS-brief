@@ -76,7 +76,7 @@ ibk-FSS-brief/
 ### 3.3 briefV2.js — 보고서·메시지 생성 (STEP3)
 
 - **DOCX**: 맑은 고딕·IBK Blue, 폰트 위계 5단계(제목18 / 제재대상 헤더13 / 오프닝11 / 라벨·본문10 / 캡션9pt). 전건을 항목 카드(`제재대상 → 무슨 일이 있었나요? → IBK에도 발생 가능한가요? → 무엇을 점검할까요?`)로 수록, `byTierGrade`(Tier→위험도) 정렬. 파일명 `{DATE}_{morning|afternoon}_brief.docx`.
-- **tgMsg** (crawl_result.json에 기록): 헤더 `🔔 FSS 제재·경영유의 브리핑 (HH:MM)` + T0·T1·T2 전건(`tier !== "T3"` 필터, 제외 건수 헤더 표기)을 질문형 라벨 + 질문·답변 2계층으로 구성. 신규 0건 → "✅ 신규 없음", 전부 T3 → "IBK 유관 없음".
+- **tgMsg** (crawl_result.json에 기록): 헤더 `🔔 금융감독원 제재·경영유의 브리핑 (HH:MM)` + T0·T1·T2 전건(`tier !== "T3"` 필터, 제외 건수 헤더 표기)을 질문형 라벨 + 질문·답변 2계층으로 구성. 신규 0건 → "✅ 신규 없음", 전부 T3 → "IBK 유관 없음".
 
 ### 3.4 validator.js — 품질 검증 (STEP4)
 

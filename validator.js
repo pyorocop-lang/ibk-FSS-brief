@@ -223,9 +223,9 @@ function validateTgMsg(logContent, crawlData) {
   // FSS tgMsg 형식(briefV2 buildTgMsg): 신규 IBK 유관 없음 vs 제재대상 카드
   const isNoAlert = /IBK\s*유관\s*없음/.test(fullText);
 
-  // 공통: 줄1 헤더에 'FSS 제재·경영유의 브리핑'
-  if (!/FSS 제재·경영유의 브리핑/.test(lines[0] || "")) {
-    warn("C4", "TG_MSG", `줄1 헤더 형식 오류: "🔔 FSS 제재·경영유의 브리핑 (HH:MM)" 필요`);
+  // 공통: 줄1 헤더에 '금융감독원 제재·경영유의 브리핑'
+  if (!/금융감독원 제재·경영유의 브리핑/.test(lines[0] || "")) {
+    warn("C4", "TG_MSG", `줄1 헤더 형식 오류: "🔔 금융감독원 제재·경영유의 브리핑 (HH:MM)" 필요`);
   }
 
   if (isNoAlert) {

@@ -502,7 +502,7 @@ function buildTgMsg(data) {
   const time = `${String(now.getUTCHours()).padStart(2,"0")}:${String(now.getUTCMinutes()).padStart(2,"0")}`;
   const fetched = data.totalFetched || data.totalNew || 0;
 
-  const HEADER = `🔔 FSS 제재·경영유의 브리핑 (${time})`;
+  const HEADER = `🔔 금융감독원 제재·경영유의 브리핑 (${time})`;
 
   // Scenario noUpdate — 신규 없음
   if (data.noUpdate) {
