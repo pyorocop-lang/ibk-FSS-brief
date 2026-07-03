@@ -12,3 +12,4 @@
 {"date":"20260702","timestamp":"2026-07-02 08:01:04","status":"ok","duration_sec":0,"crawl_total":2,"ibk_count":2,"urgent_count":0,"report_ok":true,"error_msg":""}
 {"date":"20260702","timestamp":"2026-07-02 08:08:00","status":"ok","duration_sec":0,"crawl_total":2,"ibk_count":2,"urgent_count":0,"report_ok":true,"error_msg":""}
 {"date":"20260703","timestamp":"2026-07-02 23:00:44","status":"ok","duration_sec":0,"crawl_total":0,"ibk_count":0,"urgent_count":0,"report_ok":true,"error_msg":""}
+{"date":"20260703","timestamp":"2026-07-03 07:01:34","status":"ok","duration_sec":0,"crawl_total":4,"ibk_count":4,"urgent_count":1,"report_ok":true,"error_msg":""}
