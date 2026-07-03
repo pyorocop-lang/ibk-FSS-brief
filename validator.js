@@ -300,8 +300,8 @@ async function validateReportStructure(crawlData) {
   else warn("D1", "REPORT", '⚖️ 헤더("오늘의 제재·경영유의 브리핑") 누락');
 
   const openingOk = graded.length > 0
-    ? (has("공개한 제재·경영유의는") || has("살펴봐야 할 건"))
-    : has("없었어요");
+    ? (has("새로 확인된 제재·경영유의는") || has("살펴봐야 할 건"))
+    : has("없어요");
   if (openingOk) rendered.push("요약");
   else warn("D2", "REPORT", "요약 오프닝 문구 누락");
 

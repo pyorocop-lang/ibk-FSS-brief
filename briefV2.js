@@ -273,15 +273,15 @@ function buildHeader(data) {
 function buildOpening(data) {
   if (data.noUpdate) {
     return [
-      bodyPara([new TextRun({ text: "오늘 금융감독원 신규 제재·경영유의는 없었어요.", ...rf(TS.opening, blk) })], 24),
-      bodyPara([new TextRun({ text: "전일 이후 새로 공개된 건이 없어요. 기존 진행건 점검을 유지해 주세요.", ...rf(TS.body, gray1) })]),
+      bodyPara([new TextRun({ text: "금융감독원에서 새로 확인된 제재·경영유의가 없어요.", ...rf(TS.opening, blk) })], 24),
+      bodyPara([new TextRun({ text: "지난 실행 이후 새로 게시된 건이 없어요. 기존 진행건 점검을 유지해 주세요.", ...rf(TS.body, gray1) })]),
       SP_MEDIUM(),
     ];
   }
 
   if (!data.graded || data.graded.length === 0) {
     return [
-      bodyPara([new TextRun({ text: "오늘은 IBK 연관 신규 제재·경영유의가 없었어요.", ...rf(TS.opening, blk) })], 24),
+      bodyPara([new TextRun({ text: "새로 확인된 건 중 IBK 연관 제재·경영유의는 없어요.", ...rf(TS.opening, blk) })], 24),
       bodyPara([new TextRun({ text: "기존 점검 체계를 재점검하는 시간으로 활용해보세요 🙂", ...rf(TS.body, gray1) })]),
       SP_LARGE(),
     ];
@@ -289,7 +289,7 @@ function buildOpening(data) {
 
   const urgentCount = data.graded.filter(it => it.grade === "상").length;
   return [
-    bodyPara([new TextRun({ text: `오늘 금융감독원이 공개한 제재·경영유의는 ${data.totalNew}건이에요.`, ...rf(TS.opening, blk) })], 16),
+    bodyPara([new TextRun({ text: `금융감독원에서 새로 확인된 제재·경영유의는 ${data.totalNew}건이에요.`, ...rf(TS.opening, blk) })], 16),
     bodyPara([
       new TextRun({ text: `그 중 지금 바로 살펴봐야 할 건 `, ...rf(TS.opening, blk) }),
       new TextRun({ text: `${urgentCount}건`, ...rf(TS.opening, urgentCount > 0 ? red : blk, true) }),
@@ -362,7 +362,7 @@ function buildOtherItems(items) {
     // 소그룹 제목
     new Paragraph({
       spacing: { before: 0, after: 24 },
-      children: [new TextRun({ text: "그 외 오늘의 제재·경영유의", ...rf(TS.sub, gray1, true) })],
+      children: [new TextRun({ text: "그 외 새로 확인된 제재·경영유의", ...rf(TS.sub, gray1, true) })],
     }),
   ];
 
