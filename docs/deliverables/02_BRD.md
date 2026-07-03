@@ -58,7 +58,7 @@
 |---|---|---|
 | FR-11 | 제재공시(menuNo=200476, 상세 HTML+PDF)와 경영유의(menuNo=200483, PDF 직결) 2소스를 수집한다. | `fss_crawler.js` |
 | FR-12 | 상세 경로는 목록 HTML 앵커 href에서 추출한다 (경로 추정·하드코딩 금지). | `fss_crawler.js` |
-| FR-13 | **게시일(postDate) ≥ 앵커 `REPORT_SINCE`(기본 2026-07-03) AND `state/seen_ids.json`에 없는 건**만 분석 대상(`graded[]`)으로 선별한다. 앵커 이전 게시분(백로그)은 레저 등록·보고 제외(게시일 파싱 실패는 fail-open). dedup 키: 제재공시=`examMgmtNo_emOpenSeq`, 경영유의=첨부 파일명 선두 ID. | `fss_crawler.js` |
+| FR-13 | **게시일(postDate) ≥ 앵커 `REPORT_SINCE`(기본 2026-07-02) AND `state/seen_ids.json`에 없는 건**만 분석 대상(`graded[]`)으로 선별한다. 앵커 이전 게시분(백로그)은 레저 등록·보고 제외(게시일 파싱 실패는 fail-open). dedup 키: 제재공시=`examMgmtNo_emOpenSeq`, 경영유의=첨부 파일명 선두 ID. | `fss_crawler.js` |
 | FR-14 | 최초 실행(ledger 빈 상태)은 **시드 모드**로 과거건을 보고 대상에서 제외하고 ledger만 채운다 (초기 알림 범람 방지). | `fss_crawler.js` |
 | FR-15 | 수집 실패 시 `failure_meta.json`만 기록하고 성공본(`crawl_result.json`)·ledger는 건드리지 않는다 (실패 격리). | `fss_crawler.js` + `daily-brief.yml` |
 | FR-16 | 원본 HTML·PDF를 `reports/{DATE}/{SLOT}/raw/`, `/pdfs/`에 증빙 보존한다. | `fss_crawler.js` |

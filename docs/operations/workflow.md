@@ -149,7 +149,7 @@ brief Job (.github/workflows/daily-brief.yml, ubuntu-latest):
   완료 알림 (Telegram, tgMsg)            — node notify_telegram.js --from-crawl-result
 ```
 
-> **수집 방식:** FSS 2소스 직접 스크래핑 — ① 제재공시 `openInfo`(목록 HTML → 상세, 본문 PDF) ② 경영유의·개선 `openInfoImpr`(목록 → 첨부 PDF). 전체 목록 수집 후 **게시일(postDate) ≥ 앵커 `REPORT_SINCE`(기본 2026-07-03) AND `state/seen_ids.json`에 없던 건**만 신규로 채택. 앵커 이전 게시분(백로그)은 레저에만 등록하고 보고 제외(과거 누적 공시의 '당일 신규' 오인 차단). 게시일 파싱 실패는 fail-open.
+> **수집 방식:** FSS 2소스 직접 스크래핑 — ① 제재공시 `openInfo`(목록 HTML → 상세, 본문 PDF) ② 경영유의·개선 `openInfoImpr`(목록 → 첨부 PDF). 전체 목록 수집 후 **게시일(postDate) ≥ 앵커 `REPORT_SINCE`(기본 2026-07-02) AND `state/seen_ids.json`에 없던 건**만 신규로 채택. 앵커 이전 게시분(백로그)은 레저에만 등록하고 보고 제외(과거 누적 공시의 '당일 신규' 오인 차단). 게시일 파싱 실패는 fail-open.
 > ✅ FSS는 해외 IP 차단이 없어(diag-fss-access.yml PASS) KR 프록시·OPEN API·FSC fallback 없이 러너에서 **직결** 스크래핑한다. 재시도는 egress 우회가 아니라 콜드스타트·일시장애 흡수용이다.
 
 #### Step 3 🤖 수집 실패 처리 (예외 경로)

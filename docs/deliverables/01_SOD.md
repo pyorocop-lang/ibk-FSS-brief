@@ -67,7 +67,7 @@
 ### 4.1 포함 (In-Scope)
 
 - FSS **제재공시**(openInfo, menuNo=200476) + **경영유의·개선사항**(openInfoImpr, menuNo=200483) 2소스 수집
-- 게시일 앵커(`REPORT_SINCE`, 기본 2026-07-03) + 중복방지 ledger(`state/seen_ids.json`) 병행 신규 판별 (게시일 앵커 이후 AND 미수집 건만 보고, 이전 백로그 제외)
+- 게시일 앵커(`REPORT_SINCE`, 기본 2026-07-02) + 중복방지 ledger(`state/seen_ids.json`) 병행 신규 판별 (게시일 앵커 이후 AND 미수집 건만 보고, 이전 백로그 제외)
 - Claude LLM(Haiku) 기반 건별 분석: 제재 핵심 / IBK 유사업무·재발위험 / 점검 제안 / 부서 배정 / 위험도
 - 기관 계층(Tier) × 위험도 기반 선별·정렬
 - DOCX 보고서 생성 + Telegram 알림(시작·완료·오류)

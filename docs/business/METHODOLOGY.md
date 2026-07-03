@@ -59,7 +59,7 @@ flowchart LR
   ② 경영유의   https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483 (SOURCES.mngimpr)
 
 신규 판별 (핵심) = 게시일 앵커 + 중복방지 ledger 병행:
-  ① 게시일 앵커: 게시일(postDate) ≥ REPORT_SINCE(기본 2026-07-03)인 건만 보고.
+  ① 게시일 앵커: 게시일(postDate) ≥ REPORT_SINCE(기본 2026-07-02)인 건만 보고.
      앵커 이전 게시분(백로그)은 레저에만 등록하고 알림·보고·상세수집에서 완전 제외.
      (레저 부재만 보면 과거 누적 공시가 '당일 신규'로 샜다 — 총평단 2026-07-03 지적.)
   ② 중복방지 ledger: state/seen_ids.json 에 소스별(openInfo / openInfoImpr) 고유키 유지.

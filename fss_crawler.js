@@ -242,8 +242,10 @@ function fileIdFromHpdownload(href) {
 //   게시일 ≥ REPORT_SINCE 인 건만 보고(newItems/graded). 그 이전 게시분은 '백로그' —
 //   레저에만 등록해 재검토를 막고 알림·보고에선 완전 제외한다(레저는 중복방지 보조).
 //   근거: FSS 목록엔 과거 공시가 누적 노출돼, 레저 부재만으론 오래된 공시가 '신규'로 샜다
-//   (총평단 2026-07-03 지적: 게시일 7/2·6/26 건이 당일 신규로 오인 보고). env로 재정의 가능.
-const REPORT_SINCE = (process.env.REPORT_SINCE || "2026-07-03").trim();
+//   (총평단 2026-07-03 지적: 게시일 6/26 건이 당일 신규로 오인 보고). env로 재정의 가능.
+//   기본값 2026-07-02 = 운영 기준일. 전날(7/2) 저녁에 게시된 신규까지 포함하고, 그 이전 백로그만 제외한다
+//   (고정 앵커를 7/3으로 두면 7/2 저녁 게시 신규가 누락되는 문제 — 시나리오 테스트로 확인, 사용자 확정).
+const REPORT_SINCE = (process.env.REPORT_SINCE || "2026-07-02").trim();
 
 // ── seen_ids ledger ─────────────────────────────────────────
 const LEDGER_PATH = path.join(__dirname, "state", "seen_ids.json");
@@ -472,4 +474,5 @@ if (require.main === module) {
 module.exports = {
   scoreItem, grade, parseListRows, parseSanctionDetail, fileIdFromHpdownload,
   normDate, decodeEntities, stripTags, absUrl,
+  REPORT_SINCE, classifyTier, TIER_LABEL,   // 시나리오 테스트·재사용용(신규 판정 앵커·기관 계층)
 };
