@@ -39,7 +39,7 @@
 ## 4. 아키텍처 (FSC 미러 — 완전 클라우드)
 
 ```
-Cloudflare Workers Cron (매일 08:00 KST, cron "0 23 * * *")
+Cloudflare Workers Cron (하루 2회: 08:00 KST cron "0 23 * * *" = am / 16:00 KST cron "0 7 * * *" = pm)
   → GitHub workflow_dispatch (워크플로우명 "IBK FSS Sanction Brief")
   → 단일 GitHub Actions Job (ubuntu-latest):
       시작 알림                  notify_telegram.js
@@ -51,7 +51,7 @@ Cloudflare Workers Cron (매일 08:00 KST, cron "0 23 * * *")
       STEP6  감사 커밋·push        crawl_result·run_meta·manifest·state/seen_ids.json
       Artifact 업로드(fss-brief-{DATE}-{SLOT}) + 완료 알림
 ```
-\* 08:00 실행: 기존 FSC 브리핑과 시각 분리(결정 B). SLOT은 발화시각 KST로 판별(runslot.js) — 08:00은 am 단일. 수집 실패 시 failure_meta.json만 쓰고 성공본 비파괴.
+\* 하루 2회 실행: 08:00(am) 전체 알림 · 16:00(pm) 오전 이후 신규만 델타 알림(FSC 동형, 결정 B). SLOT은 발화시각 KST로 판별(runslot.js) — <12=am, ≥12=pm. pm은 `--delta-since reports/{DATE}/am/crawl_result.json` + seen_ids dedup로 오전 이후 신규만 보고하고, 신규 0건이면 '변동 없음 · 기존 점검 유지' 마감 알림. 산출물은 reports/{DATE}/{SLOT}/로 슬롯별 분리 보존(공존·비파괴). 수집 실패 시 failure_meta.json만 쓰고 성공본 비파괴.
 
 **신규 제재 0건일 때:** "오늘 신규 제재 없음" 1줄 조용한 알림(또는 무알림). 오인 보고 금지.
 
@@ -89,7 +89,7 @@ FSS 목록은 과거 건이 누적 노출되므로 날짜만으로 신규를 못
 | # | 항목 | 결정 | 결과 |
 |---|---|---|---|
 | **A** | Telegram 봇 | **신규 봇 분리** | FSS 전용 봇 생성, Secrets 등록 완료 |
-| **B** | 실행 시각 | **08:00 KST** | Cloudflare cron `0 23 * * *`(매일). 드롭다운이 평일범위(0-4)를 못 받아 매일로 설정 — 주말 0건은 조용한 알림이라 무해 |
+| **B** | 실행 시각 | **08:00·16:00 KST 2회(FSC 동형)** | Cloudflare cron `0 23 * * *`(am, 매일) + `0 7 * * *`(pm, 매일). 08:00은 전체 알림, 16:00은 오전 이후 신규만 델타 알림. FSS 제재는 부정기 발행이라 오후는 대개 '신규 없음' 조용한 마감 |
 | **C** | FSS 해외 IP 차단 | **차단 없음(PASS)** | 미국 러너 4종 접근 검증(diag-fss-access.yml) → 프록시 미도입, 직결 수집 |
 | **D** | OpenAPI 우선 검토 | **API 없음** | FSS OPEN API에 제재/경영유의 엔드포인트 없음 → HTML/PDF 크롤 채택 |
 
@@ -116,7 +116,7 @@ FSS 목록은 과거 건이 누적 노출되므로 날짜만으로 신규를 못
 - ✅ **2단계 — 골격 이식**: FSC 재사용 자산 복사(runslot 포함), 워크플로우/cloud-trigger repo 타겟 변경.
 - ✅ **3단계 — 신규 모듈**: `fss_crawler.js`(2소스+dedup+Tier), `analyst.js`(제재 벤치마킹, tone-guide 주입), `seen_ids.json` ledger.
 - ✅ **4단계 — 통합·검증**: workflow_dispatch 실행으로 신규/0건 케이스·실제 Telegram·DOCX 확인.
-- ✅ **5단계 — 정시화**: Cloudflare Cron 08:00 KST, Secrets 3종 등록, 라이브 운영 전환.
+- ✅ **5단계 — 정시화**: Cloudflare Cron 08:00·16:00 KST 2회, Secrets 3종 등록, 라이브 운영 전환.
 
 ---
 
@@ -124,7 +124,7 @@ FSS 목록은 과거 건이 누적 노출되므로 날짜만으로 신규를 못
 
 - **GitHub Secrets (3)**: `ANTHROPIC_API_KEY` · `TELEGRAM_BOT_TOKEN` · `TELEGRAM_CHAT_ID`
 - **Cloudflare Worker secret**: `GH_PAT` (workflow_dispatch 호출용)
-- **Cloudflare Cron**: `0 23 * * *` (= 08:00 KST 매일)
+- **Cloudflare Cron**: `0 23 * * *` (= 08:00 KST am, 매일) + `0 7 * * *` (= 16:00 KST pm, 매일)
 - **산출물**: `reports/{DATE}/{SLOT}/{DATE}_{morning|afternoon}_brief.docx`(90일) · `crawl_result.json`·`run_meta.json`·`validation_result.json`(30일) · `state/seen_ids.json`(영구) · `logs/run_manifest.jsonl`(누적)
 
 ---

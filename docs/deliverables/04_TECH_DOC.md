@@ -13,7 +13,7 @@
 | 런타임 | Node.js 22 (GitHub Actions `ubuntu-latest`) | 외부 프레임워크 없이 표준 `https`/`fs` 중심 |
 | 의존성 | `docx` ^9.7.1 (DOCX 생성) · `pdf-parse` ^1.1.4 (PDF 본문 추출) | 의도적 최소 의존 |
 | LLM | Anthropic Claude API — `claude-haiku-4-5-20251001` (env `ANALYST_MODEL`로 교체 가능) | max_tokens 2048, 병렬 3 |
-| 트리거 | Cloudflare Workers Cron (`cloud-trigger/`, wrangler) | UTC `0 23 * * *` = 08:00 KST |
+| 트리거 | Cloudflare Workers Cron (`cloud-trigger/`, wrangler) | UTC `0 23 * * *`=08:00 KST(am) · `0 7 * * *`=16:00 KST(pm) |
 | CI/CD·실행 | GitHub Actions `workflow_dispatch` 단일 Job | timeout 30분, concurrency group `fss-brief` |
 | 알림 | Telegram Bot API | 단일 봇 (시작·완료·오류) |
 | 상태 저장 | git 저장소 자체 (`state/seen_ids.json`) | 클라우드 실행의 유일한 상태 저장소 |
@@ -94,7 +94,7 @@ ibk-FSS-brief/
 
 - **archivist.js** (`--date --status ok|error`): 로그 정리, `run_meta.json` 기록, `logs/run_manifest.jsonl` 누적, 보관 정책 적용. `if: always()`로 실패 시에도 실행.
 - **notify_telegram.js**: `--msg "텍스트"`(임의 메시지) 또는 `--from-crawl-result`(briefV2가 기록한 tgMsg 전송, `REPORT_DATE` env 참조).
-- **runslot.js**: KST 발화 시각 `<12`→`am`, `≥12`→`pm`. `reportDir(ROOT, date)` → `reports/{DATE}/{SLOT}/`. 08:00 정시 실행은 항상 am. 수동 오후 재실행은 pm으로 분리돼 오전 기록 비파괴.
+- **runslot.js**: KST 발화 시각 `<12`→`am`, `≥12`→`pm`. `reportDir(ROOT, date)` → `reports/{DATE}/{SLOT}/`. 08:00 정시 실행은 am, 16:00 정시 실행은 pm. 수동 오후 재실행도 pm으로 분리돼 오전 기록 비파괴.
 
 ### 3.6 cloud-trigger/ — Cloudflare Workers Cron
 
@@ -107,7 +107,7 @@ ibk-FSS-brief/
 ## 4. 파이프라인 실행 명세 (daily-brief.yml)
 
 ```
-workflow_dispatch (Cloudflare가 08:00 KST 호출)
+workflow_dispatch (Cloudflare가 08:00·16:00 KST 호출)
 └─ Job: brief (ubuntu-latest, timeout 30m, concurrency group fss-brief)
    ├─ checkout(fetch-depth 2) → 날짜·슬롯 설정(KST) → Node 22 + npm ci
    ├─ 시작 알림 (continue-on-error)
@@ -122,7 +122,7 @@ workflow_dispatch (Cloudflare가 08:00 KST 호출)
    │       (-X theirs: 같은 날짜 add/add 충돌 시 최신 런 채택. 일반 rebase는
    │        충돌마커로 crawl_result.json이 손상돼 완료알림 JSON.parse가 깨진 실측 이력)
    ├─ Artifact 업로드 (always): reports/{DATE}/{SLOT}/ → fss-brief-{DATE}-{SLOT}, 90일
-   ├─ 완료 알림 (success): notify_telegram.js --from-crawl-result
+   ├─ 완료 알림 (success): am → notify_telegram.js --from-crawl-result / pm → + --delta-since reports/{DATE}/am/crawl_result.json (오전 이후 신규만, 0건 시 '변동 없음' 마감)
    └─ 오류 알림 (failure): "❌ 브리핑 오류 발생"
 ```
 

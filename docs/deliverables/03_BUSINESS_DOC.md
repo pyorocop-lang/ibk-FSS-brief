@@ -14,7 +14,7 @@
 | 구분 | 내용 |
 |---|---|
 | 업무 성격 | **사후(事後) 모니터링** — 실제 제재사례 기반 자가점검 (법령 변경 대응 FSC 브리핑의 '예방' 성격과 구분) |
-| 수행 주기 | 매일 08:00 KST 자동 실행 (주말 포함, 신규 0건 시 조용한 알림) |
+| 수행 주기 | 매일 08:00·16:00 KST 2회 자동 실행 (am·pm, 주말 포함, 신규 0건 시 조용한 알림) |
 | 수행 주체 | 시스템(완전 자동) + 담당자(수신 후 점검 실행) |
 | 대상 원천 | FSS 제재공시(openInfo) · 경영유의·개선사항(openInfoImpr) |
 
@@ -27,7 +27,7 @@
 ```mermaid
 flowchart TB
     subgraph TRIGGER["⏰ 트리거 계층"]
-        CRON["Cloudflare Workers Cron<br/>매일 08:00 KST (UTC 0 23 * * *)"]
+        CRON["Cloudflare Workers Cron<br/>매일 08:00·16:00 KST<br/>(am UTC 0 23 * * * · pm UTC 0 7 * * *)"]
     end
 
     subgraph PIPELINE["☁️ 실행 계층 — GitHub Actions 단일 Job (로컬 PC 불요)"]
@@ -127,9 +127,11 @@ flowchart LR
 
 | 시각 | 이벤트 | 담당자 행동 |
 |---|---|---|
-| 08:00 | `⚙️ 브리핑 생성 시작합니다` 알림 | 없음 |
+| 08:00 (am) | `⚙️ 브리핑 생성 시작합니다` 알림 | 없음 |
 | 08:0x | 완료 알림 수신 — 신규 건별 질문형 카드 또는 "신규 없음" | 알림 확인 |
-| 이후 | 필요 시 DOCX 보고서 다운로드 (GitHub Actions → Artifact `fss-brief-{날짜}-am`) | T0·T1 건 우선 검토, 점검 제안을 유관 부서 공유 |
+| 16:00 (pm) | pm 시작 알림 | 없음 |
+| 16:0x | 완료 알림 수신 — 오전 이후 신규만(델타), 없으면 "변동 없음 · 기존 점검 유지" | 알림 확인 |
+| 이후 | 필요 시 DOCX 보고서 다운로드 (GitHub Actions → Artifact `fss-brief-{날짜}-{am\|pm}`) | T0·T1 건 우선 검토, 점검 제안을 유관 부서 공유 |
 
 ### 3.2 알림 읽는 법 (질문형 2계층)
 
@@ -177,7 +179,7 @@ flowchart LR
 | 파이프라인 오류 | `❌ 브리핑 오류 발생 — GitHub Actions 로그 확인 필요` | Actions 실행 로그에서 실패 STEP 확인 |
 | AI 분석 강등 (fallback) | 완료 알림은 오나 분석 문면이 템플릿형 | `ANTHROPIC_API_KEY` Secret 유효성 확인 |
 | 시작 알림 자체가 없음 | — | Cloudflare Worker 상태·GH_PAT 만료 확인 (cloud-trigger/README.md) |
-| 주말 알림 | "신규 없음" 조용한 알림 | 무시 (결정 B — cron이 매일 실행) |
+| 주말 알림 | "신규 없음" 조용한 알림 | 무시 (결정 B — am·pm cron 모두 매일 실행) |
 
 **중요**: 수집 실패 시 시스템은 "신규 없음"으로 오인 보고하지 않는다. 실패 기록(failure_meta.json)은 성공 기록과 분리 저장되므로, 기존 데이터·중복방지 원장은 훼손되지 않는다.
 

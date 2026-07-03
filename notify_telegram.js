@@ -97,18 +97,19 @@ async function main() {
       let baseIds = null;
       try {
         const base = JSON.parse(fs.readFileSync(deltaSince, "utf8"));
-        baseIds = new Set((base.items || []).map(i => String(i.noticeId)));
+        // FSS 고유키는 item.key(examMgmtNo_emOpenSeq / 파일ID). noticeId는 FSC 스키마 — 없으면 fallback.
+        baseIds = new Set((base.items || []).map(i => String(i.key || i.noticeId)));
       } catch (e) {
         console.warn(`[TELEGRAM] 델타 기준(${deltaSince}) 읽기 실패 — 게이트 미적용, 평소대로 전송: ${e.message}`);
       }
       if (baseIds) {
-        const newGraded = (data.graded || []).filter(i => !baseIds.has(String(i.noticeId)));
+        const newGraded = (data.graded || []).filter(i => !baseIds.has(String(i.key || i.noticeId)));
         if (newGraded.length === 0) {
           // 신규 없음 → '변동 없음' 마감 알림(항상 완료 알림). 보고서·기록은 이미 생성·보존됨.
           const n = (typeof data.totalFetched === "number") ? data.totalFetched : (data.items || []).length;
           const kst = new Date(Date.now() + 9 * 3600 * 1000);
           const hhmm = `${String(kst.getUTCHours()).padStart(2, "0")}:${String(kst.getUTCMinutes()).padStart(2, "0")}`;
-          message = `🔔 내부통제 동향 알림 (${hhmm})\n${n}건 확인 · 신규 없음\n✅ 신규 제재·경영유의 없음 — 기존 점검 유지`;
+          message = `🔔 FSS 제재·경영유의 브리핑 (${hhmm})\n${n}건 확인 · 오전 이후 신규 없음\n✅ 신규 제재·경영유의 없음 — 기존 점검 유지`;
           console.log("[TELEGRAM] 오후 델타: 오전 이후 신규 없음 — '변동 없음' 마감 알림 전송");
         } else {
           message = `🔔 [오후 추가 ${newGraded.length}건 감지]\n` + (message || "");

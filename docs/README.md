@@ -79,7 +79,7 @@
 
 ```mermaid
 flowchart LR
-    CRON["⏰ 08:00 KST 매일\nCloudflare Workers\nCron (0 23 * * *)"] -->|"workflow_dispatch"| GH["☁️ GitHub Actions\n단일 Job"]
+    CRON["⏰ 08:00·16:00 KST 매일\nCloudflare Workers\nCron (0 23 * * * · 0 7 * * *)"] -->|"workflow_dispatch"| GH["☁️ GitHub Actions\n단일 Job (실행당 1)"]
     GH -->|"① 수집 (재시도 ≤3) + dedup"| FSS["🏛️ 금융감독원(FSS)\n제재공시(HTML+PDF)\n경영유의(PDF)"]
     GH -->|"② Claude API 분석"| CLAUDE["🤖 Claude\nHaiku 4.5"]
     GH -->|"③ DOCX 생성·검증·아카이브"| ART["📦 GitHub Artifact\n(90일)"]
@@ -88,7 +88,7 @@ flowchart LR
 
 | 환경 | 역할 | 이유 |
 |---|---|---|
-| Cloudflare Workers Cron | 매일 08:00 KST 트리거 (`workflow_dispatch`, cron `0 23 * * *`) | GitHub schedule cron은 지연·누락이 잦음 |
+| Cloudflare Workers Cron | 매일 08:00·16:00 KST 트리거 (`workflow_dispatch`, cron `0 23 * * *`·`0 7 * * *`). 08:00=am 전체 / 16:00=pm 델타 | GitHub schedule cron은 지연·누락이 잦음 |
 | GitHub Actions (클라우드) | 수집·분석·보고서·검증·아카이브·알림 (단일 Job) | 24/7 안정 실행 · FSS 해외 IP 차단 없음 검증(미국 러너 PASS) → 프록시 불필요 |
 
 단계별 상세·오류 대응은 [operations/workflow.md](operations/workflow.md), 구조는 [technical/ARCHITECTURE.md](technical/ARCHITECTURE.md)를 본다.
@@ -130,7 +130,7 @@ flowchart LR
 
 1. **요구사항** — GitHub CLI(`gh`, 수동 실행용) · Telegram 봇(FSS 전용 신규 봇) · Anthropic API 키 · Cloudflare Workers 계정(`cloud-trigger/`)
 2. **GitHub Secrets (최초 1회)** — `ANTHROPIC_API_KEY` · `TELEGRAM_BOT_TOKEN` · `TELEGRAM_CHAT_ID`
-3. **트리거 배포 (최초 1회)** — `cloud-trigger/`의 Cloudflare Workers Cron(`0 23 * * *`)이 GitHub `workflow_dispatch` 호출. 배포는 `cloud-trigger/README.md` 참고.
+3. **트리거 배포 (최초 1회)** — `cloud-trigger/`의 Cloudflare Workers Cron(`0 23 * * *`=08:00 am·`0 7 * * *`=16:00 pm, 대시보드에서 두 cron 등록)이 GitHub `workflow_dispatch` 호출. 배포는 `cloud-trigger/README.md` 참고.
 4. **수동 실행** — `gh workflow run "IBK FSS Sanction Brief" --ref main`
 
 절차·오류 대응 전체는 [operations/workflow.md](operations/workflow.md)를 따른다.
@@ -151,4 +151,4 @@ flowchart LR
 
 _담당: IBK기업은행 내부통제점검팀_
 
-_last updated: 2026-07-02 (문서 재편 — 대상 독자별 분류 + 정본 지도 신설, deliverables 세트 통합)_
+_last updated: 2026-07-03 (오후 16:00 스케줄러 추가 — 하루 2회 발화 정합)_

@@ -10,7 +10,7 @@
 ```mermaid
 flowchart TD
     subgraph TRIGGER["⏰ 외부 트리거 레이어"]
-        TRG1["☁️ Cloudflare Workers Cron\n(cloud-trigger/)\n매일 08:00 KST (UTC 0 23 * * *)\n→ GitHub workflow_dispatch"]
+        TRG1["☁️ Cloudflare Workers Cron\n(cloud-trigger/)\n매일 08:00 KST (UTC 0 23 * * *) → am\n매일 16:00 KST (UTC 0 7 * * *) → pm\n→ GitHub workflow_dispatch"]
     end
 
     subgraph ORCHESTRATOR["🎼 오케스트레이터 레이어"]
@@ -90,8 +90,8 @@ flowchart TD
 
 | 항목 | 내용 |
 |---|---|
-| 정시 트리거 | 외부 Cloudflare Workers Cron (`cloud-trigger/`) — 매일 **08:00 KST** (UTC cron `0 23 * * *`) |
-| 트리거 방식 | GitHub `workflow_dispatch` 호출 (08:00 단일 발화 → am 슬롯) |
+| 정시 트리거 | 외부 Cloudflare Workers Cron (`cloud-trigger/`) — 매일 **08:00 KST** (UTC cron `0 23 * * *` → am 슬롯)·**16:00 KST** (UTC cron `0 7 * * *` → pm 슬롯) 2회 |
+| 트리거 방식 | GitHub `workflow_dispatch` 호출 (08:00 → am 슬롯 전체 알림 / 16:00 → pm 슬롯 델타 알림, 신규 0건 시 '변동 없음' 마감) |
 | 백업 | 없음 — GitHub schedule cron은 지연·누락으로 **제거**(백업으로도 두지 않음) |
 | 수동 | `gh workflow run "IBK FSS Sanction Brief" --ref main` |
 | 워크플로우 | `.github/workflows/daily-brief.yml` (단일 Job) |
@@ -259,4 +259,4 @@ flowchart LR
 
 ---
 
-_last updated: 2026-07-02 (FSS 현행 구현 기준 갱신)_
+_last updated: 2026-07-03 (오후 16:00 스케줄러 추가 — 하루 2회 발화 정합)_

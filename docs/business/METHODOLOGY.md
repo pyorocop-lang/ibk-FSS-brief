@@ -74,9 +74,10 @@ flowchart LR
 
 ### 실행 스케줄
 
-- **매일 1회 08:00 KST** (Cloudflare Workers Cron `0 23 * * *` UTC → GitHub Actions 단일 Job).
-- FSC 브리핑(07:30)과 시각을 분리해 러너·알림 충돌을 피한다.
-- 수집~알림 전부 GitHub Actions 단일 Job에서 실행 (로컬 PC 불필요).
+- **매일 2회 08:00·16:00 KST** (Cloudflare Workers Cron `0 23 * * *` UTC = am / `0 7 * * *` UTC = pm → 각 실행마다 GitHub Actions 단일 Job). FSC 브리핑과 동일한 오전/오후 커버리지.
+- 슬롯 판별은 발화시각 KST로(runslot.js/워크플로우, <12=am, ≥12=pm). 오전(am)은 전체 알림, 오후(pm)는 `--delta-since reports/{date}/am/crawl_result.json` + seen_ids dedup로 오전 이후 신규만 델타 알림하고, 신규 0건이면 '변동 없음 · 기존 점검 유지' 마감 알림. 산출물은 reports/{date}/{slot}/로 슬롯별 분리 보존(공존·비파괴).
+- 제재는 부정기 발행이라 오후는 대개 '신규 없음' 조용한 마감이 된다.
+- 수집~알림 전부 실행당 GitHub Actions 단일 Job에서 실행 (로컬 PC 불필요).
 
 ---
 
@@ -273,4 +274,4 @@ IBK기업은행 내부통제점검팀의 특성상 감사 추적이 가능해야
 
 ---
 
-_last updated: 2026-07-02 (FSS 현행 구현 기준 갱신)_
+_last updated: 2026-07-03 (오후 16:00 스케줄러 추가 — 하루 2회 발화 정합)_

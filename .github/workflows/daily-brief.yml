@@ -4,7 +4,8 @@ name: IBK FSS Sanction Brief
 # 수집: FSS 제재공시(openInfo, HTML) + 경영유의·개선(openInfoImpr, PDF첨부) 2소스 스크래핑 + seen_ids dedup. 한 Job에서 실행.
 # FSS는 해외 IP 차단 없음이 검증됨(미국 러너 4종 접근 PASS, diag-fss-access.yml) → KR 프록시 불요. 로컬 listener·trigger_bot 불요.
 #
-# 트리거: workflow_dispatch 단일 — 외부 Cloudflare Workers Cron이 08:00 KST에 호출(결정 B).
+# 트리거: workflow_dispatch — 외부 Cloudflare Workers Cron이 08:00·16:00 KST에 호출(하루 2회, FSC 동형).
+#   08:00=am / 16:00=pm. pm은 오전 이후 신규만 델타 알림.
 #   (GitHub 자체 schedule cron은 ~12h 지연·누락이 확인되어 제거. 정시성은 Cloudflare가 책임.)
 on:
   workflow_dispatch:
@@ -31,8 +32,8 @@ jobs:
         run: |
           echo "TODAY=$(TZ=Asia/Seoul date +%Y%m%d)" >> "$GITHUB_ENV"
           HOUR=$(TZ=Asia/Seoul date +%H)
-          # FSS는 08:00 단일 발화 → am 슬롯. (슬롯 로직은 FSC 아키텍처 유지: <12=am, ≥12=pm.
-          #   수동 오후 재실행 시 pm으로 자동 분리되어 오전 기록을 덮지 않음.)
+          # 하루 2회 발화: 08:00 KST → am, 16:00 KST → pm (<12=am, ≥12=pm).
+          #   pm은 오전 이후 신규만 델타 알림. 수동 재실행도 시각으로 슬롯 자동 분리.
           #   산출물은 reports/{날짜}/{슬롯}/ 에 런별 분리 보존(덮어쓰기 금지 — 감사 추적).
           if [ "$HOUR" -ge 12 ]; then SLOT=pm; else SLOT=am; fi
           echo "RUN_SLOT=$SLOT" >> "$GITHUB_ENV"
@@ -165,9 +166,15 @@ jobs:
       - name: 완료 알림 (Telegram)
         if: success()
         run: |
-          # FSS는 08:00 단일 실행(단일 슬롯) — FSC식 pm 델타 게이트 미사용.
-          #   항상 briefV2가 만든 FSS tgMsg(제재·경영유의 도메인)를 전송.
-          node notify_telegram.js --from-crawl-result
+          # 하루 2회 발화(08:00 am / 16:00 pm). pm은 오전 대비 델타 게이트 적용:
+          #   오전본(reports/{date}/am/crawl_result.json)이 있으면 --delta-since 로 '오전 이후 신규'만 전체 알림,
+          #   신규 0건이면 '변동 없음' 마감 알림. am이거나 오전본이 없으면 평소대로 전체 tgMsg 전송(놓침 방지).
+          AM_CRAWL="reports/${TODAY}/am/crawl_result.json"
+          if [ "$RUN_SLOT" = "pm" ] && [ -f "$AM_CRAWL" ]; then
+            node notify_telegram.js --from-crawl-result --delta-since "$AM_CRAWL"
+          else
+            node notify_telegram.js --from-crawl-result
+          fi
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}

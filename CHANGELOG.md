@@ -1,5 +1,13 @@
 # 변경 이력
 
+## 2026-07-03
+- feat: 오후 16:00 KST 스케줄러 추가 — 하루 2회 발화(FSC Morning brief 동형) + pm 델타 게이트
+  - 왜: FSC와 동일한 오전/오후 커버리지 요청(사용자 지시). 오전 이후 게시되는 제재·경영유의를 당일 오후에 포착. 결정 B를 "08:00 단일"에서 "08:00·16:00 2회"로 반전.
+  - 트리거: `cloud-trigger/wrangler.toml` crons에 `0 7 * * *`(16:00 KST) 추가 → `["0 23 * * *", "0 7 * * *"]`. Cloudflare 대시보드에도 두 cron 등록·실발화 확인(wrangler 스케줄 쓰기 차단이라 대시보드가 실소스). worker `scheduled`는 두 cron 동일 dispatch — 슬롯은 러너가 KST 시각으로 판별(<12=am, ≥12=pm), 코드 로직 무변경.
+  - pm 델타 배선: `daily-brief.yml` 완료알림에서 pm+오전본 존재 시 `--delta-since reports/{date}/am/crawl_result.json` 호출. 오전 이후 신규만 전체 알림, 0건이면 '변동 없음 · 기존 점검 유지' 마감(시작→완료 짝 보장). am이거나 오전본 없으면 평소대로 전체 전송(놓침 방지).
+  - fix: `notify_telegram.js` 델타 게이트 비교키를 `noticeId`(FSC 스키마, FSS엔 없음→항상 undefined→오작동)에서 **`key`(examMgmtNo_emOpenSeq/파일ID)** 로 정정, `key || noticeId` fallback으로 FSC 호환. 빈 델타 메시지 FSC풍("내부통제 동향 알림")→FSS 도메인으로. 3경로(신규有/0/오전본없음) 실코드 리허설 통과.
+  - 문서 정합(결정 B 반전): CLAUDE.md·README·docs/README(지도)·operations/workflow(정본)·business 3종·technical 3종(SKILL 포함)·deliverables 5종·cloud-trigger/README·wrangler·index.js 주석 전부 08:00·16:00 2회로. 자동 링크 체커 broken=0(31파일·81링크). 코드가 읽는 knowledge/·agents/ 무변경.
+
 ## 2026-07-02
 - docs: 문서 디렉터리 재편 — 대상 독자별 분류 + 주제별 정본 단일화 + 정본 지도 신설
   - 왜: docs/가 평면 나열이고 같은 주제(워크플로우 등)를 여러 문서가 설명해 제3자가 "어느 게 정본인지" 즉시 못 고름. 실행 로직은 0줄 변경(순수 문서만 git mv + 링크 갱신).

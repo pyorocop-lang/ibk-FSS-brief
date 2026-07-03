@@ -1,6 +1,7 @@
-// IBK FSS Sanction Brief — 신뢰성 있는 08:00 KST 클라우드 트리거
+// IBK FSS Sanction Brief — 신뢰성 있는 08:00·16:00 KST 클라우드 트리거 (하루 2회, FSC 동형)
 // Cloudflare Workers Cron Trigger → GitHub workflow_dispatch 호출
 // (GitHub 자체 schedule cron은 지연·누락이 잦아 대체)
+// 두 cron(0 23 * * * / 0 7 * * *) 모두 동일하게 dispatch — 슬롯(am/pm)은 러너가 KST 시각으로 판별.
 //
 // 배포: cloud-trigger/README.md 참고
 //   - wrangler secret put GH_PAT   (fine-grained PAT, Actions: Read and write)

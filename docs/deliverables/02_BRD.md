@@ -11,7 +11,7 @@
 
 ### 1.1 목적
 
-금융감독원(FSS)이 게시하는 제재공시·경영유의사항을 자동 수집하고, Claude LLM이 IBK기업은행 업무 연관성을 벤치마킹 자가점검 관점으로 분석해, 매일 08:00 KST Telegram 알림과 DOCX 보고서로 전달하는 시스템의 업무 요구사항을 정의한다.
+금융감독원(FSS)이 게시하는 제재공시·경영유의사항을 자동 수집하고, Claude LLM이 IBK기업은행 업무 연관성을 벤치마킹 자가점검 관점으로 분석해, 매일 08:00·16:00 KST Telegram 알림과 DOCX 보고서로 전달하는 시스템의 업무 요구사항을 정의한다.
 
 ### 1.2 이해관계자
 
@@ -26,7 +26,7 @@
 
 | 구분 | AS-IS | TO-BE (구현 완료) |
 |---|---|---|
-| 신규 공시 확인 | 담당자가 FSS 게시판 2곳 수동 순회 | 매일 08:00 자동 수집·신규 판별 |
+| 신규 공시 확인 | 담당자가 FSS 게시판 2곳 수동 순회 | 매일 08:00·16:00 자동 수집·신규 판별 |
 | 신규/기존 구분 | 육안 대조 (목록에 과거 건 누적 노출) | `state/seen_ids.json` ledger 자동 대조 |
 | IBK 연관성 분석 | 담당자 개인 역량 의존 | LLM이 제재 핵심·발생 가능성·점검 제안·부서를 표준 틀로 산출 |
 | 중요도 선별 | 없음 (전건 동일 취급) | 기관 계층(T0~T3) × 위험도(상/중/하) |
@@ -96,8 +96,9 @@
 
 | ID | 요구사항 | 구현 |
 |---|---|---|
-| FR-51 | 매일 08:00 KST 정시에 파이프라인을 기동한다. | Cloudflare Workers Cron `0 23 * * *` → `workflow_dispatch` |
+| FR-51 | 매일 08:00·16:00 KST 정시에 파이프라인을 기동한다(am·pm 2회). | Cloudflare Workers Cron `0 23 * * *`(am) · `0 7 * * *`(pm) → `workflow_dispatch` |
 | FR-52 | 수동 실행이 가능해야 한다. | `gh workflow run "IBK FSS Sanction Brief" --ref main` |
+| FR-53 | pm(16:00) 슬롯은 오전 이후 신규만 델타 알림하고, 신규 0건이면 '변동 없음 · 기존 점검 유지' 마감 알림을 보낸다. | `notify_telegram.js --delta-since reports/{DATE}/am/crawl_result.json` + seen_ids dedup |
 
 ---
 
@@ -105,7 +106,7 @@
 
 | ID | 분류 | 요구사항 | 구현 |
 |---|---|---|---|
-| NFR-01 | 정시성 | 08:00 KST ±수 분 내 기동 (GitHub schedule cron의 ~12h 지연 회피) | 외부 Cloudflare Workers Cron 전담 |
+| NFR-01 | 정시성 | 08:00·16:00 KST ±수 분 내 기동 (GitHub schedule cron의 ~12h 지연 회피) | 외부 Cloudflare Workers Cron 전담 |
 | NFR-02 | 무인 운영 | 로컬 PC·상시 서버 불요, 상태는 repo에 지속 | 완전 클라우드 + git 상태 저장소 |
 | NFR-03 | 신뢰성 | 수집 재시도 ≤3회, 동시 실행 방지, push 충돌 자동 해소 | Job retry + concurrency group + `-X theirs` rebase |
 | NFR-04 | 컴플라이언스 | 단정적 법적 판단 금지, 제안형 해요체 강제 | tone-guide 주입 + validator A7/A7b |

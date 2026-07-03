@@ -13,7 +13,7 @@
 ```mermaid
 flowchart LR
     subgraph TRIGGER["⏰ 트리거 (Cloudflare Workers Cron)"]
-        CRON["Cloudflare Workers Cron\n매일 08:00 KST (UTC cron 0 23 * * *)\n(cloud-trigger/)"]
+        CRON["Cloudflare Workers Cron\n매일 08:00 KST (UTC 0 23 * * *) → am\n매일 16:00 KST (UTC 0 7 * * *) → pm\n(cloud-trigger/)"]
     end
 
     subgraph CLOUD["☁️ GitHub Actions (ubuntu-latest · 단일 Job)"]
@@ -69,13 +69,13 @@ flowchart LR
 
 | 구성 요소 | 역할 |
 |---|---|
-| Cloudflare Workers Cron (`cloud-trigger/`) | 매일 **08:00 KST**에 GitHub `workflow_dispatch` 호출 (UTC cron `0 23 * * *`). 정시성 책임 |
+| Cloudflare Workers Cron (`cloud-trigger/`) | 매일 **08:00 KST**(UTC `0 23 * * *` → am 슬롯)·**16:00 KST**(UTC `0 7 * * *` → pm 슬롯) 2회 GitHub `workflow_dispatch` 호출. 정시성 책임 |
 
 **왜 GitHub 자체 schedule cron이 아닌가?**
 GitHub Actions의 schedule cron은 최대 약 11~12시간의 지연·누락이 확인되어 **제거**했다(백업으로도 두지 않음). 정시성은 외부 Cloudflare Workers Cron이 전담한다.
 수동 실행은 `gh workflow run "IBK FSS Sanction Brief" --ref main`.
 
-> FSS 제재·경영유의는 **08:00 단일 발화(am 슬롯)** 로 운영한다(결정 B — FSC 07:30과 충돌 회피). 슬롯 로직(`runslot.js`: KST `<12=am`, `≥12=pm`)은 유지되어, 수동 오후 재실행 시 pm으로 자동 분리되어 오전 기록을 덮지 않는다.
+> FSS 제재·경영유의는 **하루 2회 발화**로 운영한다(결정 B — FSC Morning brief 동형 오전/오후 커버리지). **08:00 KST = am 슬롯**(전체 알림), **16:00 KST = pm 슬롯**(오전 이후 신규만 델타 알림; 신규 0건이면 '변동 없음 · 기존 점검 유지' 마감 알림). 슬롯 로직(`runslot.js`/워크플로우: KST `<12=am`, `≥12=pm`)이 두 정시 발화를 슬롯별로 갈라 `reports/{DATE}/{SLOT}/` 에 비파괴 공존시킨다. pm 델타는 `notify_telegram.js --delta-since reports/{DATE}/am/crawl_result.json` + `seen_ids` dedup로 구현된다.
 
 ---
 
@@ -263,11 +263,11 @@ flowchart TD
 
 | 제약 | 원인 | 대응 |
 |---|---|---|
-| GitHub schedule cron 정시성 부족 | 최대 ~11~12h 지연·누락 | Cloudflare Workers Cron으로 08:00 KST 트리거(`0 23 * * *`) |
+| GitHub schedule cron 정시성 부족 | 최대 ~11~12h 지연·누락 | Cloudflare Workers Cron으로 08:00 KST(`0 23 * * *`)·16:00 KST(`0 7 * * *`) 2회 트리거 |
 | 발행 부정기 → 중복 알림 위험 | 제재·경영유의는 정기 발행이 아님 | `state/seen_ids.json` dedup ledger(성공 시에만 커밋), 최초 시드 모드로 초기 범람 차단 |
 | 수집 timeout·일시장애 | 외부 응답 지연 | STEP1 Job 레벨 최대 3회 재시도, 최종 실패 시 "❌ 수집 실패" 알림 + Job 실패(`failure_meta.json` 격리, 성공본 비파괴) |
 | DOCX git 추적 부담 | 보관/용량 정책 | GitHub Artifact(90일) 다운로드 방식으로 제공 |
 
 ---
 
-_last updated: 2026-07-02 (FSS 현행 구현 기준 갱신)_
+_last updated: 2026-07-03 (오후 16:00 스케줄러 추가 — 하루 2회 발화 정합)_

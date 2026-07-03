@@ -17,8 +17,9 @@ FSS OPEN API에는 제재/경영유의 엔드포인트가 없어 HTML/PDF 직접
 
 ## 아키텍처 (완전 클라우드)
 ```
-Cloudflare Workers Cron (매일 23:00 UTC = 08:00 KST)
-  → GitHub workflow_dispatch (.github/workflows/daily-brief.yml, 단일 Job)
+Cloudflare Workers Cron (매일 08:00·16:00 KST = 23:00·07:00 UTC, cron "0 23 * * *"·"0 7 * * *")
+  → GitHub workflow_dispatch (.github/workflows/daily-brief.yml, 단일 Job / 실행당 1 Job)
+      (08:00=am 전체 / 16:00=pm 오전 이후 신규만 델타 알림)
       fss_crawler.js (2소스 스크래핑 + seen_ids dedup)
       → analyst.js (Claude Haiku, Tier기반 IBK 벤치마킹 분석)
       → briefV2.js (DOCX 보고서 + Telegram 메시지)

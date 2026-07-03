@@ -10,7 +10,7 @@
 
 | 조건 | 값 |
 |------|-----|
-| 스케줄 | 매일 08:00 KST 1회 (Cloudflare Workers Cron `0 23 * * *` UTC → GitHub Actions) |
+| 스케줄 | 매일 08:00·16:00 KST 2회 (Cloudflare Workers Cron `0 23 * * *`·`0 7 * * *` UTC → GitHub Actions. 08:00=am / 16:00=pm) |
 | 입력 | `reports/{YYYYMMDD}/{slot}/crawl_result.json` (FSS 2소스 수집 + Claude 분석 결과) |
 | 출력 | `reports/{YYYYMMDD}/{slot}/{YYYYMMDD}_{morning\|afternoon}_brief.docx` |
 | 생성기 | `briefV2.js` (docx 라이브러리) |

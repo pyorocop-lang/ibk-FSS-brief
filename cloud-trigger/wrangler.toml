@@ -2,13 +2,13 @@ name = "ibk-fss-brief-trigger"
 main = "src/index.js"
 compatibility_date = "2026-06-25"
 
-# 정시 발화 1회 — Cloudflare cron은 UTC 기준:
-#   08:00 KST = 23:00 UTC(전날), 매일  → 단일 슬롯(am)
-# FSS 제재는 부정기 발행이라 하루 1회로 충분. FSC 브리핑(06:00/16:00)과 시각 분리(결정 B).
-# 대시보드 실제 설정과 일치("0 23 * * *", 매일). ※ 대시보드 드롭다운이 평일범위(0-4)를 못 받아 매일로 설정 —
-#   주말 신규 0건은 조용한 알림이라 무해. (wrangler로는 스케줄 쓰기가 막혀 대시보드에서 직접 추가/변경)
+# 정시 발화 2회 — Cloudflare cron은 UTC 기준(매일):
+#   08:00 KST = 23:00 UTC(전날)  → 오전(am 슬롯)
+#   16:00 KST = 07:00 UTC        → 오후(pm 슬롯, 오전 이후 신규 있을 때만 전체 알림·없으면 '변동 없음' 마감)
+# FSC Morning brief와 동형(하루 2회). FSS 제재는 부정기 발행이라 오후는 대개 '신규 없음' 조용한 마감 알림.
+# 대시보드 실제 설정과 일치("0 23 * * *", "0 7 * * *"). (wrangler로는 스케줄 쓰기가 막혀 대시보드에서 직접 추가/변경)
 [triggers]
-crons = ["0 23 * * *"]
+crons = ["0 23 * * *", "0 7 * * *"]
 
 # GH_PAT 은 코드에 두지 말고 secret 으로:
 #   wrangler secret put GH_PAT
