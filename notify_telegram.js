@@ -106,10 +106,10 @@ async function main() {
         const newGraded = (data.graded || []).filter(i => !baseIds.has(String(i.key || i.noticeId)));
         if (newGraded.length === 0) {
           // 신규 없음 → '변동 없음' 마감 알림(항상 완료 알림). 보고서·기록은 이미 생성·보존됨.
-          const n = (typeof data.totalFetched === "number") ? data.totalFetched : (data.items || []).length;
+          //   ※ '공시목록 확인'은 "시스템이 목록을 조회했고 오전 이후 신규가 없다"는 뜻(스캔 총건수 아님 — '제재 N건' 오해 방지).
           const kst = new Date(Date.now() + 9 * 3600 * 1000);
           const hhmm = `${String(kst.getUTCHours()).padStart(2, "0")}:${String(kst.getUTCMinutes()).padStart(2, "0")}`;
-          message = `🔔 금융감독원 제재·경영유의 브리핑 (${hhmm})\n${n}건 확인 · 오전 이후 신규 없음\n✅ 신규 제재·경영유의 없음 — 기존 점검 유지`;
+          message = `🔔 금융감독원 제재·경영유의 브리핑 (${hhmm})\n금융감독원 공시목록 확인 · 오전 이후 신규 없음\n✅ 신규 제재·경영유의 없음 — 기존 점검 유지`;
           console.log("[TELEGRAM] 오후 델타: 오전 이후 신규 없음 — '변동 없음' 마감 알림 전송");
         } else {
           message = `🔔 [오후 추가 ${newGraded.length}건 감지]\n` + (message || "");
