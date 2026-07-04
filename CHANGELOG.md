@@ -1,6 +1,11 @@
 # 변경 이력
 
 ## 2026-07-04
+- feat: crawl_result.scanAudit 추가 — 신규 0건(noUpdate)에도 "무엇을 스캔했나" git 영구 증적
+  - 왜: 신규 없는 날 원본 목록 HTML은 Artifact 90일뿐이라 90일 초과 감사 시 원본 소실. 스캔 요약을 git 영구 커밋되는 crawl_result에 남겨 항구 증적(감사자 일단위 요구 대응).
+  - fss_crawler.js: 각 목록 페이지에서 본 **전체 행 key + 본문 SHA-256**(page·url·status·rowCount 포함)을 `result.scanAudit`에 기록. noUpdate여도 남고 crawl_result와 함께 git 커밋(STEP6). crypto 도입, `sha256`·`openInfoKey` 헬퍼 추가(+export, 감사툴 재사용). 기존 수집·판정 로직 불변(순수 추가).
+  - 검증: sha256 결정성·null안전, openInfoKey/fileId key 추출, scanAudit 엔트리 조립 실코드 확인, node -c OK.
+  - 문서: docs/technical/ARCHITECTURE.md(감사 섹션)·04_TECH_DOC.md(증빙)·05_QNA.md(Q10 감사 대응)에 scanAudit 반영.
 - fix: pm '변동 없음' 마감 메시지 "N건 확인" → "금융감독원 공시목록 확인" (제재 N건 오해 방지)
   - 왜: 텔레그램 pm 델타 마감의 "40건 확인"이 신규/제재 40건으로 오해될 소지. 실제로는 totalFetched(목록에서 스캔한 총 행 수, 필터 전)라 사용자에게 혼란.
   - notify_telegram.js:112: `${n}건 확인` → `금융감독원 공시목록 확인`(숫자 제거, "조회했고 신규 없음" 의미로 명확화). 이제 미사용인 `n`(totalFetched) 산출 제거. 렌더 지점은 이 한 곳뿐(briefV2 am noUpdate는 이미 숫자 없는 "금감원 신규 확인").

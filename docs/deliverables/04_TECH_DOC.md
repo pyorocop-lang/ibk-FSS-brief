@@ -57,7 +57,7 @@ ibk-FSS-brief/
 - **신규 판별**: 전체 목록 수집 → **게시일(postDate) ≥ 앵커 `REPORT_SINCE`(기본 `2026-07-02`, env 재정의) AND `state/seen_ids.json`에 없는 키**만 `graded[]`(분석 대상)로 편입. 앵커 이전 게시분(백로그)은 레저에만 등록하고 상세수집·보고에서 완전 제외(게시일 파싱 실패는 fail-open). `backlogSkipped`·`reportSince`를 crawl_result에 기록.
 - **시드 모드**: ledger가 비어 있으면 items·ledger만 채우고 `graded`/`newGraded`는 비운다 (최초 실행 과거건 범람 방지 — 2026-07-01 수정).
 - **실패 격리 계약**: 성공 시 `crawl_result.json` 작성 + ledger 갱신 + 기존 failure_meta 삭제. 실패 시 `failure_meta.json`(error 필드)만 작성하고 성공본·ledger는 비파괴.
-- **증빙**: raw HTML → `raw/`, PDF → `pdfs/` 저장.
+- **증빙**: raw HTML → `raw/`, PDF → `pdfs/` 저장(Artifact 90일). 추가로 **매 페이지 스캔 증적**을 `crawl_result.scanAudit`(page·url·status·rowCount·**목록 key 전체**·**본문 SHA-256**)에 기록 → 신규 0건(noUpdate)이어도 남고 crawl_result와 함께 **git 영구** 커밋되어, 원본 HTML 없이도 "무엇을 스캔했나"를 항구 증적한다.
 - 실행: `node fss_crawler.js [--date YYYYMMDD] [--pages N]`
 
 ### 3.2 analyst.js — LLM 분석 (STEP2)

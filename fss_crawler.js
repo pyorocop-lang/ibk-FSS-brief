@@ -29,6 +29,7 @@ const http  = require("http");
 const fs    = require("fs");
 const path  = require("path");
 const url   = require("url");
+const crypto = require("crypto");
 const { reportDir, findPreviousCrawlFile } = require("./runslot");
 
 const HOST = "https://www.fss.or.kr";
@@ -259,6 +260,18 @@ function saveLedger(led) {
   fs.writeFileSync(LEDGER_PATH, JSON.stringify(led, null, 2), "utf8");
 }
 
+// ── 스캔 증적 헬퍼 ───────────────────────────────────────────
+//   noUpdate(신규 0건)여도 crawl_result.scanAudit에 "이 페이지에서 본 전체 행의 key + 본문 SHA-256"을 남긴다.
+//   원본 목록 HTML은 Artifact 90일뿐이지만, 이 요약은 crawl_result와 함께 git에 영구 커밋 → 무엇을 스캔했는지 항구 증적.
+const sha256 = (s) => "sha256:" + crypto.createHash("sha256").update(s || "", "utf8").digest("hex");
+function openInfoKey(href) {   // 제재공시 행 key = examMgmtNo_emOpenSeq (행 처리 루프와 동일 규칙)
+  try {
+    const q = new url.URL(absUrl(href));
+    const e = q.searchParams.get("examMgmtNo") || "";
+    return e ? `${e}_${q.searchParams.get("emOpenSeq") || ""}` : null;
+  } catch { return null; }
+}
+
 // ── 소스별 수집 ─────────────────────────────────────────────
 async function collectSanctions(result, ledger, rawDir, pdfDir, maxPages, seedMode) {
   const src = SOURCES.sanction;
@@ -271,6 +284,11 @@ async function collectSanctions(result, ledger, rawDir, pdfDir, maxPages, seedMo
     const rows = parseListRows(res.body);
     if (rows.length === 0) break;
     result.totalFetched += rows.length;
+    // 스캔 증적(신규 무관, git 영구): 이 페이지에서 본 전체 행 key + 본문 해시
+    result.scanAudit.push({
+      source: src.key, page, url: listUrl, status: res.status, rowCount: rows.length,
+      bodySha256: sha256(res.body), keys: rows.map(r => openInfoKey(r.href)).filter(Boolean),
+    });
 
     for (const row of rows) {
       // 셀: [번호, 금융기관명, 게시일, 내용보기(앵커), 관련부서, 조회수]
@@ -349,6 +367,11 @@ async function collectMngImpr(result, ledger, rawDir, pdfDir, maxPages, seedMode
     const rows = parseListRows(res.body);
     if (rows.length === 0) break;
     result.totalFetched += rows.length;
+    // 스캔 증적(신규 무관, git 영구): 이 페이지에서 본 전체 행 key + 본문 해시
+    result.scanAudit.push({
+      source: src.key, page, url: listUrl, status: res.status, rowCount: rows.length,
+      bodySha256: sha256(res.body), keys: rows.map(r => fileIdFromHpdownload(r.href)).filter(Boolean),
+    });
 
     for (const row of rows) {
       // 셀: [번호, 대상기관, 게시일, 내용보기(PDF앵커), 담당부서]. href=바로 PDF.
@@ -433,6 +456,7 @@ async function main() {
     items: [], graded: [], newItems: [], newGraded: [],
     backlogSkipped: 0,   // 게시일 앵커(REPORT_SINCE) 이전 백로그 — 레저 등록·보고 제외 건수
     reportSince: REPORT_SINCE,
+    scanAudit: [],       // 페이지별 스캔 증적(목록 key 전체 + 본문 SHA-256) — noUpdate여도 기록, git 영구 감사 증적
     noUpdate: false, error: null,
   };
 
@@ -475,4 +499,5 @@ module.exports = {
   scoreItem, grade, parseListRows, parseSanctionDetail, fileIdFromHpdownload,
   normDate, decodeEntities, stripTags, absUrl,
   REPORT_SINCE, classifyTier, TIER_LABEL,   // 시나리오 테스트·재사용용(신규 판정 앵커·기관 계층)
+  sha256, openInfoKey,                       // 스캔 증적 검증·감사 툴 재사용용
 };
