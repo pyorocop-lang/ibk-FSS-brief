@@ -1,0 +1,99 @@
+{
+  "dateCode": "20260706",
+  "crawledAt": "2026-07-05T23:00:36.667Z",
+  "source": "FSS 제재공시(openInfo) + 경영유의(openInfoImpr) 스크래핑",
+  "collectMode": "scrape",
+  "ledgerSeeded": false,
+  "totalFetched": 40,
+  "items": [],
+  "graded": [],
+  "newItems": [],
+  "newGraded": [],
+  "backlogSkipped": 0,
+  "reportSince": "2026-07-02",
+  "scanAudit": [
+    {
+      "source": "제재공시",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "bodySha256": "sha256:efeffeaee2ea0bac398414d5cb46a9a2c91637dda00705256ea4bbc5f8b7c4ff",
+      "keys": [
+        "202300746_5",
+        "202400536_1",
+        "202500072_1",
+        "202400537_1",
+        "202400207_1",
+        "202300145_7",
+        "202400745_1",
+        "202400743_1",
+        "202400337_3",
+        "202500038_1"
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "bodySha256": "sha256:46440ddac36b35d7aa475b92a4696f1598c9eab070c20adf5832595606ed732f",
+      "keys": [
+        "202300334_1",
+        "202500609_1",
+        "202500612_1",
+        "202500611_1",
+        "202400003_3",
+        "202300449_6",
+        "202500333_1",
+        "202500332_1",
+        "202500331_1",
+        "202500330_1"
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "bodySha256": "sha256:c701e4a7bb46eb4f28458d881ab78489ace291b9aca2d0ee9faaefc5685a854a",
+      "keys": [
+        "202400536_12",
+        "202500038_12",
+        "202600082_11",
+        "202600019_11",
+        "202500493_12",
+        "202500742_11",
+        "202600087_11",
+        "202500139_11",
+        "202500002_12",
+        "202300039_11"
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "bodySha256": "sha256:07a7f503d173b2a80abb25d71b1f56cc9323497b1e63498554d4a3faa3d1863e",
+      "keys": [
+        "202300654_12",
+        "202300807_12",
+        "202500511_12",
+        "202500643_11",
+        "202400693_12",
+        "202500121_12",
+        "202500015_11",
+        "202500743_11",
+        "202400481_15",
+        "202500795_11"
+      ]
+    }
+  ],
+  "noUpdate": true,
+  "error": null,
+  "tgMsg": "🔔 금융감독원 제재·경영유의 브리핑 (08:00)\n금감원 신규 확인 · 변동 없음\n✅ 신규 제재·경영유의 없음 — 기존 점검 유지"
+}
