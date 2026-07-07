@@ -1,6 +1,9 @@
 # 변경 이력
 
 ## 2026-07-04
+- docs: 기술 패턴 문서 신설 — `docs/technical/AI_멀티에이전트_기술문서.md` (설계 패턴·신뢰성 엔지니어링, 기술팀)
+  - 자매 FSC 기술문서를 템플릿으로 FSS 전면 적응: 단일 `fss_crawler`·직결 스크래핑(API/프록시 없음)·게시일 앵커+레저·Tier×위험도·pm 델타·scanAudit. FSC 고유 서술(KR 프록시·Vercel egress·Root Directory 사고·마감 D-day 리마인더·OPEN API 1차 fallback)은 전량 제거(프록시/egress 언급은 "FSS는 미사용" 대비로만).
+  - 정본 지도 `docs/README.md` 등재 + 내러티브 업무문서와 상호링크. 링크 broken=0(34파일·128링크).
 - docs: 소개 내러티브 업무문서 신설 — `docs/business/AI_멀티에이전트로_일한다는것.md` (경영진·일반·외부)
   - 자매 FSC 문서를 템플릿으로, 도메인은 FSS로 전면 적응: 제재·경영유의(사후 벤치마킹)·08:00/16:00·HTML/PDF 직접 스크래핑(제재 API 없음)·프록시 없음(해외 IP 차단 없음 검증)·Tier×위험도·게시일 앵커+레저·scanAudit. 링크는 FSS 실제 문서로 연결.
   - 정본 지도 `docs/README.md`에 등재(정본 지도 표 + 폴더 구조 business/). 링크 broken=0.
