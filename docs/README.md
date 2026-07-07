@@ -13,6 +13,7 @@
 | **왜/어떻게 설계됐나 (기획안·결정사항)** | [business/PROJECT_BRIEF.md](business/PROJECT_BRIEF.md) | 기획·설계 |
 | **경영진 1‑페이지 보고** | [business/EXECUTIVE_BRIEF.md](business/EXECUTIVE_BRIEF.md) | C‑Level |
 | **설계 철학·글쓰기(해요체) 원칙** | [business/METHODOLOGY.md](business/METHODOLOGY.md) | 기획·리뷰 |
+| **AI 멀티에이전트로 일한다는 것(소개·내러티브)** | [business/AI_멀티에이전트로_일한다는것.md](business/AI_멀티에이전트로_일한다는것.md) | 경영진·일반·외부 |
 | **전체 시스템 구조·데이터 흐름** | [technical/ARCHITECTURE.md](technical/ARCHITECTURE.md) | 개발 |
 | **에이전트 6종 역할·입출력** | [technical/AGENT_ORG_CHART.md](technical/AGENT_ORG_CHART.md) | 개발 |
 | **DOCX 보고서 레이아웃 실측값** | [technical/SKILL.md](technical/SKILL.md) | 개발 (수정 시 briefV2.js 동반) |
@@ -40,7 +41,8 @@
     ├── business/          경영·기획·방법론
     │   ├── PROJECT_BRIEF.md
     │   ├── EXECUTIVE_BRIEF.md
-    │   └── METHODOLOGY.md
+    │   ├── METHODOLOGY.md
+    │   └── AI_멀티에이전트로_일한다는것.md   ← 소개 내러티브(경영진·외부)
     ├── technical/         개발·구조·명세
     │   ├── ARCHITECTURE.md
     │   ├── AGENT_ORG_CHART.md
