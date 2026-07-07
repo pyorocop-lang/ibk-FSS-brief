@@ -17,7 +17,8 @@
 | **에이전트 6종 역할·입출력** | [technical/AGENT_ORG_CHART.md](technical/AGENT_ORG_CHART.md) | 개발 |
 | **DOCX 보고서 레이아웃 실측값** | [technical/SKILL.md](technical/SKILL.md) | 개발 (수정 시 briefV2.js 동반) |
 | **매일 어떻게 도는가 (실행 절차·오류 대응)** | [operations/workflow.md](operations/workflow.md) | 운영 |
-| **공식 산출 문서 세트 (보고·인수인계·질의)** | [deliverables/](deliverables/01_SOD.md) — SOD·BRD·업무·기술·Q&A | 보고·인수인계 |
+| **공식 산출 문서 세트 (보고·인수인계·질의)** | [deliverables/](deliverables/01_SOD.md) — SOD·BRD·업무·기술·Q&A·개선사항 | 보고·인수인계 |
+| **최근 개선사항(2026-07) — 무엇을·왜 바꿨나 (건별)** | [deliverables/06_개선사항_2026-07.md](deliverables/06_개선사항_2026-07.md) | 경영진·실무자 |
 | **유사 아키텍처 프로젝트 교훈 체크리스트** | [history/LESSONS_LEARNED.md](history/LESSONS_LEARNED.md) | 아키텍트 (FSC 회고) |
 | **개발·커밋 지침 (에이전트/기여자)** | [../CLAUDE.md](../CLAUDE.md) | 기여자 |
 | **변경 이력** | [../CHANGELOG.md](../CHANGELOG.md) | 전체 |
@@ -48,7 +49,8 @@
     │   └── workflow.md    ← 워크플로우 단일 정본
     ├── deliverables/      공식 산출 문서 세트 (보고·인수인계·질의)
     │   ├── 01_SOD.md · 02_BRD.md · 03_BUSINESS_DOC.md
-    │   └── 04_TECH_DOC.md · 05_QNA.md
+    │   ├── 04_TECH_DOC.md · 05_QNA.md
+    │   └── 06_개선사항_2026-07.md   ← 최근 개선 건별(기술·업무)
     └── history/           이력·교훈
         └── LESSONS_LEARNED.md
 ```

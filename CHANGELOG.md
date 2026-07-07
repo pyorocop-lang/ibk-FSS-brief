@@ -1,6 +1,9 @@
 # 변경 이력
 
 ## 2026-07-04
+- docs: 개선사항 문서 신설 — `docs/deliverables/06_개선사항_2026-07.md` (2026-07 개선 4건 건별, 경영진·실무자)
+  - 16:00 스케줄러 / 게시일 앵커 신규판정 / 사용자 문구 정합 / scanAudit 감사증적을 각 건 **업무(경영진: 왜·효과·리스크)** + **기술(실무자: 무엇을·어떻게·검증)**으로 정리. 커밋 참조 포함.
+  - 정본 지도 `docs/README.md`에 등재(정본 지도 표 + 폴더 구조). 링크 broken=0.
 - feat: crawl_result.scanAudit 추가 — 신규 0건(noUpdate)에도 "무엇을 스캔했나" git 영구 증적
   - 왜: 신규 없는 날 원본 목록 HTML은 Artifact 90일뿐이라 90일 초과 감사 시 원본 소실. 스캔 요약을 git 영구 커밋되는 crawl_result에 남겨 항구 증적(감사자 일단위 요구 대응).
   - fss_crawler.js: 각 목록 페이지에서 본 **전체 행 key + 본문 SHA-256**(page·url·status·rowCount 포함)을 `result.scanAudit`에 기록. noUpdate여도 남고 crawl_result와 함께 git 커밋(STEP6). crypto 도입, `sha256`·`openInfoKey` 헬퍼 추가(+export, 감사툴 재사용). 기존 수집·판정 로직 불변(순수 추가).
