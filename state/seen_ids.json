@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-09T23:01:18.977Z",
+  "updatedAt": "2026-07-10T07:01:19.202Z",
   "note": "중복방지 ledger — 이미 보고한 제재/경영유의 건의 고유키. 클라우드 실행의 유일한 상태 저장소(repo). 매 실행 STEP1 fss_crawler가 대조해 신규만 추출, STEP6에서 커밋.",
   "openInfo": {
     "202300334_1": {
@@ -188,6 +188,11 @@
       "org": "아이비케이신용정보 주식회사",
       "title": "",
       "backlog": true
+    },
+    "202500415_1": {
+      "seenDate": "20260710",
+      "org": "DB손해보험주식회사",
+      "title": ""
     }
   },
   "openInfoImpr": {
@@ -317,6 +322,18 @@
     "202500601_11": {
       "seenDate": "20260710",
       "org": "BNP파리바",
+      "title": "",
+      "backlog": true
+    },
+    "202600088_11": {
+      "seenDate": "20260710",
+      "org": "순창농협",
+      "title": "",
+      "backlog": true
+    },
+    "202600130_11": {
+      "seenDate": "20260710",
+      "org": "여수농협",
       "title": "",
       "backlog": true
     }
