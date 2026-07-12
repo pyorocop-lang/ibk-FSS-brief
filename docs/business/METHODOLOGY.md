@@ -49,30 +49,57 @@ flowchart LR
 | 중복 방지 | `state/seen_ids.json` ledger로 이미 처리한 제재·경영유의 건을 재알림하지 않음 |
 | LLM 품질 관리 | validator.js가 LLM 출력을 별도 검증 |
 
-### 수집 방식: FSS 2소스 스크래핑 + seen_ids ledger (완전 클라우드)
+### 수집 방식: FSS 2소스 스크래핑 + 관측 창 차집합 (완전 클라우드)
 
 금융감독원(FSS)은 제재/경영유의 건을 **부정기적으로** 게시한다. data.go.kr OPEN API에는 해당 제재 서비스가 없어(실측 확인), 공시 페이지를 직접 스크래핑한다.
 
+**FSS 목록엔 게시일 컬럼이 없다.** 3번째 컬럼은 `제재조치요구일`이고 목록은 그 값의 내림차순 정렬이다 → 오늘 새로 게시된 건도 조치요구일이 과거면 목록 맨 위가 아니라 **중간에 삽입**된다. 날짜로는 신규를 판정할 수 없다.
+
 ```
-수집 소스 (fss_crawler.js) — 두 목록을 각각 순회:
+수집 소스 (fss_crawler.js) — 통합 collectSource로 두 목록을 각각 순회:
   ① 제재공시   https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476   (SOURCES.sanction)
   ② 경영유의   https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483 (SOURCES.mngimpr)
 
-신규 판별 (핵심) = 게시일 앵커 + 중복방지 ledger 병행:
-  ① 게시일 앵커: 게시일(postDate) ≥ REPORT_SINCE(기본 2026-07-02)인 건만 보고.
-     앵커 이전 게시분(백로그)은 레저에만 등록하고 알림·보고·상세수집에서 완전 제외.
-     (레저 부재만 보면 과거 누적 공시가 '당일 신규'로 샜다 — 총평단 2026-07-03 지적.)
-  ② 중복방지 ledger: state/seen_ids.json 에 소스별(openInfo / openInfoImpr) 고유키 유지.
-     같은 건 재알림 차단(특히 08:00·16:00 두 실행 간). git repo가 유일한 상태 저장소.
-  → "게시일 ≥ 앵커 AND 레저에 없던 건"만 신규. 최초 실행(seedMode)도 초기 범람을 막는다.
+신규 판정 = 직전 실행 관측 창 차집합 (scan-window diff)
+
+  buildScanWindow(직전 crawl_result.scanAudit)
+      → 소스별 { 본 key 집합, 훑은 깊이(depth) }
+
+  classifyRow(key, page, ledgerMap, win, seed) → known | new | backfill | skip
+      레저/직전 창에 있음                → known    (재알림 차단)
+      seed(최초 실행)                    → backfill (목록 전체가 과거 누적분)
+      page ≤ win.depth 이고 레저에 없음  → new      (조치요구일이 과거여도 신규)
+      page >  win.depth                  → backfill (창 밖 — 판정 근거 없음)
+      직전 창 유실 시 depth = WINDOW_FALLBACK_DEPTH 가정
+
+  backfill → state/seen_ids.json 에만 등록 + crawl_result.backfilled[] 에 명시 기록
+             (보고 제외. 단, 침묵 폐기 금지)
+
+  레저 state/seen_ids.json: 소스별 고유키 유지 → 08:00·16:00 두 실행 간 재알림 차단.
+  클라우드 실행이라 git repo가 유일한 상태 저장소.
+
+수집 파이프라인 (두 소스 공통, 통합 collectSource)
+  scanSource(목록 스냅샷) → classifySnapshot → reconcile(총건수 체크섬) → buildEntry(본문·PDF)
+  체크섬: listTotal − prevListTotal == 신규 − 삭제   (불일치 → 전 페이지 심화 스캔 승격)
+  커버리지: ledger.meta.sources[소스].covered
+
+관측 창 깊이: --pages 기본 5 (FSS_MAX_PAGES)
+  scanWindow.floorLookbackDays < 45일 → 창이 얕다고 경고
+  (창이 얕으면 늦게 게시된 과거 조치요구일 건이 창 밖에 떨어져 영구 미탐)
 
 산출:
-  성공 → crawl_result.json 작성 + state/seen_ids.json 갱신 (+ 있으면 failure_meta 삭제)
+  성공 → crawl_result.{ newItems[], backfilled[], scanWindow{}, completeness{}, scanAudit[] }
+         newItemBasis: "scan-window-diff"
+         + state/seen_ids.json 갱신 (+ 있으면 failure_meta 삭제)
+
+폐지: REPORT_SINCE(게시일 앵커) — env 설정 시 무시 + 경고. postDate → actionRequestDate.
 ```
+
+> **폐지 경위:** 처음에는 게시일 앵커(`REPORT_SINCE`)로 신규를 가렸다. 그런데 목록의 정렬 기준(조치요구일)에 커트오프를 건 탓에 **늦게 게시된 과거 조치요구일 건이 침묵 폐기**됐고, 레저를 통틀어 유일한 IBK 계열 건인 `아이비케이신용정보`(2026-07-09 게시, 조치요구일 06-25)를 놓쳤다. 이 미탐을 발견해 2026-07-10 앵커를 폐지하고 관측 창 차집합으로 전환했다.
 
 > **FSC 프로젝트와의 결정적 차이:** FSC 브리핑은 예방(법령 변경 사전 대응, 의견마감 D-day 존재)이었다.
 > FSS는 사후(실제 제재사례 기반 IBK 자가점검·벤치마킹)다. 의견마감·시행일 같은 D-day 개념이 없고,
-> 대신 **중복방지 ledger**와 **제재 심도/유형 기반 중요도**가 파이프라인의 축이 된다.
+> 대신 **관측 창 차집합(scan-window diff) + 중복방지 ledger**와 **기관 계층(Tier) × 제재 강도 기반 중요도**가 파이프라인의 축이 된다.
 > (정부입법지원센터 OPEN API·KR 경유 프록시·FSC HTML fallback 등 FSC 시절 수집 계층은 이 프로젝트에 없다.)
 
 ### 실행 스케줄
@@ -153,7 +180,7 @@ flowchart LR
 | 3 | 쉬운 단어를 선택한다 | 제재 결정문 원문 그대로 옮기지 않음 |
 | 4 | 독자를 주어로, 제안형으로 | "[부서명] 담당자라면 ~살펴보세요" |
 | 5 | 불필요한 단어를 뺀다 | "이에 따라", "상기와 같이" 등 제거 |
-| 6 | 숫자와 날짜는 구체적으로 | 제재조치일·게시일을 구체 표기 |
+| 6 | 숫자와 날짜는 구체적으로 | 제재조치일·제재조치요구일을 구체 표기 (FSS 목록엔 게시일이 없다 — 목록 등장 시점은 '최초 등장일'로 표기) |
 | 7 | 해요체로 끝낸다 | "~점검해 보세요", "~있었어요" (명사형·개조식 종결 금지) |
 | 8 | 친근하되 단정은 피한다 | "~할 수 있어요" 추측형·단정 금지 |
 
@@ -203,9 +230,14 @@ flowchart LR
 
 ```
 fss_crawler.js 수집:
-  제재공시(openInfo) + 경영유의(openInfoImpr) 두 목록을 각각 순회 스크래핑.
-  seen_ids ledger 대조로 신규분만 추림 → crawl_result.json.
-  실패 격리: 수집 실패 시 failure_meta 기록.
+  통합 collectSource(SOURCES.sanction / SOURCES.mngimpr)로 두 목록을 각각 순회.
+  scanSource(목록 스냅샷) → classifySnapshot → reconcile(총건수 체크섬) → buildEntry(본문·PDF).
+  신규 판정은 직전 실행 관측 창 차집합(scan-window diff) — 직전 crawl_result.scanAudit을
+  복원해 그 깊이 안에서 새로 나타난 행만 new. 레저(state/seen_ids.json)는 재알림 차단.
+  창 밖 깊이·최초 시드는 backfill → 레저 등록만, 보고 제외(backfilled[]에 명시 기록).
+  체크섬 불일치 시 전 페이지 심화 스캔으로 승격.
+  → crawl_result.json.
+  실패 격리: 수집 실패 시 failure_meta 기록(성공본 비파괴).
 
 analyst.js 실패 처리:
   모델 claude-haiku-4-5-20251001 (ANALYST_MODEL로 오버라이드 가능)
@@ -277,4 +309,4 @@ IBK기업은행 내부통제점검팀의 특성상 감사 추적이 가능해야
 
 ---
 
-_last updated: 2026-07-03 (오후 16:00 스케줄러 추가 — 하루 2회 발화 정합)_
+_last updated: 2026-07-12 (신규 판정을 게시일 앵커 → 직전 실행 관측 창 차집합(scan-window diff)으로 전환, REPORT_SINCE 폐지 반영)_

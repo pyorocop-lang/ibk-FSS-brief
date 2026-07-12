@@ -1,5 +1,17 @@
 # 변경 이력
 
+## 2026-07-12 (문서)
+- docs: 전 문서를 현행(관측 창 차집합) 기준으로 정합화 — 폐지된 게시일 앵커 서술 일괄 제거 (19개 문서)
+  - 왜: 07-10 신규판정 전환·07-12 코드 완결이 **코드에만** 반영되고 문서는 폐지된 `REPORT_SINCE` 앵커를 **현행처럼** 서술하고 있었다. 4개 클러스터 감사 결과 14개 문서에서 구식 서술이 확인됐다. 문서만 읽은 사람은 존재하지 않는 방식(게시일 앵커·`postDate`·`backlogSkipped`)을 현행으로 오해한다.
+  - 정본 블록 선행 확정: 신규판정 서술을 경영진/평이/기술 3종 레지스터로 단일화한 뒤 전 문서가 이 블록만 인용하도록 했다(재드리프트 차단).
+  - 신규판정 서술 재작성(high): README·docs/README·business/PROJECT_BRIEF §5·METHODOLOGY·EXECUTIVE_BRIEF·AI_멀티에이전트로_일한다는것·technical/ARCHITECTURE·AI_멀티에이전트_기술문서(§1·2·6·8·9·10)·operations/workflow·deliverables 01_SOD·02_BRD(FR-13)·03_BUSINESS_DOC·04_TECH_DOC(§3.1)·05_QNA(Q13). 모두 `buildScanWindow`→`classifyRow`(known/new/backfill)·`WINDOW_FALLBACK_DEPTH`·`backfilled[]` 명시기록·`--pages` 5·45일 경고 기준으로 통일.
+  - 코드 모순 제거: `AI_멀티에이전트_기술문서 §9`의 "앵커 기준일은 env `REPORT_SINCE`로 조정" — 코드는 이 env를 **무시하고 경고만** 출력한다(fss_crawler.js). 삭제 후 `--pages`/`FSS_MAX_PAGES` 조정으로 정정.
+  - 서사 교정: `AI_멀티에이전트로_일한다는것`이 **폐지·미탐 사고를 유발한 앵커를 '개선 성공 사례'로** 서술해 결과와 정반대였다 → "앵커 도입 → 미탐 발견 → 관측 창 차집합 재개선" 경위로 수정.
+  - 누락 이력 보강: `06_개선사항_2026-07` — 건 2(앵커)에 취소선·폐지 배너를 얹어 **당시 기록으로 보존**하고, 건 5(관측 창 차집합 전환·아이비케이신용정보 미탐 수정)·건 6('목록에서 찾는 법' 안내)를 신설(4건→6건). `LESSONS_LEARNED` §10 신설 — 정렬 컬럼에 커트오프 금지 / 침묵 폐기 금지(backfill 명시) / 직전 관측 차집합 / 문서↔코드 드리프트.
+  - 명세 누락 보강: `technical/SKILL.md` — `buildDocument` 빌더 6개→**7개**(`buildListingNotice`가 term↔closing 사이에 누락돼 있었음) + tgMsg 꼬리말 명세. `05_QNA` Part2 Q16(신규 판별 메커니즘) 신설.
+  - 필드·수치 정합: `postDate`→`actionRequestDate` 전면 정정(briefV2 하위호환 fallback은 그대로 유지·명시), GitHub schedule cron 지연 수치 `~11h`/`~11~12h`/`~11–12h` 3종 혼재 → **`~12h`**로 통일(daily-brief.yml 기준), docx 산출물 표기 `morning`→`{morning|afternoon}`.
+  - 검증: 폐지 용어(`REPORT_SINCE`/게시일 앵커/`postDate`/`backlogSkipped`/`collectSanctions`) grep 잔존분은 **전부 '폐지' 서술·CHANGELOG 이력·건2 보존 기록**뿐(현행으로 서술한 곳 0). 상대링크 129개 전수 확인 — broken 0.
+
 ## 2026-07-12
 - fix: 07-10 관측 창 차집합 마이그레이션 미완성분 완결 — 크롤러가 실제로 실행되도록 (설계는 그대로, 코드만 완성)
   - 왜: 07-10 커밋은 설계·문서·테스트만 반영되고 실행 코드가 반쯤 남아 있어 `node fss_crawler.js`가 즉시 죽었다. `node --test`는 10건 전부 require 단계에서 에러였다. 설계 자체(CLAUDE.md/CHANGELOG)는 유효 → 코드를 문서·테스트에 맞춰 완성만 했다.

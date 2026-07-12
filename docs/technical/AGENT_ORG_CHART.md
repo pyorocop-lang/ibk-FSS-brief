@@ -19,9 +19,9 @@ flowchart TD
 
     subgraph AGENTS["🤖 에이전트 레이어 (실행 순서)"]
         A0["⚙️ 시작 알림\nnotify_telegram.js --msg\n──────────────\n출력: Telegram 시작 알림"]
-        A1["① 수집 에이전트\nfss_crawler.js\n──────────────\n입력: FSS 제재공시(HTML+PDF)\n       + 경영유의(PDF)\ndedup: state/seen_ids.json\n출력: reports/날짜/슬롯/crawl_result.json"]
+        A1["① 수집 에이전트\nfss_crawler.js\n──────────────\n입력: FSS 제재공시(HTML+PDF)\n       + 경영유의(PDF)\n신규판정: 관측 창 차집합(직전 scanAudit)\n         known / new / backfill\ndedup: state/seen_ids.json\n출력: reports/날짜/슬롯/crawl_result.json"]
         A2["② 분석 에이전트\nanalyst.js (Haiku · 병렬 3)\n──────────────\n입력: crawl_result.json graded[](신규만)\n출력: graded[] 갱신"]
-        A3["③ 보고서 에이전트\nbriefV2.js\n──────────────\n입력: crawl_result.json (갱신)\n출력: 날짜_morning_brief.docx\n       tgMsg"]
+        A3["③ 보고서 에이전트\nbriefV2.js\n──────────────\n입력: crawl_result.json (갱신)\n출력: 날짜_{morning|afternoon}_brief.docx\n       tgMsg"]
         A4["④ 검증 에이전트\nvalidator.js\n──────────────\n입력: crawl_result.json + docx\n출력: validation_result.json"]
         A5["⑤ 아카이브 에이전트\narchivist.js\n──────────────\n입력: 전체 산출물\n출력: run_meta.json\n       run_manifest.jsonl"]
         A6["⑥ 알림 에이전트\nnotify_telegram.js\n──────────────\n입력: crawl_result.json (tgMsg)\n출력: Telegram 완료/오류 알림"]
@@ -124,6 +124,7 @@ flowchart TD
 |---|---|
 | 런타임 | Node.js (CommonJS) |
 | 입력 | FSS 제재공시 목록(`openInfo/list.do?menuNo=200476`) + 경영유의 목록(`openInfoImpr/list.do?menuNo=200483`) |
+| 신규 판정 | **관측 창 차집합(scan-window diff)** — 직전 실행 `crawl_result.scanAudit`(행 key + 훑은 깊이)을 복원해 그 깊이 안에서 새로 나타난 행만 `new`. 창 밖·최초 시드는 `backfill`(레저 등록 + 보고 제외, `crawl_result.backfilled[]`에 명시 기록). 창 유실 시 `WINDOW_FALLBACK_DEPTH` 가정 |
 | dedup | `state/seen_ids.json` (제재=`examMgmtNo_emOpenSeq`, 경영유의=파일명 선두 ID) |
 | 출력 | `reports/DATE/SLOT/crawl_result.json`, `reports/DATE/SLOT/raw/*.html`, `reports/DATE/SLOT/pdfs/*.pdf` |
 | 재시도 | Job 레벨 최대 3회 |
@@ -259,4 +260,4 @@ flowchart LR
 
 ---
 
-_last updated: 2026-07-03 (오후 16:00 스케줄러 추가 — 하루 2회 발화 정합)_
+_last updated: 2026-07-12 (신규 판정 관측 창 차집합 전환 정합)_

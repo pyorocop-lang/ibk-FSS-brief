@@ -10,7 +10,7 @@
 
 > **아키텍처 요약:** 매일 **08:00·16:00 KST**(FSC Morning brief 동형 하루 2회) 외부 **Cloudflare Workers Cron**(`cloud-trigger/`, cron `0 23 * * *`·`0 7 * * *` = 23:00·07:00 UTC)이 GitHub `workflow_dispatch`(워크플로우명 `IBK FSS Sanction Brief`)를 호출하면, 수집부터 알림까지 전부 **GitHub Actions 단일 Job(실행당 1 Job)**에서 실행된다(로컬 PC 불필요). **08:00은 am(전체 알림), 16:00은 pm(오전 이후 신규만 델타 알림)**. 수집은 **금융감독원(FSS) 2소스 직접 스크래핑**(제재공시 openInfo HTML+PDF / 경영유의 openInfoImpr PDF) + `state/seen_ids.json` dedup. 산출물은 런별 슬롯(am/pm)으로 분리 보존한다(`runslot.js`).
 > ✅ FSS는 해외 IP 차단이 없어(미국 러너 접근 PASS, `diag-fss-access.yml`) **KR 프록시·OPEN API·FSC fallback 없이 직결 스크래핑**한다. 콜드스타트·일시장애는 재시도로 흡수한다.
-> GitHub 자체 schedule cron은 ~11h 지연·누락이 확인돼 제거했다 — 정시성은 Cloudflare가 책임진다.
+> GitHub 자체 schedule cron은 ~12h 지연·누락이 확인돼 제거했다 — 정시성은 Cloudflare가 책임진다.
 
 ---
 
@@ -132,7 +132,7 @@ Cloudflare Workers Cron (08:00 KST = 23:00 UTC / 16:00 KST = 07:00 UTC, cron 0 2
   → brief Job (ubuntu-latest) 시작 (발화시각 KST로 슬롯 판별: <12=am, ≥12=pm)
 ```
 
-> **왜 Cloudflare인가:** GitHub 자체 schedule cron은 ~11h 지연·누락이 확인되어 제거했다. 정시성은 외부 Cloudflare Workers Cron이 책임진다. Worker 코드는 `cloud-trigger/` 폴더에 있다.
+> **왜 Cloudflare인가:** GitHub 자체 schedule cron은 ~12h 지연·누락이 확인되어 제거했다. 정시성은 외부 Cloudflare Workers Cron이 책임진다. Worker 코드는 `cloud-trigger/` 폴더에 있다.
 
 #### Step 2 🤖 단일 클라우드 Job (발화 후 ~4분)
 
@@ -149,7 +149,8 @@ brief Job (.github/workflows/daily-brief.yml, ubuntu-latest):
   완료 알림 (Telegram, tgMsg)            — node notify_telegram.js --from-crawl-result
 ```
 
-> **수집 방식:** FSS 2소스 직접 스크래핑 — ① 제재공시 `openInfo`(목록 HTML → 상세, 본문 PDF) ② 경영유의·개선 `openInfoImpr`(목록 → 첨부 PDF). 전체 목록 수집 후 **게시일(postDate) ≥ 앵커 `REPORT_SINCE`(기본 2026-07-02) AND `state/seen_ids.json`에 없던 건**만 신규로 채택. 앵커 이전 게시분(백로그)은 레저에만 등록하고 보고 제외(과거 누적 공시의 '당일 신규' 오인 차단). 게시일 파싱 실패는 fail-open.
+> **수집 방식:** FSS 2소스 직접 스크래핑 — ① 제재공시 `openInfo`(목록 HTML → 상세, 본문 PDF) ② 경영유의·개선 `openInfoImpr`(목록 → 첨부 PDF). FSS 목록엔 **게시일 컬럼이 없고** 제재조치요구일(`actionRequestDate`) 내림차순으로 정렬돼, 오늘 게시된 건도 조치요구일이 과거면 목록 중간에 삽입된다 → 날짜로는 신규를 판정할 수 없다. 그래서 신규는 **직전 실행 관측 창 차집합(scan-window diff)** 으로 가린다: 직전 `crawl_result.scanAudit`(페이지별 전체 행 key + 훑은 깊이)을 복원해 **그 깊이 안에서 그때는 없다가 지금 나타난 행**만 신규(`new`)로 채택하고, 레저(`state/seen_ids.json`)나 직전 창에 있던 건은 `known`으로 재알림을 막는다. 창 밖 깊이·최초 시드는 `backfill` — 레저에만 등록하고 보고에서 제외하되 `crawl_result.backfilled[]`에 명시 기록한다(침묵 폐기 금지). 직전 창 유실 시 `WINDOW_FALLBACK_DEPTH` 깊이를 가정해 레저로만 판정한다. 관측 창 깊이는 `--pages` 기본 5(`FSS_MAX_PAGES`).
+> ※ 구 게시일 앵커(`REPORT_SINCE`)는 2026-07-10 **폐지**됐다(env로 설정해도 무시·경고만).
 > ✅ FSS는 해외 IP 차단이 없어(diag-fss-access.yml PASS) KR 프록시·OPEN API·FSC fallback 없이 러너에서 **직결** 스크래핑한다. 재시도는 egress 우회가 아니라 콜드스타트·일시장애 흡수용이다.
 
 #### Step 3 🤖 수집 실패 처리 (예외 경로)
@@ -264,4 +265,4 @@ node archivist.js --date 20260625 --status ok    # 아카이브만
 
 ---
 
-_last updated: 2026-07-03 (오후 16:00 스케줄러 추가 — 하루 2회 발화 + pm 델타 게이트 정합)_
+_last updated: 2026-07-12 (신규 판정 관측 창 차집합 전환 — REPORT_SINCE 앵커 폐지 정합)_

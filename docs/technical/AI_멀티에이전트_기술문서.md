@@ -18,7 +18,7 @@ _대상: 기술팀/개발자 · 2026-07-04 작성_
 
 | 에이전트 | 유형 | 역할 | 입력 → 출력 | 종료코드 |
 |---|---|---|---|---|
-| `fss_crawler.js` | 규칙 | 수집 — FSS 2소스(제재공시 HTML+PDF / 경영유의 PDF) 직접 스크래핑, **게시일 앵커+레저** 신규판정, Tier 분류·인라인 점수 | (날짜) → `crawl_result.json` | 0 정상 / 실패 시 `failure_meta.json`+exit1 |
+| `fss_crawler.js` | 규칙 | 수집 — FSS 2소스(제재공시 HTML+PDF / 경영유의 PDF) 직접 스크래핑, **관측 창 차집합(scan-window diff)+레저** 신규판정, Tier 분류·인라인 점수 | (날짜) → `crawl_result.json` | 0 정상 / 실패 시 `failure_meta.json`+exit1 |
 | `analyst.js` | **LLM** | 분석 — IBK 벤치마킹(발생 가능성)·부서배정·점검제안·위험도·`tgMsg` | `crawl_result.json` → 갱신 | 0 정상 / 1 fallback / 2 치명 |
 | `briefV2.js` | 규칙 | 보고서 — **제재 카드형** docx + `tgMsg` | `crawl_result.json` → `*_brief.docx` | 0 |
 | `validator.js` | 규칙(가드레일) | 검증 — A 톤 8원칙·B 절삭·C tgMsg·D 보고서 구조 | `crawl_result.json`+docx → `validation_result.json` | 0 통과 / 1 경고 / 2 오류 |
@@ -44,7 +44,22 @@ Cloudflare Workers Cron(08:00·16:00 KST) → workflow_dispatch
 - **왜 결정론적 오케스트레이션인가:** 에이전트 간 자율 협상/플래닝 대신 고정 파이프라인 → 재현성·디버깅성·감사성 확보. (자율 멀티에이전트의 비결정성 위험을 피하고 *구조화된 에이전틱 워크플로우*를 택함)
 - **정시성 분리:** GitHub 자체 schedule cron(지연·누락)을 제거하고 외부 Cloudflare Workers Cron이 `workflow_dispatch`로 발화 — 관심사 분리. 하루 2회(08:00 am / 16:00 pm).
 - **슬롯 분리:** 런별 산출물을 `reports/{date}/{am|pm}/`에 **비파괴 분리 보존**(감사). 두 슬롯은 공존.
-- **신규 판정(★ FSS 고유):** **게시일 앵커(`REPORT_SINCE`, 기본 2026-07-02) + 영구 레저(`state/seen_ids.json`, 키=examMgmtNo_emOpenSeq / 파일ID)** 병행. *"게시일 ≥ 앵커 AND 레저에 없던 건"만* 신규로 보고하고, 앵커 이전 게시분(백로그)은 레저에만 등록·보고 제외. 제재는 시행일·의견마감(D-day) 개념이 없어 마감 리마인더는 두지 않는다.
+- **신규 판정(★ FSS 고유) — 직전 실행 관측 창 차집합(scan-window diff):**
+  FSS 목록엔 **게시일 컬럼이 없다.** 3번째 컬럼은 `제재조치요구일`(`actionRequestDate`)이고 목록은 그 값의 **내림차순 정렬**이라, 오늘 새로 게시된 건도 조치요구일이 과거면 **목록 맨 위가 아니라 중간에 삽입**된다 → **날짜로는 신규를 판정할 수 없다.**
+  그래서 직전 실행의 `crawl_result.scanAudit`(페이지별 전체 행 key + 훑은 깊이)을 복원(`buildScanWindow`)해, **그 깊이 안에서 그때는 없다가 지금 나타난 행**만 신규로 본다. `classifyRow(key, page, ledgerMap, win, seed)`가 3분기로 가른다.
+
+  ```
+  레저(state/seen_ids.json)/직전 창에 있음  → known    (재알림 차단)
+  seed(최초 실행)                            → backfill (목록 전체가 과거 누적분)
+  page ≤ win.depth 이고 레저에 없음          → new      (조치요구일이 과거여도 신규)
+  page >  win.depth                          → backfill (창 밖 — 판정 근거 없음)
+  직전 창 유실 시 depth = WINDOW_FALLBACK_DEPTH 가정 (레저로만 판정)
+  ```
+
+  `backfill`은 레저에만 등록하고 보고에서 제외하되 `crawl_result.backfilled[]`에 **명시 기록**한다(침묵 폐기 금지). 창 밖 격리 덕에 `--pages` 확장 시 과거 누적분이 범람하지 않는다. 관측 창 깊이는 `--pages` **기본 5**(`FSS_MAX_PAGES`)이며, `scanWindow.floorLookbackDays` < **45일**이면 창이 얕다고 경고한다. 레저 키는 제재=`examMgmtNo_emOpenSeq` / 경영유의=첨부 파일ID. 산출은 `crawl_result.{ newItems[], backfilled[], scanWindow{}, completeness{}, scanAudit[] }` · `newItemBasis: "scan-window-diff"`.
+  > **폐지:** 구 `REPORT_SINCE`(게시일 앵커)는 정렬 컬럼(조치요구일)에 커트오프를 걸어 **늦게 게시된 과거 조치요구일 건을 침묵 폐기**했다(실제 사고: `아이비케이신용정보` — 2026-07-09 신규 게시, 조치요구일 06-25). 2026-07-10 폐지됐고 env로 설정해도 무시·경고만 출력된다. 필드명도 `postDate`(오칭) → `actionRequestDate`로 정정.
+
+  신규 건이 목록 상단에 없어 수신자가 혼동하므로, `listedOutOfOrder`(조치요구일 < 최초 등장일) 건에 한해 **조치요구일 · 최초 등장일(`firstSeenDate`) · 목록 행 번호(`listRank`)** 를 안내한다(briefV2 `listingNoticeLines()` → DOCX `buildListingNotice` + Telegram `tgMsg` 말미; 해당 건 없으면 미출력). 제재는 시행일·의견마감(D-day) 개념이 없어 마감 리마인더는 두지 않는다.
 - **pm 델타 완료 알림:** 16:00 실행은 오전본 대비 `--delta-since`로 *오전 이후 신규만* 알리고, 없으면 '변동 없음' 마감(시작→끝 짝 보장). 원장 git 커밋은 수집 성공 시에만(fail-safe).
 
 ---
@@ -113,7 +128,7 @@ Cloudflare Workers Cron(08:00·16:00 KST) → workflow_dispatch
   ② 경영유의·개선 `openInfoImpr/list.do?menuNo=200483`(목록 → 첨부 PDF 직행) · dedup 키 첨부 파일명 선두 ID
   제재 관련 공개 API가 없어(실측) HTML/PDF를 직접 스크래핑하고, PDF 본문은 `pdf-parse`로 추출한다.
 - **egress: 프록시 없음(★ FSC와의 결정적 차이).** 금융감독원 사이트는 **해외 IP 차단이 없음이 검증**됐다(미국 러너 4종 접근 PASS, `diag-fss-access.yml`) → KR 경유 프록시·OPEN API 계층이 **불필요**. 네트워크 출구를 우회할 필요가 없어 구조가 단순하고 장애 지점이 적다.
-- **상태 저장소:** `state/seen_ids.json`이 유일한 영속 상태(클라우드 러너는 휘발) — 성공 시에만 git 커밋해 중복방지 상태를 지속. 신규 판정은 §2의 게시일 앵커 + 레저 병행.
+- **상태 저장소:** `state/seen_ids.json`이 유일한 영속 상태(클라우드 러너는 휘발) — 성공 시에만 git 커밋해 중복방지 상태를 지속. 신규 판정은 §2의 **관측 창 차집합(scan-window diff) + 레저** 병행이며, 직전 창 복원의 근거인 `scanAudit`도 함께 커밋된다(repo가 유일한 상태 저장소).
 
 > 패턴: **소스·출구 분리 진단**. 데이터소스(공식 게시판)와 네트워크 출구(egress)를 분리 진단한 결과, FSS는 출구 우회가 불필요함을 검증하고 **직결 스크래핑**을 채택 — 자매 프로젝트가 도입한 KR 엣지 프록시/설정관리 계층을 이 도메인에서는 두지 않는 것이 올바른 선택이었다.
 
@@ -145,7 +160,7 @@ Cloudflare Workers Cron(08:00·16:00 KST) → workflow_dispatch
 | 가드레일/평가 | validator A/B/C/D |
 | Graceful degradation | fallback + 종료코드 + 재시도 |
 | 실패 격리·비파괴 | failure_meta + 슬롯 분리 |
-| 노이즈 억제(신규 1회) | 게시일 앵커 + 영구 레저(seen_ids), pm 델타 |
+| 노이즈 억제(신규 1회) | 관측 창 차집합 + 영구 레저(seen_ids), pm 델타 |
 | 감사 증적 강화 | scanAudit(신규 0건도 스캔 증적) |
 | 휴먼 인 더 루프 | 사람 검토·의사결정 |
 | 관측성/거버넌스 | manifest·artifact·감사커밋 |
@@ -156,7 +171,7 @@ Cloudflare Workers Cron(08:00·16:00 KST) → workflow_dispatch
 ## 9. 재현·확장·한계
 
 - **재현:** 수동 실행 `gh workflow run "IBK FSS Sanction Brief" --ref main` / 단계별 `node <agent>.js --date YYYYMMDD`. 회귀 테스트 `npm test`(node:test).
-- **확장:** 대상 기관·소스 추가는 수집 에이전트(`fss_crawler.js`) + `knowledge/` 갱신으로. 알림 채널 추가는 알림 에이전트 확장으로. 앵커 기준일은 env `REPORT_SINCE`로 조정.
+- **확장:** 대상 기관·소스 추가는 수집 에이전트(`fss_crawler.js`) + `knowledge/` 갱신으로. 알림 채널 추가는 알림 에이전트 확장으로. 관측 창 깊이는 `--pages`(env `FSS_MAX_PAGES`, 기본 5)로 조정하며, 창을 넓혀도 창 밖 신규분은 `backfill`로 격리돼 과거 누적분이 범람하지 않는다. **`REPORT_SINCE`(게시일 앵커)는 폐지됐다 — env로 설정해도 무시되고 경고만 출력된다.**
 - **한계:** LLM은 초안·분류를 담당하고 최종 판단은 사람(의도된 설계). 데이터소스가 직결(프록시 없음)이라 egress SPOF가 없는 대신, 소스 사이트 구조 변경 시 파서 점검이 필요 — 수집 실패 시 "❌ 수집 실패" 알림으로 조기 인지한다.
 
 ---
@@ -167,7 +182,7 @@ Cloudflare Workers Cron(08:00·16:00 KST) → workflow_dispatch
 |---|---|
 | [.github/workflows/daily-brief.yml](../../.github/workflows/daily-brief.yml) | 오케스트레이션 정본 |
 | [analyst.js](../../analyst.js) · `knowledge/*` · `agents/*` | 분석 에이전트·지식·프롬프트 |
-| [fss_crawler.js](../../fss_crawler.js) · [validator.js](../../validator.js) | 수집(앵커·레저·scanAudit)·가드레일 정본 |
+| [fss_crawler.js](../../fss_crawler.js) · [validator.js](../../validator.js) | 수집(관측 창 차집합·레저·scanAudit)·가드레일 정본 |
 | [ARCHITECTURE](ARCHITECTURE.md) · [AGENT_ORG_CHART](AGENT_ORG_CHART.md) | 구조·에이전트 명세 |
 | [METHODOLOGY](../business/METHODOLOGY.md) | 설계 이유·글쓰기 원칙 |
 | [SKILL](SKILL.md) | 보고서 레이아웃 정본(briefV2 v3.2) |

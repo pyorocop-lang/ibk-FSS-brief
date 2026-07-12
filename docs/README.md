@@ -75,7 +75,7 @@
 
 ## 한 줄 요약
 
-매일 08:00 KST에 외부 Cloudflare Workers Cron이 GitHub Actions를 트리거하면, 단일 클라우드 Job이 금융감독원(FSS) 신규 제재공시·경영유의사항을 2소스에서 스크래핑(중복방지 원장 `state/seen_ids.json`과 대조)하고 Claude AI가 IBK 벤치마킹 관점으로 분석해, 자가점검 액션이 담긴 DOCX 보고서와 Telegram 알림을 생성하는 완전 클라우드 파이프라인이다. 산출물은 런별 슬롯(am/pm)으로 분리 보존한다. (로컬 PC 불필요)
+매일 08:00·16:00 KST에 외부 Cloudflare Workers Cron이 GitHub Actions를 트리거하면, 단일 클라우드 Job이 금융감독원(FSS) 제재공시·경영유의사항을 2소스에서 스크래핑하고 — **직전 관측 창과 대조(scan-window diff)해 그 사이 새로 나타난 건만 신규로 선별하고, 중복방지 원장 `state/seen_ids.json`으로 재알림을 차단한다** (목록에 게시일 칸이 없어 날짜로는 신규를 가릴 수 없다) — Claude AI가 IBK 벤치마킹 관점으로 분석해, 자가점검 액션이 담긴 DOCX 보고서와 Telegram 알림을 생성하는 완전 클라우드 파이프라인이다. 산출물은 런별 슬롯(am/pm)으로 분리 보존한다. (로컬 PC 불필요)
 
 > **사후 모니터링:** 타행·인접 금융회사의 실제 제재사례로 IBK 유사 취약점을 자가점검하고, IBK 직접 제재 시 즉시 대응한다. (법령 시행 전 예방 목적의 입법예고 브리핑과 구분)
 
@@ -107,7 +107,7 @@ flowchart LR
 
 | 순서 | 파일 | 역할 |
 |---|---|---|
-| ① | `fss_crawler.js` | 제재·경영유의 수집 — FSS 2소스 스크래핑(제재공시 HTML+PDF / 경영유의 PDF) + `state/seen_ids.json` 대조 dedup (최대 3회 재시도, 실패 격리) |
+| ① | `fss_crawler.js` | 제재·경영유의 수집 — FSS 2소스 스크래핑(제재공시 HTML+PDF / 경영유의 PDF) + **관측 창 차집합 신규 판정**(직전 `scanAudit` 대비 known/new/backfill) + `state/seen_ids.json` 레저로 재알림 차단 (최대 3회 재시도, 실패 격리) |
 | ② | `analyst.js` | Claude API(Haiku 4.5)로 신규건만 LLM 분석 · Tier·위험도 판정 · 부서 배정 |
 | ③ | `briefV2.js` | DOCX 보고서 생성 (맑은 고딕·IBK Blue) + Telegram 메시지(tgMsg) 구성 |
 | ④ | `validator.js` | 품질 검증 |
@@ -157,4 +157,4 @@ flowchart LR
 
 _담당: IBK기업은행 내부통제점검팀_
 
-_last updated: 2026-07-03 (오후 16:00 스케줄러 추가 — 하루 2회 발화 정합)_
+_last updated: 2026-07-12 (신규 판정을 게시일 앵커 → 직전 실행 관측 창 차집합(scan-window diff)으로 전환, REPORT_SINCE 폐지 반영)_

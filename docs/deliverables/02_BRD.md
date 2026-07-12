@@ -2,7 +2,7 @@
 
 > **프로젝트**: IBK FSS 제재·경영유의 브리핑 (ibk-FSS-brief)
 > **주관**: IBK기업은행 내부통제점검팀
-> **작성일**: 2026-07-02 · **상태**: 전 요구사항 구현·검증 완료 (라이브)
+> **작성일**: 2026-07-02 · **개정일**: 2026-07-12 (신규 판정 전환 반영) · **상태**: 전 요구사항 구현·검증 완료 (라이브)
 > **관련 문서**: [SOD](01_SOD.md) · [업무문서](03_BUSINESS_DOC.md) · [기술문서](04_TECH_DOC.md) · [예상질의답변](05_QNA.md)
 
 ---
@@ -27,7 +27,7 @@
 | 구분 | AS-IS | TO-BE (구현 완료) |
 |---|---|---|
 | 신규 공시 확인 | 담당자가 FSS 게시판 2곳 수동 순회 | 매일 08:00·16:00 자동 수집·신규 판별 |
-| 신규/기존 구분 | 육안 대조 (목록에 과거 건 누적 노출) | 게시일 앵커(REPORT_SINCE) + `state/seen_ids.json` ledger 자동 대조 |
+| 신규/기존 구분 | 육안 대조 (목록에 과거 건 누적 노출) | 직전 실행 관측 창 차집합 + `state/seen_ids.json` ledger 자동 대조 |
 | IBK 연관성 분석 | 담당자 개인 역량 의존 | LLM이 제재 핵심·발생 가능성·점검 제안·부서를 표준 틀로 산출 |
 | 중요도 선별 | 없음 (전건 동일 취급) | 기관 계층(T0~T3) × 위험도(상/중/하) |
 | 전달 | 없음 (개인 확인) | Telegram 알림 + DOCX 보고서 |
@@ -58,7 +58,7 @@
 |---|---|---|
 | FR-11 | 제재공시(menuNo=200476, 상세 HTML+PDF)와 경영유의(menuNo=200483, PDF 직결) 2소스를 수집한다. | `fss_crawler.js` |
 | FR-12 | 상세 경로는 목록 HTML 앵커 href에서 추출한다 (경로 추정·하드코딩 금지). | `fss_crawler.js` |
-| FR-13 | **게시일(postDate) ≥ 앵커 `REPORT_SINCE`(기본 2026-07-02) AND `state/seen_ids.json`에 없는 건**만 분석 대상(`graded[]`)으로 선별한다. 앵커 이전 게시분(백로그)은 레저 등록·보고 제외(게시일 파싱 실패는 fail-open). dedup 키: 제재공시=`examMgmtNo_emOpenSeq`, 경영유의=첨부 파일명 선두 ID. | `fss_crawler.js` |
+| FR-13 | **직전 실행 관측 창 차집합**으로 신규를 판별한다: 직전 `crawl_result.scanAudit`(페이지별 전체 행 key + 훑은 깊이)을 복원해, **그 깊이 안에서 그때는 없다가 지금 나타난 행**만 분석 대상(`graded[]`)으로 선별한다. 판정 3분기(`classifyRow`): 레저·직전 창에 있으면 `known`(재알림 차단) / 창 깊이 안에서 새로 나타나면 `new`(제재조치요구일이 과거여도 신규) / 최초 시드·창 밖 깊이는 `backfill`(레저에만 등록, 보고 제외 — 단 `crawl_result.backfilled[]`에 명시 기록해 침묵 폐기하지 않는다). dedup 키: 제재공시=`examMgmtNo_emOpenSeq`, 경영유의=첨부 파일명 선두 ID. | `fss_crawler.js` |
 | FR-14 | 최초 실행(ledger 빈 상태)은 **시드 모드**로 과거건을 보고 대상에서 제외하고 ledger만 채운다 (초기 알림 범람 방지). | `fss_crawler.js` |
 | FR-15 | 수집 실패 시 `failure_meta.json`만 기록하고 성공본(`crawl_result.json`)·ledger는 건드리지 않는다 (실패 격리). | `fss_crawler.js` + `daily-brief.yml` |
 | FR-16 | 원본 HTML·PDF를 `reports/{DATE}/{SLOT}/raw/`, `/pdfs/`에 증빙 보존한다. | `fss_crawler.js` |
@@ -150,5 +150,5 @@
 | AC-3 | 신규가 전부 T3 | 알림은 "IBK 유관 없음" 마감, DOCX에는 전건 수록 | ✅ 혼합 Tier 재실행 검증 |
 | AC-4 | 수집 3회 연속 실패 | "❌ 수집 실패" 알림 + Job 실패, 기존 성공본·ledger 비파괴 | ✅ 실패 격리 검증 |
 | AC-5 | 동일 건 재수집 | ledger 대조로 알림 제외 (중복 알림 0) | ✅ |
-| AC-6 | 최초 실행 (ledger 빈 상태) | 과거건 알림 범람 없이 ledger만 시드 | ✅ (2026-07-01 수정 반영) |
+| AC-6 | 최초 실행 (ledger 빈 상태) | 과거건 알림 범람 없이 ledger만 시드 — 시드분·관측 창 밖 행은 `backfill`로 분류되어 보고에서 제외되되 `crawl_result.backfilled[]`에 명시 기록(침묵 폐기 없음) | ✅ (2026-07-01 시드 모드 · 2026-07-12 backfill 명시 기록 반영) |
 | AC-7 | 톤 검증 | 개조식(~함/~음) 0건, 해요체 준수 (validator A7b 위반 0) | ✅ |

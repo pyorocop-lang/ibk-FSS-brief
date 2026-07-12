@@ -2,7 +2,7 @@
 
 > **프로젝트**: IBK FSS 제재·경영유의 브리핑 (ibk-FSS-brief)
 > **주관**: IBK기업은행 내부통제점검팀
-> **작성일**: 2026-07-02 · **상태**: 라이브 운영 중
+> **작성일**: 2026-07-02 · **개정일**: 2026-07-12 (신규 판정 전환 반영) · **상태**: 라이브 운영 중
 > **관련 문서**: [SOD](01_SOD.md) · [BRD](02_BRD.md) · [기술문서](04_TECH_DOC.md) · [예상질의답변](05_QNA.md)
 
 ---
@@ -193,7 +193,7 @@ flowchart LR
 | DOCX 보고서 | Artifact `fss-brief-{DATE}-{SLOT}` | 90일 | 부서 공유·점검 실행 |
 | PDF 원문 | 동 Artifact `pdfs/` | 90일 | 감사 증빙·인적 검증 |
 | 수집+분석 데이터 | `reports/{DATE}/{SLOT}/crawl_result.json` (git) | 영구 | 이력 조회 |
-| 중복방지 원장 | `state/seen_ids.json` (git) | 영구 | 신규 판별 상태 (게시일 앵커 REPORT_SINCE와 병행) |
+| 중복방지 원장 | `state/seen_ids.json` (git) | 영구 | 신규 판별 상태 (관측 창 차집합(scanAudit)과 병행) |
 | 실행 매니페스트 | `logs/run_manifest.jsonl` (git) | 영구 | 감사 추적 |
 
 ---

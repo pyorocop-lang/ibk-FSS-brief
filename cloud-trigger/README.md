@@ -1,6 +1,6 @@
 # cloud-trigger — 신뢰성 있는 08:00·16:00 KST 트리거 (Cloudflare Workers Cron)
 
-GitHub 자체 `schedule` cron은 ~11시간 지연·누락이 확인됨(2026-06).
+GitHub 자체 `schedule` cron은 ~12h 지연·누락이 확인됨(2026-06).
 그래서 정시 발화를 **Cloudflare Workers Cron**이 담당하고, GitHub 워크플로우는
 `workflow_dispatch`로만 깨운다. 완전 클라우드 — 로컬 PC 불필요.
 하루 2회(08:00 am / 16:00 pm, FSC 동형) 발화하며, pm은 오전 이후 신규만 델타 알림한다.
