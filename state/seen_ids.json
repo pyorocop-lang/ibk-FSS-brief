@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-11T23:01:10.294Z",
+  "updatedAt": "2026-07-12T07:01:49.335Z",
   "note": "중복방지 ledger — 이미 보고한 제재/경영유의 건의 고유키. 클라우드 실행의 유일한 상태 저장소(repo). 매 실행 STEP1 fss_crawler가 대조해 신규만 추출, STEP6에서 커밋.",
   "openInfo": {
     "202300334_1": {
@@ -193,6 +193,1014 @@
       "seenDate": "20260710",
       "org": "DB손해보험주식회사",
       "title": ""
+    },
+    "202500320_1": {
+      "seenDate": "20260712",
+      "org": "삼성화재해상보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500319_1": {
+      "seenDate": "20260712",
+      "org": "삼성생명보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500158_1": {
+      "seenDate": "20260712",
+      "org": "삼성증권(주)",
+      "title": "",
+      "backfill": true
+    },
+    "202400599_3": {
+      "seenDate": "20260712",
+      "org": "우리은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500493_1": {
+      "seenDate": "20260712",
+      "org": "에스비아이저축은행",
+      "title": "",
+      "backfill": true
+    },
+    "202400339_1": {
+      "seenDate": "20260712",
+      "org": "에이알에이코리아자산운용",
+      "title": "",
+      "backfill": true
+    },
+    "202400077_2": {
+      "seenDate": "20260712",
+      "org": "케이와이자산운용",
+      "title": "",
+      "backfill": true
+    },
+    "202400416_1": {
+      "seenDate": "20260712",
+      "org": "위솔자산운용㈜",
+      "title": "",
+      "backfill": true
+    },
+    "202400415_2": {
+      "seenDate": "20260712",
+      "org": "리딩자산운용 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202300619_1": {
+      "seenDate": "20260712",
+      "org": "다올투자증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202300039_2": {
+      "seenDate": "20260712",
+      "org": "한화생명보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202300654_1": {
+      "seenDate": "20260712",
+      "org": "청운",
+      "title": "",
+      "backfill": true
+    },
+    "202300807_1": {
+      "seenDate": "20260712",
+      "org": "전주동부",
+      "title": "",
+      "backfill": true
+    },
+    "202500511_1": {
+      "seenDate": "20260712",
+      "org": "시그니처자산운용㈜",
+      "title": "",
+      "backfill": true
+    },
+    "202400233_2": {
+      "seenDate": "20260712",
+      "org": "NH투자증권",
+      "title": "",
+      "backfill": true
+    },
+    "202500085_1": {
+      "seenDate": "20260712",
+      "org": "㈜우리카드",
+      "title": "",
+      "backfill": true
+    },
+    "202200403_8": {
+      "seenDate": "20260712",
+      "org": "한국투자증권",
+      "title": "",
+      "backfill": true
+    },
+    "202400693_1": {
+      "seenDate": "20260712",
+      "org": "신한투자증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500229_1": {
+      "seenDate": "20260712",
+      "org": "국민은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500232_1": {
+      "seenDate": "20260712",
+      "org": "부산은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500231_1": {
+      "seenDate": "20260712",
+      "org": "우리은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500230_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 하나은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500806_1": {
+      "seenDate": "20260712",
+      "org": "코람코자산신탁",
+      "title": "",
+      "backfill": true
+    },
+    "202500307_1": {
+      "seenDate": "20260712",
+      "org": "동래농협",
+      "title": "",
+      "backfill": true
+    },
+    "202500121_1": {
+      "seenDate": "20260712",
+      "org": "하나자산신탁",
+      "title": "",
+      "backfill": true
+    },
+    "202500716_1": {
+      "seenDate": "20260712",
+      "org": "대박투자그룹",
+      "title": "",
+      "backfill": true
+    },
+    "202500765_1": {
+      "seenDate": "20260712",
+      "org": "제이에스투자클럽",
+      "title": "",
+      "backfill": true
+    },
+    "202500762_1": {
+      "seenDate": "20260712",
+      "org": "대구태풍주식공부방",
+      "title": "",
+      "backfill": true
+    },
+    "202500729_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 데일리스탁",
+      "title": "",
+      "backfill": true
+    },
+    "202500721_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 데일리인베스트먼트",
+      "title": "",
+      "backfill": true
+    },
+    "202500784_1": {
+      "seenDate": "20260712",
+      "org": "성수클럽",
+      "title": "",
+      "backfill": true
+    },
+    "202500782_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 세종기업데이터",
+      "title": "",
+      "backfill": true
+    },
+    "202500779_1": {
+      "seenDate": "20260712",
+      "org": "월드에프엔에이치",
+      "title": "",
+      "backfill": true
+    },
+    "202500774_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 에이아이비",
+      "title": "",
+      "backfill": true
+    },
+    "202500735_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 미래국민파트너",
+      "title": "",
+      "backfill": true
+    },
+    "202500724_1": {
+      "seenDate": "20260712",
+      "org": "뉴츠컴퍼니",
+      "title": "",
+      "backfill": true
+    },
+    "202500720_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 잠실글로벌",
+      "title": "",
+      "backfill": true
+    },
+    "202500715_1": {
+      "seenDate": "20260712",
+      "org": "레고컴퍼니",
+      "title": "",
+      "backfill": true
+    },
+    "202500714_1": {
+      "seenDate": "20260712",
+      "org": "확률과 통계",
+      "title": "",
+      "backfill": true
+    },
+    "202500787_1": {
+      "seenDate": "20260712",
+      "org": "어스얼라이언스 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500772_1": {
+      "seenDate": "20260712",
+      "org": "이오홀딩스",
+      "title": "",
+      "backfill": true
+    },
+    "202500739_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 알리솔루션",
+      "title": "",
+      "backfill": true
+    },
+    "202500738_1": {
+      "seenDate": "20260712",
+      "org": "비전컨설팅그룹 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500734_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 뉴지스탁",
+      "title": "",
+      "backfill": true
+    },
+    "202500709_1": {
+      "seenDate": "20260712",
+      "org": "선진인베스트",
+      "title": "",
+      "backfill": true
+    },
+    "202500708_1": {
+      "seenDate": "20260712",
+      "org": "오즈커뮤니티",
+      "title": "",
+      "backfill": true
+    },
+    "202500759_1": {
+      "seenDate": "20260712",
+      "org": "(주)팍스넷",
+      "title": "",
+      "backfill": true
+    },
+    "202500705_1": {
+      "seenDate": "20260712",
+      "org": "주차프",
+      "title": "",
+      "backfill": true
+    },
+    "202500771_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 바로경제연구소",
+      "title": "",
+      "backfill": true
+    },
+    "202500767_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 카마트솔루션",
+      "title": "",
+      "backfill": true
+    },
+    "202500736_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 인베스트리에셋",
+      "title": "",
+      "backfill": true
+    },
+    "202500731_1": {
+      "seenDate": "20260712",
+      "org": "데일리투자그룹",
+      "title": "",
+      "backfill": true
+    },
+    "202500730_1": {
+      "seenDate": "20260712",
+      "org": "이섭투자컨설팅",
+      "title": "",
+      "backfill": true
+    },
+    "202400361_3": {
+      "seenDate": "20260712",
+      "org": "아이앤제이자산운용",
+      "title": "",
+      "backfill": true
+    },
+    "202500015_2": {
+      "seenDate": "20260712",
+      "org": "도이치은행",
+      "title": "",
+      "backfill": true
+    },
+    "202400481_3": {
+      "seenDate": "20260712",
+      "org": "국민은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500044_1": {
+      "seenDate": "20260712",
+      "org": "경남은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500042_4": {
+      "seenDate": "20260712",
+      "org": "부산은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500146_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 하나은행",
+      "title": "",
+      "backfill": true
+    },
+    "202300782_1": {
+      "seenDate": "20260712",
+      "org": "골든브릿지자산운용",
+      "title": "",
+      "backfill": true
+    },
+    "202500157_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 아이케이파트너스",
+      "title": "",
+      "backfill": true
+    },
+    "202000134_3": {
+      "seenDate": "20260712",
+      "org": "KB증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500411_1": {
+      "seenDate": "20260712",
+      "org": "광안",
+      "title": "",
+      "backfill": true
+    },
+    "202500651_1": {
+      "seenDate": "20260712",
+      "org": "광주어룡",
+      "title": "",
+      "backfill": true
+    },
+    "202500587_1": {
+      "seenDate": "20260712",
+      "org": "미즈호",
+      "title": "",
+      "backfill": true
+    },
+    "202500620_1": {
+      "seenDate": "20260712",
+      "org": "(주)유어즈에셋 보험대리점",
+      "title": "",
+      "backfill": true
+    },
+    "202500657_1": {
+      "seenDate": "20260712",
+      "org": "삼성생명보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500019_1": {
+      "seenDate": "20260712",
+      "org": "경성투자자문(주)",
+      "title": "",
+      "backfill": true
+    },
+    "202500100_1": {
+      "seenDate": "20260712",
+      "org": "양주축산농협",
+      "title": "",
+      "backfill": true
+    },
+    "202500354_2": {
+      "seenDate": "20260712",
+      "org": "리딩투자증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500617_1": {
+      "seenDate": "20260712",
+      "org": "지에이코리아주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400644_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 에스티자산운용",
+      "title": "",
+      "backfill": true
+    },
+    "202400643_1": {
+      "seenDate": "20260712",
+      "org": "앤도버자산운용 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400642_1": {
+      "seenDate": "20260712",
+      "org": "아스트라자산운용",
+      "title": "",
+      "backfill": true
+    },
+    "202400641_1": {
+      "seenDate": "20260712",
+      "org": "엘에프자산운용 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400640_1": {
+      "seenDate": "20260712",
+      "org": "㈜아르고스자산운용",
+      "title": "",
+      "backfill": true
+    },
+    "202400639_1": {
+      "seenDate": "20260712",
+      "org": "허브자산운용 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400638_1": {
+      "seenDate": "20260712",
+      "org": "넥스트증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500621_1": {
+      "seenDate": "20260712",
+      "org": "DB손해보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500619_1": {
+      "seenDate": "20260712",
+      "org": "더베스트금융서비스 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500623_1": {
+      "seenDate": "20260712",
+      "org": "디아이홀딩스 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400834_1": {
+      "seenDate": "20260712",
+      "org": "유진투자증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400077_1": {
+      "seenDate": "20260712",
+      "org": "케이와이자산운용",
+      "title": "",
+      "backfill": true
+    },
+    "202500568_1": {
+      "seenDate": "20260712",
+      "org": "토스증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500099_1": {
+      "seenDate": "20260712",
+      "org": "순천농협",
+      "title": "",
+      "backfill": true
+    },
+    "202500520_1": {
+      "seenDate": "20260712",
+      "org": "메트라이프생명보험(주)",
+      "title": "",
+      "backfill": true
+    },
+    "202300055_1": {
+      "seenDate": "20260712",
+      "org": "타이거대체투자운용주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500242_1": {
+      "seenDate": "20260712",
+      "org": "도도자산관리대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500195_1": {
+      "seenDate": "20260712",
+      "org": "프라임에셋㈜",
+      "title": "",
+      "backfill": true
+    },
+    "202500194_1": {
+      "seenDate": "20260712",
+      "org": "케이지에이에셋㈜",
+      "title": "",
+      "backfill": true
+    },
+    "202500193_1": {
+      "seenDate": "20260712",
+      "org": "지에이코리아주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500192_1": {
+      "seenDate": "20260712",
+      "org": "(주)프리원",
+      "title": "",
+      "backfill": true
+    },
+    "202500191_1": {
+      "seenDate": "20260712",
+      "org": "㈜케이엠아이에셋",
+      "title": "",
+      "backfill": true
+    },
+    "202500190_1": {
+      "seenDate": "20260712",
+      "org": "(주)제우스라이프",
+      "title": "",
+      "backfill": true
+    },
+    "202500189_1": {
+      "seenDate": "20260712",
+      "org": "㈜에즈금융서비스",
+      "title": "",
+      "backfill": true
+    },
+    "202500188_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 뉴니케",
+      "title": "",
+      "backfill": true
+    },
+    "202500187_1": {
+      "seenDate": "20260712",
+      "org": "㈜비엡시금융서비스",
+      "title": "",
+      "backfill": true
+    },
+    "202500186_1": {
+      "seenDate": "20260712",
+      "org": "서평택",
+      "title": "",
+      "backfill": true
+    },
+    "202500185_1": {
+      "seenDate": "20260712",
+      "org": "삼성마리컨트리보험대리점",
+      "title": "",
+      "backfill": true
+    },
+    "202500184_1": {
+      "seenDate": "20260712",
+      "org": "메트라이프금융서비스 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500183_1": {
+      "seenDate": "20260712",
+      "org": "리더스금융판매㈜",
+      "title": "",
+      "backfill": true
+    },
+    "202500182_1": {
+      "seenDate": "20260712",
+      "org": "㈜글로벌금융판매",
+      "title": "",
+      "backfill": true
+    },
+    "202500181_1": {
+      "seenDate": "20260712",
+      "org": "한화손해보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500180_1": {
+      "seenDate": "20260712",
+      "org": "삼성생명보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500179_1": {
+      "seenDate": "20260712",
+      "org": "DB손해보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500354_1": {
+      "seenDate": "20260712",
+      "org": "리딩투자증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500245_1": {
+      "seenDate": "20260712",
+      "org": "리치금융진대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500246_1": {
+      "seenDate": "20260712",
+      "org": "마루이대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500248_1": {
+      "seenDate": "20260712",
+      "org": "분당엔피엘대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500249_1": {
+      "seenDate": "20260712",
+      "org": "삼원전국엔피엘대부금융 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500251_1": {
+      "seenDate": "20260712",
+      "org": "송월자산관리대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500253_1": {
+      "seenDate": "20260712",
+      "org": "에스피엘자산대부 유한회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500254_1": {
+      "seenDate": "20260712",
+      "org": "에이제이자산관리대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500257_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 더파이널스대부",
+      "title": "",
+      "backfill": true
+    },
+    "202500259_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 에이치에스에이치대부",
+      "title": "",
+      "backfill": true
+    },
+    "202500260_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 웰스파트너스대부",
+      "title": "",
+      "backfill": true
+    },
+    "202500264_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 케이엠파이낸셜서비스대부",
+      "title": "",
+      "backfill": true
+    },
+    "202500265_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 케이원대부",
+      "title": "",
+      "backfill": true
+    },
+    "202500268_1": {
+      "seenDate": "20260712",
+      "org": "티티대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500269_1": {
+      "seenDate": "20260712",
+      "org": "한국자산관리원대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500270_1": {
+      "seenDate": "20260712",
+      "org": "희즈에셋대부금융 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500275_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 자산관리케이대부",
+      "title": "",
+      "backfill": true
+    },
+    "202500276_1": {
+      "seenDate": "20260712",
+      "org": "하나에이엠씨대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500277_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 국민에이엠씨금융대부",
+      "title": "",
+      "backfill": true
+    },
+    "202500285_1": {
+      "seenDate": "20260712",
+      "org": "골드리치컨설팅대부 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500287_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 제이엘케이파트너스파이낸셜대부",
+      "title": "",
+      "backfill": true
+    },
+    "202300848_2": {
+      "seenDate": "20260712",
+      "org": "농협손해보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400548_1": {
+      "seenDate": "20260712",
+      "org": "하나손해보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400415_1": {
+      "seenDate": "20260712",
+      "org": "리딩자산운용 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202200377_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 카사코리아",
+      "title": "",
+      "backfill": true
+    },
+    "202000487_1": {
+      "seenDate": "20260712",
+      "org": "포트코리아자산운용 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500444_1": {
+      "seenDate": "20260712",
+      "org": "KB라이프생명보험",
+      "title": "",
+      "backfill": true
+    },
+    "202300319_1": {
+      "seenDate": "20260712",
+      "org": "리버스톤자산운용",
+      "title": "",
+      "backfill": true
+    },
+    "202400095_2": {
+      "seenDate": "20260712",
+      "org": "한국자산신탁",
+      "title": "",
+      "backfill": true
+    },
+    "202300202_1": {
+      "seenDate": "20260712",
+      "org": "한국투자증권",
+      "title": "",
+      "backfill": true
+    },
+    "202300214_1": {
+      "seenDate": "20260712",
+      "org": "유안타증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202300212_1": {
+      "seenDate": "20260712",
+      "org": "KB증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202300211_1": {
+      "seenDate": "20260712",
+      "org": "신한투자증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202300210_1": {
+      "seenDate": "20260712",
+      "org": "디비증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202300209_1": {
+      "seenDate": "20260712",
+      "org": "LS증권",
+      "title": "",
+      "backfill": true
+    },
+    "202300207_1": {
+      "seenDate": "20260712",
+      "org": "삼성증권(주)",
+      "title": "",
+      "backfill": true
+    },
+    "202300205_1": {
+      "seenDate": "20260712",
+      "org": "IBK투자증권",
+      "title": "",
+      "backfill": true
+    },
+    "202300203_1": {
+      "seenDate": "20260712",
+      "org": "하나증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202300756_1": {
+      "seenDate": "20260712",
+      "org": "파인앤파트너스자산운용주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400545_1": {
+      "seenDate": "20260712",
+      "org": "(주)리더스에셋어드바이저",
+      "title": "",
+      "backfill": true
+    },
+    "202100623_2": {
+      "seenDate": "20260712",
+      "org": "㈜기업금융센타보험대리점",
+      "title": "",
+      "backfill": true
+    },
+    "202300145_6": {
+      "seenDate": "20260712",
+      "org": "흥국생명보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400337_1": {
+      "seenDate": "20260712",
+      "org": "㈜글로벌금융판매",
+      "title": "",
+      "backfill": true
+    },
+    "202400003_1": {
+      "seenDate": "20260712",
+      "org": "한국투자증권",
+      "title": "",
+      "backfill": true
+    },
+    "202500102_1": {
+      "seenDate": "20260712",
+      "org": "오에스비저축은행",
+      "title": "",
+      "backfill": true
+    },
+    "202400012_2": {
+      "seenDate": "20260712",
+      "org": "NH투자증권",
+      "title": "",
+      "backfill": true
+    },
+    "202400011_2": {
+      "seenDate": "20260712",
+      "org": "신한투자증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400137_1": {
+      "seenDate": "20260712",
+      "org": "나무에셋(주)",
+      "title": "",
+      "backfill": true
+    },
+    "202400136_1": {
+      "seenDate": "20260712",
+      "org": "한국중앙에셋(주)",
+      "title": "",
+      "backfill": true
+    },
+    "202400379_1": {
+      "seenDate": "20260712",
+      "org": "(주)한국지에이금융서비스",
+      "title": "",
+      "backfill": true
+    },
+    "202500049_1": {
+      "seenDate": "20260712",
+      "org": "디비금융서비스㈜",
+      "title": "",
+      "backfill": true
+    },
+    "202400646_2": {
+      "seenDate": "20260712",
+      "org": "케이비라이프파트너스",
+      "title": "",
+      "backfill": true
+    },
+    "202400333_2": {
+      "seenDate": "20260712",
+      "org": "㈜삼성생명금융서비스보험대리점",
+      "title": "",
+      "backfill": true
+    },
+    "202300827_1": {
+      "seenDate": "20260712",
+      "org": "미래에셋증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400272_1": {
+      "seenDate": "20260712",
+      "org": "㈜카카오페이",
+      "title": "",
+      "backfill": true
+    },
+    "202300828_1": {
+      "seenDate": "20260712",
+      "org": "KB증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400090_1": {
+      "seenDate": "20260712",
+      "org": "모아저축은행",
+      "title": "",
+      "backfill": true
+    },
+    "202400016_1": {
+      "seenDate": "20260712",
+      "org": "삼성증권(주)",
+      "title": "",
+      "backfill": true
+    },
+    "202500110_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 핀다",
+      "title": "",
+      "backfill": true
+    },
+    "202500111_1": {
+      "seenDate": "20260712",
+      "org": "주식회사 뱅크샐러드",
+      "title": "",
+      "backfill": true
+    },
+    "202300060_1": {
+      "seenDate": "20260712",
+      "org": "제이씨에셋자산운용 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202300746_4": {
+      "seenDate": "20260712",
+      "org": "주식회사 하나은행",
+      "title": "",
+      "backfill": true
+    },
+    "202200669_1": {
+      "seenDate": "20260712",
+      "org": "이지스리얼에셋투자운용 주식회사",
+      "title": "",
+      "backfill": true
     }
   },
   "openInfoImpr": {
@@ -336,6 +1344,263 @@
       "org": "여수농협",
       "title": "",
       "backlog": true
+    },
+    "202500819_11": {
+      "seenDate": "20260712",
+      "org": "제이비우리캐피탈㈜",
+      "title": "",
+      "backfill": true
+    },
+    "202500751_11": {
+      "seenDate": "20260712",
+      "org": "교통은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500461_11": {
+      "seenDate": "20260712",
+      "org": "현대하이라이프손해사정 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500356_11": {
+      "seenDate": "20260712",
+      "org": "NH투자증권",
+      "title": "",
+      "backfill": true
+    },
+    "202500357_11": {
+      "seenDate": "20260712",
+      "org": "KB증권주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500162_11": {
+      "seenDate": "20260712",
+      "org": "한국투자증권",
+      "title": "",
+      "backfill": true
+    },
+    "202500161_11": {
+      "seenDate": "20260712",
+      "org": "미래에셋증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500163_11": {
+      "seenDate": "20260712",
+      "org": "신한투자증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500160_11": {
+      "seenDate": "20260712",
+      "org": "삼성증권(주)",
+      "title": "",
+      "backfill": true
+    },
+    "202500651_12": {
+      "seenDate": "20260712",
+      "org": "광주어룡",
+      "title": "",
+      "backfill": true
+    },
+    "202500100_12": {
+      "seenDate": "20260712",
+      "org": "양주축산농협",
+      "title": "",
+      "backfill": true
+    },
+    "202500517_11": {
+      "seenDate": "20260712",
+      "org": "㈜케이비국민카드",
+      "title": "",
+      "backfill": true
+    },
+    "202500099_12": {
+      "seenDate": "20260712",
+      "org": "순천농협",
+      "title": "",
+      "backfill": true
+    },
+    "202300848_13": {
+      "seenDate": "20260712",
+      "org": "농협손해보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500588_11": {
+      "seenDate": "20260712",
+      "org": "뱅크오브아메리카은행",
+      "title": "",
+      "backfill": true
+    },
+    "202400548_12": {
+      "seenDate": "20260712",
+      "org": "하나손해보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500444_12": {
+      "seenDate": "20260712",
+      "org": "KB라이프생명보험",
+      "title": "",
+      "backfill": true
+    },
+    "202400095_13": {
+      "seenDate": "20260712",
+      "org": "한국자산신탁",
+      "title": "",
+      "backfill": true
+    },
+    "202500801_11": {
+      "seenDate": "20260712",
+      "org": "디에이치저축은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500594_11": {
+      "seenDate": "20260712",
+      "org": "미래에셋증권 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400545_12": {
+      "seenDate": "20260712",
+      "org": "(주)리더스에셋어드바이저",
+      "title": "",
+      "backfill": true
+    },
+    "202400337_12": {
+      "seenDate": "20260712",
+      "org": "㈜글로벌금융판매",
+      "title": "",
+      "backfill": true
+    },
+    "202500453_11": {
+      "seenDate": "20260712",
+      "org": "크레디 아그리콜 코퍼레이트 앤 인베스트먼트 뱅크",
+      "title": "",
+      "backfill": true
+    },
+    "202400333_11": {
+      "seenDate": "20260712",
+      "org": "㈜삼성생명금융서비스보험대리점",
+      "title": "",
+      "backfill": true
+    },
+    "202500448_11": {
+      "seenDate": "20260712",
+      "org": "현대차 금융복합기업집단",
+      "title": "",
+      "backfill": true
+    },
+    "202500102_12": {
+      "seenDate": "20260712",
+      "org": "오에스비저축은행",
+      "title": "",
+      "backfill": true
+    },
+    "202400646_11": {
+      "seenDate": "20260712",
+      "org": "케이비라이프파트너스",
+      "title": "",
+      "backfill": true
+    },
+    "202400272_12": {
+      "seenDate": "20260712",
+      "org": "㈜카카오페이",
+      "title": "",
+      "backfill": true
+    },
+    "202400090_12": {
+      "seenDate": "20260712",
+      "org": "모아저축은행",
+      "title": "",
+      "backfill": true
+    },
+    "202500111_12": {
+      "seenDate": "20260712",
+      "org": "주식회사 뱅크샐러드",
+      "title": "",
+      "backfill": true
+    },
+    "202500312_11": {
+      "seenDate": "20260712",
+      "org": "오케이캐피탈 ㈜",
+      "title": "",
+      "backfill": true
+    },
+    "202500110_12": {
+      "seenDate": "20260712",
+      "org": "주식회사 핀다",
+      "title": "",
+      "backfill": true
+    },
+    "202300588_12": {
+      "seenDate": "20260712",
+      "org": "국제자산운용 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500119_11": {
+      "seenDate": "20260712",
+      "org": "한국기업평가 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202400366_12": {
+      "seenDate": "20260712",
+      "org": "삼성생명보험주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500120_11": {
+      "seenDate": "20260712",
+      "org": "한국신용평가 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500152_11": {
+      "seenDate": "20260712",
+      "org": "서울신용평가(주)",
+      "title": "",
+      "backfill": true
+    },
+    "202500153_11": {
+      "seenDate": "20260712",
+      "org": "나이스신용평가 주식회사",
+      "title": "",
+      "backfill": true
+    },
+    "202500454_11": {
+      "seenDate": "20260712",
+      "org": "현대캐피탈㈜",
+      "title": "",
+      "backfill": true
+    },
+    "202500628_11": {
+      "seenDate": "20260712",
+      "org": "신한은행",
+      "title": "",
+      "backfill": true
+    }
+  },
+  "meta": {
+    "keySchema": "v1",
+    "sources": {
+      "제재공시": {
+        "covered": true,
+        "listTotal": 205,
+        "fullScanAt": "20260712",
+        "keySchema": "v1"
+      },
+      "경영유의": {
+        "covered": true,
+        "listTotal": 67,
+        "fullScanAt": "20260712",
+        "keySchema": "v1"
+      }
     }
   }
 }

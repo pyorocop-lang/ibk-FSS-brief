@@ -1,0 +1,4305 @@
+{
+  "dateCode": "20260712",
+  "runSlot": "pm",
+  "crawledAt": "2026-07-12T07:01:07.732Z",
+  "source": "FSS 제재공시(openInfo) + 경영유의(openInfoImpr) 스크래핑",
+  "collectMode": "scrape",
+  "ledgerSeeded": false,
+  "newItemBasis": "scan-window-diff",
+  "prevCrawlFile": "reports/20260712/am/crawl_result.json",
+  "totalFetched": 272,
+  "items": [],
+  "graded": [],
+  "newItems": [],
+  "newGraded": [],
+  "backfilled": [
+    {
+      "key": "202500320_1",
+      "source": "제재공시",
+      "org": "삼성화재해상보험주식회사",
+      "actionRequestDate": "2026-06-18",
+      "page": 4,
+      "listRank": 38
+    },
+    {
+      "key": "202500319_1",
+      "source": "제재공시",
+      "org": "삼성생명보험주식회사",
+      "actionRequestDate": "2026-06-18",
+      "page": 4,
+      "listRank": 39
+    },
+    {
+      "key": "202500158_1",
+      "source": "제재공시",
+      "org": "삼성증권(주)",
+      "actionRequestDate": "2026-06-17",
+      "page": 4,
+      "listRank": 40
+    },
+    {
+      "key": "202400599_3",
+      "source": "제재공시",
+      "org": "우리은행",
+      "actionRequestDate": "2026-06-15",
+      "page": 5,
+      "listRank": 41
+    },
+    {
+      "key": "202500493_1",
+      "source": "제재공시",
+      "org": "에스비아이저축은행",
+      "actionRequestDate": "2026-06-09",
+      "page": 5,
+      "listRank": 42
+    },
+    {
+      "key": "202400339_1",
+      "source": "제재공시",
+      "org": "에이알에이코리아자산운용",
+      "actionRequestDate": "2026-06-08",
+      "page": 5,
+      "listRank": 43
+    },
+    {
+      "key": "202400077_2",
+      "source": "제재공시",
+      "org": "케이와이자산운용",
+      "actionRequestDate": "2026-05-29",
+      "page": 5,
+      "listRank": 44
+    },
+    {
+      "key": "202400416_1",
+      "source": "제재공시",
+      "org": "위솔자산운용㈜",
+      "actionRequestDate": "2026-05-29",
+      "page": 5,
+      "listRank": 45
+    },
+    {
+      "key": "202400415_2",
+      "source": "제재공시",
+      "org": "리딩자산운용 주식회사",
+      "actionRequestDate": "2026-05-28",
+      "page": 5,
+      "listRank": 46
+    },
+    {
+      "key": "202300619_1",
+      "source": "제재공시",
+      "org": "다올투자증권 주식회사",
+      "actionRequestDate": "2026-05-27",
+      "page": 5,
+      "listRank": 47
+    },
+    {
+      "key": "202300039_2",
+      "source": "제재공시",
+      "org": "한화생명보험주식회사",
+      "actionRequestDate": "2026-05-21",
+      "page": 5,
+      "listRank": 48
+    },
+    {
+      "key": "202300654_1",
+      "source": "제재공시",
+      "org": "청운",
+      "actionRequestDate": "2026-05-21",
+      "page": 5,
+      "listRank": 49
+    },
+    {
+      "key": "202300807_1",
+      "source": "제재공시",
+      "org": "전주동부",
+      "actionRequestDate": "2026-05-21",
+      "page": 5,
+      "listRank": 50
+    },
+    {
+      "key": "202500511_1",
+      "source": "제재공시",
+      "org": "시그니처자산운용㈜",
+      "actionRequestDate": "2026-05-19",
+      "page": 6,
+      "listRank": 51
+    },
+    {
+      "key": "202400233_2",
+      "source": "제재공시",
+      "org": "NH투자증권",
+      "actionRequestDate": "2026-05-19",
+      "page": 6,
+      "listRank": 52
+    },
+    {
+      "key": "202500085_1",
+      "source": "제재공시",
+      "org": "㈜우리카드",
+      "actionRequestDate": "2026-05-18",
+      "page": 6,
+      "listRank": 53
+    },
+    {
+      "key": "202200403_8",
+      "source": "제재공시",
+      "org": "한국투자증권",
+      "actionRequestDate": "2026-05-15",
+      "page": 6,
+      "listRank": 54
+    },
+    {
+      "key": "202400693_1",
+      "source": "제재공시",
+      "org": "신한투자증권 주식회사",
+      "actionRequestDate": "2026-05-13",
+      "page": 6,
+      "listRank": 55
+    },
+    {
+      "key": "202500229_1",
+      "source": "제재공시",
+      "org": "국민은행",
+      "actionRequestDate": "2026-05-12",
+      "page": 6,
+      "listRank": 56
+    },
+    {
+      "key": "202500232_1",
+      "source": "제재공시",
+      "org": "부산은행",
+      "actionRequestDate": "2026-05-12",
+      "page": 6,
+      "listRank": 57
+    },
+    {
+      "key": "202500231_1",
+      "source": "제재공시",
+      "org": "우리은행",
+      "actionRequestDate": "2026-05-12",
+      "page": 6,
+      "listRank": 58
+    },
+    {
+      "key": "202500230_1",
+      "source": "제재공시",
+      "org": "주식회사 하나은행",
+      "actionRequestDate": "2026-05-12",
+      "page": 6,
+      "listRank": 59
+    },
+    {
+      "key": "202500806_1",
+      "source": "제재공시",
+      "org": "코람코자산신탁",
+      "actionRequestDate": "2026-05-08",
+      "page": 6,
+      "listRank": 60
+    },
+    {
+      "key": "202500307_1",
+      "source": "제재공시",
+      "org": "동래농협",
+      "actionRequestDate": "2026-05-07",
+      "page": 7,
+      "listRank": 61
+    },
+    {
+      "key": "202500121_1",
+      "source": "제재공시",
+      "org": "하나자산신탁",
+      "actionRequestDate": "2026-05-06",
+      "page": 7,
+      "listRank": 62
+    },
+    {
+      "key": "202500716_1",
+      "source": "제재공시",
+      "org": "대박투자그룹",
+      "actionRequestDate": "2026-04-29",
+      "page": 7,
+      "listRank": 63
+    },
+    {
+      "key": "202500765_1",
+      "source": "제재공시",
+      "org": "제이에스투자클럽",
+      "actionRequestDate": "2026-04-29",
+      "page": 7,
+      "listRank": 64
+    },
+    {
+      "key": "202500762_1",
+      "source": "제재공시",
+      "org": "대구태풍주식공부방",
+      "actionRequestDate": "2026-04-29",
+      "page": 7,
+      "listRank": 65
+    },
+    {
+      "key": "202500729_1",
+      "source": "제재공시",
+      "org": "주식회사 데일리스탁",
+      "actionRequestDate": "2026-04-29",
+      "page": 7,
+      "listRank": 66
+    },
+    {
+      "key": "202500721_1",
+      "source": "제재공시",
+      "org": "주식회사 데일리인베스트먼트",
+      "actionRequestDate": "2026-04-29",
+      "page": 7,
+      "listRank": 67
+    },
+    {
+      "key": "202500784_1",
+      "source": "제재공시",
+      "org": "성수클럽",
+      "actionRequestDate": "2026-04-29",
+      "page": 7,
+      "listRank": 68
+    },
+    {
+      "key": "202500782_1",
+      "source": "제재공시",
+      "org": "주식회사 세종기업데이터",
+      "actionRequestDate": "2026-04-29",
+      "page": 7,
+      "listRank": 69
+    },
+    {
+      "key": "202500779_1",
+      "source": "제재공시",
+      "org": "월드에프엔에이치",
+      "actionRequestDate": "2026-04-29",
+      "page": 7,
+      "listRank": 70
+    },
+    {
+      "key": "202500774_1",
+      "source": "제재공시",
+      "org": "주식회사 에이아이비",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 71
+    },
+    {
+      "key": "202500735_1",
+      "source": "제재공시",
+      "org": "주식회사 미래국민파트너",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 72
+    },
+    {
+      "key": "202500724_1",
+      "source": "제재공시",
+      "org": "뉴츠컴퍼니",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 73
+    },
+    {
+      "key": "202500720_1",
+      "source": "제재공시",
+      "org": "주식회사 잠실글로벌",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 74
+    },
+    {
+      "key": "202500715_1",
+      "source": "제재공시",
+      "org": "레고컴퍼니",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 75
+    },
+    {
+      "key": "202500714_1",
+      "source": "제재공시",
+      "org": "확률과 통계",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 76
+    },
+    {
+      "key": "202500787_1",
+      "source": "제재공시",
+      "org": "어스얼라이언스 주식회사",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 77
+    },
+    {
+      "key": "202500772_1",
+      "source": "제재공시",
+      "org": "이오홀딩스",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 78
+    },
+    {
+      "key": "202500739_1",
+      "source": "제재공시",
+      "org": "주식회사 알리솔루션",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 79
+    },
+    {
+      "key": "202500738_1",
+      "source": "제재공시",
+      "org": "비전컨설팅그룹 주식회사",
+      "actionRequestDate": "2026-04-29",
+      "page": 8,
+      "listRank": 80
+    },
+    {
+      "key": "202500734_1",
+      "source": "제재공시",
+      "org": "주식회사 뉴지스탁",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 81
+    },
+    {
+      "key": "202500709_1",
+      "source": "제재공시",
+      "org": "선진인베스트",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 82
+    },
+    {
+      "key": "202500708_1",
+      "source": "제재공시",
+      "org": "오즈커뮤니티",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 83
+    },
+    {
+      "key": "202500759_1",
+      "source": "제재공시",
+      "org": "(주)팍스넷",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 84
+    },
+    {
+      "key": "202500705_1",
+      "source": "제재공시",
+      "org": "주차프",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 85
+    },
+    {
+      "key": "202500771_1",
+      "source": "제재공시",
+      "org": "주식회사 바로경제연구소",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 86
+    },
+    {
+      "key": "202500767_1",
+      "source": "제재공시",
+      "org": "주식회사 카마트솔루션",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 87
+    },
+    {
+      "key": "202500736_1",
+      "source": "제재공시",
+      "org": "주식회사 인베스트리에셋",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 88
+    },
+    {
+      "key": "202500731_1",
+      "source": "제재공시",
+      "org": "데일리투자그룹",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 89
+    },
+    {
+      "key": "202500730_1",
+      "source": "제재공시",
+      "org": "이섭투자컨설팅",
+      "actionRequestDate": "2026-04-29",
+      "page": 9,
+      "listRank": 90
+    },
+    {
+      "key": "202400361_3",
+      "source": "제재공시",
+      "org": "아이앤제이자산운용",
+      "actionRequestDate": "2026-04-28",
+      "page": 10,
+      "listRank": 91
+    },
+    {
+      "key": "202500015_2",
+      "source": "제재공시",
+      "org": "도이치은행",
+      "actionRequestDate": "2026-04-27",
+      "page": 10,
+      "listRank": 92
+    },
+    {
+      "key": "202400481_3",
+      "source": "제재공시",
+      "org": "국민은행",
+      "actionRequestDate": "2026-04-24",
+      "page": 10,
+      "listRank": 93
+    },
+    {
+      "key": "202500044_1",
+      "source": "제재공시",
+      "org": "경남은행",
+      "actionRequestDate": "2026-04-24",
+      "page": 10,
+      "listRank": 94
+    },
+    {
+      "key": "202500042_4",
+      "source": "제재공시",
+      "org": "부산은행",
+      "actionRequestDate": "2026-04-24",
+      "page": 10,
+      "listRank": 95
+    },
+    {
+      "key": "202500146_1",
+      "source": "제재공시",
+      "org": "주식회사 하나은행",
+      "actionRequestDate": "2026-04-20",
+      "page": 10,
+      "listRank": 96
+    },
+    {
+      "key": "202300782_1",
+      "source": "제재공시",
+      "org": "골든브릿지자산운용",
+      "actionRequestDate": "2026-04-20",
+      "page": 10,
+      "listRank": 97
+    },
+    {
+      "key": "202500157_1",
+      "source": "제재공시",
+      "org": "주식회사 아이케이파트너스",
+      "actionRequestDate": "2026-04-15",
+      "page": 10,
+      "listRank": 98
+    },
+    {
+      "key": "202000134_3",
+      "source": "제재공시",
+      "org": "KB증권주식회사",
+      "actionRequestDate": "2026-04-07",
+      "page": 10,
+      "listRank": 99
+    },
+    {
+      "key": "202500411_1",
+      "source": "제재공시",
+      "org": "광안",
+      "actionRequestDate": "2026-04-07",
+      "page": 10,
+      "listRank": 100
+    },
+    {
+      "key": "202500651_1",
+      "source": "제재공시",
+      "org": "광주어룡",
+      "actionRequestDate": "2026-04-03",
+      "page": 11,
+      "listRank": 101
+    },
+    {
+      "key": "202500587_1",
+      "source": "제재공시",
+      "org": "미즈호",
+      "actionRequestDate": "2026-04-01",
+      "page": 11,
+      "listRank": 102
+    },
+    {
+      "key": "202500620_1",
+      "source": "제재공시",
+      "org": "(주)유어즈에셋 보험대리점",
+      "actionRequestDate": "2026-03-30",
+      "page": 11,
+      "listRank": 103
+    },
+    {
+      "key": "202500657_1",
+      "source": "제재공시",
+      "org": "삼성생명보험주식회사",
+      "actionRequestDate": "2026-03-30",
+      "page": 11,
+      "listRank": 104
+    },
+    {
+      "key": "202500019_1",
+      "source": "제재공시",
+      "org": "경성투자자문(주)",
+      "actionRequestDate": "2026-03-24",
+      "page": 11,
+      "listRank": 105
+    },
+    {
+      "key": "202500100_1",
+      "source": "제재공시",
+      "org": "양주축산농협",
+      "actionRequestDate": "2026-03-24",
+      "page": 11,
+      "listRank": 106
+    },
+    {
+      "key": "202500354_2",
+      "source": "제재공시",
+      "org": "리딩투자증권주식회사",
+      "actionRequestDate": "2026-03-20",
+      "page": 11,
+      "listRank": 107
+    },
+    {
+      "key": "202500617_1",
+      "source": "제재공시",
+      "org": "지에이코리아주식회사",
+      "actionRequestDate": "2026-03-19",
+      "page": 11,
+      "listRank": 108
+    },
+    {
+      "key": "202400644_1",
+      "source": "제재공시",
+      "org": "주식회사 에스티자산운용",
+      "actionRequestDate": "2026-03-19",
+      "page": 11,
+      "listRank": 109
+    },
+    {
+      "key": "202400643_1",
+      "source": "제재공시",
+      "org": "앤도버자산운용 주식회사",
+      "actionRequestDate": "2026-03-19",
+      "page": 11,
+      "listRank": 110
+    },
+    {
+      "key": "202400642_1",
+      "source": "제재공시",
+      "org": "아스트라자산운용",
+      "actionRequestDate": "2026-03-19",
+      "page": 12,
+      "listRank": 111
+    },
+    {
+      "key": "202400641_1",
+      "source": "제재공시",
+      "org": "엘에프자산운용 주식회사",
+      "actionRequestDate": "2026-03-19",
+      "page": 12,
+      "listRank": 112
+    },
+    {
+      "key": "202400640_1",
+      "source": "제재공시",
+      "org": "㈜아르고스자산운용",
+      "actionRequestDate": "2026-03-19",
+      "page": 12,
+      "listRank": 113
+    },
+    {
+      "key": "202400639_1",
+      "source": "제재공시",
+      "org": "허브자산운용 주식회사",
+      "actionRequestDate": "2026-03-19",
+      "page": 12,
+      "listRank": 114
+    },
+    {
+      "key": "202400638_1",
+      "source": "제재공시",
+      "org": "넥스트증권 주식회사",
+      "actionRequestDate": "2026-03-19",
+      "page": 12,
+      "listRank": 115
+    },
+    {
+      "key": "202500621_1",
+      "source": "제재공시",
+      "org": "DB손해보험주식회사",
+      "actionRequestDate": "2026-03-19",
+      "page": 12,
+      "listRank": 116
+    },
+    {
+      "key": "202500619_1",
+      "source": "제재공시",
+      "org": "더베스트금융서비스 주식회사",
+      "actionRequestDate": "2026-03-19",
+      "page": 12,
+      "listRank": 117
+    },
+    {
+      "key": "202500623_1",
+      "source": "제재공시",
+      "org": "디아이홀딩스 주식회사",
+      "actionRequestDate": "2026-03-19",
+      "page": 12,
+      "listRank": 118
+    },
+    {
+      "key": "202400834_1",
+      "source": "제재공시",
+      "org": "유진투자증권주식회사",
+      "actionRequestDate": "2026-03-18",
+      "page": 12,
+      "listRank": 119
+    },
+    {
+      "key": "202400077_1",
+      "source": "제재공시",
+      "org": "케이와이자산운용",
+      "actionRequestDate": "2026-03-18",
+      "page": 12,
+      "listRank": 120
+    },
+    {
+      "key": "202500568_1",
+      "source": "제재공시",
+      "org": "토스증권 주식회사",
+      "actionRequestDate": "2026-03-13",
+      "page": 13,
+      "listRank": 121
+    },
+    {
+      "key": "202500099_1",
+      "source": "제재공시",
+      "org": "순천농협",
+      "actionRequestDate": "2026-03-12",
+      "page": 13,
+      "listRank": 122
+    },
+    {
+      "key": "202500520_1",
+      "source": "제재공시",
+      "org": "메트라이프생명보험(주)",
+      "actionRequestDate": "2026-03-12",
+      "page": 13,
+      "listRank": 123
+    },
+    {
+      "key": "202300055_1",
+      "source": "제재공시",
+      "org": "타이거대체투자운용주식회사",
+      "actionRequestDate": "2026-03-11",
+      "page": 13,
+      "listRank": 124
+    },
+    {
+      "key": "202500242_1",
+      "source": "제재공시",
+      "org": "도도자산관리대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 13,
+      "listRank": 125
+    },
+    {
+      "key": "202500195_1",
+      "source": "제재공시",
+      "org": "프라임에셋㈜",
+      "actionRequestDate": "2026-03-10",
+      "page": 13,
+      "listRank": 126
+    },
+    {
+      "key": "202500194_1",
+      "source": "제재공시",
+      "org": "케이지에이에셋㈜",
+      "actionRequestDate": "2026-03-10",
+      "page": 13,
+      "listRank": 127
+    },
+    {
+      "key": "202500193_1",
+      "source": "제재공시",
+      "org": "지에이코리아주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 13,
+      "listRank": 128
+    },
+    {
+      "key": "202500192_1",
+      "source": "제재공시",
+      "org": "(주)프리원",
+      "actionRequestDate": "2026-03-10",
+      "page": 13,
+      "listRank": 129
+    },
+    {
+      "key": "202500191_1",
+      "source": "제재공시",
+      "org": "㈜케이엠아이에셋",
+      "actionRequestDate": "2026-03-10",
+      "page": 13,
+      "listRank": 130
+    },
+    {
+      "key": "202500190_1",
+      "source": "제재공시",
+      "org": "(주)제우스라이프",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 131
+    },
+    {
+      "key": "202500189_1",
+      "source": "제재공시",
+      "org": "㈜에즈금융서비스",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 132
+    },
+    {
+      "key": "202500188_1",
+      "source": "제재공시",
+      "org": "주식회사 뉴니케",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 133
+    },
+    {
+      "key": "202500187_1",
+      "source": "제재공시",
+      "org": "㈜비엡시금융서비스",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 134
+    },
+    {
+      "key": "202500186_1",
+      "source": "제재공시",
+      "org": "서평택",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 135
+    },
+    {
+      "key": "202500185_1",
+      "source": "제재공시",
+      "org": "삼성마리컨트리보험대리점",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 136
+    },
+    {
+      "key": "202500184_1",
+      "source": "제재공시",
+      "org": "메트라이프금융서비스 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 137
+    },
+    {
+      "key": "202500183_1",
+      "source": "제재공시",
+      "org": "리더스금융판매㈜",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 138
+    },
+    {
+      "key": "202500182_1",
+      "source": "제재공시",
+      "org": "㈜글로벌금융판매",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 139
+    },
+    {
+      "key": "202500181_1",
+      "source": "제재공시",
+      "org": "한화손해보험주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 14,
+      "listRank": 140
+    },
+    {
+      "key": "202500180_1",
+      "source": "제재공시",
+      "org": "삼성생명보험주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 141
+    },
+    {
+      "key": "202500179_1",
+      "source": "제재공시",
+      "org": "DB손해보험주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 142
+    },
+    {
+      "key": "202500354_1",
+      "source": "제재공시",
+      "org": "리딩투자증권주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 143
+    },
+    {
+      "key": "202500245_1",
+      "source": "제재공시",
+      "org": "리치금융진대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 144
+    },
+    {
+      "key": "202500246_1",
+      "source": "제재공시",
+      "org": "마루이대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 145
+    },
+    {
+      "key": "202500248_1",
+      "source": "제재공시",
+      "org": "분당엔피엘대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 146
+    },
+    {
+      "key": "202500249_1",
+      "source": "제재공시",
+      "org": "삼원전국엔피엘대부금융 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 147
+    },
+    {
+      "key": "202500251_1",
+      "source": "제재공시",
+      "org": "송월자산관리대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 148
+    },
+    {
+      "key": "202500253_1",
+      "source": "제재공시",
+      "org": "에스피엘자산대부 유한회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 149
+    },
+    {
+      "key": "202500254_1",
+      "source": "제재공시",
+      "org": "에이제이자산관리대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 15,
+      "listRank": 150
+    },
+    {
+      "key": "202500257_1",
+      "source": "제재공시",
+      "org": "주식회사 더파이널스대부",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 151
+    },
+    {
+      "key": "202500259_1",
+      "source": "제재공시",
+      "org": "주식회사 에이치에스에이치대부",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 152
+    },
+    {
+      "key": "202500260_1",
+      "source": "제재공시",
+      "org": "주식회사 웰스파트너스대부",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 153
+    },
+    {
+      "key": "202500264_1",
+      "source": "제재공시",
+      "org": "주식회사 케이엠파이낸셜서비스대부",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 154
+    },
+    {
+      "key": "202500265_1",
+      "source": "제재공시",
+      "org": "주식회사 케이원대부",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 155
+    },
+    {
+      "key": "202500268_1",
+      "source": "제재공시",
+      "org": "티티대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 156
+    },
+    {
+      "key": "202500269_1",
+      "source": "제재공시",
+      "org": "한국자산관리원대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 157
+    },
+    {
+      "key": "202500270_1",
+      "source": "제재공시",
+      "org": "희즈에셋대부금융 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 158
+    },
+    {
+      "key": "202500275_1",
+      "source": "제재공시",
+      "org": "주식회사 자산관리케이대부",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 159
+    },
+    {
+      "key": "202500276_1",
+      "source": "제재공시",
+      "org": "하나에이엠씨대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 16,
+      "listRank": 160
+    },
+    {
+      "key": "202500277_1",
+      "source": "제재공시",
+      "org": "주식회사 국민에이엠씨금융대부",
+      "actionRequestDate": "2026-03-10",
+      "page": 17,
+      "listRank": 161
+    },
+    {
+      "key": "202500285_1",
+      "source": "제재공시",
+      "org": "골드리치컨설팅대부 주식회사",
+      "actionRequestDate": "2026-03-10",
+      "page": 17,
+      "listRank": 162
+    },
+    {
+      "key": "202500287_1",
+      "source": "제재공시",
+      "org": "주식회사 제이엘케이파트너스파이낸셜대부",
+      "actionRequestDate": "2026-03-10",
+      "page": 17,
+      "listRank": 163
+    },
+    {
+      "key": "202300848_2",
+      "source": "제재공시",
+      "org": "농협손해보험주식회사",
+      "actionRequestDate": "2026-02-27",
+      "page": 17,
+      "listRank": 164
+    },
+    {
+      "key": "202400548_1",
+      "source": "제재공시",
+      "org": "하나손해보험주식회사",
+      "actionRequestDate": "2026-02-27",
+      "page": 17,
+      "listRank": 165
+    },
+    {
+      "key": "202400415_1",
+      "source": "제재공시",
+      "org": "리딩자산운용 주식회사",
+      "actionRequestDate": "2026-02-24",
+      "page": 17,
+      "listRank": 166
+    },
+    {
+      "key": "202200377_1",
+      "source": "제재공시",
+      "org": "주식회사 카사코리아",
+      "actionRequestDate": "2026-02-23",
+      "page": 17,
+      "listRank": 167
+    },
+    {
+      "key": "202000487_1",
+      "source": "제재공시",
+      "org": "포트코리아자산운용 주식회사",
+      "actionRequestDate": "2026-02-20",
+      "page": 17,
+      "listRank": 168
+    },
+    {
+      "key": "202500444_1",
+      "source": "제재공시",
+      "org": "KB라이프생명보험",
+      "actionRequestDate": "2026-02-19",
+      "page": 17,
+      "listRank": 169
+    },
+    {
+      "key": "202300319_1",
+      "source": "제재공시",
+      "org": "리버스톤자산운용",
+      "actionRequestDate": "2026-02-13",
+      "page": 17,
+      "listRank": 170
+    },
+    {
+      "key": "202400095_2",
+      "source": "제재공시",
+      "org": "한국자산신탁",
+      "actionRequestDate": "2026-02-12",
+      "page": 18,
+      "listRank": 171
+    },
+    {
+      "key": "202300202_1",
+      "source": "제재공시",
+      "org": "한국투자증권",
+      "actionRequestDate": "2026-02-11",
+      "page": 18,
+      "listRank": 172
+    },
+    {
+      "key": "202300214_1",
+      "source": "제재공시",
+      "org": "유안타증권주식회사",
+      "actionRequestDate": "2026-02-11",
+      "page": 18,
+      "listRank": 173
+    },
+    {
+      "key": "202300212_1",
+      "source": "제재공시",
+      "org": "KB증권주식회사",
+      "actionRequestDate": "2026-02-11",
+      "page": 18,
+      "listRank": 174
+    },
+    {
+      "key": "202300211_1",
+      "source": "제재공시",
+      "org": "신한투자증권 주식회사",
+      "actionRequestDate": "2026-02-11",
+      "page": 18,
+      "listRank": 175
+    },
+    {
+      "key": "202300210_1",
+      "source": "제재공시",
+      "org": "디비증권주식회사",
+      "actionRequestDate": "2026-02-11",
+      "page": 18,
+      "listRank": 176
+    },
+    {
+      "key": "202300209_1",
+      "source": "제재공시",
+      "org": "LS증권",
+      "actionRequestDate": "2026-02-11",
+      "page": 18,
+      "listRank": 177
+    },
+    {
+      "key": "202300207_1",
+      "source": "제재공시",
+      "org": "삼성증권(주)",
+      "actionRequestDate": "2026-02-11",
+      "page": 18,
+      "listRank": 178
+    },
+    {
+      "key": "202300205_1",
+      "source": "제재공시",
+      "org": "IBK투자증권",
+      "actionRequestDate": "2026-02-11",
+      "page": 18,
+      "listRank": 179
+    },
+    {
+      "key": "202300203_1",
+      "source": "제재공시",
+      "org": "하나증권주식회사",
+      "actionRequestDate": "2026-02-11",
+      "page": 18,
+      "listRank": 180
+    },
+    {
+      "key": "202300756_1",
+      "source": "제재공시",
+      "org": "파인앤파트너스자산운용주식회사",
+      "actionRequestDate": "2026-02-10",
+      "page": 19,
+      "listRank": 181
+    },
+    {
+      "key": "202400545_1",
+      "source": "제재공시",
+      "org": "(주)리더스에셋어드바이저",
+      "actionRequestDate": "2026-02-05",
+      "page": 19,
+      "listRank": 182
+    },
+    {
+      "key": "202100623_2",
+      "source": "제재공시",
+      "org": "㈜기업금융센타보험대리점",
+      "actionRequestDate": "2026-02-04",
+      "page": 19,
+      "listRank": 183
+    },
+    {
+      "key": "202300145_6",
+      "source": "제재공시",
+      "org": "흥국생명보험주식회사",
+      "actionRequestDate": "2026-02-04",
+      "page": 19,
+      "listRank": 184
+    },
+    {
+      "key": "202400337_1",
+      "source": "제재공시",
+      "org": "㈜글로벌금융판매",
+      "actionRequestDate": "2026-02-04",
+      "page": 19,
+      "listRank": 185
+    },
+    {
+      "key": "202400003_1",
+      "source": "제재공시",
+      "org": "한국투자증권",
+      "actionRequestDate": "2026-01-30",
+      "page": 19,
+      "listRank": 186
+    },
+    {
+      "key": "202500102_1",
+      "source": "제재공시",
+      "org": "오에스비저축은행",
+      "actionRequestDate": "2026-01-29",
+      "page": 19,
+      "listRank": 187
+    },
+    {
+      "key": "202400012_2",
+      "source": "제재공시",
+      "org": "NH투자증권",
+      "actionRequestDate": "2026-01-29",
+      "page": 19,
+      "listRank": 188
+    },
+    {
+      "key": "202400011_2",
+      "source": "제재공시",
+      "org": "신한투자증권 주식회사",
+      "actionRequestDate": "2026-01-29",
+      "page": 19,
+      "listRank": 189
+    },
+    {
+      "key": "202400137_1",
+      "source": "제재공시",
+      "org": "나무에셋(주)",
+      "actionRequestDate": "2026-01-29",
+      "page": 19,
+      "listRank": 190
+    },
+    {
+      "key": "202400136_1",
+      "source": "제재공시",
+      "org": "한국중앙에셋(주)",
+      "actionRequestDate": "2026-01-29",
+      "page": 20,
+      "listRank": 191
+    },
+    {
+      "key": "202400379_1",
+      "source": "제재공시",
+      "org": "(주)한국지에이금융서비스",
+      "actionRequestDate": "2026-01-29",
+      "page": 20,
+      "listRank": 192
+    },
+    {
+      "key": "202500049_1",
+      "source": "제재공시",
+      "org": "디비금융서비스㈜",
+      "actionRequestDate": "2026-01-29",
+      "page": 20,
+      "listRank": 193
+    },
+    {
+      "key": "202400646_2",
+      "source": "제재공시",
+      "org": "케이비라이프파트너스",
+      "actionRequestDate": "2026-01-29",
+      "page": 20,
+      "listRank": 194
+    },
+    {
+      "key": "202400333_2",
+      "source": "제재공시",
+      "org": "㈜삼성생명금융서비스보험대리점",
+      "actionRequestDate": "2026-01-29",
+      "page": 20,
+      "listRank": 195
+    },
+    {
+      "key": "202300827_1",
+      "source": "제재공시",
+      "org": "미래에셋증권 주식회사",
+      "actionRequestDate": "2026-01-28",
+      "page": 20,
+      "listRank": 196
+    },
+    {
+      "key": "202400272_1",
+      "source": "제재공시",
+      "org": "㈜카카오페이",
+      "actionRequestDate": "2026-01-28",
+      "page": 20,
+      "listRank": 197
+    },
+    {
+      "key": "202300828_1",
+      "source": "제재공시",
+      "org": "KB증권주식회사",
+      "actionRequestDate": "2026-01-28",
+      "page": 20,
+      "listRank": 198
+    },
+    {
+      "key": "202400090_1",
+      "source": "제재공시",
+      "org": "모아저축은행",
+      "actionRequestDate": "2026-01-26",
+      "page": 20,
+      "listRank": 199
+    },
+    {
+      "key": "202400016_1",
+      "source": "제재공시",
+      "org": "삼성증권(주)",
+      "actionRequestDate": "2026-01-20",
+      "page": 20,
+      "listRank": 200
+    },
+    {
+      "key": "202500110_1",
+      "source": "제재공시",
+      "org": "주식회사 핀다",
+      "actionRequestDate": "2026-01-20",
+      "page": 21,
+      "listRank": 201
+    },
+    {
+      "key": "202500111_1",
+      "source": "제재공시",
+      "org": "주식회사 뱅크샐러드",
+      "actionRequestDate": "2026-01-20",
+      "page": 21,
+      "listRank": 202
+    },
+    {
+      "key": "202300060_1",
+      "source": "제재공시",
+      "org": "제이씨에셋자산운용 주식회사",
+      "actionRequestDate": "2026-01-14",
+      "page": 21,
+      "listRank": 203
+    },
+    {
+      "key": "202300746_4",
+      "source": "제재공시",
+      "org": "주식회사 하나은행",
+      "actionRequestDate": "2026-01-08",
+      "page": 21,
+      "listRank": 204
+    },
+    {
+      "key": "202200669_1",
+      "source": "제재공시",
+      "org": "이지스리얼에셋투자운용 주식회사",
+      "actionRequestDate": "2026-01-02",
+      "page": 21,
+      "listRank": 205
+    },
+    {
+      "key": "202500819_11",
+      "source": "경영유의",
+      "org": "제이비우리캐피탈㈜",
+      "actionRequestDate": "2026-04-15",
+      "page": 3,
+      "listRank": 28
+    },
+    {
+      "key": "202500751_11",
+      "source": "경영유의",
+      "org": "교통은행",
+      "actionRequestDate": "2026-04-13",
+      "page": 3,
+      "listRank": 29
+    },
+    {
+      "key": "202500461_11",
+      "source": "경영유의",
+      "org": "현대하이라이프손해사정 주식회사",
+      "actionRequestDate": "2026-04-09",
+      "page": 3,
+      "listRank": 30
+    },
+    {
+      "key": "202500356_11",
+      "source": "경영유의",
+      "org": "NH투자증권",
+      "actionRequestDate": "2026-04-07",
+      "page": 4,
+      "listRank": 31
+    },
+    {
+      "key": "202500357_11",
+      "source": "경영유의",
+      "org": "KB증권주식회사",
+      "actionRequestDate": "2026-04-07",
+      "page": 4,
+      "listRank": 32
+    },
+    {
+      "key": "202500162_11",
+      "source": "경영유의",
+      "org": "한국투자증권",
+      "actionRequestDate": "2026-04-07",
+      "page": 4,
+      "listRank": 33
+    },
+    {
+      "key": "202500161_11",
+      "source": "경영유의",
+      "org": "미래에셋증권 주식회사",
+      "actionRequestDate": "2026-04-07",
+      "page": 4,
+      "listRank": 34
+    },
+    {
+      "key": "202500163_11",
+      "source": "경영유의",
+      "org": "신한투자증권 주식회사",
+      "actionRequestDate": "2026-04-07",
+      "page": 4,
+      "listRank": 35
+    },
+    {
+      "key": "202500160_11",
+      "source": "경영유의",
+      "org": "삼성증권(주)",
+      "actionRequestDate": "2026-04-07",
+      "page": 4,
+      "listRank": 36
+    },
+    {
+      "key": "202500651_12",
+      "source": "경영유의",
+      "org": "광주어룡",
+      "actionRequestDate": "2026-04-03",
+      "page": 4,
+      "listRank": 37
+    },
+    {
+      "key": "202500100_12",
+      "source": "경영유의",
+      "org": "양주축산농협",
+      "actionRequestDate": "2026-03-24",
+      "page": 4,
+      "listRank": 38
+    },
+    {
+      "key": "202500517_11",
+      "source": "경영유의",
+      "org": "㈜케이비국민카드",
+      "actionRequestDate": "2026-03-13",
+      "page": 4,
+      "listRank": 39
+    },
+    {
+      "key": "202500099_12",
+      "source": "경영유의",
+      "org": "순천농협",
+      "actionRequestDate": "2026-03-12",
+      "page": 4,
+      "listRank": 40
+    },
+    {
+      "key": "202300848_13",
+      "source": "경영유의",
+      "org": "농협손해보험주식회사",
+      "actionRequestDate": "2026-02-27",
+      "page": 5,
+      "listRank": 41
+    },
+    {
+      "key": "202500588_11",
+      "source": "경영유의",
+      "org": "뱅크오브아메리카은행",
+      "actionRequestDate": "2026-02-27",
+      "page": 5,
+      "listRank": 42
+    },
+    {
+      "key": "202400548_12",
+      "source": "경영유의",
+      "org": "하나손해보험주식회사",
+      "actionRequestDate": "2026-02-27",
+      "page": 5,
+      "listRank": 43
+    },
+    {
+      "key": "202500444_12",
+      "source": "경영유의",
+      "org": "KB라이프생명보험",
+      "actionRequestDate": "2026-02-19",
+      "page": 5,
+      "listRank": 44
+    },
+    {
+      "key": "202400095_13",
+      "source": "경영유의",
+      "org": "한국자산신탁",
+      "actionRequestDate": "2026-02-12",
+      "page": 5,
+      "listRank": 45
+    },
+    {
+      "key": "202500801_11",
+      "source": "경영유의",
+      "org": "디에이치저축은행",
+      "actionRequestDate": "2026-02-11",
+      "page": 5,
+      "listRank": 46
+    },
+    {
+      "key": "202500594_11",
+      "source": "경영유의",
+      "org": "미래에셋증권 주식회사",
+      "actionRequestDate": "2026-02-10",
+      "page": 5,
+      "listRank": 47
+    },
+    {
+      "key": "202400545_12",
+      "source": "경영유의",
+      "org": "(주)리더스에셋어드바이저",
+      "actionRequestDate": "2026-02-05",
+      "page": 5,
+      "listRank": 48
+    },
+    {
+      "key": "202400337_12",
+      "source": "경영유의",
+      "org": "㈜글로벌금융판매",
+      "actionRequestDate": "2026-02-04",
+      "page": 5,
+      "listRank": 49
+    },
+    {
+      "key": "202500453_11",
+      "source": "경영유의",
+      "org": "크레디 아그리콜 코퍼레이트 앤 인베스트먼트 뱅크",
+      "actionRequestDate": "2026-02-04",
+      "page": 5,
+      "listRank": 50
+    },
+    {
+      "key": "202400333_11",
+      "source": "경영유의",
+      "org": "㈜삼성생명금융서비스보험대리점",
+      "actionRequestDate": "2026-01-29",
+      "page": 6,
+      "listRank": 51
+    },
+    {
+      "key": "202500448_11",
+      "source": "경영유의",
+      "org": "현대차 금융복합기업집단",
+      "actionRequestDate": "2026-01-29",
+      "page": 6,
+      "listRank": 52
+    },
+    {
+      "key": "202500102_12",
+      "source": "경영유의",
+      "org": "오에스비저축은행",
+      "actionRequestDate": "2026-01-29",
+      "page": 6,
+      "listRank": 53
+    },
+    {
+      "key": "202400646_11",
+      "source": "경영유의",
+      "org": "케이비라이프파트너스",
+      "actionRequestDate": "2026-01-29",
+      "page": 6,
+      "listRank": 54
+    },
+    {
+      "key": "202400272_12",
+      "source": "경영유의",
+      "org": "㈜카카오페이",
+      "actionRequestDate": "2026-01-28",
+      "page": 6,
+      "listRank": 55
+    },
+    {
+      "key": "202400090_12",
+      "source": "경영유의",
+      "org": "모아저축은행",
+      "actionRequestDate": "2026-01-26",
+      "page": 6,
+      "listRank": 56
+    },
+    {
+      "key": "202500111_12",
+      "source": "경영유의",
+      "org": "주식회사 뱅크샐러드",
+      "actionRequestDate": "2026-01-20",
+      "page": 6,
+      "listRank": 57
+    },
+    {
+      "key": "202500312_11",
+      "source": "경영유의",
+      "org": "오케이캐피탈 ㈜",
+      "actionRequestDate": "2026-01-20",
+      "page": 6,
+      "listRank": 58
+    },
+    {
+      "key": "202500110_12",
+      "source": "경영유의",
+      "org": "주식회사 핀다",
+      "actionRequestDate": "2026-01-20",
+      "page": 6,
+      "listRank": 59
+    },
+    {
+      "key": "202300588_12",
+      "source": "경영유의",
+      "org": "국제자산운용 주식회사",
+      "actionRequestDate": "2026-01-16",
+      "page": 6,
+      "listRank": 60
+    },
+    {
+      "key": "202500119_11",
+      "source": "경영유의",
+      "org": "한국기업평가 주식회사",
+      "actionRequestDate": "2026-01-13",
+      "page": 7,
+      "listRank": 61
+    },
+    {
+      "key": "202400366_12",
+      "source": "경영유의",
+      "org": "삼성생명보험주식회사",
+      "actionRequestDate": "2026-01-13",
+      "page": 7,
+      "listRank": 62
+    },
+    {
+      "key": "202500120_11",
+      "source": "경영유의",
+      "org": "한국신용평가 주식회사",
+      "actionRequestDate": "2026-01-13",
+      "page": 7,
+      "listRank": 63
+    },
+    {
+      "key": "202500152_11",
+      "source": "경영유의",
+      "org": "서울신용평가(주)",
+      "actionRequestDate": "2026-01-13",
+      "page": 7,
+      "listRank": 64
+    },
+    {
+      "key": "202500153_11",
+      "source": "경영유의",
+      "org": "나이스신용평가 주식회사",
+      "actionRequestDate": "2026-01-13",
+      "page": 7,
+      "listRank": 65
+    },
+    {
+      "key": "202500454_11",
+      "source": "경영유의",
+      "org": "현대캐피탈㈜",
+      "actionRequestDate": "2026-01-09",
+      "page": 7,
+      "listRank": 66
+    },
+    {
+      "key": "202500628_11",
+      "source": "경영유의",
+      "org": "신한은행",
+      "actionRequestDate": "2026-01-08",
+      "page": 7,
+      "listRank": 67
+    }
+  ],
+  "completeness": {
+    "제재공시": {
+      "ok": true,
+      "listTotal": 205,
+      "prevListTotal": null,
+      "newCount": 0,
+      "deletedCount": 0,
+      "reason": "기준선 없음(최초 실행 또는 총건수 파싱 실패) — 검산 생략",
+      "fullScan": true,
+      "pagesScanned": 21,
+      "backfilled": 168,
+      "deletedKeys": []
+    },
+    "경영유의": {
+      "ok": true,
+      "listTotal": 67,
+      "prevListTotal": null,
+      "newCount": 0,
+      "deletedCount": 0,
+      "reason": "기준선 없음(최초 실행 또는 총건수 파싱 실패) — 검산 생략",
+      "fullScan": true,
+      "pagesScanned": 7,
+      "backfilled": 40,
+      "deletedKeys": []
+    }
+  },
+  "scanWindow": {
+    "제재공시": {
+      "pagesScanned": 21,
+      "rowsScanned": 205,
+      "fullScan": true,
+      "listTotal": 205,
+      "prevListTotal": null,
+      "topDate": "2026-07-07",
+      "floorDate": "2026-01-02",
+      "floorLookbackDays": 191
+    },
+    "경영유의": {
+      "pagesScanned": 7,
+      "rowsScanned": 67,
+      "fullScan": true,
+      "listTotal": 67,
+      "prevListTotal": null,
+      "topDate": "2026-07-06",
+      "floorDate": "2026-01-08",
+      "floorLookbackDays": 185
+    }
+  },
+  "warnings": [],
+  "scanAudit": [
+    {
+      "source": "제재공시",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:09.613Z",
+      "keySchema": "v1",
+      "listTotal": 205,
+      "bodySha256": "sha256:2969fec6d7003d954854e00841960ad1ba5babdd4f202c2fbf4c1de55f0b4ba8",
+      "keys": [
+        "202500659_1",
+        "202400378_1",
+        "202500424_1",
+        "202500683_1",
+        "202400801_1",
+        "202500415_1",
+        "202300746_5",
+        "202400733_2",
+        "202400536_1",
+        "202500072_1"
+      ],
+      "rows": [
+        {
+          "key": "202500659_1",
+          "listRank": 1,
+          "seqNo": "205",
+          "org": "메가㈜",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202400378_1",
+          "listRank": 2,
+          "seqNo": "204",
+          "org": "(주)인슈코아",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500424_1",
+          "listRank": 3,
+          "seqNo": "203",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500683_1",
+          "listRank": 4,
+          "seqNo": "202",
+          "org": "케이에프지㈜",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202400801_1",
+          "listRank": 5,
+          "seqNo": "201",
+          "org": "굿리치주식회사",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500415_1",
+          "listRank": 6,
+          "seqNo": "200",
+          "org": "DB손해보험주식회사",
+          "actionRequestDate": "2026-07-02"
+        },
+        {
+          "key": "202300746_5",
+          "listRank": 7,
+          "seqNo": "199",
+          "org": "주식회사 하나은행",
+          "actionRequestDate": "2026-07-02"
+        },
+        {
+          "key": "202400733_2",
+          "listRank": 8,
+          "seqNo": "198",
+          "org": "롯데손해보험주식회사",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202400536_1",
+          "listRank": 9,
+          "seqNo": "197",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500072_1",
+          "listRank": 10,
+          "seqNo": "196",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-06-30"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:11.040Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:28c5177a1e03f9b3e2d037aac2afc7fb4bcfdf0c00282a35a550cd10ce6e9108",
+      "keys": [
+        "202400537_1",
+        "202400207_1",
+        "202300145_7",
+        "202400745_1",
+        "202400743_1",
+        "202200546_3",
+        "202500038_1",
+        "202400337_3",
+        "202300334_1",
+        "202500609_1"
+      ],
+      "rows": [
+        {
+          "key": "202400537_1",
+          "listRank": 11,
+          "seqNo": "195",
+          "org": "악사손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202400207_1",
+          "listRank": 12,
+          "seqNo": "194",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-06-29"
+        },
+        {
+          "key": "202300145_7",
+          "listRank": 13,
+          "seqNo": "193",
+          "org": "흥국생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202400745_1",
+          "listRank": 14,
+          "seqNo": "192",
+          "org": "신한라이프생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202400743_1",
+          "listRank": 15,
+          "seqNo": "191",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202200546_3",
+          "listRank": 16,
+          "seqNo": "190",
+          "org": "아이비케이신용정보 주식회사",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202500038_1",
+          "listRank": 17,
+          "seqNo": "189",
+          "org": "한국양계농협",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202400337_3",
+          "listRank": 18,
+          "seqNo": "188",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202300334_1",
+          "listRank": 19,
+          "seqNo": "187",
+          "org": "지알이파트너스자산운용 주식회사",
+          "actionRequestDate": "2026-06-24"
+        },
+        {
+          "key": "202500609_1",
+          "listRank": 20,
+          "seqNo": "186",
+          "org": "케이지에이에셋㈜",
+          "actionRequestDate": "2026-06-22"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 3,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=3",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:12.496Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:2f7b42231a70079a9a8ebb494287526395a43ece7bf47f8d98a6f894a62e772d",
+      "keys": [
+        "202500612_1",
+        "202500611_1",
+        "202400003_3",
+        "202300449_6",
+        "202500333_1",
+        "202500332_1",
+        "202500331_1",
+        "202500330_1",
+        "202500329_1",
+        "202500328_1"
+      ],
+      "rows": [
+        {
+          "key": "202500612_1",
+          "listRank": 21,
+          "seqNo": "185",
+          "org": "신한금융플러스 주식회사",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202500611_1",
+          "listRank": 22,
+          "seqNo": "184",
+          "org": "한국보험금융(주)",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202400003_3",
+          "listRank": 23,
+          "seqNo": "183",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-06-19"
+        },
+        {
+          "key": "202300449_6",
+          "listRank": 24,
+          "seqNo": "182",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500333_1",
+          "listRank": 25,
+          "seqNo": "181",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500332_1",
+          "listRank": 26,
+          "seqNo": "180",
+          "org": "㈜영진에셋",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500331_1",
+          "listRank": 27,
+          "seqNo": "179",
+          "org": "한솔금융서비스 주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500330_1",
+          "listRank": 28,
+          "seqNo": "178",
+          "org": "(주)은성라이프",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500329_1",
+          "listRank": 29,
+          "seqNo": "177",
+          "org": "에이티에셋(주)",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500328_1",
+          "listRank": 30,
+          "seqNo": "176",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-06-18"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 4,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=4",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:14.060Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:0b6bec4cc0ee101eca9340c51379702b44fe83357037d8ca5fd6c97ae0917ef3",
+      "keys": [
+        "202500327_1",
+        "202500326_1",
+        "202500325_1",
+        "202500324_1",
+        "202500323_1",
+        "202500322_1",
+        "202500321_1",
+        "202500320_1",
+        "202500319_1",
+        "202500158_1"
+      ],
+      "rows": [
+        {
+          "key": "202500327_1",
+          "listRank": 31,
+          "seqNo": "175",
+          "org": "메가㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500326_1",
+          "listRank": 32,
+          "seqNo": "174",
+          "org": "엑셀금융서비스 주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500325_1",
+          "listRank": 33,
+          "seqNo": "173",
+          "org": "(주)엠에스보험대리점",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500324_1",
+          "listRank": 34,
+          "seqNo": "172",
+          "org": "인카금융서비스㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500323_1",
+          "listRank": 35,
+          "seqNo": "171",
+          "org": "리더스금융판매㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500322_1",
+          "listRank": 36,
+          "seqNo": "170",
+          "org": "흥국화재해상보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500321_1",
+          "listRank": 37,
+          "seqNo": "169",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500320_1",
+          "listRank": 38,
+          "seqNo": "168",
+          "org": "삼성화재해상보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500319_1",
+          "listRank": 39,
+          "seqNo": "167",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500158_1",
+          "listRank": 40,
+          "seqNo": "166",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-06-17"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 5,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=5",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:15.983Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:fc19f1c97781fcd7ef41f77921fbb604de1e88e0392d97f71be77c78df2c640b",
+      "keys": [
+        "202400599_3",
+        "202500493_1",
+        "202400339_1",
+        "202400077_2",
+        "202400416_1",
+        "202400415_2",
+        "202300619_1",
+        "202300039_2",
+        "202300654_1",
+        "202300807_1"
+      ],
+      "rows": [
+        {
+          "key": "202400599_3",
+          "listRank": 41,
+          "seqNo": "165",
+          "org": "우리은행",
+          "actionRequestDate": "2026-06-15"
+        },
+        {
+          "key": "202500493_1",
+          "listRank": 42,
+          "seqNo": "164",
+          "org": "에스비아이저축은행",
+          "actionRequestDate": "2026-06-09"
+        },
+        {
+          "key": "202400339_1",
+          "listRank": 43,
+          "seqNo": "163",
+          "org": "에이알에이코리아자산운용",
+          "actionRequestDate": "2026-06-08"
+        },
+        {
+          "key": "202400077_2",
+          "listRank": 44,
+          "seqNo": "162",
+          "org": "케이와이자산운용",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202400416_1",
+          "listRank": 45,
+          "seqNo": "161",
+          "org": "위솔자산운용㈜",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202400415_2",
+          "listRank": 46,
+          "seqNo": "160",
+          "org": "리딩자산운용 주식회사",
+          "actionRequestDate": "2026-05-28"
+        },
+        {
+          "key": "202300619_1",
+          "listRank": 47,
+          "seqNo": "159",
+          "org": "다올투자증권 주식회사",
+          "actionRequestDate": "2026-05-27"
+        },
+        {
+          "key": "202300039_2",
+          "listRank": 48,
+          "seqNo": "158",
+          "org": "한화생명보험주식회사",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300654_1",
+          "listRank": 49,
+          "seqNo": "157",
+          "org": "청운",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300807_1",
+          "listRank": 50,
+          "seqNo": "156",
+          "org": "전주동부",
+          "actionRequestDate": "2026-05-21"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 6,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=6",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:17.738Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:c54a32f374af4194cf3df2d070b13db11bda9484266ac927c29b69b4f222f26f",
+      "keys": [
+        "202500511_1",
+        "202400233_2",
+        "202500085_1",
+        "202200403_8",
+        "202400693_1",
+        "202500229_1",
+        "202500232_1",
+        "202500231_1",
+        "202500230_1",
+        "202500806_1"
+      ],
+      "rows": [
+        {
+          "key": "202500511_1",
+          "listRank": 51,
+          "seqNo": "155",
+          "org": "시그니처자산운용㈜",
+          "actionRequestDate": "2026-05-19"
+        },
+        {
+          "key": "202400233_2",
+          "listRank": 52,
+          "seqNo": "154",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-05-19"
+        },
+        {
+          "key": "202500085_1",
+          "listRank": 53,
+          "seqNo": "153",
+          "org": "㈜우리카드",
+          "actionRequestDate": "2026-05-18"
+        },
+        {
+          "key": "202200403_8",
+          "listRank": 54,
+          "seqNo": "152",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-05-15"
+        },
+        {
+          "key": "202400693_1",
+          "listRank": 55,
+          "seqNo": "151",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-05-13"
+        },
+        {
+          "key": "202500229_1",
+          "listRank": 56,
+          "seqNo": "150",
+          "org": "국민은행",
+          "actionRequestDate": "2026-05-12"
+        },
+        {
+          "key": "202500232_1",
+          "listRank": 57,
+          "seqNo": "149",
+          "org": "부산은행",
+          "actionRequestDate": "2026-05-12"
+        },
+        {
+          "key": "202500231_1",
+          "listRank": 58,
+          "seqNo": "148",
+          "org": "우리은행",
+          "actionRequestDate": "2026-05-12"
+        },
+        {
+          "key": "202500230_1",
+          "listRank": 59,
+          "seqNo": "147",
+          "org": "주식회사 하나은행",
+          "actionRequestDate": "2026-05-12"
+        },
+        {
+          "key": "202500806_1",
+          "listRank": 60,
+          "seqNo": "146",
+          "org": "코람코자산신탁",
+          "actionRequestDate": "2026-05-08"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 7,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=7",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:19.478Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:1c460f617f4829b6eaa7db88223e0cf48a4a9b9a861959f29190888947186849",
+      "keys": [
+        "202500307_1",
+        "202500121_1",
+        "202500716_1",
+        "202500765_1",
+        "202500762_1",
+        "202500729_1",
+        "202500721_1",
+        "202500784_1",
+        "202500782_1",
+        "202500779_1"
+      ],
+      "rows": [
+        {
+          "key": "202500307_1",
+          "listRank": 61,
+          "seqNo": "145",
+          "org": "동래농협",
+          "actionRequestDate": "2026-05-07"
+        },
+        {
+          "key": "202500121_1",
+          "listRank": 62,
+          "seqNo": "144",
+          "org": "하나자산신탁",
+          "actionRequestDate": "2026-05-06"
+        },
+        {
+          "key": "202500716_1",
+          "listRank": 63,
+          "seqNo": "143",
+          "org": "대박투자그룹",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500765_1",
+          "listRank": 64,
+          "seqNo": "142",
+          "org": "제이에스투자클럽",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500762_1",
+          "listRank": 65,
+          "seqNo": "141",
+          "org": "대구태풍주식공부방",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500729_1",
+          "listRank": 66,
+          "seqNo": "140",
+          "org": "주식회사 데일리스탁",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500721_1",
+          "listRank": 67,
+          "seqNo": "139",
+          "org": "주식회사 데일리인베스트먼트",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500784_1",
+          "listRank": 68,
+          "seqNo": "138",
+          "org": "성수클럽",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500782_1",
+          "listRank": 69,
+          "seqNo": "137",
+          "org": "주식회사 세종기업데이터",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500779_1",
+          "listRank": 70,
+          "seqNo": "136",
+          "org": "월드에프엔에이치",
+          "actionRequestDate": "2026-04-29"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 8,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=8",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:21.062Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:9665be3de9152dce3aeef26f8d810de8feabdb51b1f609a80bdc0f06f369f079",
+      "keys": [
+        "202500774_1",
+        "202500735_1",
+        "202500724_1",
+        "202500720_1",
+        "202500715_1",
+        "202500714_1",
+        "202500787_1",
+        "202500772_1",
+        "202500739_1",
+        "202500738_1"
+      ],
+      "rows": [
+        {
+          "key": "202500774_1",
+          "listRank": 71,
+          "seqNo": "135",
+          "org": "주식회사 에이아이비",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500735_1",
+          "listRank": 72,
+          "seqNo": "134",
+          "org": "주식회사 미래국민파트너",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500724_1",
+          "listRank": 73,
+          "seqNo": "133",
+          "org": "뉴츠컴퍼니",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500720_1",
+          "listRank": 74,
+          "seqNo": "132",
+          "org": "주식회사 잠실글로벌",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500715_1",
+          "listRank": 75,
+          "seqNo": "131",
+          "org": "레고컴퍼니",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500714_1",
+          "listRank": 76,
+          "seqNo": "130",
+          "org": "확률과 통계",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500787_1",
+          "listRank": 77,
+          "seqNo": "129",
+          "org": "어스얼라이언스 주식회사",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500772_1",
+          "listRank": 78,
+          "seqNo": "128",
+          "org": "이오홀딩스",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500739_1",
+          "listRank": 79,
+          "seqNo": "127",
+          "org": "주식회사 알리솔루션",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500738_1",
+          "listRank": 80,
+          "seqNo": "126",
+          "org": "비전컨설팅그룹 주식회사",
+          "actionRequestDate": "2026-04-29"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 9,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=9",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:22.655Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:368eabcb278bd07445acb54ecef96fc0ec64dac408f5748d00f7dee5b9a05520",
+      "keys": [
+        "202500734_1",
+        "202500709_1",
+        "202500708_1",
+        "202500759_1",
+        "202500705_1",
+        "202500771_1",
+        "202500767_1",
+        "202500736_1",
+        "202500731_1",
+        "202500730_1"
+      ],
+      "rows": [
+        {
+          "key": "202500734_1",
+          "listRank": 81,
+          "seqNo": "125",
+          "org": "주식회사 뉴지스탁",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500709_1",
+          "listRank": 82,
+          "seqNo": "124",
+          "org": "선진인베스트",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500708_1",
+          "listRank": 83,
+          "seqNo": "123",
+          "org": "오즈커뮤니티",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500759_1",
+          "listRank": 84,
+          "seqNo": "122",
+          "org": "(주)팍스넷",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500705_1",
+          "listRank": 85,
+          "seqNo": "121",
+          "org": "주차프",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500771_1",
+          "listRank": 86,
+          "seqNo": "120",
+          "org": "주식회사 바로경제연구소",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500767_1",
+          "listRank": 87,
+          "seqNo": "119",
+          "org": "주식회사 카마트솔루션",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500736_1",
+          "listRank": 88,
+          "seqNo": "118",
+          "org": "주식회사 인베스트리에셋",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500731_1",
+          "listRank": 89,
+          "seqNo": "117",
+          "org": "데일리투자그룹",
+          "actionRequestDate": "2026-04-29"
+        },
+        {
+          "key": "202500730_1",
+          "listRank": 90,
+          "seqNo": "116",
+          "org": "이섭투자컨설팅",
+          "actionRequestDate": "2026-04-29"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 10,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=10",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:24.215Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:c81b06ba34bd3148ae14f922b05a65d0003c65811ef74a568cfbb38c14fcad8c",
+      "keys": [
+        "202400361_3",
+        "202500015_2",
+        "202400481_3",
+        "202500044_1",
+        "202500042_4",
+        "202500146_1",
+        "202300782_1",
+        "202500157_1",
+        "202000134_3",
+        "202500411_1"
+      ],
+      "rows": [
+        {
+          "key": "202400361_3",
+          "listRank": 91,
+          "seqNo": "115",
+          "org": "아이앤제이자산운용",
+          "actionRequestDate": "2026-04-28"
+        },
+        {
+          "key": "202500015_2",
+          "listRank": 92,
+          "seqNo": "114",
+          "org": "도이치은행",
+          "actionRequestDate": "2026-04-27"
+        },
+        {
+          "key": "202400481_3",
+          "listRank": 93,
+          "seqNo": "113",
+          "org": "국민은행",
+          "actionRequestDate": "2026-04-24"
+        },
+        {
+          "key": "202500044_1",
+          "listRank": 94,
+          "seqNo": "112",
+          "org": "경남은행",
+          "actionRequestDate": "2026-04-24"
+        },
+        {
+          "key": "202500042_4",
+          "listRank": 95,
+          "seqNo": "111",
+          "org": "부산은행",
+          "actionRequestDate": "2026-04-24"
+        },
+        {
+          "key": "202500146_1",
+          "listRank": 96,
+          "seqNo": "110",
+          "org": "주식회사 하나은행",
+          "actionRequestDate": "2026-04-20"
+        },
+        {
+          "key": "202300782_1",
+          "listRank": 97,
+          "seqNo": "109",
+          "org": "골든브릿지자산운용",
+          "actionRequestDate": "2026-04-20"
+        },
+        {
+          "key": "202500157_1",
+          "listRank": 98,
+          "seqNo": "108",
+          "org": "주식회사 아이케이파트너스",
+          "actionRequestDate": "2026-04-15"
+        },
+        {
+          "key": "202000134_3",
+          "listRank": 99,
+          "seqNo": "107",
+          "org": "KB증권주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500411_1",
+          "listRank": 100,
+          "seqNo": "106",
+          "org": "광안",
+          "actionRequestDate": "2026-04-07"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 11,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=11",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:25.620Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:43b68e41f96a4185030b32741817ec803d0cec43e780486e5959f627efddd900",
+      "keys": [
+        "202500651_1",
+        "202500587_1",
+        "202500620_1",
+        "202500657_1",
+        "202500019_1",
+        "202500100_1",
+        "202500354_2",
+        "202500617_1",
+        "202400644_1",
+        "202400643_1"
+      ],
+      "rows": [
+        {
+          "key": "202500651_1",
+          "listRank": 101,
+          "seqNo": "105",
+          "org": "광주어룡",
+          "actionRequestDate": "2026-04-03"
+        },
+        {
+          "key": "202500587_1",
+          "listRank": 102,
+          "seqNo": "104",
+          "org": "미즈호",
+          "actionRequestDate": "2026-04-01"
+        },
+        {
+          "key": "202500620_1",
+          "listRank": 103,
+          "seqNo": "103",
+          "org": "(주)유어즈에셋 보험대리점",
+          "actionRequestDate": "2026-03-30"
+        },
+        {
+          "key": "202500657_1",
+          "listRank": 104,
+          "seqNo": "102",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-03-30"
+        },
+        {
+          "key": "202500019_1",
+          "listRank": 105,
+          "seqNo": "101",
+          "org": "경성투자자문(주)",
+          "actionRequestDate": "2026-03-24"
+        },
+        {
+          "key": "202500100_1",
+          "listRank": 106,
+          "seqNo": "100",
+          "org": "양주축산농협",
+          "actionRequestDate": "2026-03-24"
+        },
+        {
+          "key": "202500354_2",
+          "listRank": 107,
+          "seqNo": "99",
+          "org": "리딩투자증권주식회사",
+          "actionRequestDate": "2026-03-20"
+        },
+        {
+          "key": "202500617_1",
+          "listRank": 108,
+          "seqNo": "98",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202400644_1",
+          "listRank": 109,
+          "seqNo": "97",
+          "org": "주식회사 에스티자산운용",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202400643_1",
+          "listRank": 110,
+          "seqNo": "96",
+          "org": "앤도버자산운용 주식회사",
+          "actionRequestDate": "2026-03-19"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 12,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=12",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:27.023Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:06c48d6cedb928266ae8ec27294366b4cd6a868e902b509fd978904f776bd93d",
+      "keys": [
+        "202400642_1",
+        "202400641_1",
+        "202400640_1",
+        "202400639_1",
+        "202400638_1",
+        "202500621_1",
+        "202500619_1",
+        "202500623_1",
+        "202400834_1",
+        "202400077_1"
+      ],
+      "rows": [
+        {
+          "key": "202400642_1",
+          "listRank": 111,
+          "seqNo": "95",
+          "org": "아스트라자산운용",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202400641_1",
+          "listRank": 112,
+          "seqNo": "94",
+          "org": "엘에프자산운용 주식회사",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202400640_1",
+          "listRank": 113,
+          "seqNo": "93",
+          "org": "㈜아르고스자산운용",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202400639_1",
+          "listRank": 114,
+          "seqNo": "92",
+          "org": "허브자산운용 주식회사",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202400638_1",
+          "listRank": 115,
+          "seqNo": "91",
+          "org": "넥스트증권 주식회사",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202500621_1",
+          "listRank": 116,
+          "seqNo": "90",
+          "org": "DB손해보험주식회사",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202500619_1",
+          "listRank": 117,
+          "seqNo": "89",
+          "org": "더베스트금융서비스 주식회사",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202500623_1",
+          "listRank": 118,
+          "seqNo": "88",
+          "org": "디아이홀딩스 주식회사",
+          "actionRequestDate": "2026-03-19"
+        },
+        {
+          "key": "202400834_1",
+          "listRank": 119,
+          "seqNo": "87",
+          "org": "유진투자증권주식회사",
+          "actionRequestDate": "2026-03-18"
+        },
+        {
+          "key": "202400077_1",
+          "listRank": 120,
+          "seqNo": "86",
+          "org": "케이와이자산운용",
+          "actionRequestDate": "2026-03-18"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 13,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=13",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:28.470Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:81a830d9299315e4e2c4e95e67ea7df78b84cee20e26c78ccb7bfcf25cf8216d",
+      "keys": [
+        "202500568_1",
+        "202500099_1",
+        "202500520_1",
+        "202300055_1",
+        "202500242_1",
+        "202500195_1",
+        "202500194_1",
+        "202500193_1",
+        "202500192_1",
+        "202500191_1"
+      ],
+      "rows": [
+        {
+          "key": "202500568_1",
+          "listRank": 121,
+          "seqNo": "85",
+          "org": "토스증권 주식회사",
+          "actionRequestDate": "2026-03-13"
+        },
+        {
+          "key": "202500099_1",
+          "listRank": 122,
+          "seqNo": "84",
+          "org": "순천농협",
+          "actionRequestDate": "2026-03-12"
+        },
+        {
+          "key": "202500520_1",
+          "listRank": 123,
+          "seqNo": "83",
+          "org": "메트라이프생명보험(주)",
+          "actionRequestDate": "2026-03-12"
+        },
+        {
+          "key": "202300055_1",
+          "listRank": 124,
+          "seqNo": "82",
+          "org": "타이거대체투자운용주식회사",
+          "actionRequestDate": "2026-03-11"
+        },
+        {
+          "key": "202500242_1",
+          "listRank": 125,
+          "seqNo": "81",
+          "org": "도도자산관리대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500195_1",
+          "listRank": 126,
+          "seqNo": "80",
+          "org": "프라임에셋㈜",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500194_1",
+          "listRank": 127,
+          "seqNo": "79",
+          "org": "케이지에이에셋㈜",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500193_1",
+          "listRank": 128,
+          "seqNo": "78",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500192_1",
+          "listRank": 129,
+          "seqNo": "77",
+          "org": "(주)프리원",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500191_1",
+          "listRank": 130,
+          "seqNo": "76",
+          "org": "㈜케이엠아이에셋",
+          "actionRequestDate": "2026-03-10"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 14,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=14",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:29.876Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:8cfb48aca605adbb8c3a2ef34c4325c9dfa23e22a6d37f8cd3fdb3185b38dc7a",
+      "keys": [
+        "202500190_1",
+        "202500189_1",
+        "202500188_1",
+        "202500187_1",
+        "202500186_1",
+        "202500185_1",
+        "202500184_1",
+        "202500183_1",
+        "202500182_1",
+        "202500181_1"
+      ],
+      "rows": [
+        {
+          "key": "202500190_1",
+          "listRank": 131,
+          "seqNo": "75",
+          "org": "(주)제우스라이프",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500189_1",
+          "listRank": 132,
+          "seqNo": "74",
+          "org": "㈜에즈금융서비스",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500188_1",
+          "listRank": 133,
+          "seqNo": "73",
+          "org": "주식회사 뉴니케",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500187_1",
+          "listRank": 134,
+          "seqNo": "72",
+          "org": "㈜비엡시금융서비스",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500186_1",
+          "listRank": 135,
+          "seqNo": "71",
+          "org": "서평택",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500185_1",
+          "listRank": 136,
+          "seqNo": "70",
+          "org": "삼성마리컨트리보험대리점",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500184_1",
+          "listRank": 137,
+          "seqNo": "69",
+          "org": "메트라이프금융서비스 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500183_1",
+          "listRank": 138,
+          "seqNo": "68",
+          "org": "리더스금융판매㈜",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500182_1",
+          "listRank": 139,
+          "seqNo": "67",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500181_1",
+          "listRank": 140,
+          "seqNo": "66",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-03-10"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 15,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=15",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:31.317Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:5aa9e81e52f221012a806f8205e01201d0c471ea432705969e8899b6247a547b",
+      "keys": [
+        "202500180_1",
+        "202500179_1",
+        "202500354_1",
+        "202500245_1",
+        "202500246_1",
+        "202500248_1",
+        "202500249_1",
+        "202500251_1",
+        "202500253_1",
+        "202500254_1"
+      ],
+      "rows": [
+        {
+          "key": "202500180_1",
+          "listRank": 141,
+          "seqNo": "65",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500179_1",
+          "listRank": 142,
+          "seqNo": "64",
+          "org": "DB손해보험주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500354_1",
+          "listRank": 143,
+          "seqNo": "63",
+          "org": "리딩투자증권주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500245_1",
+          "listRank": 144,
+          "seqNo": "62",
+          "org": "리치금융진대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500246_1",
+          "listRank": 145,
+          "seqNo": "61",
+          "org": "마루이대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500248_1",
+          "listRank": 146,
+          "seqNo": "60",
+          "org": "분당엔피엘대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500249_1",
+          "listRank": 147,
+          "seqNo": "59",
+          "org": "삼원전국엔피엘대부금융 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500251_1",
+          "listRank": 148,
+          "seqNo": "58",
+          "org": "송월자산관리대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500253_1",
+          "listRank": 149,
+          "seqNo": "57",
+          "org": "에스피엘자산대부 유한회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500254_1",
+          "listRank": 150,
+          "seqNo": "56",
+          "org": "에이제이자산관리대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 16,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=16",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:32.596Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:44f6fe6f536fe155d84983ba7c0b3819b06a59fc3c6d04d5f6b2b25555b49dc9",
+      "keys": [
+        "202500257_1",
+        "202500259_1",
+        "202500260_1",
+        "202500264_1",
+        "202500265_1",
+        "202500268_1",
+        "202500269_1",
+        "202500270_1",
+        "202500275_1",
+        "202500276_1"
+      ],
+      "rows": [
+        {
+          "key": "202500257_1",
+          "listRank": 151,
+          "seqNo": "55",
+          "org": "주식회사 더파이널스대부",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500259_1",
+          "listRank": 152,
+          "seqNo": "54",
+          "org": "주식회사 에이치에스에이치대부",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500260_1",
+          "listRank": 153,
+          "seqNo": "53",
+          "org": "주식회사 웰스파트너스대부",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500264_1",
+          "listRank": 154,
+          "seqNo": "52",
+          "org": "주식회사 케이엠파이낸셜서비스대부",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500265_1",
+          "listRank": 155,
+          "seqNo": "51",
+          "org": "주식회사 케이원대부",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500268_1",
+          "listRank": 156,
+          "seqNo": "50",
+          "org": "티티대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500269_1",
+          "listRank": 157,
+          "seqNo": "49",
+          "org": "한국자산관리원대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500270_1",
+          "listRank": 158,
+          "seqNo": "48",
+          "org": "희즈에셋대부금융 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500275_1",
+          "listRank": 159,
+          "seqNo": "47",
+          "org": "주식회사 자산관리케이대부",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500276_1",
+          "listRank": 160,
+          "seqNo": "46",
+          "org": "하나에이엠씨대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 17,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=17",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:33.880Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:78da2ec5e3c545766bfe72c0e302e0b8541556b9f26b68bb43d3dd31c2714c5e",
+      "keys": [
+        "202500277_1",
+        "202500285_1",
+        "202500287_1",
+        "202300848_2",
+        "202400548_1",
+        "202400415_1",
+        "202200377_1",
+        "202000487_1",
+        "202500444_1",
+        "202300319_1"
+      ],
+      "rows": [
+        {
+          "key": "202500277_1",
+          "listRank": 161,
+          "seqNo": "45",
+          "org": "주식회사 국민에이엠씨금융대부",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500285_1",
+          "listRank": 162,
+          "seqNo": "44",
+          "org": "골드리치컨설팅대부 주식회사",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202500287_1",
+          "listRank": 163,
+          "seqNo": "43",
+          "org": "주식회사 제이엘케이파트너스파이낸셜대부",
+          "actionRequestDate": "2026-03-10"
+        },
+        {
+          "key": "202300848_2",
+          "listRank": 164,
+          "seqNo": "42",
+          "org": "농협손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202400548_1",
+          "listRank": 165,
+          "seqNo": "41",
+          "org": "하나손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202400415_1",
+          "listRank": 166,
+          "seqNo": "40",
+          "org": "리딩자산운용 주식회사",
+          "actionRequestDate": "2026-02-24"
+        },
+        {
+          "key": "202200377_1",
+          "listRank": 167,
+          "seqNo": "39",
+          "org": "주식회사 카사코리아",
+          "actionRequestDate": "2026-02-23"
+        },
+        {
+          "key": "202000487_1",
+          "listRank": 168,
+          "seqNo": "38",
+          "org": "포트코리아자산운용 주식회사",
+          "actionRequestDate": "2026-02-20"
+        },
+        {
+          "key": "202500444_1",
+          "listRank": 169,
+          "seqNo": "37",
+          "org": "KB라이프생명보험",
+          "actionRequestDate": "2026-02-19"
+        },
+        {
+          "key": "202300319_1",
+          "listRank": 170,
+          "seqNo": "36",
+          "org": "리버스톤자산운용",
+          "actionRequestDate": "2026-02-13"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 18,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=18",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:35.131Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:214a6c321d4055528a7005e281e8cbe30727278cb7e6d5f14b9d5483012e55be",
+      "keys": [
+        "202400095_2",
+        "202300202_1",
+        "202300214_1",
+        "202300212_1",
+        "202300211_1",
+        "202300210_1",
+        "202300209_1",
+        "202300207_1",
+        "202300205_1",
+        "202300203_1"
+      ],
+      "rows": [
+        {
+          "key": "202400095_2",
+          "listRank": 171,
+          "seqNo": "35",
+          "org": "한국자산신탁",
+          "actionRequestDate": "2026-02-12"
+        },
+        {
+          "key": "202300202_1",
+          "listRank": 172,
+          "seqNo": "34",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202300214_1",
+          "listRank": 173,
+          "seqNo": "33",
+          "org": "유안타증권주식회사",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202300212_1",
+          "listRank": 174,
+          "seqNo": "32",
+          "org": "KB증권주식회사",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202300211_1",
+          "listRank": 175,
+          "seqNo": "31",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202300210_1",
+          "listRank": 176,
+          "seqNo": "30",
+          "org": "디비증권주식회사",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202300209_1",
+          "listRank": 177,
+          "seqNo": "29",
+          "org": "LS증권",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202300207_1",
+          "listRank": 178,
+          "seqNo": "28",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202300205_1",
+          "listRank": 179,
+          "seqNo": "27",
+          "org": "IBK투자증권",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202300203_1",
+          "listRank": 180,
+          "seqNo": "26",
+          "org": "하나증권주식회사",
+          "actionRequestDate": "2026-02-11"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 19,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=19",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:36.426Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:1ae2cd11346d01ea55afb07f787ca10e74c09fb0b5aa7ad11905bcaa92c7410b",
+      "keys": [
+        "202300756_1",
+        "202400545_1",
+        "202100623_2",
+        "202300145_6",
+        "202400337_1",
+        "202400003_1",
+        "202500102_1",
+        "202400012_2",
+        "202400011_2",
+        "202400137_1"
+      ],
+      "rows": [
+        {
+          "key": "202300756_1",
+          "listRank": 181,
+          "seqNo": "25",
+          "org": "파인앤파트너스자산운용주식회사",
+          "actionRequestDate": "2026-02-10"
+        },
+        {
+          "key": "202400545_1",
+          "listRank": 182,
+          "seqNo": "24",
+          "org": "(주)리더스에셋어드바이저",
+          "actionRequestDate": "2026-02-05"
+        },
+        {
+          "key": "202100623_2",
+          "listRank": 183,
+          "seqNo": "23",
+          "org": "㈜기업금융센타보험대리점",
+          "actionRequestDate": "2026-02-04"
+        },
+        {
+          "key": "202300145_6",
+          "listRank": 184,
+          "seqNo": "22",
+          "org": "흥국생명보험주식회사",
+          "actionRequestDate": "2026-02-04"
+        },
+        {
+          "key": "202400337_1",
+          "listRank": 185,
+          "seqNo": "21",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-02-04"
+        },
+        {
+          "key": "202400003_1",
+          "listRank": 186,
+          "seqNo": "20",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-01-30"
+        },
+        {
+          "key": "202500102_1",
+          "listRank": 187,
+          "seqNo": "19",
+          "org": "오에스비저축은행",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202400012_2",
+          "listRank": 188,
+          "seqNo": "18",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202400011_2",
+          "listRank": 189,
+          "seqNo": "17",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202400137_1",
+          "listRank": 190,
+          "seqNo": "16",
+          "org": "나무에셋(주)",
+          "actionRequestDate": "2026-01-29"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 20,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=20",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:37.701Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:15baa70b6b980fae83a34bb1a19d478588dff493b96c8944fd00505ef8c60a8a",
+      "keys": [
+        "202400136_1",
+        "202400379_1",
+        "202500049_1",
+        "202400646_2",
+        "202400333_2",
+        "202300827_1",
+        "202400272_1",
+        "202300828_1",
+        "202400090_1",
+        "202400016_1"
+      ],
+      "rows": [
+        {
+          "key": "202400136_1",
+          "listRank": 191,
+          "seqNo": "15",
+          "org": "한국중앙에셋(주)",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202400379_1",
+          "listRank": 192,
+          "seqNo": "14",
+          "org": "(주)한국지에이금융서비스",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202500049_1",
+          "listRank": 193,
+          "seqNo": "13",
+          "org": "디비금융서비스㈜",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202400646_2",
+          "listRank": 194,
+          "seqNo": "12",
+          "org": "케이비라이프파트너스",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202400333_2",
+          "listRank": 195,
+          "seqNo": "11",
+          "org": "㈜삼성생명금융서비스보험대리점",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202300827_1",
+          "listRank": 196,
+          "seqNo": "10",
+          "org": "미래에셋증권 주식회사",
+          "actionRequestDate": "2026-01-28"
+        },
+        {
+          "key": "202400272_1",
+          "listRank": 197,
+          "seqNo": "9",
+          "org": "㈜카카오페이",
+          "actionRequestDate": "2026-01-28"
+        },
+        {
+          "key": "202300828_1",
+          "listRank": 198,
+          "seqNo": "8",
+          "org": "KB증권주식회사",
+          "actionRequestDate": "2026-01-28"
+        },
+        {
+          "key": "202400090_1",
+          "listRank": 199,
+          "seqNo": "7",
+          "org": "모아저축은행",
+          "actionRequestDate": "2026-01-26"
+        },
+        {
+          "key": "202400016_1",
+          "listRank": 200,
+          "seqNo": "6",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-01-20"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 21,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=21",
+      "status": 200,
+      "rowCount": 5,
+      "fetchedAt": "2026-07-12T07:01:39.010Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:5dfe305a47900df9181fb58234ed2bdc457f6c207dddf2c7db9af92f15d77b4c",
+      "keys": [
+        "202500110_1",
+        "202500111_1",
+        "202300060_1",
+        "202300746_4",
+        "202200669_1"
+      ],
+      "rows": [
+        {
+          "key": "202500110_1",
+          "listRank": 201,
+          "seqNo": "5",
+          "org": "주식회사 핀다",
+          "actionRequestDate": "2026-01-20"
+        },
+        {
+          "key": "202500111_1",
+          "listRank": 202,
+          "seqNo": "4",
+          "org": "주식회사 뱅크샐러드",
+          "actionRequestDate": "2026-01-20"
+        },
+        {
+          "key": "202300060_1",
+          "listRank": 203,
+          "seqNo": "3",
+          "org": "제이씨에셋자산운용 주식회사",
+          "actionRequestDate": "2026-01-14"
+        },
+        {
+          "key": "202300746_4",
+          "listRank": 204,
+          "seqNo": "2",
+          "org": "주식회사 하나은행",
+          "actionRequestDate": "2026-01-08"
+        },
+        {
+          "key": "202200669_1",
+          "listRank": 205,
+          "seqNo": "1",
+          "org": "이지스리얼에셋투자운용 주식회사",
+          "actionRequestDate": "2026-01-02"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:41.133Z",
+      "keySchema": "v1",
+      "listTotal": 67,
+      "bodySha256": "sha256:8a0a4241ff48f37e22be20cf6c39c8ce924bf97dc9ecdde91d2bc0f48e951aa2",
+      "keys": [
+        "202400801_12",
+        "202600088_11",
+        "202600130_11",
+        "202400536_12",
+        "202500601_11",
+        "202600178_11",
+        "202500038_12",
+        "202600082_11",
+        "202600019_11",
+        "202500493_12"
+      ],
+      "rows": [
+        {
+          "key": "202400801_12",
+          "listRank": 1,
+          "seqNo": "67",
+          "org": "굿리치주식회사",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202600088_11",
+          "listRank": 2,
+          "seqNo": "66",
+          "org": "순창농협",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202600130_11",
+          "listRank": 3,
+          "seqNo": "65",
+          "org": "여수농협",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202400536_12",
+          "listRank": 4,
+          "seqNo": "64",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500601_11",
+          "listRank": 5,
+          "seqNo": "63",
+          "org": "BNP파리바",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202600178_11",
+          "listRank": 6,
+          "seqNo": "62",
+          "org": "웰컴자산운용 주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500038_12",
+          "listRank": 7,
+          "seqNo": "61",
+          "org": "한국양계농협",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202600082_11",
+          "listRank": 8,
+          "seqNo": "60",
+          "org": "우리은행",
+          "actionRequestDate": "2026-06-24"
+        },
+        {
+          "key": "202600019_11",
+          "listRank": 9,
+          "seqNo": "59",
+          "org": "대전충남양계농협",
+          "actionRequestDate": "2026-06-10"
+        },
+        {
+          "key": "202500493_12",
+          "listRank": 10,
+          "seqNo": "58",
+          "org": "에스비아이저축은행",
+          "actionRequestDate": "2026-06-09"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:42.437Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:5abb06ba441e43c366098c5d2c88cea47d4087db687608e274be1d0479f5c483",
+      "keys": [
+        "202500742_11",
+        "202600087_11",
+        "202500139_11",
+        "202500002_12",
+        "202300039_11",
+        "202300654_12",
+        "202300807_12",
+        "202500511_12",
+        "202500643_11",
+        "202400693_12"
+      ],
+      "rows": [
+        {
+          "key": "202500742_11",
+          "listRank": 11,
+          "seqNo": "57",
+          "org": "국민은행",
+          "actionRequestDate": "2026-06-01"
+        },
+        {
+          "key": "202600087_11",
+          "listRank": 12,
+          "seqNo": "56",
+          "org": "한국자산신탁",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202500139_11",
+          "listRank": 13,
+          "seqNo": "55",
+          "org": "비엔케이캐피탈㈜",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202500002_12",
+          "listRank": 14,
+          "seqNo": "54",
+          "org": "서울으뜸",
+          "actionRequestDate": "2026-05-26"
+        },
+        {
+          "key": "202300039_11",
+          "listRank": 15,
+          "seqNo": "53",
+          "org": "한화생명보험주식회사",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300654_12",
+          "listRank": 16,
+          "seqNo": "52",
+          "org": "청운",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300807_12",
+          "listRank": 17,
+          "seqNo": "51",
+          "org": "전주동부",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202500511_12",
+          "listRank": 18,
+          "seqNo": "50",
+          "org": "시그니처자산운용㈜",
+          "actionRequestDate": "2026-05-19"
+        },
+        {
+          "key": "202500643_11",
+          "listRank": 19,
+          "seqNo": "49",
+          "org": "삼성 금융복합기업집단",
+          "actionRequestDate": "2026-05-14"
+        },
+        {
+          "key": "202400693_12",
+          "listRank": 20,
+          "seqNo": "48",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-05-13"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 3,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=3",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:43.703Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:9546c635e2c0d6891073eaf5307211cd84cfeaba3bb247aee6f21809ee00609c",
+      "keys": [
+        "202500121_12",
+        "202500015_11",
+        "202500743_11",
+        "202400481_15",
+        "202500795_11",
+        "202500810_11",
+        "202500680_11",
+        "202500819_11",
+        "202500751_11",
+        "202500461_11"
+      ],
+      "rows": [
+        {
+          "key": "202500121_12",
+          "listRank": 21,
+          "seqNo": "47",
+          "org": "하나자산신탁",
+          "actionRequestDate": "2026-05-06"
+        },
+        {
+          "key": "202500015_11",
+          "listRank": 22,
+          "seqNo": "46",
+          "org": "도이치은행",
+          "actionRequestDate": "2026-04-27"
+        },
+        {
+          "key": "202500743_11",
+          "listRank": 23,
+          "seqNo": "45",
+          "org": "우리은행",
+          "actionRequestDate": "2026-04-27"
+        },
+        {
+          "key": "202400481_15",
+          "listRank": 24,
+          "seqNo": "44",
+          "org": "국민은행",
+          "actionRequestDate": "2026-04-24"
+        },
+        {
+          "key": "202500795_11",
+          "listRank": 25,
+          "seqNo": "43",
+          "org": "농협은행주식회사",
+          "actionRequestDate": "2026-04-21"
+        },
+        {
+          "key": "202500810_11",
+          "listRank": 26,
+          "seqNo": "42",
+          "org": "유니온상호저축은행",
+          "actionRequestDate": "2026-04-17"
+        },
+        {
+          "key": "202500680_11",
+          "listRank": 27,
+          "seqNo": "41",
+          "org": "하나캐피탈㈜",
+          "actionRequestDate": "2026-04-15"
+        },
+        {
+          "key": "202500819_11",
+          "listRank": 28,
+          "seqNo": "40",
+          "org": "제이비우리캐피탈㈜",
+          "actionRequestDate": "2026-04-15"
+        },
+        {
+          "key": "202500751_11",
+          "listRank": 29,
+          "seqNo": "39",
+          "org": "교통은행",
+          "actionRequestDate": "2026-04-13"
+        },
+        {
+          "key": "202500461_11",
+          "listRank": 30,
+          "seqNo": "38",
+          "org": "현대하이라이프손해사정 주식회사",
+          "actionRequestDate": "2026-04-09"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 4,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=4",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:44.808Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:c1bbf7762e3f802a63de20fc23ddc81be18a317544abbf2379607d7f7c42f92c",
+      "keys": [
+        "202500356_11",
+        "202500357_11",
+        "202500162_11",
+        "202500161_11",
+        "202500163_11",
+        "202500160_11",
+        "202500651_12",
+        "202500100_12",
+        "202500517_11",
+        "202500099_12"
+      ],
+      "rows": [
+        {
+          "key": "202500356_11",
+          "listRank": 31,
+          "seqNo": "37",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500357_11",
+          "listRank": 32,
+          "seqNo": "36",
+          "org": "KB증권주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500162_11",
+          "listRank": 33,
+          "seqNo": "35",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500161_11",
+          "listRank": 34,
+          "seqNo": "34",
+          "org": "미래에셋증권 주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500163_11",
+          "listRank": 35,
+          "seqNo": "33",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500160_11",
+          "listRank": 36,
+          "seqNo": "32",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500651_12",
+          "listRank": 37,
+          "seqNo": "31",
+          "org": "광주어룡",
+          "actionRequestDate": "2026-04-03"
+        },
+        {
+          "key": "202500100_12",
+          "listRank": 38,
+          "seqNo": "30",
+          "org": "양주축산농협",
+          "actionRequestDate": "2026-03-24"
+        },
+        {
+          "key": "202500517_11",
+          "listRank": 39,
+          "seqNo": "29",
+          "org": "㈜케이비국민카드",
+          "actionRequestDate": "2026-03-13"
+        },
+        {
+          "key": "202500099_12",
+          "listRank": 40,
+          "seqNo": "28",
+          "org": "순천농협",
+          "actionRequestDate": "2026-03-12"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 5,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=5",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:45.945Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:6c0e199a477ee20d78d57a1d3c359992b173523232a744a577346df96d6790b4",
+      "keys": [
+        "202300848_13",
+        "202500588_11",
+        "202400548_12",
+        "202500444_12",
+        "202400095_13",
+        "202500801_11",
+        "202500594_11",
+        "202400545_12",
+        "202400337_12",
+        "202500453_11"
+      ],
+      "rows": [
+        {
+          "key": "202300848_13",
+          "listRank": 41,
+          "seqNo": "27",
+          "org": "농협손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202500588_11",
+          "listRank": 42,
+          "seqNo": "26",
+          "org": "뱅크오브아메리카은행",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202400548_12",
+          "listRank": 43,
+          "seqNo": "25",
+          "org": "하나손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202500444_12",
+          "listRank": 44,
+          "seqNo": "24",
+          "org": "KB라이프생명보험",
+          "actionRequestDate": "2026-02-19"
+        },
+        {
+          "key": "202400095_13",
+          "listRank": 45,
+          "seqNo": "23",
+          "org": "한국자산신탁",
+          "actionRequestDate": "2026-02-12"
+        },
+        {
+          "key": "202500801_11",
+          "listRank": 46,
+          "seqNo": "22",
+          "org": "디에이치저축은행",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202500594_11",
+          "listRank": 47,
+          "seqNo": "21",
+          "org": "미래에셋증권 주식회사",
+          "actionRequestDate": "2026-02-10"
+        },
+        {
+          "key": "202400545_12",
+          "listRank": 48,
+          "seqNo": "20",
+          "org": "(주)리더스에셋어드바이저",
+          "actionRequestDate": "2026-02-05"
+        },
+        {
+          "key": "202400337_12",
+          "listRank": 49,
+          "seqNo": "19",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-02-04"
+        },
+        {
+          "key": "202500453_11",
+          "listRank": 50,
+          "seqNo": "18",
+          "org": "크레디 아그리콜 코퍼레이트 앤 인베스트먼트 뱅크",
+          "actionRequestDate": "2026-02-04"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 6,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=6",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-12T07:01:47.092Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:71362c311cb0e50816aedf5035fecd29d2a2a0f10ac52004f7f7d46f94401d31",
+      "keys": [
+        "202400333_11",
+        "202500448_11",
+        "202500102_12",
+        "202400646_11",
+        "202400272_12",
+        "202400090_12",
+        "202500111_12",
+        "202500312_11",
+        "202500110_12",
+        "202300588_12"
+      ],
+      "rows": [
+        {
+          "key": "202400333_11",
+          "listRank": 51,
+          "seqNo": "17",
+          "org": "㈜삼성생명금융서비스보험대리점",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202500448_11",
+          "listRank": 52,
+          "seqNo": "16",
+          "org": "현대차 금융복합기업집단",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202500102_12",
+          "listRank": 53,
+          "seqNo": "15",
+          "org": "오에스비저축은행",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202400646_11",
+          "listRank": 54,
+          "seqNo": "14",
+          "org": "케이비라이프파트너스",
+          "actionRequestDate": "2026-01-29"
+        },
+        {
+          "key": "202400272_12",
+          "listRank": 55,
+          "seqNo": "13",
+          "org": "㈜카카오페이",
+          "actionRequestDate": "2026-01-28"
+        },
+        {
+          "key": "202400090_12",
+          "listRank": 56,
+          "seqNo": "12",
+          "org": "모아저축은행",
+          "actionRequestDate": "2026-01-26"
+        },
+        {
+          "key": "202500111_12",
+          "listRank": 57,
+          "seqNo": "11",
+          "org": "주식회사 뱅크샐러드",
+          "actionRequestDate": "2026-01-20"
+        },
+        {
+          "key": "202500312_11",
+          "listRank": 58,
+          "seqNo": "10",
+          "org": "오케이캐피탈 ㈜",
+          "actionRequestDate": "2026-01-20"
+        },
+        {
+          "key": "202500110_12",
+          "listRank": 59,
+          "seqNo": "9",
+          "org": "주식회사 핀다",
+          "actionRequestDate": "2026-01-20"
+        },
+        {
+          "key": "202300588_12",
+          "listRank": 60,
+          "seqNo": "8",
+          "org": "국제자산운용 주식회사",
+          "actionRequestDate": "2026-01-16"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 7,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=7",
+      "status": 200,
+      "rowCount": 7,
+      "fetchedAt": "2026-07-12T07:01:48.186Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:80bc822cad9c046b18e6637a2b59d1791a81c2c01eb67e91c80de56ea86ebe81",
+      "keys": [
+        "202500119_11",
+        "202400366_12",
+        "202500120_11",
+        "202500152_11",
+        "202500153_11",
+        "202500454_11",
+        "202500628_11"
+      ],
+      "rows": [
+        {
+          "key": "202500119_11",
+          "listRank": 61,
+          "seqNo": "7",
+          "org": "한국기업평가 주식회사",
+          "actionRequestDate": "2026-01-13"
+        },
+        {
+          "key": "202400366_12",
+          "listRank": 62,
+          "seqNo": "6",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-01-13"
+        },
+        {
+          "key": "202500120_11",
+          "listRank": 63,
+          "seqNo": "5",
+          "org": "한국신용평가 주식회사",
+          "actionRequestDate": "2026-01-13"
+        },
+        {
+          "key": "202500152_11",
+          "listRank": 64,
+          "seqNo": "4",
+          "org": "서울신용평가(주)",
+          "actionRequestDate": "2026-01-13"
+        },
+        {
+          "key": "202500153_11",
+          "listRank": 65,
+          "seqNo": "3",
+          "org": "나이스신용평가 주식회사",
+          "actionRequestDate": "2026-01-13"
+        },
+        {
+          "key": "202500454_11",
+          "listRank": 66,
+          "seqNo": "2",
+          "org": "현대캐피탈㈜",
+          "actionRequestDate": "2026-01-09"
+        },
+        {
+          "key": "202500628_11",
+          "listRank": 67,
+          "seqNo": "1",
+          "org": "신한은행",
+          "actionRequestDate": "2026-01-08"
+        }
+      ]
+    }
+  ],
+  "noUpdate": true,
+  "error": null,
+  "tgMsg": "🔔 금융감독원 제재·경영유의 브리핑 (16:01)\n금감원 신규 확인 · 변동 없음\n✅ 신규 제재·경영유의 없음 — 기존 점검 유지"
+}
