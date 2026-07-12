@@ -178,7 +178,7 @@ async function analyzeItem(item, useApi) {
     ? `기관:${item.sanctionTargets.기관 || "-"} / 임원:${item.sanctionTargets.임원 || "-"} / 직원:${item.sanctionTargets.직원 || "-"}`
     : "(경영유의·개선사항)";
   const userMsg = `제재대상 금융기관: ${item.org}
-소스: ${item.source}   제재조치일: ${item.actionDate || item.postDate || "미확인"}
+소스: ${item.source}   제재조치일: ${item.actionDate || item.actionRequestDate || "미확인"}
 FSS 검사/담당부서: ${item.dept || "미확인"}
 제재/개선 대상(목록): ${targets}
 위반·지적 원문(PDF 발췌):

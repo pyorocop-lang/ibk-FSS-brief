@@ -1,5 +1,29 @@
 # 변경 이력
 
+## 2026-07-12
+- fix: 07-10 관측 창 차집합 마이그레이션 미완성분 완결 — 크롤러가 실제로 실행되도록 (설계는 그대로, 코드만 완성)
+  - 왜: 07-10 커밋은 설계·문서·테스트만 반영되고 실행 코드가 반쯤 남아 있어 `node fss_crawler.js`가 즉시 죽었다. `node --test`는 10건 전부 require 단계에서 에러였다. 설계 자체(CLAUDE.md/CHANGELOG)는 유효 → 코드를 문서·테스트에 맞춰 완성만 했다.
+  - `WINDOW_FALLBACK_DEPTH`(=`DEFAULT_PAGES`) 상수 정의 — 참조만 3곳(경고 2·exports 1)+테스트인데 선언이 없어 모듈 로드 자체가 실패했다.
+  - `classifyRow`/`classifySnapshot`의 5번째 인자 `covered` → `seed`로 정정. 기존 `if (covered) return "new"` 지름길은 문서의 "창 밖 깊이 → backfill"과 정면충돌(커버된 실행에서 창 밖 과거 누적분을 신규로 오탐)해 제거. 이제 seed=true→backfill, 창 안→new, 창 밖→backfill, 창 유실 시 fallback 깊이로 판정 — 테스트 10건 전부 통과.
+  - `main()`이 삭제된 `collectSanctions`/`collectMngImpr`를 계속 호출 → 통합 `collectSource(SOURCES.sanction/mngimpr, ctx)`로 배선. `ctx.seed = seedMode` 전달.
+  - `result.completeness` 초기화 누락(492행에서 undefined에 대입 → 첫 소스에서 throw) → `completeness: {}` 추가.
+  - 검증: 모듈 로드 OK, 단위테스트 10/10 통과, 수정 4파일 `node --check` 통과. ※ 라이브 네트워크 파이프라인(main 전 구간)은 미실행 — 클라우드 배포 시 첫 런에서 확인 필요.
+
+## 2026-07-10
+- fix: 신규 판정을 '조치요구일 앵커' → '직전 실행 관측 창 차집합'으로 전환 (미탐 사고 수정)
+  - 왜: FSS 목록엔 **게시일 컬럼이 없다.** 3번째 컬럼은 `제재조치요구일`이고 목록은 그 값의 내림차순 정렬이다. 즉 오늘 새로 게시된 건도 조치요구일이 과거면 목록 중간에 삽입된다. 그런데 `REPORT_SINCE`(기본 2026-07-02) 앵커는 이 컬럼에 커트오프를 걸어 **늦게 게시된 과거 조치요구일 건을 알림·보고 없이 조용히 폐기**했다.
+  - 실제 누락: **`아이비케이신용정보`(조치요구일 06-25)** 가 07-09 신규 게시됐으나 backlog로 폐기 — 레저 전체를 통틀어 유일한 IBK 계열 건이었다. 그 외 롯데손해보험(07-08)·BNP파리바·순창농협·여수농협(07-10) 등 12건이 같은 방식으로 침묵 폐기됐다. 07-10 pm은 신규 4건 중 1건(DB손해보험)만 보고했다.
+  - fss_crawler.js: `REPORT_SINCE` 게이트 제거(env 설정 시 무시 경고). 신규 = **직전 실행 `scanAudit`(페이지별 전체 행 key + 훑은 깊이)과의 차집합** — `buildScanWindow`·`classifyRow` 신설. 판정은 `known`/`new`/`backfill` 3분기이며, 직전에 훑지 않은 깊이(창 밖)와 최초 시드는 `backfill`(레저만 등록, 보고 제외)로 `--pages` 확장 시 과거 누적분 범람을 막는다. `backfilled[]`를 crawl_result에 명시 기록해 침묵 폐기를 없앴다.
+  - 필드명 정정: `postDate`(게시일 오칭) → `actionRequestDate`(제재조치요구일). analyst.js·briefV2.js 참조 동기화(구 필드 읽기 호환은 유지).
+  - 관측 창 확대: 기본 `--pages` 2 → 5 (`FSS_MAX_PAGES` override). 정렬이 조치요구일 desc라 창이 얕으면 늦게 게시된 과거 조치요구일 건이 창 밖에 떨어져 영구 미탐. `scanWindow`(깊이·행수·조치요구일 상/하한)를 기록하고 하한이 45일 이내면 경고한다.
+  - runslot.js `findPreviousCrawlFile`에 `currentSlot` 인자 추가 — pm은 **당일 am**을 기준 스냅샷으로 우선 사용(전날 pm과 비교하면 당일 am 이후/이전 삽입분을 구분 못 한다).
+  - 검증: 실제 07-08~07-10 scanAudit·레저로 리플레이 — 누락 4건(BNP파리바·DB손해보험·순창농협·여수농협) 전부 `new`, 오탐 0. `아이비케이신용정보` 단독 리플레이도 `new`. 단위테스트 10건 통과, validator 오류 0.
+- feat: 알림·보고서 말미에 '목록에서 찾는 방법' 참고 안내 (수신자 혼선 차단)
+  - 왜: 정렬이 조치요구일 순이라 신규 건이 목록 맨 위에 없다. 실제로 07-10 DB손해보험(목록 6번째 줄)을 수신자가 사이트에서 찾지 못해 오탐으로 의심했다.
+  - briefV2.js `listingNoticeLines()` — `listedOutOfOrder`(조치요구일 < 최초 등장일)인 건에 대해서만 조치요구일·최초 등장일·목록 행 번호를 안내한다. 해당 건이 없으면 안내를 싣지 않는다(소음 방지). Telegram tgMsg 맨 끝 + docx `buildListingNotice` 섹션(safeSection 격리) 공용.
+  - crawler가 `firstSeenDate`·`listRank`·`listingLagDays`·`listedOutOfOrder`를 항목에 실어 보낸다(`listingMeta`).
+  - 구분선에 `─` 10자 이상 금지 — validator가 로그 TG_MSG 블록 끝을 `/─{10,}/`로 찾는다(주석 명시).
+
 ## 2026-07-04
 - docs: 기술 패턴 문서 신설 — `docs/technical/AI_멀티에이전트_기술문서.md` (설계 패턴·신뢰성 엔지니어링, 기술팀)
   - 자매 FSC 기술문서를 템플릿으로 FSS 전면 적응: 단일 `fss_crawler`·직결 스크래핑(API/프록시 없음)·게시일 앵커+레저·Tier×위험도·pm 델타·scanAudit. FSC 고유 서술(KR 프록시·Vercel egress·Root Directory 사고·마감 D-day 리마인더·OPEN API 1차 fallback)은 전량 제거(프록시/egress 언급은 "FSS는 미사용" 대비로만).

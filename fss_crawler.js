@@ -30,12 +30,13 @@ const fs    = require("fs");
 const path  = require("path");
 const url   = require("url");
 const crypto = require("crypto");
-const { reportDir, findPreviousCrawlFile } = require("./runslot");
+const { reportDir, resolveSlot, findPreviousCrawlFile } = require("./runslot");
 
 const HOST = "https://www.fss.or.kr";
+// 두 게시판은 신규 판정 규칙이 동일하다. 차이는 key 산출 방식과 본문 취득 경로뿐이다.
 const SOURCES = {
-  sanction: { key: "제재공시",   menuNo: "200476", listPath: "/fss/job/openInfo/list.do" },
-  mngimpr:  { key: "경영유의",   menuNo: "200483", listPath: "/fss/job/openInfoImpr/list.do" },
+  sanction: { key: "제재공시", menuNo: "200476", listPath: "/fss/job/openInfo/list.do",     ledger: "openInfo",     rawPrefix: "sanction" },
+  mngimpr:  { key: "경영유의", menuNo: "200483", listPath: "/fss/job/openInfoImpr/list.do", ledger: "openInfoImpr", rawPrefix: "mngimpr"  },
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -238,21 +239,111 @@ function fileIdFromHpdownload(href) {
   return id ? id[1] : fname.slice(0, 40);
 }
 
-// ── 게시일 커트오프 (고정 앵커) ──────────────────────────────
-//   "신규"의 기준을 레저 부재만이 아니라 FSS 실제 게시일(postDate)로 앵커링한다.
-//   게시일 ≥ REPORT_SINCE 인 건만 보고(newItems/graded). 그 이전 게시분은 '백로그' —
-//   레저에만 등록해 재검토를 막고 알림·보고에선 완전 제외한다(레저는 중복방지 보조).
-//   근거: FSS 목록엔 과거 공시가 누적 노출돼, 레저 부재만으론 오래된 공시가 '신규'로 샜다
-//   (총평단 2026-07-03 지적: 게시일 6/26 건이 당일 신규로 오인 보고). env로 재정의 가능.
-//   기본값 2026-07-02 = 운영 기준일. 전날(7/2) 저녁에 게시된 신규까지 포함하고, 그 이전 백로그만 제외한다
-//   (고정 앵커를 7/3으로 두면 7/2 저녁 게시 신규가 누락되는 문제 — 시나리오 테스트로 확인, 사용자 확정).
-const REPORT_SINCE = (process.env.REPORT_SINCE || "2026-07-02").trim();
+// ─────────────────────────────────────────────────────────────
+// 신규 판정 규칙 — 한 줄로 말할 수 있어야 한다
+//
+//   ★ 신규 = 목록에 있는 행 중 레저에 없는 키.
+//
+//   이 한 줄이 성립하려면 레저가 '목록 전체'를 덮어야 한다. 상위 N페이지만 덮으면, 창 밖의
+//   미등록 행이 '방금 올라온 신규'인지 '한 번도 안 본 옛 행'인지 구분할 수 없다. 그래서 최초 1회
+//   전 페이지를 훑어 레저를 완전 시드하고(coverage), 이후로는 상위 D페이지만 빠르게 훑는다.
+//
+//   창을 좁혀도 놓치지 않는다는 사실은 **총건수 체크섬**으로 매 실행 증명한다:
+//
+//       listTotal − 직전 listTotal  ==  검출 신규 수 − 삭제 수
+//
+//   좌변은 FSS가 스스로 밝힌 목록 길이 변화("전체 N건", 1행 번호와 교차검증), 우변은 우리 판정이다.
+//   어긋나면 창 밖에 신규가 있다는 뜻 → 전 페이지 심화 스캔으로 자동 승격해 재검한다.
+//   승격 후에도 안 맞으면 수집 실패로 격리한다. 조용한 미탐보다 시끄러운 실패가 낫다.
+//
+//   두 게시판(제재공시·경영유의)은 이 규칙이 완전히 동일하게 적용된다 — 키 형식(`\d+_\d+`),
+//   조치요구일 내림차순 정렬, "전체 N건" 노출, 1행 번호=총건수가 양쪽 실측으로 확인됐다.
+//
+//   ※ 조치요구일로 판정하면 안 되는 이유: 목록엔 게시일 컬럼이 없다. 3번째 컬럼은 제재조치요구일이고
+//     목록은 그 값의 내림차순 정렬이다. 오늘 게시된 건도 조치요구일이 과거면 목록 중간에 꽂힌다.
+//     구 REPORT_SINCE 앵커가 이 컬럼에 커트오프를 걸어 '아이비케이신용정보'(2026-07-09 게시,
+//     조치요구일 06-25)를 침묵 폐기했다.
+// ─────────────────────────────────────────────────────────────
+
+// 키 산출 규칙의 버전. 이 값이 바뀌면 과거 레저·스캔증적과 비교 불가 → 전체 재시드가 필요하다.
+//   (가드가 없으면 키 규칙 변경 시 목록 전체가 '신규'로 쏟아진다)
+const KEY_SCHEMA = "v1";   // openInfo=examMgmtNo_emOpenSeq · openInfoImpr=PDF 파일명 선두ID
+
+const DEFAULT_PAGES = parseInt(process.env.FSS_MAX_PAGES, 10) || 5;   // 평시 관측 창 깊이
+const FULL_SCAN_MAX_PAGES = 200;                                      // 심화·시드 스캔 상한(무한루프 방지)
+const WINDOW_FALLBACK_DEPTH = DEFAULT_PAGES;                          // 직전 관측 창 유실 시 가정하는 깊이(레저로만 판정)
+
+// 직전 실행의 scanAudit → 소스별 {본 key 집합, 훑은 깊이}. 커버리지 확립 전 전환 실행과 감사 도구가 쓴다.
+function buildScanWindow(prevCrawl) {
+  const win = {};
+  const audit = (prevCrawl && Array.isArray(prevCrawl.scanAudit)) ? prevCrawl.scanAudit : [];
+  for (const s of audit) {
+    if (!s || !s.source) continue;
+    const w = win[s.source] || (win[s.source] = { keys: new Set(), depth: 0 });
+    const keys = Array.isArray(s.rows) ? s.rows.map(r => r && r.key) : (s.keys || []);
+    for (const k of keys) if (k) w.keys.add(k);
+    if ((s.page || 0) > w.depth) w.depth = s.page;
+  }
+  return win;
+}
+
+// 행 1건의 판정 → "known" | "new" | "backfill"(레저만 등록·보고 제외) | "skip"(키 없음)
+//   판정 규칙(문서화된 설계 = CLAUDE.md/CHANGELOG):
+//     · 레저/직전 창에 있으면          → known (재알림 차단)
+//     · seed=true(최초 실행, 목록 전체가 과거 누적분) → backfill
+//     · 직전 관측 창 깊이 안에서 새로 나타남 → new (조치요구일이 과거여도 신규)
+//     · 창 밖 깊이(늦게 발견)          → backfill (--pages 확장 시 과거 누적분 범람 방지)
+//   직전 창이 유실되면 WINDOW_FALLBACK_DEPTH 깊이를 가정해 레저로만 판정한다.
+function classifyRow(key, page, ledgerMap, win, seed) {
+  if (!key) return "skip";
+  if (ledgerMap && ledgerMap[key]) return "known";
+  if (win && win.keys.has(key)) return "known";          // 레저 유실 대비 방어(직전에 본 행)
+  if (seed) return "backfill";                            // 최초 시드: 판정 근거 없음 → 레저만 등록
+  const depth = (win && win.keys.size) ? win.depth : WINDOW_FALLBACK_DEPTH;
+  if (page <= depth) return "new";                       // 직전 창 안에서 새로 나타남 → 확정 신규
+  return "backfill";                                     // 창 밖: 신규인지 옛 행인지 알 수 없음
+}
+
+// 목록 상단 "전체 N건" 파싱. 1행 번호와 교차검증해 신뢰도를 높인다(양쪽 게시판 동일 마크업).
+function parseListTotal(html) {
+  const m = (html || "").match(/전체[\s\S]{0,80}?>\s*([\d,]+)\s*<\/[^>]+>\s*건/);
+  return m ? parseInt(m[1].replace(/,/g, ""), 10) : null;
+}
+
+function daysBetween(isoDate, dateCode) {   // dateCode(YYYYMMDD) - isoDate(YYYY-MM-DD), 일 단위
+  if (!isoDate || !/^\d{8}$/.test(dateCode || "")) return 0;
+  const a = Date.parse(`${dateCode.slice(0, 4)}-${dateCode.slice(4, 6)}-${dateCode.slice(6, 8)}T00:00:00Z`);
+  const b = Date.parse(`${isoDate}T00:00:00Z`);
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return 0;
+  return Math.round((a - b) / 86400000);
+}
+
+// 목록 위치 메타 — 보고서·알림의 '참고 안내'가 쓰는 근거.
+//   listedOutOfOrder = 조치요구일이 최초 등장일보다 과거 → 목록 최신순 상단에 없다.
+//   수신자가 목록 맨 위만 보고 "그런 건 없는데?" 하는 혼선을 막기 위해 항목에 붙여 내려보낸다.
+function listingMeta(actionRequestDate, listRank, result) {
+  const lag = daysBetween(actionRequestDate, result.dateCode);
+  return {
+    firstSeenDate: result.dateCode,
+    firstSeenSlot: result.runSlot,
+    listRank,
+    listingLagDays: lag,
+    listedOutOfOrder: lag > 0,
+  };
+}
 
 // ── seen_ids ledger ─────────────────────────────────────────
+//   meta.sources[소스] = { covered, listTotal, fullScanAt, keySchema }
+//     covered   = 이 소스의 목록 '전 페이지'를 훑어 레저에 등록했는가 (신규 판정 한 줄 규칙의 전제)
+//     listTotal = 직전 실행에서 FSS가 밝힌 목록 총건수 (다음 실행의 체크섬 기준선)
 const LEDGER_PATH = path.join(__dirname, "state", "seen_ids.json");
 function loadLedger() {
-  try { return JSON.parse(fs.readFileSync(LEDGER_PATH, "utf8")); }
-  catch (e) { return { version: 1, updatedAt: null, openInfo: {}, openInfoImpr: {} }; }
+  let led;
+  try { led = JSON.parse(fs.readFileSync(LEDGER_PATH, "utf8")); }
+  catch (e) { led = { version: 1, updatedAt: null, openInfo: {}, openInfoImpr: {} }; }
+  if (!led.meta) led.meta = { keySchema: null, sources: {} };
+  if (!led.meta.sources) led.meta.sources = {};
+  return led;
 }
 function saveLedger(led) {
   led.updatedAt = new Date().toISOString();
@@ -264,163 +355,255 @@ function saveLedger(led) {
 //   noUpdate(신규 0건)여도 crawl_result.scanAudit에 "이 페이지에서 본 전체 행의 key + 본문 SHA-256"을 남긴다.
 //   원본 목록 HTML은 Artifact 90일뿐이지만, 이 요약은 crawl_result와 함께 git에 영구 커밋 → 무엇을 스캔했는지 항구 증적.
 const sha256 = (s) => "sha256:" + crypto.createHash("sha256").update(s || "", "utf8").digest("hex");
-function openInfoKey(href) {   // 제재공시 행 key = examMgmtNo_emOpenSeq (행 처리 루프와 동일 규칙)
+function openInfoKey(href) {   // 제재공시 행 key = examMgmtNo_emOpenSeq
   try {
     const q = new url.URL(absUrl(href));
     const e = q.searchParams.get("examMgmtNo") || "";
     return e ? `${e}_${q.searchParams.get("emOpenSeq") || ""}` : null;
   } catch { return null; }
 }
+// 소스별 key 산출은 이 한 곳에서만 갈린다. scanAudit·판정·레저가 전부 같은 함수를 쓴다(불일치 원천 차단).
+function keyOf(src, href) {
+  return src.ledger === "openInfo" ? openInfoKey(href) : fileIdFromHpdownload(href);
+}
 
-// ── 소스별 수집 ─────────────────────────────────────────────
-async function collectSanctions(result, ledger, rawDir, pdfDir, maxPages, seedMode) {
-  const src = SOURCES.sanction;
-  const ledMap = ledger.openInfo;
+// ── 1단계: 목록 스냅샷 ──────────────────────────────────────
+//   상세·PDF 취득은 절대 여기 섞지 않는다. 목록 페이지를 연속으로 훑어 '한 시점의 스냅샷'을 만든다.
+//   (구 코드는 페이지 사이에 상세 HTML + PDF 다운로드를 끼워 넣어, p1과 p2가 수십 초 어긋난
+//    비정합 스냅샷이었다. 그 상태로는 scanAudit이 증거 구실을 못 한다.)
+async function scanSource(src, maxPages, rawDir, result) {
+  const rows = [];
+  let listTotal = null, rank = 0, pagesScanned = 0;
+
   for (let page = 1; page <= maxPages; page++) {
     const listUrl = `${HOST}${src.listPath}?menuNo=${src.menuNo}&pageIndex=${page}`;
     const res = await httpGetWithRetry(listUrl);
-    if (res.status !== 200) throw new Error(`제재공시 목록 HTTP ${res.status} (p${page})`);
-    fs.writeFileSync(path.join(rawDir, `sanction_list_p${page}.html`), res.body, "utf8");
-    const rows = parseListRows(res.body);
-    if (rows.length === 0) break;
-    result.totalFetched += rows.length;
-    // 스캔 증적(신규 무관, git 영구): 이 페이지에서 본 전체 행 key + 본문 해시
-    result.scanAudit.push({
-      source: src.key, page, url: listUrl, status: res.status, rowCount: rows.length,
-      bodySha256: sha256(res.body), keys: rows.map(r => openInfoKey(r.href)).filter(Boolean),
-    });
+    if (res.status !== 200) throw new Error(`${src.key} 목록 HTTP ${res.status} (p${page})`);
+    fs.writeFileSync(path.join(rawDir, `${src.rawPrefix}_list_p${page}.html`), res.body, "utf8");
 
-    for (const row of rows) {
-      // 셀: [번호, 금융기관명, 게시일, 내용보기(앵커), 관련부서, 조회수]
-      const org = row.cells[1] || "";
-      const postDate = normDate(row.cells[2] || "");
-      const dept = row.cells[4] || "";
-      const q = new url.URL(absUrl(row.href));
-      const examMgmtNo = q.searchParams.get("examMgmtNo") || "";
-      const emOpenSeq = q.searchParams.get("emOpenSeq") || "";
-      const key = `${examMgmtNo}_${emOpenSeq}`;
-      if (!examMgmtNo) continue;
+    const parsed = parseListRows(res.body);
+    if (parsed.length === 0) break;   // 마지막 페이지 지남
+    pagesScanned = page;
 
-      const isNew = !ledMap[key];
-      // 상세 파싱 + PDF는 신규 건만(부하·차단 경감). 기존 건은 목록 메타만 스킵.
-      if (!isNew) continue;
-
-      // 게시일 커트오프: 앵커 이전 게시분은 백로그 — 레저에만 등록하고 상세수집·보고를 완전 건너뛴다.
-      //   게시일 파싱 실패(빈값)는 fail-open(보고)해 파싱 글리치로 실제 건을 놓치지 않는다.
-      if (postDate && postDate < REPORT_SINCE) {
-        ledMap[key] = { seenDate: result.dateCode, org, title: "", backlog: true };
-        result.backlogSkipped++;
-        continue;
+    if (page === 1) {
+      listTotal = parseListTotal(res.body);
+      const topSeq = parseInt((parsed[0].cells[0] || "").trim(), 10);   // 1행 번호 = 총건수(조밀 역순위)
+      if (listTotal != null && Number.isFinite(topSeq) && topSeq !== listTotal) {
+        const msg = `[${src.key}] 총건수 교차검증 불일치 — "전체 ${listTotal}건" vs 1행 번호 ${topSeq}`;
+        console.warn(`[FSS 크롤러] ⚠ ${msg}`); result.warnings.push(msg);
       }
-
-      await sleep(1000);
-      let meta = {}, attachments = [], bodyText = null;
-      try {
-        const dv = await httpGetWithRetry(absUrl(row.href));
-        fs.writeFileSync(path.join(rawDir, `sanction_detail_${key}.html`), dv.body, "utf8");
-        const parsed = parseSanctionDetail(dv.body);
-        meta = parsed.meta; attachments = parsed.attachments;
-        const pdf = attachments.find(x => /\.pdf/i.test(x.url));
-        if (pdf) {
-          const safe = (pdf.name || key).replace(/\.pdf$/i, "").replace(/[^\w가-힣.\- ]/g, "").trim().slice(0, 60);
-          const r = await fetchPdf(pdf.url, path.join(pdfDir, `${key}_${safe || "doc"}.pdf`));
-          bodyText = r.text;
-        }
-      } catch (e) { console.warn(`  ✗ 제재 상세 실패 ${key}: ${e.message}`); }
-
-      const actionDate = normDate(meta["제재조치일"] || "");
-      const entry = {
-        key, source: src.key, org: meta["금융기관명"] || org,
-        postDate, actionDate, dept: meta["관련부서"] || dept,
-        sanctionTargets: {
-          기관: meta["기관 제재대상"] || "", 임원: meta["임원 제재대상"] || "", 직원: meta["직원 제재대상"] || "",
-        },
-        attachments, bodyText: bodyText ? bodyText.slice(0, 4000) : null,
-        detailUrl: absUrl(row.href),
-        url: absUrl(row.href),
-        examMgmtNo, emOpenSeq,
-      };
-      const sc = scoreItem(entry);
-      entry.grade = grade(sc.score); entry.score = sc.score; entry.isIBK = sc.isIBK; entry.bankTarget = sc.bankTarget;
-      entry.tier = classifyTier(entry.org); entry.tierLabel = TIER_LABEL[entry.tier];
-
-      result.items.push(entry);   // items = 이번 실행 신규 원본(기록·감사용). seed모드에선 과거 베이스라인.
-      if (!seedMode) {
-        // graded/newGraded는 '보고 대상' — seed(최초)에선 비워 과거건 범람 방지. items·ledger엔 남겨 재알림만 차단.
-        result.newItems.push(entry);
-        if (entry.grade) { result.graded.push(entry); result.newGraded.push(entry); }
+      if (listTotal == null) {
+        const msg = `[${src.key}] "전체 N건" 파싱 실패 — 완전성 체크섬을 적용할 수 없음(마크업 변경 의심)`;
+        console.warn(`[FSS 크롤러] ⚠ ${msg}`); result.warnings.push(msg);
       }
-      ledMap[key] = { seenDate: result.dateCode, org: entry.org, title: entry.sanctionTargets.기관.slice(0, 40) };
-      console.log(`  ${entry.grade ? "["+entry.grade+"]" : "[-]"} 제재 ${entry.org} (${key})`);
     }
+
+    const pageRows = parsed.map(r => ({
+      key: keyOf(src, r.href), page, listRank: ++rank,
+      seqNo: (r.cells[0] || "").trim(),
+      org: r.cells[1] || "",
+      actionRequestDate: normDate(r.cells[2] || ""),
+      dept: r.cells[4] || r.cells[3] || "",
+      href: r.href,
+    }));
+    rows.push(...pageRows);
+    result.totalFetched += pageRows.length;
+
+    // 스캔 증적(신규 무관, git 영구). 원본 HTML은 Artifact 90일뿐이지만 이 요약은 항구 보존된다.
+    //   rows에 org·조치요구일·행번호까지 남겨야 사후에 "무엇을 봤고 왜 그렇게 판정했나"를 재구성할 수 있다.
+    result.scanAudit.push({
+      source: src.key, page, url: listUrl, status: res.status, rowCount: pageRows.length,
+      fetchedAt: new Date().toISOString(), keySchema: KEY_SCHEMA,
+      listTotal: page === 1 ? listTotal : undefined,
+      bodySha256: sha256(res.body),
+      keys: pageRows.map(r => r.key).filter(Boolean),   // 하위호환(구 감사툴)
+      rows: pageRows.map(({ key, listRank, seqNo, org, actionRequestDate }) => ({ key, listRank, seqNo, org, actionRequestDate })),
+    });
+    await sleep(400);
   }
+
+  const nullKeys = rows.filter(r => !r.key).length;
+  if (nullKeys) {
+    const msg = `[${src.key}] key 추출 실패 ${nullKeys}행 — 마크업/파일명 규칙 변경 의심`;
+    console.warn(`[FSS 크롤러] ⚠ ${msg}`); result.warnings.push(msg);
+  }
+  return { rows, listTotal, pagesScanned };
 }
 
-async function collectMngImpr(result, ledger, rawDir, pdfDir, maxPages, seedMode) {
-  const src = SOURCES.mngimpr;
-  const ledMap = ledger.openInfoImpr;
-  for (let page = 1; page <= maxPages; page++) {
-    const listUrl = `${HOST}${src.listPath}?menuNo=${src.menuNo}&pageIndex=${page}`;
-    const res = await httpGetWithRetry(listUrl);
-    if (res.status !== 200) throw new Error(`경영유의 목록 HTTP ${res.status} (p${page})`);
-    fs.writeFileSync(path.join(rawDir, `mngimpr_list_p${page}.html`), res.body, "utf8");
-    const rows = parseListRows(res.body);
-    if (rows.length === 0) break;
-    result.totalFetched += rows.length;
-    // 스캔 증적(신규 무관, git 영구): 이 페이지에서 본 전체 행 key + 본문 해시
-    result.scanAudit.push({
-      source: src.key, page, url: listUrl, status: res.status, rowCount: rows.length,
-      bodySha256: sha256(res.body), keys: rows.map(r => fileIdFromHpdownload(r.href)).filter(Boolean),
-    });
-
-    for (const row of rows) {
-      // 셀: [번호, 대상기관, 게시일, 내용보기(PDF앵커), 담당부서]. href=바로 PDF.
-      const org = row.cells[1] || "";
-      const postDate = normDate(row.cells[2] || "");
-      const dept = row.cells[4] || row.cells[3] || "";
-      const key = fileIdFromHpdownload(row.href);
-      if (!key) continue;
-      const isNew = !ledMap[key];
-      if (!isNew) continue;
-
-      // 게시일 커트오프: 앵커 이전 게시분은 백로그 — 레저에만 등록하고 PDF수집·보고를 완전 건너뛴다.
-      //   게시일 파싱 실패(빈값)는 fail-open(보고).
-      if (postDate && postDate < REPORT_SINCE) {
-        ledMap[key] = { seenDate: result.dateCode, org, title: "", backlog: true };
-        result.backlogSkipped++;
-        continue;
-      }
-
-      const pdfUrl = absUrl(row.href);
-      const safe = org.replace(/[^\w가-힣.\- ]/g, "").trim().slice(0, 40);
-      let bodyText = null;
-      try {
-        const r = await fetchPdf(pdfUrl, path.join(pdfDir, `${key}_${safe || "doc"}.pdf`));
-        bodyText = r.text;
-      } catch (e) { console.warn(`  ✗ 경영유의 PDF 실패 ${key}: ${e.message}`); }
-
-      const entry = {
-        key, source: src.key, org, postDate, actionDate: "", dept,
-        sanctionTargets: null,
-        attachments: [{ url: pdfUrl, name: decodeURIComponent((row.href.match(/file=([^&]+)/) || [,""])[1]) }],
-        bodyText: bodyText ? bodyText.slice(0, 4000) : null,
-        detailUrl: null, url: pdfUrl,
-      };
-      const sc = scoreItem(entry);
-      entry.grade = grade(sc.score); entry.score = sc.score; entry.isIBK = sc.isIBK; entry.bankTarget = sc.bankTarget;
-      entry.tier = classifyTier(entry.org); entry.tierLabel = TIER_LABEL[entry.tier];
-
-      result.items.push(entry);   // items = 이번 실행 신규 원본(기록·감사용). seed모드에선 과거 베이스라인.
-      if (!seedMode) {
-        // graded/newGraded는 '보고 대상' — seed(최초)에선 비워 과거건 범람 방지. items·ledger엔 남겨 재알림만 차단.
-        result.newItems.push(entry);
-        if (entry.grade) { result.graded.push(entry); result.newGraded.push(entry); }
-      }
-      ledMap[key] = { seenDate: result.dateCode, org, title: "" };
-      console.log(`  ${entry.grade ? "["+entry.grade+"]" : "[-]"} 경영유의 ${org} (${key})`);
-    }
-  }
+// ── 2단계: 판정 + 완전성 검산 ────────────────────────────────
+//   스냅샷 rows를 레저와 대조해 known/new/backfill로 가른 뒤, 총건수 체크섬으로 검산한다.
+//   검산 실패 = "창 밖에 신규가 있다" → 전 페이지 심화 스캔으로 승격해 재판정한다.
+function classifySnapshot(rows, ledMap, win, seed) {
+  const out = { known: [], new: [], backfill: [], skip: [] };
+  for (const r of rows) out[classifyRow(r.key, r.page, ledMap, win, seed)].push(r);
+  return out;
 }
+
+// 체크섬:  listTotal − prevListTotal  ==  신규 − 삭제
+//   삭제는 전 페이지를 봐야만 셀 수 있으므로, 창 스캔(부분)에서는 삭제 0을 가정하고 검산한다.
+//   가정이 깨지면(=불일치) 심화 스캔으로 승격돼 삭제까지 실제로 센다.
+function reconcile({ listTotal, prevListTotal, newCount, deletedCount }) {
+  if (listTotal == null || prevListTotal == null) {
+    return { ok: true, listTotal, prevListTotal, newCount, deletedCount: deletedCount || 0,
+             reason: "기준선 없음(최초 실행 또는 총건수 파싱 실패) — 검산 생략" };
+  }
+  const expectedDelta = listTotal - prevListTotal;
+  const actualDelta = newCount - (deletedCount || 0);
+  return {
+    ok: expectedDelta === actualDelta,
+    listTotal, prevListTotal, expectedDelta, actualDelta,
+    newCount, deletedCount: deletedCount || 0,
+    reason: expectedDelta === actualDelta ? "일치"
+      : `총건수 증감 ${expectedDelta} ≠ 신규 ${newCount} − 삭제 ${deletedCount || 0}`,
+  };
+}
+
+// ── 소스 1개 수집 (스냅샷 → 판정 → 검산 → 승격 → 본문 취득) ──
+//   두 게시판에 이 함수 하나가 그대로 돈다. 분기는 key 산출과 본문 취득 경로뿐이다.
+async function collectSource(src, ctx) {
+  const { result, ledger, rawDir, pdfDir, maxPages, prevWindow, seed } = ctx;
+  const ledMap = ledger[src.ledger];
+  const win = prevWindow[src.key];
+  const meta = ledger.meta.sources[src.key] || {};
+  const covered = !!meta.covered;
+  const prevListTotal = (typeof meta.listTotal === "number") ? meta.listTotal : null;
+
+  // 커버리지가 없으면 처음부터 전 페이지를 훑어 레저를 완전 시드한다(이후 규칙이 한 줄로 축약된다).
+  let fullScan = !covered;
+  let scan = await scanSource(src, fullScan ? FULL_SCAN_MAX_PAGES : maxPages, rawDir, result);
+  let verdicts = classifySnapshot(scan.rows, ledMap, win, seed);
+
+  // 부분 스캔에선 삭제를 셀 수 없다(창 밖 행이 지워진 건지 밀린 건지 모름) → 삭제 0 가정으로 검산.
+  let deleted = [];
+  let check = reconcile({ listTotal: scan.listTotal, prevListTotal, newCount: verdicts.new.length, deletedCount: 0 });
+
+  if (!check.ok && !fullScan) {
+    const msg = `[${src.key}] 완전성 검산 불일치(${check.reason}) — 전 페이지 심화 스캔으로 승격`;
+    console.warn(`[FSS 크롤러] ⚠ ${msg}`); result.warnings.push(msg);
+    fullScan = true;
+    result.scanAudit = result.scanAudit.filter(a => a.source !== src.key);   // 창 스캔 증적은 전체본으로 대체
+    result.totalFetched -= scan.rows.length;
+    scan = await scanSource(src, FULL_SCAN_MAX_PAGES, rawDir, result);
+    verdicts = classifySnapshot(scan.rows, ledMap, win, seed);
+  }
+
+  if (fullScan) {
+    // 전 페이지를 봤으므로 삭제(레저엔 있는데 목록엔 없는 키)를 실제로 셀 수 있다 → 항등식 완성.
+    const live = new Set(scan.rows.map(r => r.key));
+    deleted = Object.keys(ledMap).filter(k => !live.has(k));
+    check = reconcile({ listTotal: scan.listTotal, prevListTotal, newCount: verdicts.new.length, deletedCount: deleted.length });
+  }
+
+  result.completeness[src.key] = {
+    ...check, fullScan, pagesScanned: scan.pagesScanned,
+    backfilled: verdicts.backfill.length, deletedKeys: deleted.slice(0, 50),
+  };
+  if (!check.ok) {
+    // 조용한 미탐보다 시끄러운 실패. 던지면 failure_meta만 쓰이고 성공본·레저는 보존된다.
+    throw new Error(`${src.key} 완전성 검산 실패: ${check.reason} (전 페이지 스캔 후에도 불일치)`);
+  }
+
+  const floorDate = scan.rows.length ? scan.rows[scan.rows.length - 1].actionRequestDate : null;
+  result.scanWindow[src.key] = {
+    pagesScanned: scan.pagesScanned, rowsScanned: scan.rows.length, fullScan,
+    listTotal: scan.listTotal, prevListTotal,
+    topDate: scan.rows.length ? scan.rows[0].actionRequestDate : null,
+    floorDate, floorLookbackDays: daysBetween(floorDate, result.dateCode),
+  };
+
+  // backfill: 판정 근거 없는 행(시드·창 밖). 레저에만 등록하고 보고하지 않되, 침묵하지 않고 기록한다.
+  for (const r of verdicts.backfill) {
+    ledMap[r.key] = { seenDate: result.dateCode, org: r.org, title: "", backfill: true };
+    result.backfilled.push({ key: r.key, source: src.key, org: r.org, actionRequestDate: r.actionRequestDate, page: r.page, listRank: r.listRank });
+  }
+
+  // ── 3단계: 신규 건만 본문 취득 + 등급 산정 ──
+  for (const r of verdicts.new) {
+    const entry = await buildEntry(src, r, rawDir, pdfDir, result);
+    const sc = scoreItem(entry);
+    entry.grade = grade(sc.score); entry.score = sc.score; entry.isIBK = sc.isIBK; entry.bankTarget = sc.bankTarget;
+    entry.tier = classifyTier(entry.org); entry.tierLabel = TIER_LABEL[entry.tier];
+
+    // 판정 근거를 항목에 박아 넣는다 — 사후에 "왜 신규였나"를 crawl_result만으로 재현할 수 있어야 한다.
+    entry.newnessProof = {
+      rule: "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+      keySchema: KEY_SCHEMA,
+      prevCrawlFile: result.prevCrawlFile,
+      prevWindowKeys: win ? win.keys.size : 0,
+      prevWindowDepth: win ? win.depth : 0,
+      absentFromPrevWindow: !(win && win.keys.has(r.key)),
+      ledgerCovered: covered,
+      page: r.page, listRank: r.listRank, seqNo: r.seqNo,
+      listTotal: scan.listTotal, prevListTotal,
+      checksum: `${scan.listTotal} − ${prevListTotal} = ${check.expectedDelta} == 신규 ${check.newCount} − 삭제 ${check.deletedCount}`,
+    };
+
+    result.items.push(entry);
+    result.newItems.push(entry);
+    if (entry.grade) { result.graded.push(entry); result.newGraded.push(entry); }
+    ledMap[r.key] = { seenDate: result.dateCode, org: entry.org, title: (entry.sanctionTargets ? entry.sanctionTargets.기관 : "").slice(0, 40) };
+    console.log(`  ${entry.grade ? "[" + entry.grade + "]" : "[-]"} ${src.key} ${entry.org} (${r.key}) — 목록 ${r.listRank}행 · 조치요구일 ${r.actionRequestDate || "?"}`);
+  }
+
+  // 커버리지·기준선 갱신. covered는 전 페이지를 실제로 훑은 실행에서만 세운다.
+  ledger.meta.keySchema = KEY_SCHEMA;
+  ledger.meta.sources[src.key] = {
+    covered: covered || fullScan,
+    listTotal: scan.listTotal != null ? scan.listTotal : prevListTotal,
+    fullScanAt: fullScan ? result.dateCode : (meta.fullScanAt || null),
+    keySchema: KEY_SCHEMA,
+  };
+
+  console.log(`[FSS 크롤러] ${src.key} — ${scan.pagesScanned}p/${scan.rows.length}행${fullScan ? "(전체)" : ""} · 신규 ${verdicts.new.length} · backfill ${verdicts.backfill.length} · 검산 ${check.ok ? "OK" : "FAIL"}(${check.reason})`);
+}
+
+// 신규 행 1건의 본문·메타 취득. 제재공시=상세HTML+첨부PDF / 경영유의=행 링크가 곧 PDF.
+async function buildEntry(src, r, rawDir, pdfDir, result) {
+  const base = {
+    key: r.key, source: src.key, org: r.org,
+    actionRequestDate: r.actionRequestDate, dept: r.dept,
+    ...listingMeta(r.actionRequestDate, r.listRank, result),
+  };
+
+  if (src.ledger === "openInfo") {
+    await sleep(1000);
+    let meta = {}, attachments = [], bodyText = null;
+    try {
+      const dv = await httpGetWithRetry(absUrl(r.href));
+      fs.writeFileSync(path.join(rawDir, `sanction_detail_${r.key}.html`), dv.body, "utf8");
+      const parsed = parseSanctionDetail(dv.body);
+      meta = parsed.meta; attachments = parsed.attachments;
+      const pdf = attachments.find(x => /\.pdf/i.test(x.url));
+      if (pdf) {
+        const safe = (pdf.name || r.key).replace(/\.pdf$/i, "").replace(/[^\w가-힣.\- ]/g, "").trim().slice(0, 60);
+        bodyText = (await fetchPdf(pdf.url, path.join(pdfDir, `${r.key}_${safe || "doc"}.pdf`))).text;
+      }
+    } catch (e) { console.warn(`  ✗ 제재 상세 실패 ${r.key}: ${e.message}`); }
+    const [examMgmtNo, emOpenSeq] = r.key.split("_");
+    return {
+      ...base,
+      org: meta["금융기관명"] || r.org,
+      actionDate: normDate(meta["제재조치일"] || ""),
+      dept: meta["관련부서"] || r.dept,
+      sanctionTargets: { 기관: meta["기관 제재대상"] || "", 임원: meta["임원 제재대상"] || "", 직원: meta["직원 제재대상"] || "" },
+      attachments, bodyText: bodyText ? bodyText.slice(0, 4000) : null,
+      detailUrl: absUrl(r.href), url: absUrl(r.href), examMgmtNo, emOpenSeq,
+    };
+  }
+
+  const pdfUrl = absUrl(r.href);
+  const safe = r.org.replace(/[^\w가-힣.\- ]/g, "").trim().slice(0, 40);
+  let bodyText = null;
+  try { bodyText = (await fetchPdf(pdfUrl, path.join(pdfDir, `${r.key}_${safe || "doc"}.pdf`))).text; }
+  catch (e) { console.warn(`  ✗ 경영유의 PDF 실패 ${r.key}: ${e.message}`); }
+  return {
+    ...base, actionDate: "", sanctionTargets: null,
+    attachments: [{ url: pdfUrl, name: decodeURIComponent((r.href.match(/file=([^&]+)/) || [, ""])[1]) }],
+    bodyText: bodyText ? bodyText.slice(0, 4000) : null,
+    detailUrl: null, url: pdfUrl,
+  };
+}
+
 
 // ─────────────────────────────────────────────────────────────
 // 메인
@@ -429,14 +612,19 @@ async function main() {
   const argIdx = process.argv.indexOf("--date");
   const argDate = argIdx >= 0 ? process.argv[argIdx + 1] : null;
   const pgIdx = process.argv.indexOf("--pages");
-  const maxPages = pgIdx >= 0 ? Math.max(1, parseInt(process.argv[pgIdx + 1]) || 2) : 2;
+  const maxPages = pgIdx >= 0 ? Math.max(1, parseInt(process.argv[pgIdx + 1]) || DEFAULT_PAGES) : DEFAULT_PAGES;
+
+  if (process.env.REPORT_SINCE) {
+    console.warn("[FSS 크롤러] ⚠ REPORT_SINCE 는 더 이상 쓰이지 않습니다 — 신규 판정은 관측 창 차집합입니다. 값 무시.");
+  }
 
   const base = (argDate && /^\d{8}$/.test(argDate))
     ? new Date(+argDate.slice(0, 4), +argDate.slice(4, 6) - 1, +argDate.slice(6, 8))
     : new Date();
   const dateCode = `${base.getFullYear()}${String(base.getMonth() + 1).padStart(2, "0")}${String(base.getDate()).padStart(2, "0")}`;
+  const runSlot = resolveSlot();
 
-  const outDir = reportDir(__dirname, dateCode);
+  const outDir = reportDir(__dirname, dateCode, runSlot);
   const rawDir = path.join(outDir, "raw");
   const pdfDir = path.join(outDir, "pdfs");
   [outDir, rawDir, pdfDir].forEach(d => fs.mkdirSync(d, { recursive: true }));
@@ -444,30 +632,54 @@ async function main() {
   const failFile = path.join(outDir, "failure_meta.json");
 
   const ledger = loadLedger();
-  // 최초 실행(레저 비었음) = 베이스라인 시드: 과거건 대량 알림 방지(신규로 안 뱉고 레저만 채움).
+  // 최초 실행(레저 비었음) = 베이스라인 시드: 목록 전체가 과거 누적분 → 전부 backfill(레저만 채움).
   const seedMode = Object.keys(ledger.openInfo).length === 0 && Object.keys(ledger.openInfoImpr).length === 0;
 
+  // 직전 실행의 scanAudit → 소스별 관측 창(본 key 집합 + 훑은 깊이). 신규 판정의 유일한 근거.
+  let prevWindow = {};
+  const prevCrawlFile = findPreviousCrawlFile(__dirname, dateCode, runSlot);
+  if (prevCrawlFile) {
+    try {
+      prevWindow = buildScanWindow(JSON.parse(fs.readFileSync(prevCrawlFile, "utf8")));
+      const d = Object.entries(prevWindow).map(([k, w]) => `${k} ${w.keys.size}행/${w.depth}p`).join(", ");
+      console.log(`[FSS 크롤러] 직전 관측 창: ${prevCrawlFile} — ${d || "(scanAudit 없음)"}`);
+    } catch (e) {
+      console.warn(`[FSS 크롤러] ⚠ 직전 스냅샷 로드 실패(${e.message}) — 깊이 ${WINDOW_FALLBACK_DEPTH}p 가정, 레저로만 판정`);
+    }
+  } else if (!seedMode) {
+    console.warn(`[FSS 크롤러] ⚠ 직전 crawl_result 없음 — 깊이 ${WINDOW_FALLBACK_DEPTH}p 가정, 레저로만 판정`);
+  }
+
   const result = {
-    dateCode, crawledAt: new Date().toISOString(),
+    dateCode, runSlot, crawledAt: new Date().toISOString(),
     source: "FSS 제재공시(openInfo) + 경영유의(openInfoImpr) 스크래핑",
     collectMode: "scrape",
     ledgerSeeded: seedMode,
+    newItemBasis: "scan-window-diff",   // 신규 = 직전 실행 관측 창 대비 차집합 (조치요구일 앵커 폐지)
+    prevCrawlFile: prevCrawlFile ? path.relative(__dirname, prevCrawlFile) : null,
     totalFetched: 0,
     items: [], graded: [], newItems: [], newGraded: [],
-    backlogSkipped: 0,   // 게시일 앵커(REPORT_SINCE) 이전 백로그 — 레저 등록·보고 제외 건수
-    reportSince: REPORT_SINCE,
+    backfilled: [],      // 판정 근거 없어 레저만 등록(시드·창 밖 깊이) — 보고 제외. 침묵 폐기가 아니라 명시 기록.
+    completeness: {},    // 소스별 총건수 체크섬 결과(신규-삭제 == listTotal 증감)
+    scanWindow: {},      // 소스별 이번 관측 창(깊이·행수·조치요구일 상/하한)
+    warnings: [],
     scanAudit: [],       // 페이지별 스캔 증적(목록 key 전체 + 본문 SHA-256) — noUpdate여도 기록, git 영구 감사 증적
     noUpdate: false, error: null,
   };
 
-  console.log(`[FSS 크롤러] ${dateCode} 수집 시작 (pages=${maxPages}${seedMode ? ", 최초 시드모드" : ""})`);
+  console.log(`[FSS 크롤러] ${dateCode}/${runSlot} 수집 시작 (pages=${maxPages}${seedMode ? ", 최초 시드모드" : ""})`);
 
   try {
-    await collectSanctions(result, ledger, rawDir, pdfDir, maxPages, seedMode);
-    await collectMngImpr(result, ledger, rawDir, pdfDir, maxPages, seedMode);
+    // 두 게시판을 같은 collectSource로 순차 수집한다(분기는 key 산출·본문 취득 경로뿐).
+    const ctx = { result, ledger, rawDir, pdfDir, maxPages, prevWindow, seed: seedMode };
+    await collectSource(SOURCES.sanction, ctx);
+    await collectSource(SOURCES.mngimpr, ctx);
 
-    result.noUpdate = !seedMode && result.newGraded.length === 0 && result.newItems.length === 0;
-    console.log(`[FSS 크롤러] 완료 — 신규 ${result.newItems.length}건(IBK관련 ${result.newGraded.length}) / 백로그 제외 ${result.backlogSkipped}건(게시일<${REPORT_SINCE}) / 누적수집 ${result.totalFetched}`);
+    result.noUpdate = result.newItems.length === 0;
+    console.log(`[FSS 크롤러] 완료 — 신규 ${result.newItems.length}건(IBK관련 ${result.newGraded.length}) / backfill ${result.backfilled.length}건(레저 등록·보고 제외) / 누적수집 ${result.totalFetched}`);
+    if (result.backfilled.length) {
+      console.log(`[FSS 크롤러] backfill 목록: ${result.backfilled.map(b => `${b.org}(${b.key},p${b.page})`).join(", ")}`);
+    }
     if (result.noUpdate) console.log(`[FSS 크롤러] ✅ 신규 없음 (noUpdate=true)`);
   } catch (e) {
     result.error = e.message;
@@ -498,6 +710,8 @@ if (require.main === module) {
 module.exports = {
   scoreItem, grade, parseListRows, parseSanctionDetail, fileIdFromHpdownload,
   normDate, decodeEntities, stripTags, absUrl,
-  REPORT_SINCE, classifyTier, TIER_LABEL,   // 시나리오 테스트·재사용용(신규 판정 앵커·기관 계층)
+  classifyTier, TIER_LABEL,                  // 시나리오 테스트·재사용용(기관 계층)
   sha256, openInfoKey,                       // 스캔 증적 검증·감사 툴 재사용용
+  buildScanWindow, classifyRow, daysBetween, // 신규 판정(관측 창 차집합) — 단위 테스트용
+  WINDOW_FALLBACK_DEPTH, DEFAULT_PAGES,
 };

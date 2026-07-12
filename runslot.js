@@ -40,12 +40,22 @@ function reportDocxName(dateCode, slot) {
   return `${dateCode}_${slotLabel(slot)}_brief.docx`;
 }
 
-// 과거(전일 이전) 최신 crawl_result.json '파일경로' 1개 반환.
+// 직전 실행의 crawl_result.json '파일경로' 1개 반환 (현재 런 자신은 제외).
 //   슬롯폴더(pm 우선 → am)와 레거시 평탄(reports/{date}/crawl_result.json)을 모두 탐색한다.
 //   (슬롯 도입 이전 기록과의 호환을 위해 평탄 경로도 후보에 포함)
-function findPreviousCrawlFile(root, currentDateCode) {
+//
+//   currentSlot을 주면 **같은 날 앞선 슬롯**(pm → 당일 am)을 최우선으로 본다.
+//   신규 판정이 "직전 실행이 실제로 본 목록"과의 차집합이므로, 기준 스냅샷이 최신일수록 정확하다
+//   (pm이 전날 pm과 비교하면 당일 am 이후 삽입분과 am 이전 삽입분을 구분하지 못한다).
+function findPreviousCrawlFile(root, currentDateCode, currentSlot) {
   const reportsDir = path.join(root, "reports");
   if (!fs.existsSync(reportsDir)) return null;
+
+  if (currentSlot === "pm") {
+    const sameDayAm = path.join(reportsDir, currentDateCode, "am", "crawl_result.json");
+    if (fs.existsSync(sameDayAm)) return sameDayAm;
+  }
+
   let dates;
   try {
     dates = fs.readdirSync(reportsDir)

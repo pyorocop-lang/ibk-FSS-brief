@@ -105,7 +105,7 @@ function mapCrawlerItem(it) {
     ministry:     it.ministry || "금융감독원",
     from:         (it.notice_date  || "미확인").replace(/-/g, "."),
     to:           (it.deadline     || "미확인").replace(/-/g, "."),
-    sanctionDate: (it.actionDate || it.postDate || "").replace(/-/g, "."),   // FSS 제재조치일·게시일 (마감 없음)
+    sanctionDate: (it.actionDate || it.actionRequestDate || it.postDate || "").replace(/-/g, "."),   // 제재조치일 → 없으면 조치요구일 (postDate=구 필드명, 과거 crawl_result 호환)
     dday:         deadlineDday || "미확인",
     enforce:      (it.enforce_date || "").replace(/\./g, "-"),
     enforceLabel: enforceDday ? `${enforceDday} 시행` : "",
@@ -123,8 +123,40 @@ function mapCrawlerItem(it) {
     sanction_type: it.sanction_type || "",       // 제재유형 (과태료/기관경고/경영유의 등)
     tier:         it.tier || "T3",              // 기관 계층 (T0 IBK / T1 은행 / T2 인접금융 / T3 주변)
     tierLabel:    it.tierLabel || "",
+    // 목록 위치 메타 — '참고: 목록에서 찾는 법' 안내의 근거 (crawler listingMeta)
+    actionRequestDate: (it.actionRequestDate || it.postDate || "").replace(/-/g, "."),
+    firstSeenDate:     it.firstSeenDate || "",        // YYYYMMDD — 목록에 처음 등장한 날
+    listRank:          it.listRank || 0,              // 확인 시점 목록에서의 행 번호
+    listedOutOfOrder:  !!it.listedOutOfOrder,         // 조치요구일 < 최초 등장일 → 목록 최신순 상단에 없음
+    listingLagDays:    it.listingLagDays || 0,
   };
 }
+
+const orgLabel = (item) => shortTitle(item.title) || item.tg_key || "제재대상";
+const fmtDateCode = (c) => (/^\d{8}$/.test(c || "") ? `${c.slice(0,4)}.${c.slice(4,6)}.${c.slice(6,8)}` : "");
+
+/**
+ * '목록에서 찾는 법' 참고 안내 — 알림·보고서 공용 데이터.
+ *
+ * 왜 필요한가: FSS 목록에는 게시일 컬럼이 없고 제재조치요구일 내림차순으로 정렬된다.
+ *   오늘 새로 올라온 건이라도 조치요구일이 지난 날짜면 목록 맨 위가 아니라 중간에 꽂힌다.
+ *   수신자가 목록 상단만 보고 "새 제재 없는데 왜 알림이 왔지?"라고 오해하는 것을 막는다.
+ * 해당 건이 하나도 없으면 빈 배열 → 안내를 아예 싣지 않는다(불필요한 소음 방지).
+ */
+function listingNoticeLines(items) {
+  const targets = (items || []).filter(it => it.listedOutOfOrder && it.actionRequestDate);
+  if (targets.length === 0) return [];
+  return targets.map(it => {
+    const seen = fmtDateCode(it.firstSeenDate);
+    const rank = it.listRank ? ` · 확인 시점 목록 ${it.listRank}번째 줄` : "";
+    return `${orgLabel(it)} — 조치요구일 ${it.actionRequestDate}${seen ? ` · ${seen} 목록에 처음 등장` : ""}${rank}`;
+  });
+}
+const LISTING_NOTICE_TITLE = "참고 — 금감원 목록에서 찾는 방법";
+const LISTING_NOTICE_BODY  =
+  "금감원 공시 목록은 게시된 순서가 아니라 제재조치요구일 순으로 정렬돼요. "
+  + "그래서 오늘 새로 올라온 건이라도 조치요구일이 지난 날짜면 목록 맨 위가 아니라 중간에 있어요. "
+  + "맨 윗줄에 안 보인다고 해서 잘못된 알림은 아니에요.";
 // 기관 계층 정렬 가중치 (T0>T1>T2>T3, 그 안에서 grade)
 const TIER_RANK = { T0: 4, T1: 3, T2: 2, T3: 1 };
 const GRADE_RANK = { "상": 3, "중": 2, "하": 1 };
@@ -467,6 +499,28 @@ function buildTerm(data) {
   ];
 }
 
+// 보고서 말미 '참고' 박스 — 알림과 동일한 안내(수신자가 목록에서 직접 확인할 때의 혼선 방지).
+//   보고서는 T3(주변기관)까지 싣기 때문에 graded 전체를 대상으로 한다.
+function buildListingNotice(data) {
+  const notice = listingNoticeLines(data.graded || []);
+  if (notice.length === 0) return [];
+
+  return [
+    divider("minor"),
+    SP_SMALL(),
+    new Paragraph({
+      spacing: { before: 0, after: 16 },
+      children: [
+        new TextRun({ text: `ℹ️ ${LISTING_NOTICE_TITLE}  `, ...rf(TS.sub, ibkBlue, true) }),
+        new TextRun({ text: "(목록 맨 위에 없어요)", ...rf(TS.caption, gray2) }),
+      ],
+    }),
+    bodyPara([new TextRun({ text: LISTING_NOTICE_BODY, ...rf(TS.body, blk) })]),
+    ...notice.map(line => bulletPara(line, gray2)),
+    SP_LARGE(),
+  ];
+}
+
 function buildClosing(data) {
   if (!data.graded || data.graded.length === 0) return [];
 
@@ -521,7 +575,7 @@ function buildTgMsg(data) {
   }
 
   const urgentCount = alertItems.filter(it => it.grade === "상").length;
-  const orgName = (item) => shortTitle(item.title) || item.tg_key || "제재대상";
+  const orgName = orgLabel;
 
   // 항목 블록 — [제재대상(기관·계층)] → 왜 제재를 받았나요? → IBK에서도 발생 가능한가요?(부서·재발위험) → 이런 부분을 점검하시면 좋아요.
   //   ※ 제재받은 곳(제재대상)과 점검할 IBK 부서(발생가능성/점검)를 명확히 분리해 혼동을 없앤다.
@@ -549,6 +603,14 @@ function buildTgMsg(data) {
     "",
   ];
   alertItems.forEach((it, i) => { parts.push(itemBlock(it)); if (i < alertItems.length - 1) parts.push(""); });
+
+  // 맨 마지막 참고 정보 — 목록 상단에 없는 건이 하나라도 있을 때만 붙인다.
+  //   ※ 구분선에 '─'를 10자 이상 쓰지 말 것: validator가 로그의 TG_MSG 블록 끝을 /─{10,}/로 찾는다.
+  const notice = listingNoticeLines(alertItems);
+  if (notice.length > 0) {
+    parts.push("", `ℹ️ ${LISTING_NOTICE_TITLE}`, LISTING_NOTICE_BODY);
+    notice.forEach(line => parts.push(`• ${line}`));
+  }
   return parts.join("\n").trim();
 }
 
@@ -579,6 +641,7 @@ function buildDocument(data) {
     ...safeSection("items",    () => buildItems(data.graded)),
     ...safeSection("deadline", () => buildDeadlineSummary(data)),
     ...safeSection("term",     () => buildTerm(data)),
+    ...safeSection("listing",  () => buildListingNotice(data)),
     ...safeSection("closing",  () => buildClosing(data)),
   ];
 
