@@ -132,12 +132,15 @@ function fallbackDept(text) {
   if (/자금세탁|KYC|CDD|FIU|특금법|AML|의심거래/.test(text))       return { dept: "자금세탁방지부", related: ["준법지원부", "내부통제총괄부"] };
   if (/대출|여신|신용공여|LTV|DSR|보증|여신금리|대주주/.test(text)) return { dept: "여신기획부",     related: ["여신관리부", "기업개선부"] };
   if (/채권|추심|채무조정|신용회복|고정이하/.test(text))           return { dept: "여신관리부",     related: ["기업개선부"] };
-  if (/신용정보|개인정보|마이데이터|정보유출/.test(text))          return { dept: "준법지원부",     related: ["IT내부통제부", "데이터혁신부"] };
-  if (/전자금융|오픈뱅킹|IT보안|사이버|정보보호|전산/.test(text))   return { dept: "IT내부통제부",   related: ["정보보호총괄부"] };
+  // 정본 = knowledge/ibk_mapping_rules.md (개인·신용정보 소관은 준법지원부가 아니라 정보보호총괄부,
+  //   전자금융 소관은 개인디지털사업부, IT보안은 정보보호총괄부 — 세 갈래를 뭉뚱그리면 부서가 틀린다).
+  if (/신용정보|개인정보|마이데이터|정보유출/.test(text))          return { dept: "정보보호총괄부", related: ["데이터혁신부", "준법지원부"] };
+  if (/전자금융|오픈뱅킹|비대면/.test(text))                       return { dept: "개인디지털사업부", related: ["IT내부통제부"] };
+  if (/IT보안|사이버|정보보호|전산/.test(text))                    return { dept: "정보보호총괄부", related: ["IT내부통제부"] };
   if (/불완전판매|적합성|적정성|설명의무|소비자|민원|투자권유/.test(text)) return { dept: "금융소비자보호부", related: ["금융소비자지원부"] };
   if (/펀드|신탁|WM|자산관리|일임|이해상충|충실의무|운용/.test(text)) return { dept: "자산관리사업부", related: ["신탁부", "WM사업부"] };
   if (/카드/.test(text))                                          return { dept: "카드사업부",     related: ["카드지원부"] };
-  if (/지배구조|내부통제|준법|겸직|전결/.test(text))               return { dept: "내부통제총괄부", related: ["준법지원부", "감사부"] };
+  if (/지배구조|내부통제|준법|겸직|전결/.test(text))               return { dept: "내부통제총괄부", related: ["준법지원부", "검사부"] };
   return { dept: "내부통제총괄부", related: ["준법지원부"] };
 }
 
