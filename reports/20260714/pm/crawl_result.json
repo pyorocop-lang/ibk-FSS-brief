@@ -1,0 +1,1278 @@
+{
+  "dateCode": "20260714",
+  "runSlot": "pm",
+  "crawledAt": "2026-07-14T07:00:35.262Z",
+  "source": "FSS 제재공시(openInfo) + 경영유의(openInfoImpr) 스크래핑",
+  "collectMode": "scrape",
+  "ledgerSeeded": false,
+  "newItemBasis": "scan-window-diff",
+  "prevCrawlFile": "reports/20260714/am/crawl_result.json",
+  "totalFetched": 100,
+  "items": [
+    {
+      "key": "202500568_2",
+      "source": "제재공시",
+      "org": "토스증권 주식회사",
+      "actionRequestDate": "2026-07-14",
+      "dept": "금융투자검사1국",
+      "firstSeenDate": "20260714",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 0,
+      "listedOutOfOrder": false,
+      "actionDate": "2026-07-14",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202500568_02_%ED%86%A0%EC%8A%A4%EC%A6%9D%EA%B6%8C%E3%88%9C+%EC%88%98%EC%8B%9C%EA%B2%80%EC%82%AC+%EA%B2%B0%EA%B3%BC+%EA%B3%B5%EA%B0%9C%EC%95%88%28%EB%B6%84%EB%A6%AC%ED%86%B5%EB%B3%B4%29.pdf",
+          "name": "202500568_02_토스증권㈜ 수시검사 결과 공개안(분리통보).pdf"
+        }
+      ],
+      "bodyText": "- 1 - 제재내용공개안 1.금융회사명:토스증권(주) 2.제재조치일:2026.7.14. 3.제재조치내용 제재대상제재내용 기관·과태료8.4백만원 직원·자율처리필요사항 4.제재대상사실 가.전자금융거래약관변경보고‧게시‧통지의무위반 □금융회사는이용자의권익이나의무에불리한영향이없는경우로서 이용자의권익확대또는의무축소를위해약관을변경하거나, 금융감독원장에게보고된약관의내용과동일·유사한약관을제정· 변경하는경우에는그로부터10일이내에금융위원회에보고하여야 하고,약관의시행일1월전에전자적장치에게시하고이용자에게 통지하여야함에도 ◦ 토스증권(주)는2021.8.5.~2024.7.17.기간중총4차례에걸쳐전자 금융거래약관중이용자의권익이나의무에불리한영향이없는 사항을변경하면서3회지연보고하고,2회통지누락하고,1회 지연게시한사실이있다. - 2 - <관련법규> 1.｢전자금융거래법｣제24조제3항 2.｢전자금융거래법｣제25조제1항 3.｢전자금융감독규정｣제40조제4항 나.겸영업무신고의무위반 □금융투자업자는다른금융업무(겸영업무)를영위하고자하는경우 그업무를영위하고자하는날의7일전까지금융위원회에신고 하여야함에도 ◦ 토스증권(주)는2021.1.21.부터전자자금이체업무를영위하였음에도해당 업무를영위하고자하는날의7일전까지금융위원회에신고하지 아니한사실 * 이있다. *토스증권(주)는 2021.10.14. 금융위원회에 지연신고(지연일수 : 273일) <관련법규> 1.舊｢자본시장법｣제40조 2.舊｢자본시장법시행령｣제43조제4항",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-14&pageIndex=1&examMgmtNo=202500568&emOpenSeq=2",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-14&pageIndex=1&examMgmtNo=202500568&emOpenSeq=2",
+      "examMgmtNo": "202500568",
+      "emOpenSeq": "2",
+      "grade": "상",
+      "score": 5,
+      "isIBK": false,
+      "bankTarget": true,
+      "tier": "T2",
+      "tierLabel": "인접금융",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260714/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "206",
+        "listTotal": 206,
+        "prevListTotal": 205,
+        "checksum": "206 − 205 = 1 == 신규 1 − 삭제 0"
+      }
+    }
+  ],
+  "graded": [
+    {
+      "key": "202500568_2",
+      "source": "제재공시",
+      "org": "토스증권 주식회사",
+      "actionRequestDate": "2026-07-14",
+      "dept": "개인디지털사업부",
+      "firstSeenDate": "20260714",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 0,
+      "listedOutOfOrder": false,
+      "actionDate": "2026-07-14",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202500568_02_%ED%86%A0%EC%8A%A4%EC%A6%9D%EA%B6%8C%E3%88%9C+%EC%88%98%EC%8B%9C%EA%B2%80%EC%82%AC+%EA%B2%B0%EA%B3%BC+%EA%B3%B5%EA%B0%9C%EC%95%88%28%EB%B6%84%EB%A6%AC%ED%86%B5%EB%B3%B4%29.pdf",
+          "name": "202500568_02_토스증권㈜ 수시검사 결과 공개안(분리통보).pdf"
+        }
+      ],
+      "bodyText": "- 1 - 제재내용공개안 1.금융회사명:토스증권(주) 2.제재조치일:2026.7.14. 3.제재조치내용 제재대상제재내용 기관·과태료8.4백만원 직원·자율처리필요사항 4.제재대상사실 가.전자금융거래약관변경보고‧게시‧통지의무위반 □금융회사는이용자의권익이나의무에불리한영향이없는경우로서 이용자의권익확대또는의무축소를위해약관을변경하거나, 금융감독원장에게보고된약관의내용과동일·유사한약관을제정· 변경하는경우에는그로부터10일이내에금융위원회에보고하여야 하고,약관의시행일1월전에전자적장치에게시하고이용자에게 통지하여야함에도 ◦ 토스증권(주)는2021.8.5.~2024.7.17.기간중총4차례에걸쳐전자 금융거래약관중이용자의권익이나의무에불리한영향이없는 사항을변경하면서3회지연보고하고,2회통지누락하고,1회 지연게시한사실이있다. - 2 - <관련법규> 1.｢전자금융거래법｣제24조제3항 2.｢전자금융거래법｣제25조제1항 3.｢전자금융감독규정｣제40조제4항 나.겸영업무신고의무위반 □금융투자업자는다른금융업무(겸영업무)를영위하고자하는경우 그업무를영위하고자하는날의7일전까지금융위원회에신고 하여야함에도 ◦ 토스증권(주)는2021.1.21.부터전자자금이체업무를영위하였음에도해당 업무를영위하고자하는날의7일전까지금융위원회에신고하지 아니한사실 * 이있다. *토스증권(주)는 2021.10.14. 금융위원회에 지연신고(지연일수 : 273일) <관련법규> 1.舊｢자본시장법｣제40조 2.舊｢자본시장법시행령｣제43조제4항",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-14&pageIndex=1&examMgmtNo=202500568&emOpenSeq=2",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-14&pageIndex=1&examMgmtNo=202500568&emOpenSeq=2",
+      "examMgmtNo": "202500568",
+      "emOpenSeq": "2",
+      "grade": "중",
+      "score": 5,
+      "isIBK": false,
+      "bankTarget": true,
+      "tier": "T2",
+      "tierLabel": "인접금융",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260714/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "206",
+        "listTotal": 206,
+        "prevListTotal": 205,
+        "checksum": "206 − 205 = 1 == 신규 1 − 삭제 0"
+      },
+      "title": "토스증권 주식회사",
+      "what_changes": [
+        "전자금융약관 변경 시 보고·게시·통지를 제때 안 했어요. 2021년~2024년 4차례 변경 중 3회 지연보고, 2회 통지 누락, 1회 지연게시했어요.",
+        "전자자금이체업무를 2021년부터 영위했는데 금융위원회에 신고하지 않았어요. 273일 뒤에 지연신고했어요."
+      ],
+      "our_action": [
+        "개인디지털사업부 담당자라면 IBK가 운영하는 전자금융 약관(예금, 투자상품 약관 등)의 변경 절차가 정해진 기한 내에 이뤄지는지, 특히 보고·게시·통지 단계가 빠지거나 늦지 않는지 점검해 보세요.",
+        "금융투자업 또는 새로운 금융업무 확대 시 사전신고 절차를 확인해 보세요. 영위 개시일 기준 7일 전까지 금융위원회에 신고되고 있는지 살펴보세요."
+      ],
+      "ctrl_insight": "개인디지털사업부와 IT내부통제부가 운영하는 전자금융 규정에서 약관 변경 시 '보고→게시→통지' 순서와 각 단계의 기한(보고 10일 이내, 게시 시행일 1개월 전)이 내부 결재·승인 프로세스에 제대로 반영돼 있는지 점검할 여지가 있어요.",
+      "related_depts": [
+        "IT내부통제부",
+        "준법지원부"
+      ],
+      "tg_key": "토스증권 전자금융약관 보고·게시·통지",
+      "sanction_type": "과태료",
+      "risk_basis": "과태료 8.4백만원 부과 + 직원 자율처리, 제재조치일 2026-07-14",
+      "workflow_type": "F",
+      "term": {
+        "word": "전자금융거래약관",
+        "def": "금융회사가 고객과 맺는 전자금융(인터넷·모바일뱅킹, 송금 등) 거래 약정의 조건을 담은 계약서",
+        "src": "전자금융거래법 제24~25조"
+      },
+      "_llm": true,
+      "_fallback": false
+    }
+  ],
+  "newItems": [
+    {
+      "key": "202500568_2",
+      "source": "제재공시",
+      "org": "토스증권 주식회사",
+      "actionRequestDate": "2026-07-14",
+      "dept": "금융투자검사1국",
+      "firstSeenDate": "20260714",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 0,
+      "listedOutOfOrder": false,
+      "actionDate": "2026-07-14",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202500568_02_%ED%86%A0%EC%8A%A4%EC%A6%9D%EA%B6%8C%E3%88%9C+%EC%88%98%EC%8B%9C%EA%B2%80%EC%82%AC+%EA%B2%B0%EA%B3%BC+%EA%B3%B5%EA%B0%9C%EC%95%88%28%EB%B6%84%EB%A6%AC%ED%86%B5%EB%B3%B4%29.pdf",
+          "name": "202500568_02_토스증권㈜ 수시검사 결과 공개안(분리통보).pdf"
+        }
+      ],
+      "bodyText": "- 1 - 제재내용공개안 1.금융회사명:토스증권(주) 2.제재조치일:2026.7.14. 3.제재조치내용 제재대상제재내용 기관·과태료8.4백만원 직원·자율처리필요사항 4.제재대상사실 가.전자금융거래약관변경보고‧게시‧통지의무위반 □금융회사는이용자의권익이나의무에불리한영향이없는경우로서 이용자의권익확대또는의무축소를위해약관을변경하거나, 금융감독원장에게보고된약관의내용과동일·유사한약관을제정· 변경하는경우에는그로부터10일이내에금융위원회에보고하여야 하고,약관의시행일1월전에전자적장치에게시하고이용자에게 통지하여야함에도 ◦ 토스증권(주)는2021.8.5.~2024.7.17.기간중총4차례에걸쳐전자 금융거래약관중이용자의권익이나의무에불리한영향이없는 사항을변경하면서3회지연보고하고,2회통지누락하고,1회 지연게시한사실이있다. - 2 - <관련법규> 1.｢전자금융거래법｣제24조제3항 2.｢전자금융거래법｣제25조제1항 3.｢전자금융감독규정｣제40조제4항 나.겸영업무신고의무위반 □금융투자업자는다른금융업무(겸영업무)를영위하고자하는경우 그업무를영위하고자하는날의7일전까지금융위원회에신고 하여야함에도 ◦ 토스증권(주)는2021.1.21.부터전자자금이체업무를영위하였음에도해당 업무를영위하고자하는날의7일전까지금융위원회에신고하지 아니한사실 * 이있다. *토스증권(주)는 2021.10.14. 금융위원회에 지연신고(지연일수 : 273일) <관련법규> 1.舊｢자본시장법｣제40조 2.舊｢자본시장법시행령｣제43조제4항",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-14&pageIndex=1&examMgmtNo=202500568&emOpenSeq=2",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-14&pageIndex=1&examMgmtNo=202500568&emOpenSeq=2",
+      "examMgmtNo": "202500568",
+      "emOpenSeq": "2",
+      "grade": "상",
+      "score": 5,
+      "isIBK": false,
+      "bankTarget": true,
+      "tier": "T2",
+      "tierLabel": "인접금융",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260714/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "206",
+        "listTotal": 206,
+        "prevListTotal": 205,
+        "checksum": "206 − 205 = 1 == 신규 1 − 삭제 0"
+      }
+    }
+  ],
+  "newGraded": [
+    {
+      "key": "202500568_2",
+      "source": "제재공시",
+      "org": "토스증권 주식회사",
+      "actionRequestDate": "2026-07-14",
+      "dept": "개인디지털사업부",
+      "firstSeenDate": "20260714",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 0,
+      "listedOutOfOrder": false,
+      "actionDate": "2026-07-14",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202500568_02_%ED%86%A0%EC%8A%A4%EC%A6%9D%EA%B6%8C%E3%88%9C+%EC%88%98%EC%8B%9C%EA%B2%80%EC%82%AC+%EA%B2%B0%EA%B3%BC+%EA%B3%B5%EA%B0%9C%EC%95%88%28%EB%B6%84%EB%A6%AC%ED%86%B5%EB%B3%B4%29.pdf",
+          "name": "202500568_02_토스증권㈜ 수시검사 결과 공개안(분리통보).pdf"
+        }
+      ],
+      "bodyText": "- 1 - 제재내용공개안 1.금융회사명:토스증권(주) 2.제재조치일:2026.7.14. 3.제재조치내용 제재대상제재내용 기관·과태료8.4백만원 직원·자율처리필요사항 4.제재대상사실 가.전자금융거래약관변경보고‧게시‧통지의무위반 □금융회사는이용자의권익이나의무에불리한영향이없는경우로서 이용자의권익확대또는의무축소를위해약관을변경하거나, 금융감독원장에게보고된약관의내용과동일·유사한약관을제정· 변경하는경우에는그로부터10일이내에금융위원회에보고하여야 하고,약관의시행일1월전에전자적장치에게시하고이용자에게 통지하여야함에도 ◦ 토스증권(주)는2021.8.5.~2024.7.17.기간중총4차례에걸쳐전자 금융거래약관중이용자의권익이나의무에불리한영향이없는 사항을변경하면서3회지연보고하고,2회통지누락하고,1회 지연게시한사실이있다. - 2 - <관련법규> 1.｢전자금융거래법｣제24조제3항 2.｢전자금융거래법｣제25조제1항 3.｢전자금융감독규정｣제40조제4항 나.겸영업무신고의무위반 □금융투자업자는다른금융업무(겸영업무)를영위하고자하는경우 그업무를영위하고자하는날의7일전까지금융위원회에신고 하여야함에도 ◦ 토스증권(주)는2021.1.21.부터전자자금이체업무를영위하였음에도해당 업무를영위하고자하는날의7일전까지금융위원회에신고하지 아니한사실 * 이있다. *토스증권(주)는 2021.10.14. 금융위원회에 지연신고(지연일수 : 273일) <관련법규> 1.舊｢자본시장법｣제40조 2.舊｢자본시장법시행령｣제43조제4항",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-14&pageIndex=1&examMgmtNo=202500568&emOpenSeq=2",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-14&pageIndex=1&examMgmtNo=202500568&emOpenSeq=2",
+      "examMgmtNo": "202500568",
+      "emOpenSeq": "2",
+      "grade": "중",
+      "score": 5,
+      "isIBK": false,
+      "bankTarget": true,
+      "tier": "T2",
+      "tierLabel": "인접금융",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260714/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "206",
+        "listTotal": 206,
+        "prevListTotal": 205,
+        "checksum": "206 − 205 = 1 == 신규 1 − 삭제 0"
+      },
+      "title": "토스증권 주식회사",
+      "what_changes": [
+        "전자금융약관 변경 시 보고·게시·통지를 제때 안 했어요. 2021년~2024년 4차례 변경 중 3회 지연보고, 2회 통지 누락, 1회 지연게시했어요.",
+        "전자자금이체업무를 2021년부터 영위했는데 금융위원회에 신고하지 않았어요. 273일 뒤에 지연신고했어요."
+      ],
+      "our_action": [
+        "개인디지털사업부 담당자라면 IBK가 운영하는 전자금융 약관(예금, 투자상품 약관 등)의 변경 절차가 정해진 기한 내에 이뤄지는지, 특히 보고·게시·통지 단계가 빠지거나 늦지 않는지 점검해 보세요.",
+        "금융투자업 또는 새로운 금융업무 확대 시 사전신고 절차를 확인해 보세요. 영위 개시일 기준 7일 전까지 금융위원회에 신고되고 있는지 살펴보세요."
+      ],
+      "ctrl_insight": "개인디지털사업부와 IT내부통제부가 운영하는 전자금융 규정에서 약관 변경 시 '보고→게시→통지' 순서와 각 단계의 기한(보고 10일 이내, 게시 시행일 1개월 전)이 내부 결재·승인 프로세스에 제대로 반영돼 있는지 점검할 여지가 있어요.",
+      "related_depts": [
+        "IT내부통제부",
+        "준법지원부"
+      ],
+      "tg_key": "토스증권 전자금융약관 보고·게시·통지",
+      "sanction_type": "과태료",
+      "risk_basis": "과태료 8.4백만원 부과 + 직원 자율처리, 제재조치일 2026-07-14",
+      "workflow_type": "F",
+      "term": {
+        "word": "전자금융거래약관",
+        "def": "금융회사가 고객과 맺는 전자금융(인터넷·모바일뱅킹, 송금 등) 거래 약정의 조건을 담은 계약서",
+        "src": "전자금융거래법 제24~25조"
+      },
+      "_llm": true,
+      "_fallback": false
+    }
+  ],
+  "backfilled": [],
+  "completeness": {
+    "제재공시": {
+      "ok": true,
+      "listTotal": 206,
+      "prevListTotal": 205,
+      "expectedDelta": 1,
+      "actualDelta": 1,
+      "newCount": 1,
+      "deletedCount": 0,
+      "reason": "일치",
+      "fullScan": false,
+      "pagesScanned": 5,
+      "backfilled": 0,
+      "deletedKeys": []
+    },
+    "경영유의": {
+      "ok": true,
+      "listTotal": 67,
+      "prevListTotal": 67,
+      "expectedDelta": 0,
+      "actualDelta": 0,
+      "newCount": 0,
+      "deletedCount": 0,
+      "reason": "일치",
+      "fullScan": false,
+      "pagesScanned": 5,
+      "backfilled": 0,
+      "deletedKeys": []
+    }
+  },
+  "scanWindow": {
+    "제재공시": {
+      "pagesScanned": 5,
+      "rowsScanned": 50,
+      "fullScan": false,
+      "listTotal": 206,
+      "prevListTotal": 205,
+      "topDate": "2026-07-14",
+      "floorDate": "2026-05-21",
+      "floorLookbackDays": 54
+    },
+    "경영유의": {
+      "pagesScanned": 5,
+      "rowsScanned": 50,
+      "fullScan": false,
+      "listTotal": 67,
+      "prevListTotal": 67,
+      "topDate": "2026-07-06",
+      "floorDate": "2026-02-04",
+      "floorLookbackDays": 160
+    }
+  },
+  "warnings": [],
+  "scanAudit": [
+    {
+      "source": "제재공시",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:36.765Z",
+      "keySchema": "v1",
+      "listTotal": 206,
+      "bodySha256": "sha256:236c0ac7a7102597cc7d3c8d11ac591605ed89921586b13b08c5656c01f8d3bc",
+      "keys": [
+        "202500568_2",
+        "202500659_1",
+        "202400378_1",
+        "202500424_1",
+        "202500683_1",
+        "202400801_1",
+        "202500415_1",
+        "202300746_5",
+        "202400733_2",
+        "202400536_1"
+      ],
+      "rows": [
+        {
+          "key": "202500568_2",
+          "listRank": 1,
+          "seqNo": "206",
+          "org": "토스증권 주식회사",
+          "actionRequestDate": "2026-07-14"
+        },
+        {
+          "key": "202500659_1",
+          "listRank": 2,
+          "seqNo": "205",
+          "org": "메가㈜",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202400378_1",
+          "listRank": 3,
+          "seqNo": "204",
+          "org": "(주)인슈코아",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500424_1",
+          "listRank": 4,
+          "seqNo": "203",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500683_1",
+          "listRank": 5,
+          "seqNo": "202",
+          "org": "케이에프지㈜",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202400801_1",
+          "listRank": 6,
+          "seqNo": "201",
+          "org": "굿리치주식회사",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500415_1",
+          "listRank": 7,
+          "seqNo": "200",
+          "org": "DB손해보험주식회사",
+          "actionRequestDate": "2026-07-02"
+        },
+        {
+          "key": "202300746_5",
+          "listRank": 8,
+          "seqNo": "199",
+          "org": "주식회사 하나은행",
+          "actionRequestDate": "2026-07-02"
+        },
+        {
+          "key": "202400733_2",
+          "listRank": 9,
+          "seqNo": "198",
+          "org": "롯데손해보험주식회사",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202400536_1",
+          "listRank": 10,
+          "seqNo": "197",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:38.061Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:3cb00832c6331384675d14f5759a2991cb076408bf9586909edf6cd5e0f2b293",
+      "keys": [
+        "202500072_1",
+        "202400537_1",
+        "202400207_1",
+        "202300145_7",
+        "202400745_1",
+        "202400743_1",
+        "202200546_3",
+        "202500038_1",
+        "202400337_3",
+        "202300334_1"
+      ],
+      "rows": [
+        {
+          "key": "202500072_1",
+          "listRank": 11,
+          "seqNo": "196",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202400537_1",
+          "listRank": 12,
+          "seqNo": "195",
+          "org": "악사손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202400207_1",
+          "listRank": 13,
+          "seqNo": "194",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-06-29"
+        },
+        {
+          "key": "202300145_7",
+          "listRank": 14,
+          "seqNo": "193",
+          "org": "흥국생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202400745_1",
+          "listRank": 15,
+          "seqNo": "192",
+          "org": "신한라이프생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202400743_1",
+          "listRank": 16,
+          "seqNo": "191",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202200546_3",
+          "listRank": 17,
+          "seqNo": "190",
+          "org": "아이비케이신용정보 주식회사",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202500038_1",
+          "listRank": 18,
+          "seqNo": "189",
+          "org": "한국양계농협",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202400337_3",
+          "listRank": 19,
+          "seqNo": "188",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202300334_1",
+          "listRank": 20,
+          "seqNo": "187",
+          "org": "지알이파트너스자산운용 주식회사",
+          "actionRequestDate": "2026-06-24"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 3,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=3",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:39.418Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:bcee3d38e6f60adb843c5e62f0a11d2cda06d4e0a4aa1cba805a9a47c5ac9611",
+      "keys": [
+        "202500609_1",
+        "202500612_1",
+        "202500611_1",
+        "202400003_3",
+        "202300449_6",
+        "202500333_1",
+        "202500332_1",
+        "202500331_1",
+        "202500330_1",
+        "202500329_1"
+      ],
+      "rows": [
+        {
+          "key": "202500609_1",
+          "listRank": 21,
+          "seqNo": "186",
+          "org": "케이지에이에셋㈜",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202500612_1",
+          "listRank": 22,
+          "seqNo": "185",
+          "org": "신한금융플러스 주식회사",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202500611_1",
+          "listRank": 23,
+          "seqNo": "184",
+          "org": "한국보험금융(주)",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202400003_3",
+          "listRank": 24,
+          "seqNo": "183",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-06-19"
+        },
+        {
+          "key": "202300449_6",
+          "listRank": 25,
+          "seqNo": "182",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500333_1",
+          "listRank": 26,
+          "seqNo": "181",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500332_1",
+          "listRank": 27,
+          "seqNo": "180",
+          "org": "㈜영진에셋",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500331_1",
+          "listRank": 28,
+          "seqNo": "179",
+          "org": "한솔금융서비스 주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500330_1",
+          "listRank": 29,
+          "seqNo": "178",
+          "org": "(주)은성라이프",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500329_1",
+          "listRank": 30,
+          "seqNo": "177",
+          "org": "에이티에셋(주)",
+          "actionRequestDate": "2026-06-18"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 4,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=4",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:40.860Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:89bc86823076c788e252b7ed33597b074eb4563a1821b5d04c1bb6cfbc7d95a2",
+      "keys": [
+        "202500328_1",
+        "202500327_1",
+        "202500326_1",
+        "202500325_1",
+        "202500324_1",
+        "202500323_1",
+        "202500322_1",
+        "202500321_1",
+        "202500320_1",
+        "202500319_1"
+      ],
+      "rows": [
+        {
+          "key": "202500328_1",
+          "listRank": 31,
+          "seqNo": "176",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500327_1",
+          "listRank": 32,
+          "seqNo": "175",
+          "org": "메가㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500326_1",
+          "listRank": 33,
+          "seqNo": "174",
+          "org": "엑셀금융서비스 주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500325_1",
+          "listRank": 34,
+          "seqNo": "173",
+          "org": "(주)엠에스보험대리점",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500324_1",
+          "listRank": 35,
+          "seqNo": "172",
+          "org": "인카금융서비스㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500323_1",
+          "listRank": 36,
+          "seqNo": "171",
+          "org": "리더스금융판매㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500322_1",
+          "listRank": 37,
+          "seqNo": "170",
+          "org": "흥국화재해상보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500321_1",
+          "listRank": 38,
+          "seqNo": "169",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500320_1",
+          "listRank": 39,
+          "seqNo": "168",
+          "org": "삼성화재해상보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500319_1",
+          "listRank": 40,
+          "seqNo": "167",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 5,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=5",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:42.415Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:f21958f0b41ba2296fdb8e2205678606b95bd9b88478a03f4ac34041a037141e",
+      "keys": [
+        "202500158_1",
+        "202400599_3",
+        "202500493_1",
+        "202400339_1",
+        "202400077_2",
+        "202400416_1",
+        "202400415_2",
+        "202300619_1",
+        "202300039_2",
+        "202300654_1"
+      ],
+      "rows": [
+        {
+          "key": "202500158_1",
+          "listRank": 41,
+          "seqNo": "166",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-06-17"
+        },
+        {
+          "key": "202400599_3",
+          "listRank": 42,
+          "seqNo": "165",
+          "org": "우리은행",
+          "actionRequestDate": "2026-06-15"
+        },
+        {
+          "key": "202500493_1",
+          "listRank": 43,
+          "seqNo": "164",
+          "org": "에스비아이저축은행",
+          "actionRequestDate": "2026-06-09"
+        },
+        {
+          "key": "202400339_1",
+          "listRank": 44,
+          "seqNo": "163",
+          "org": "에이알에이코리아자산운용",
+          "actionRequestDate": "2026-06-08"
+        },
+        {
+          "key": "202400077_2",
+          "listRank": 45,
+          "seqNo": "162",
+          "org": "케이와이자산운용",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202400416_1",
+          "listRank": 46,
+          "seqNo": "161",
+          "org": "위솔자산운용㈜",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202400415_2",
+          "listRank": 47,
+          "seqNo": "160",
+          "org": "리딩자산운용 주식회사",
+          "actionRequestDate": "2026-05-28"
+        },
+        {
+          "key": "202300619_1",
+          "listRank": 48,
+          "seqNo": "159",
+          "org": "다올투자증권 주식회사",
+          "actionRequestDate": "2026-05-27"
+        },
+        {
+          "key": "202300039_2",
+          "listRank": 49,
+          "seqNo": "158",
+          "org": "한화생명보험주식회사",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300654_1",
+          "listRank": 50,
+          "seqNo": "157",
+          "org": "청운",
+          "actionRequestDate": "2026-05-21"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:49.397Z",
+      "keySchema": "v1",
+      "listTotal": 67,
+      "bodySha256": "sha256:a8f8955ac0a05a0fcbdf671bae56a561e3bf2b11b624cac014bcba6b029468ec",
+      "keys": [
+        "202400801_12",
+        "202600088_11",
+        "202600130_11",
+        "202400536_12",
+        "202500601_11",
+        "202600178_11",
+        "202500038_12",
+        "202600082_11",
+        "202600019_11",
+        "202500493_12"
+      ],
+      "rows": [
+        {
+          "key": "202400801_12",
+          "listRank": 1,
+          "seqNo": "67",
+          "org": "굿리치주식회사",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202600088_11",
+          "listRank": 2,
+          "seqNo": "66",
+          "org": "순창농협",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202600130_11",
+          "listRank": 3,
+          "seqNo": "65",
+          "org": "여수농협",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202400536_12",
+          "listRank": 4,
+          "seqNo": "64",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500601_11",
+          "listRank": 5,
+          "seqNo": "63",
+          "org": "BNP파리바",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202600178_11",
+          "listRank": 6,
+          "seqNo": "62",
+          "org": "웰컴자산운용 주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500038_12",
+          "listRank": 7,
+          "seqNo": "61",
+          "org": "한국양계농협",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202600082_11",
+          "listRank": 8,
+          "seqNo": "60",
+          "org": "우리은행",
+          "actionRequestDate": "2026-06-24"
+        },
+        {
+          "key": "202600019_11",
+          "listRank": 9,
+          "seqNo": "59",
+          "org": "대전충남양계농협",
+          "actionRequestDate": "2026-06-10"
+        },
+        {
+          "key": "202500493_12",
+          "listRank": 10,
+          "seqNo": "58",
+          "org": "에스비아이저축은행",
+          "actionRequestDate": "2026-06-09"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:51.499Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:4e22ef72e8a94e73efb9bbb347163d9e238744acb693a6d25e85b1631dc86816",
+      "keys": [
+        "202500742_11",
+        "202600087_11",
+        "202500139_11",
+        "202500002_12",
+        "202300039_11",
+        "202300654_12",
+        "202300807_12",
+        "202500511_12",
+        "202500643_11",
+        "202400693_12"
+      ],
+      "rows": [
+        {
+          "key": "202500742_11",
+          "listRank": 11,
+          "seqNo": "57",
+          "org": "국민은행",
+          "actionRequestDate": "2026-06-01"
+        },
+        {
+          "key": "202600087_11",
+          "listRank": 12,
+          "seqNo": "56",
+          "org": "한국자산신탁",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202500139_11",
+          "listRank": 13,
+          "seqNo": "55",
+          "org": "비엔케이캐피탈㈜",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202500002_12",
+          "listRank": 14,
+          "seqNo": "54",
+          "org": "서울으뜸",
+          "actionRequestDate": "2026-05-26"
+        },
+        {
+          "key": "202300039_11",
+          "listRank": 15,
+          "seqNo": "53",
+          "org": "한화생명보험주식회사",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300654_12",
+          "listRank": 16,
+          "seqNo": "52",
+          "org": "청운",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300807_12",
+          "listRank": 17,
+          "seqNo": "51",
+          "org": "전주동부",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202500511_12",
+          "listRank": 18,
+          "seqNo": "50",
+          "org": "시그니처자산운용㈜",
+          "actionRequestDate": "2026-05-19"
+        },
+        {
+          "key": "202500643_11",
+          "listRank": 19,
+          "seqNo": "49",
+          "org": "삼성 금융복합기업집단",
+          "actionRequestDate": "2026-05-14"
+        },
+        {
+          "key": "202400693_12",
+          "listRank": 20,
+          "seqNo": "48",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-05-13"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 3,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=3",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:53.474Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:ef05ad34f12d76d6dbe62cec6b563f817956f863d6c2f894bf3931b6c2c3ea2c",
+      "keys": [
+        "202500121_12",
+        "202500015_11",
+        "202500743_11",
+        "202400481_15",
+        "202500795_11",
+        "202500810_11",
+        "202500680_11",
+        "202500819_11",
+        "202500751_11",
+        "202500461_11"
+      ],
+      "rows": [
+        {
+          "key": "202500121_12",
+          "listRank": 21,
+          "seqNo": "47",
+          "org": "하나자산신탁",
+          "actionRequestDate": "2026-05-06"
+        },
+        {
+          "key": "202500015_11",
+          "listRank": 22,
+          "seqNo": "46",
+          "org": "도이치은행",
+          "actionRequestDate": "2026-04-27"
+        },
+        {
+          "key": "202500743_11",
+          "listRank": 23,
+          "seqNo": "45",
+          "org": "우리은행",
+          "actionRequestDate": "2026-04-27"
+        },
+        {
+          "key": "202400481_15",
+          "listRank": 24,
+          "seqNo": "44",
+          "org": "국민은행",
+          "actionRequestDate": "2026-04-24"
+        },
+        {
+          "key": "202500795_11",
+          "listRank": 25,
+          "seqNo": "43",
+          "org": "농협은행주식회사",
+          "actionRequestDate": "2026-04-21"
+        },
+        {
+          "key": "202500810_11",
+          "listRank": 26,
+          "seqNo": "42",
+          "org": "유니온상호저축은행",
+          "actionRequestDate": "2026-04-17"
+        },
+        {
+          "key": "202500680_11",
+          "listRank": 27,
+          "seqNo": "41",
+          "org": "하나캐피탈㈜",
+          "actionRequestDate": "2026-04-15"
+        },
+        {
+          "key": "202500819_11",
+          "listRank": 28,
+          "seqNo": "40",
+          "org": "제이비우리캐피탈㈜",
+          "actionRequestDate": "2026-04-15"
+        },
+        {
+          "key": "202500751_11",
+          "listRank": 29,
+          "seqNo": "39",
+          "org": "교통은행",
+          "actionRequestDate": "2026-04-13"
+        },
+        {
+          "key": "202500461_11",
+          "listRank": 30,
+          "seqNo": "38",
+          "org": "현대하이라이프손해사정 주식회사",
+          "actionRequestDate": "2026-04-09"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 4,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=4",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:55.158Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:471528bdd7cf241351287faccacda770ab48c7ead185b0e1ded624e5b466c908",
+      "keys": [
+        "202500356_11",
+        "202500357_11",
+        "202500162_11",
+        "202500161_11",
+        "202500163_11",
+        "202500160_11",
+        "202500651_12",
+        "202500100_12",
+        "202500517_11",
+        "202500099_12"
+      ],
+      "rows": [
+        {
+          "key": "202500356_11",
+          "listRank": 31,
+          "seqNo": "37",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500357_11",
+          "listRank": 32,
+          "seqNo": "36",
+          "org": "KB증권주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500162_11",
+          "listRank": 33,
+          "seqNo": "35",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500161_11",
+          "listRank": 34,
+          "seqNo": "34",
+          "org": "미래에셋증권 주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500163_11",
+          "listRank": 35,
+          "seqNo": "33",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500160_11",
+          "listRank": 36,
+          "seqNo": "32",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500651_12",
+          "listRank": 37,
+          "seqNo": "31",
+          "org": "광주어룡",
+          "actionRequestDate": "2026-04-03"
+        },
+        {
+          "key": "202500100_12",
+          "listRank": 38,
+          "seqNo": "30",
+          "org": "양주축산농협",
+          "actionRequestDate": "2026-03-24"
+        },
+        {
+          "key": "202500517_11",
+          "listRank": 39,
+          "seqNo": "29",
+          "org": "㈜케이비국민카드",
+          "actionRequestDate": "2026-03-13"
+        },
+        {
+          "key": "202500099_12",
+          "listRank": 40,
+          "seqNo": "28",
+          "org": "순천농협",
+          "actionRequestDate": "2026-03-12"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 5,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=5",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-14T07:00:56.763Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:1da940293ae4eb036de3e06511866950d029e6209a2daa5885c7317b13baa842",
+      "keys": [
+        "202300848_13",
+        "202500588_11",
+        "202400548_12",
+        "202500444_12",
+        "202400095_13",
+        "202500801_11",
+        "202500594_11",
+        "202400545_12",
+        "202400337_12",
+        "202500453_11"
+      ],
+      "rows": [
+        {
+          "key": "202300848_13",
+          "listRank": 41,
+          "seqNo": "27",
+          "org": "농협손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202500588_11",
+          "listRank": 42,
+          "seqNo": "26",
+          "org": "뱅크오브아메리카은행",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202400548_12",
+          "listRank": 43,
+          "seqNo": "25",
+          "org": "하나손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202500444_12",
+          "listRank": 44,
+          "seqNo": "24",
+          "org": "KB라이프생명보험",
+          "actionRequestDate": "2026-02-19"
+        },
+        {
+          "key": "202400095_13",
+          "listRank": 45,
+          "seqNo": "23",
+          "org": "한국자산신탁",
+          "actionRequestDate": "2026-02-12"
+        },
+        {
+          "key": "202500801_11",
+          "listRank": 46,
+          "seqNo": "22",
+          "org": "디에이치저축은행",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202500594_11",
+          "listRank": 47,
+          "seqNo": "21",
+          "org": "미래에셋증권 주식회사",
+          "actionRequestDate": "2026-02-10"
+        },
+        {
+          "key": "202400545_12",
+          "listRank": 48,
+          "seqNo": "20",
+          "org": "(주)리더스에셋어드바이저",
+          "actionRequestDate": "2026-02-05"
+        },
+        {
+          "key": "202400337_12",
+          "listRank": 49,
+          "seqNo": "19",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-02-04"
+        },
+        {
+          "key": "202500453_11",
+          "listRank": 50,
+          "seqNo": "18",
+          "org": "크레디 아그리콜 코퍼레이트 앤 인베스트먼트 뱅크",
+          "actionRequestDate": "2026-02-04"
+        }
+      ]
+    }
+  ],
+  "noUpdate": false,
+  "error": null,
+  "analyzedAt": "2026-07-14T07:01:04.781Z",
+  "analyzeMode": "llm",
+  "overallGrade": "중",
+  "term": {
+    "word": "전자금융거래약관",
+    "def": "금융회사가 고객과 맺는 전자금융(인터넷·모바일뱅킹, 송금 등) 거래 약정의 조건을 담은 계약서",
+    "src": "전자금융거래법 제24~25조"
+  },
+  "tgMsg": "🔔 금융감독원 제재·경영유의 브리핑 (16:01)\n금감원 신규 중 IBK 유관 1건\n\n🔶 제재대상: 토스증권 주식회사 [인접금융] · 2026.07.14 · 과태료\n\n• 왜 제재를 받았나요?\n   전자금융약관 변경 시 보고·게시·통지를 제때 안 했어요. 2021년~2024년 4차례 변경 중 3회 지연보고, 2회 통지 누락, 1회 지연게시했어요.\n\n• IBK에서도 발생 가능한가요?\n   개인디지털사업부와 IT내부통제부가 운영하는 전자금융 규정에서 약관 변경 시 '보고→게시→통지' 순서와 각 단계의 기한(보고 10일 이내, 게시 시행일 1개월 전)이 내부 결재·승인 프로세스에 제대로 반영돼 있는지 점검할 여지가 있어요.\n\n• 이런 부분을 점검하시면 좋아요\n   개인디지털사업부 담당자라면 IBK가 운영하는 전자금융 약관(예금, 투자상품 약관 등)의 변경 절차가 정해진 기한 내에 이뤄지는지, 특히 보고·게시·통지 단계가 빠지거나 늦지 않는지 점검해 보세요."
+}
