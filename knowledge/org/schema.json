@@ -10,17 +10,18 @@
     "effective_from": { "type": "string", "format": "date" },
     "effective_to": { "type": ["string", "null"], "format": "date" },
     "status": { "enum": ["draft", "scheduled", "active", "retired"] },
+    "based_on_version": { "type": "string", "pattern": "^[0-9]{4}-H[12]$" },
     "expected_unit_count": { "type": "integer", "minimum": 1 },
     "expected_assignable_count": { "type": "integer", "minimum": 1 },
     "sources": {
       "type": "array",
-      "minItems": 2,
+      "minItems": 3,
       "items": {
         "type": "object",
         "required": ["name", "type", "sha256"],
         "properties": {
           "name": { "type": "string", "minLength": 1 },
-          "type": { "type": "string", "minLength": 1 },
+          "type": { "enum": ["official_regulation", "official_org_chart", "official_comparison_table", "official_duty_allocation"] },
           "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
         },
         "additionalProperties": false

@@ -5,6 +5,9 @@
 - fix: 개인 역할인 AML보고책임자·재난안전관리책임자·정보보호최고책임자를 자동배정 대상에서 제외하고 하위 현업부서만 허용했다.
 - fix: 전역 감사를 런타임 JS·workflow·에이전트 프롬프트·생성 지식과 과거 `our_action`·`ctrl_insight`·`tgMsg`까지 확대했다.
 - fix: CI 경로가 하이픈형 `knowledge/ibk-*.md`를 놓치지 않도록 보완하고 scaffold를 임시파일·롤백 방식으로 변경했다.
+- feat: 안정 ID로 두 반기의 신설·명칭변경·이동·폐지를 자동 비교하고 삭제 조직의 승계 확인 질의를 출력하는 `org:plan`을 추가했다.
+- feat: 활성 포인터 전환 전에도 `org:validate -- --version YYYY-Hn`으로 draft의 출처·수량·변경명세·업무매핑을 검증할 수 있게 했다.
+- fix: 새 반기 검증에 직제규정 전문·조직도·개정 전후 대비표 3종의 출처 유형과 SHA-256을 모두 요구한다.
 - feat: 반기별 JSON 조직 정본·안정 `org_id`·시행일·출처 해시·변경명세·업무승계 증거등급을 도입했다.
 - refactor: `org_registry.js`가 Markdown 불릿 대신 `knowledge/org/active.json`이 지정한 버전 정본을 읽도록 전환했다.
 - feat: `org:validate`·`org:generate`·`org:audit` 명령과 자동 생성 현행 조직 레지스트리를 추가했다.

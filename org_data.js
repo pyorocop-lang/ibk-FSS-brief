@@ -38,6 +38,18 @@ function loadOrganizationData(activePath = ACTIVE_PATH) {
   return { active, version, activePath, versionPath, orgRoot };
 }
 
+function loadOrganizationVersion(versionName, orgRoot = ORG_ROOT) {
+  if (!/^\d{4}-H[12]$/.test(versionName || "")) throw new Error("version은 YYYY-H1 또는 YYYY-H2 형식이어야 함");
+  const versionPath = path.join(orgRoot, "versions", `${versionName}.json`);
+  if (!fs.existsSync(versionPath)) throw new Error(`조직 버전 파일 없음: ${path.relative(ROOT, versionPath)}`);
+  const realOrgRoot = fs.realpathSync(orgRoot);
+  const realVersionPath = fs.realpathSync(versionPath);
+  if (!realVersionPath.startsWith(`${realOrgRoot}${path.sep}`)) throw new Error("조직 버전 심볼릭 링크가 knowledge/org 밖을 가리킴");
+  const version = readJson(versionPath);
+  const active = { active_version: versionName, effective_from: version.effective_from };
+  return { active, version, activePath: null, versionPath, orgRoot };
+}
+
 function flattenStructure(nodes, parentId = null, depth = 0, out = []) {
   for (const node of nodes || []) {
     const children = Array.isArray(node.children) ? node.children : [];
@@ -62,9 +74,12 @@ function parseCurrentOrgChart(filePath = ORG_CHART_PATH) {
 }
 
 function validateOrganizationData(options = {}) {
-  const data = loadOrganizationData(options.activePath || ACTIVE_PATH);
+  const data = options.version
+    ? loadOrganizationVersion(options.version, options.orgRoot || ORG_ROOT)
+    : loadOrganizationData(options.activePath || ACTIVE_PATH);
   const errors = [];
   const { active, version } = data;
+  const validatingActive = !options.version;
   const validationDate = options.validationDate || new Date().toISOString().slice(0, 10);
   const units = flattenStructure(version.structure);
   const documented = units.filter(unit => /^ORG-\d{4}$/.test(unit.id));
@@ -74,12 +89,20 @@ function validateOrganizationData(options = {}) {
 
   if (active.active_version !== version.version) errors.push("active_version과 version 파일의 version 불일치");
   if (active.effective_from !== version.effective_from) errors.push("active.json과 version 파일의 시행일 불일치");
-  if (version.status !== "active") errors.push(`활성 포인터가 active 상태가 아닌 버전을 가리킴: ${version.status}`);
-  if ((version.effective_from || "") > validationDate) errors.push("시행일 전 조직버전은 활성화할 수 없음");
+  if (validatingActive && version.status !== "active") errors.push(`활성 포인터가 active 상태가 아닌 버전을 가리킴: ${version.status}`);
+  if (!validatingActive && !["draft", "scheduled", "active"].includes(version.status)) errors.push(`검증할 수 없는 조직버전 상태: ${version.status}`);
+  if (validatingActive && (version.effective_from || "") > validationDate) errors.push("시행일 전 조직버전은 활성화할 수 없음");
   if (!/^\d{4}-H[12]$/.test(version.version || "")) errors.push(`잘못된 반기 버전: ${version.version || "(없음)"}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(version.effective_from || "")) errors.push("잘못된 effective_from");
-  if (!Array.isArray(version.sources) || version.sources.length < 2) errors.push("공식 출처가 2개 미만");
+  const requiredSourceTypes = new Set(["official_regulation", "official_org_chart", "official_comparison_table"]);
+  const allowedSourceTypes = new Set([...requiredSourceTypes, "official_duty_allocation"]);
+  const sourceTypes = new Set((version.sources || []).map(source => source.type));
+  if (!Array.isArray(version.sources) || [...requiredSourceTypes].some(type => !sourceTypes.has(type))) {
+    errors.push("필수 공식 출처 3종(직제규정·조직도·개정 전후 대비표) 누락");
+  }
   for (const source of version.sources || []) {
+    if (!source.name) errors.push("출처 파일명 누락");
+    if (!allowedSourceTypes.has(source.type)) errors.push(`출처 유형 누락·오류: ${source.name || "(이름 없음)"}`);
     if (!/^[a-f0-9]{64}$/.test(source.sha256 || "")) errors.push(`출처 해시 누락·오류: ${source.name || "(이름 없음)"}`);
   }
 
@@ -166,5 +189,5 @@ function renderGeneratedRegistry(validated = validateOrganizationData()) {
 module.exports = {
   ROOT, ORG_ROOT, ACTIVE_PATH, DUTY_MAPPING_PATH, ORG_CHART_PATH,
   GENERATED_REGISTRY_PATH, TRANSITION_HEADING, readJson, loadOrganizationData,
-  flattenStructure, parseCurrentOrgChart, validateOrganizationData, renderGeneratedRegistry,
+  loadOrganizationVersion, flattenStructure, parseCurrentOrgChart, validateOrganizationData, renderGeneratedRegistry,
 };
