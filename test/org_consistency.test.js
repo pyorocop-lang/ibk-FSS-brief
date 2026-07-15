@@ -3,9 +3,10 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
-const { CURRENT_DEPARTMENTS, isCurrentDepartment } = require("../org_registry");
+const { CURRENT_DEPARTMENTS, isCurrentDepartment, loadCurrentDepartments } = require("../org_registry");
 const { fallbackDept, applyAnalysis } = require("../analyst");
 
 const expected = [
@@ -19,20 +20,54 @@ const expected = [
   ["방카슈랑스", "자산관리사업부"],
 ];
 
+const fallbackCases = [
+  ["자금세탁 AML", "자금세탁방지부", ["준법지원부", "내부통제총괄부"]],
+  ["대출 여신", "여신기획부", ["여신관리부", "기업개선부"]],
+  ["채권 추심", "여신관리부", ["기업개선부"]],
+  ["마이데이터 데이터 활용", "AX데이터혁신부", ["정보보호총괄부"]],
+  ["개인정보 정보유출", "정보보호총괄부", ["AX데이터혁신부", "준법지원부"]],
+  ["전자금융 오픈뱅킹", "개인디지털사업부", ["IT내부통제부"]],
+  ["IT보안 사이버", "정보보호총괄부", ["IT내부통제부"]],
+  ["불완전판매 설명의무", "금융소비자보호부", ["금융소비자지원부"]],
+  ["방카슈랑스", "자산관리사업부", []],
+  ["WM 자산관리", "자산관리사업부", ["신탁부"]],
+  ["AI 거버넌스", "AX디지털전략부", []],
+  ["내부회계 공시", "경영관리부", []],
+  ["BCP 비상계획", "안전기획부", []],
+  ["브랜드 홍보", "브랜드홍보부", []],
+  ["리스크관리 BIS", "리스크총괄부", []],
+  ["카드", "카드사업부", ["카드지원부"]],
+  ["지배구조 내부통제 겸직 전결", "내부통제총괄부", ["준법지원부", "검사부"]],
+  ["분류되지 않은 주제", "내부통제총괄부", ["준법지원부"]],
+];
+
 test("조직 정본은 현행 핵심 부서를 포함하고 폐지부서를 제외한다", () => {
-  assert.ok(CURRENT_DEPARTMENTS.size >= 70);
+  assert.equal(CURRENT_DEPARTMENTS.size, 94);
+  assert.equal(isCurrentDepartment("검사부"), true);
   for (const [, dept] of expected) assert.equal(isCurrentDepartment(dept), true, dept);
   for (const old of ["데이터혁신부", "WM사업부", "브랜드전략부", "재무회계부", "리스크관리부", "방카슈랑스사업부"])
     assert.equal(isCurrentDepartment(old), false, old);
   assert.equal(isCurrentDepartment("경영전략부"), true);
 });
 
-test("fallback 업무매핑 8건은 모두 현행 부서를 반환한다", () => {
-  for (const [text, dept] of expected) {
+test("fallback의 모든 분기는 현행 주담당·협조부서를 반환한다", () => {
+  for (const [text, dept, related] of fallbackCases) {
     const result = fallbackDept(text);
     assert.equal(result.dept, dept, text);
+    assert.deepEqual(result.related, related, text);
     assert.equal(isCurrentDepartment(result.dept), true, result.dept);
     result.related.forEach(name => assert.equal(isCurrentDepartment(name), true, name));
+  }
+});
+
+test("조직 정본의 현행·전환 구간 경계가 사라지면 파싱을 중단한다", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ibk-org-registry-"));
+  const file = path.join(dir, "org.md");
+  try {
+    fs.writeFileSync(file, "## 현행 조직\n\n- 검사부\n", "utf8");
+    assert.throws(() => loadCurrentDepartments(file), /현행 조직 구간 경계를 찾을 수 없음/);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
   }
 });
 

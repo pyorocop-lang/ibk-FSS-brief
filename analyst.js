@@ -266,7 +266,15 @@ async function main() {
   if (!useApi) console.warn("[ANALYST] ⚠ ANTHROPIC_API_KEY 미설정 — fallback(키워드) 모드");
   else console.log(`[ANALYST] LLM 모드 — ${srcItems.length}건 분석 (병렬 ${CONCURRENCY})`);
 
-  const analyzed = await analyzePool(srcItems, useApi, CONCURRENCY);
+  let analyzed;
+  try {
+    analyzed = await analyzePool(srcItems, useApi, CONCURRENCY);
+  } catch (e) {
+    // 정상 fallback 종료코드(1)와 검증 실패를 구분한다. 조직 정본 위반 등은
+    // 미분석 데이터를 후속 단계에 넘기지 않고 워크플로를 즉시 중단해야 한다.
+    console.error(`[ANALYST] 치명: 분석 결과 검증 실패: ${e.message}`);
+    process.exit(2);
+  }
 
   crawlData.graded = analyzed;
   if (Array.isArray(crawlData.newGraded)) crawlData.newGraded = analyzed;
