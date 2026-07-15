@@ -18,7 +18,9 @@
 const https = require("https");
 const fs    = require("fs");
 const path  = require("path");
-const { isCurrentDepartment } = require("./org_registry");
+const {
+  CURRENT_ORG_VERSION, isCurrentDepartment, getCurrentOrganization,
+} = require("./org_registry");
 
 const ROOT          = __dirname;
 const { reportDir } = require("./runslot");
@@ -51,7 +53,7 @@ function josaGa(w) { const c = (w || "가").charCodeAt(w.length - 1); if (c < 0x
 const BASE_PROMPT = loadFile(AGENTS_DIR, "analyst_system_prompt.md");
 if (!BASE_PROMPT) { console.error("[ANALYST] 치명: agents/analyst_system_prompt.md 없음"); process.exit(2); }
 const K_DEPT    = loadFile(KNOWLEDGE_DIR, "ibk-dept-mapping.md");
-const K_ORG     = loadFile(KNOWLEDGE_DIR, "ibk_org_chart.md");
+const K_ORG     = loadFile(path.join(KNOWLEDGE_DIR, "generated"), "ibk_current_org_registry.md");
 const K_MAPPING = loadFile(KNOWLEDGE_DIR, "ibk_mapping_rules.md");
 const K_ACTION  = loadFile(KNOWLEDGE_DIR, "ibk_action_rules.md");
 const K_TONE    = loadFile(KNOWLEDGE_DIR, "tone-guide.md");   // 라이팅 원칙(토스 8원칙) — 문체·종결어미·제안형의 근거 문서
@@ -215,6 +217,8 @@ function applyAnalysis(item, r) {
   if (invalid.length > 0) {
     throw new Error(`현행 조직 정본에 없는 부서명: ${[...new Set(invalid)].join(", ")}`);
   }
+  const deptRecord = getCurrentOrganization(dept);
+  const relatedRecords = related.filter(name => name !== dept).map(getCurrentOrganization);
   return {
     ...item,
     grade:         finalGrade,
@@ -224,6 +228,9 @@ function applyAnalysis(item, r) {
     ctrl_insight:  r.ctrl_insight || "",
     dept,
     related_depts: related.filter(name => name !== dept),
+    org_version:   CURRENT_ORG_VERSION,
+    dept_id:       deptRecord.id,
+    related_dept_ids: relatedRecords.map(record => record.id),
     tg_key:        (r.tg_key || "").slice(0, 20),
     sanction_type: r.sanction_type || "",
     risk_basis:    r.risk_basis || "",

@@ -36,7 +36,7 @@ ibk-FSS-brief/
 ├── notify_telegram.js         # 알림 발송 (--msg / --from-crawl-result)
 ├── runslot.js                 # am/pm 슬롯·reports 경로 결정
 ├── agents/analyst_system_prompt.md   # LLM 기본 프롬프트
-├── knowledge/                 # LLM 주입 지식 (조직도·매핑·톤가이드·Tier방법론)
+├── knowledge/                 # LLM 지식 + org/ 반기별 조직 정본 + generated/ 현행 조직표
 ├── state/seen_ids.json        # 중복방지 원장 (dedup ledger)
 ├── reports/{DATE}/{SLOT}/     # 런별 산출물 (crawl_result·docx·raw·pdfs·검증결과)
 └── logs/run_manifest.jsonl    # 실행 매니페스트 (누적)
@@ -82,7 +82,7 @@ ibk-FSS-brief/
   - 1024에서 한국어 11개 필드 분석이 잘려 JSON 미완결→파싱 실패→폴백된 실측 사례(2026-07-02 우리은행)로 상향.
 - **동시성**: `CONCURRENCY = 3` — 신규 다건 시 소규모 병렬 (Haiku Tier1 50 RPM 여유 내).
 - **시스템 프롬프트 조립** (실행 시 동적):
-  `agents/analyst_system_prompt.md` + tone-guide(해요체 8원칙, FSS 맥락 적용 주석 포함) + ibk-dept-mapping + ibk_org_chart + ibk_mapping_rules + ibk_action_rules
+  `agents/analyst_system_prompt.md` + tone-guide(해요체 8원칙, FSS 맥락 적용 주석 포함) + ibk-dept-mapping + 자동 생성 현행 조직 레지스트리 + ibk_mapping_rules + ibk_action_rules
 - **출력 필드** (crawl_result.json의 각 건에 병합): `what_changes` / `ctrl_insight` / `our_action` / `dept`·`related_depts` / `risk_grade`(RED/ORANGE/GREEN→상/중/하) / `workflow_type`(A~F) / `tg_key` / `term`
   - 필드명은 자매 프로젝트(briefV2) 구조를 그대로 재사용해 briefV2 무수정 호환.
 - **분석 대상**: crawler가 걸러낸 **신규 건(graded)만** — 재분석 없음(병목 제거), 매 실행 소량.

@@ -30,7 +30,7 @@ flowchart TD
     subgraph KNOWLEDGE["📚 지식 베이스 레이어"]
         K1["agents/analyst_system_prompt.md\nLLM 분석 원칙"]
         K2["ibk-dept-mapping.md\nIBK 부서 매핑"]
-        K3["ibk_org_chart.md\nIBK 조직도"]
+        K3["generated/ibk_current_org_registry.md\n자동 생성 IBK 현행 조직"]
         K4["ibk_mapping_rules.md\n법령-내규 매핑"]
         K5["fss_tier_methodology.md\n기관 계층(Tier) 방법론"]
         K6["tone-guide.md\n라이팅 8원칙(해요체)"]

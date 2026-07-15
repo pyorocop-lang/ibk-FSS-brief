@@ -19,6 +19,7 @@ flowchart LR
     subgraph CLOUD["☁️ GitHub Actions (ubuntu-latest · 단일 Job)"]
         direction TB
         DISPATCH["workflow_dispatch\ndaily-brief.yml (IBK FSS Sanction Brief)"]
+        PRECHECK["PRECHECK 조직 정본\norg_tools.js (버전 · 생성물 · 실행부서)"]
         S0["STEP0 시작 알림\nnotify_telegram.js"]
         S1["STEP1 수집+dedup\nfss_crawler.js (2소스 스크래핑 · seen_ids)"]
         S2["STEP2 분석\nanalyst.js (Claude Haiku)"]
@@ -37,7 +38,7 @@ flowchart LR
     end
 
     CRON -->|"workflow_dispatch 호출"| DISPATCH
-    DISPATCH --> S0 --> S1
+    DISPATCH --> PRECHECK --> S0 --> S1
     S1 -->|"해외 IP 차단 없음 — GitHub Actions 직결(프록시 불요)"| FSS
     S1 --> S2
     S2 <-->|"LLM 추론"| CLAUDE
@@ -52,7 +53,7 @@ flowchart LR
     classDef ext fill:#FFF3E0,stroke:#E65100,color:#BF360C
 
     class CRON trig
-    class DISPATCH,S0,S1,S2,S3,S4,S5,S6,ARTIFACT,NOTIFY,CLAUDE cloud
+    class DISPATCH,PRECHECK,S0,S1,S2,S3,S4,S5,S6,ARTIFACT,NOTIFY,CLAUDE cloud
     class FSS,TG ext
 ```
 
@@ -85,6 +86,7 @@ GitHub Actions의 schedule cron은 최대 약 ~12시간의 지연·누락이 확
 
 | STEP | 구성 요소 | 역할 |
 |---|---|---|
+| PRECHECK | `org_tools.js` | 활성 조직버전·출처·계층·업무승계 증거·자동 생성물·실행파일의 비현행 조직명을 검사하고 실패 시 수집 전에 중단 |
 | STEP 0 | `notify_telegram.js --msg` | 시작 알림 (Telegram) |
 | STEP 1 | `fss_crawler.js` | **수집+dedup: FSS 2소스 직접 스크래핑**(제재공시 HTML+PDF / 경영유의 PDF), `state/seen_ids.json` 대조로 신규만 선별. Job 레벨 **최대 3회 재시도** |
 | STEP 2 | `analyst.js` | Claude Haiku LLM 분석 (신규 `graded[]`만). exit 0=정상 / 1=fallback / 2=치명중단 |

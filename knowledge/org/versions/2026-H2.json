@@ -1,0 +1,344 @@
+{
+  "schema_version": 1,
+  "version": "2026-H2",
+  "effective_from": "2026-07-14",
+  "effective_to": null,
+  "status": "active",
+  "sources": [
+    {
+      "name": "(26.7.14.) 직제규정 전문.pdf",
+      "type": "official_regulation",
+      "sha256": "314d7c3070e709f06c39f6272e41ca1b0c06708601f5f594af8faad660cca71e"
+    },
+    {
+      "name": "(26.7.14.) 직제도.jpg",
+      "type": "official_org_chart",
+      "sha256": "f0ee609aa60e9e68302c7e1dddbf308a559e7aa6a46b0abcf198ab9c6ec08c54"
+    },
+    {
+      "name": "직제규정 개정 전, 후 대비표.pdf",
+      "type": "official_comparison_table",
+      "sha256": "5f21fa8c012f69b15cc1a456903e310993abb855ced872da8569ba0859ca7bb5"
+    }
+  ],
+  "structure": [
+    {
+      "id": "TOP-AUDIT",
+      "name": "감사 직속 조직",
+      "kind": "container",
+      "children": [
+        { "id": "ORG-0001", "name": "검사부", "kind": "department" }
+      ]
+    },
+    {
+      "id": "DIV-GROWTH",
+      "name": "기업성장부문",
+      "kind": "division",
+      "children": [
+        {
+          "id": "GRP-ENTERPRISE-CUSTOMER",
+          "name": "기업고객그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0002", "name": "기업고객부", "kind": "department" },
+            { "id": "ORG-0003", "name": "기업디지털사업부", "kind": "department" },
+            { "id": "ORG-0004", "name": "외환사업부", "kind": "department" },
+            { "id": "ORG-0005", "name": "외환지원부", "kind": "department" },
+            { "id": "ORG-0006", "name": "CEO클럽지원부", "kind": "department" },
+            { "id": "ORG-0007", "name": "IBK컨설팅센터", "kind": "center" }
+          ]
+        },
+        {
+          "id": "GRP-INNOVATION-FINANCE",
+          "name": "혁신금융그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0008", "name": "혁신금융부", "kind": "department" },
+            { "id": "ORG-0009", "name": "혁신기업투자부", "kind": "department" },
+            { "id": "ORG-0010", "name": "혁신정책투자부", "kind": "department" },
+            { "id": "ORG-0011", "name": "창업벤처부", "kind": "department" }
+          ]
+        },
+        {
+          "id": "GRP-CIB",
+          "name": "CIB그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0012", "name": "투자금융부", "kind": "department" },
+            { "id": "ORG-0013", "name": "프로젝트금융부", "kind": "department" },
+            { "id": "ORG-0014", "name": "인프라금융부", "kind": "department" },
+            { "id": "ORG-0015", "name": "글로벌IB부", "kind": "department" },
+            { "id": "ORG-0016", "name": "기관고객부", "kind": "department" }
+          ]
+        },
+        {
+          "id": "GRP-GLOBAL-BUSINESS",
+          "name": "글로벌사업그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0017", "name": "글로벌사업부", "kind": "department" },
+            { "id": "ORG-0018", "name": "글로벌영업지원부", "kind": "department" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DIV-CUSTOMER-VALUE",
+      "name": "고객가치부문",
+      "kind": "division",
+      "children": [
+        {
+          "id": "GRP-PERSONAL-CUSTOMER",
+          "name": "개인고객그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0019", "name": "개인고객부", "kind": "department" },
+            { "id": "ORG-0020", "name": "개인디지털사업부", "kind": "department" },
+            { "id": "ORG-0021", "name": "수신기획부", "kind": "department" },
+            { "id": "ORG-0022", "name": "개인여신부", "kind": "department" },
+            { "id": "ORG-0023", "name": "국군금융사업부", "kind": "department" }
+          ]
+        },
+        {
+          "id": "GRP-ASSET-MGMT",
+          "name": "자산관리그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0024", "name": "자산관리사업부", "kind": "department" },
+            { "id": "ORG-0025", "name": "신탁부", "kind": "department" },
+            { "id": "ORG-0026", "name": "수탁사업부", "kind": "department" },
+            {
+              "id": "ORG-0027",
+              "name": "연금사업본부",
+              "kind": "headquarters",
+              "assignable": true,
+              "children": [
+                { "id": "ORG-0028", "name": "연금사업부", "kind": "department" },
+                { "id": "ORG-0029", "name": "연금지원부", "kind": "department" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "GRP-CARD",
+          "name": "카드사업그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0030", "name": "카드사업부", "kind": "department" },
+            { "id": "ORG-0031", "name": "카드지원부", "kind": "department" }
+          ]
+        },
+        {
+          "id": "GRP-MONEY-MARKET",
+          "name": "자금시장그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0032", "name": "자금부", "kind": "department" },
+            { "id": "ORG-0033", "name": "자금운용부", "kind": "department" },
+            { "id": "ORG-0034", "name": "자금결제부", "kind": "department" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DIV-SUPPORT",
+      "name": "지원그룹 등",
+      "kind": "division",
+      "children": [
+        {
+          "id": "GRP-MGMT-STRATEGY",
+          "name": "경영전략그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0035", "name": "경영전략부", "kind": "department" },
+            { "id": "ORG-0036", "name": "기획조정부", "kind": "department" },
+            { "id": "ORG-0037", "name": "ESG경영부", "kind": "department" },
+            { "id": "ORG-0038", "name": "경영관리부", "kind": "department" },
+            { "id": "ORG-0039", "name": "자회사전략부", "kind": "department" }
+          ]
+        },
+        {
+          "id": "GRP-CREDIT-OPS",
+          "name": "여신운영그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0040", "name": "여신기획부", "kind": "department" },
+            { "id": "ORG-0041", "name": "생산적포용금융부", "kind": "department" },
+            {
+              "id": "ORG-0042",
+              "name": "여신심사부",
+              "kind": "department",
+              "assignable": true,
+              "children": [
+                { "id": "ORG-0043", "name": "인천여신심사센터", "kind": "center" },
+                { "id": "ORG-0044", "name": "경서남중여신심사센터", "kind": "center" },
+                { "id": "ORG-0045", "name": "경수경동여신심사센터", "kind": "center" },
+                { "id": "ORG-0046", "name": "부산경남여신심사센터", "kind": "center" },
+                { "id": "ORG-0047", "name": "부산울산여신심사센터", "kind": "center" },
+                { "id": "ORG-0048", "name": "대구여신심사센터", "kind": "center" },
+                { "id": "ORG-0049", "name": "충청여신심사센터", "kind": "center" },
+                { "id": "ORG-0050", "name": "호남여신심사센터", "kind": "center" },
+                { "id": "ORG-0051", "name": "소기업여신심사센터", "kind": "center" }
+              ]
+            },
+            { "id": "ORG-0052", "name": "여신관리부", "kind": "department" },
+            { "id": "ORG-0053", "name": "기업개선부", "kind": "department" },
+            { "id": "ORG-0054", "name": "사모투자부", "kind": "department" }
+          ]
+        },
+        {
+          "id": "GRP-MGMT-SUPPORT",
+          "name": "경영지원그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0055", "name": "인사부", "kind": "department" },
+            { "id": "ORG-0056", "name": "인재개발부", "kind": "department" },
+            { "id": "ORG-0057", "name": "직원행복부", "kind": "department" },
+            { "id": "ORG-0058", "name": "총무부", "kind": "department" },
+            { "id": "ORG-0059", "name": "프로세스혁신부", "kind": "department" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DIV-AX",
+      "name": "AX혁신부문",
+      "kind": "division",
+      "children": [
+        {
+          "id": "GRP-AX-STRATEGY",
+          "name": "AX전략그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0060", "name": "AX디지털전략부", "kind": "department" },
+            { "id": "ORG-0061", "name": "AX디지털추진부", "kind": "department" },
+            { "id": "ORG-0062", "name": "AX데이터혁신부", "kind": "department" },
+            { "id": "ORG-0063", "name": "채널기획부", "kind": "department" },
+            { "id": "ORG-0064", "name": "IBK고객센터", "kind": "center" }
+          ]
+        },
+        {
+          "id": "GRP-IT",
+          "name": "IT그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0065", "name": "IT기획부", "kind": "department" },
+            { "id": "ORG-0066", "name": "IT아키텍처부", "kind": "department" },
+            { "id": "ORG-0067", "name": "IT내부통제부", "kind": "department" },
+            {
+              "id": "ORG-0068",
+              "name": "IT운영본부",
+              "kind": "headquarters",
+              "assignable": true,
+              "children": [
+                { "id": "ORG-0069", "name": "IT시스템운영부", "kind": "department" }
+              ]
+            },
+            {
+              "id": "ORG-0070",
+              "name": "IT개발본부",
+              "kind": "headquarters",
+              "assignable": true,
+              "children": [
+                { "id": "ORG-0071", "name": "IT금융개발부", "kind": "department" },
+                { "id": "ORG-0072", "name": "IT디지털개발부", "kind": "department" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "GRP-RISK",
+          "name": "리스크관리그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0073", "name": "리스크총괄부", "kind": "department" },
+            { "id": "ORG-0074", "name": "리스크분석부", "kind": "department" },
+            { "id": "ORG-0075", "name": "리스크감리부", "kind": "department" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DIV-DIRECT",
+      "name": "은행장 직속 조직",
+      "kind": "division",
+      "children": [
+        {
+          "id": "GRP-CONSUMER-PROTECTION",
+          "name": "금융소비자보호그룹",
+          "kind": "group",
+          "children": [
+            { "id": "ORG-0076", "name": "금융소비자보호부", "kind": "department" },
+            { "id": "ORG-0077", "name": "금융소비자지원부", "kind": "department" }
+          ]
+        },
+        {
+          "id": "TOP-COMPLIANCE",
+          "name": "준법감시인",
+          "kind": "executive",
+          "children": [
+            { "id": "ORG-0078", "name": "준법지원부", "kind": "department" },
+            { "id": "ORG-0079", "name": "내부통제총괄부", "kind": "department" },
+            {
+              "id": "ORG-0080",
+              "name": "AML보고책임자",
+              "kind": "responsible_officer",
+              "assignable": true,
+              "children": [
+                { "id": "ORG-0081", "name": "자금세탁방지부", "kind": "department" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "TOP-RESEARCH",
+          "name": "IBK경제연구소",
+          "kind": "institute",
+          "children": [
+            { "id": "ORG-0082", "name": "중기산업연구실", "kind": "office" },
+            { "id": "ORG-0083", "name": "경제경영연구실", "kind": "office" }
+          ]
+        },
+        {
+          "id": "TOP-OTHER-DIRECT",
+          "name": "기타 직속 조직",
+          "kind": "container",
+          "children": [
+            { "id": "ORG-0084", "name": "비서실", "kind": "office" },
+            { "id": "ORG-0085", "name": "정도경영실", "kind": "office" },
+            {
+              "id": "ORG-0086",
+              "name": "재난·안전관리책임자",
+              "kind": "responsible_officer",
+              "assignable": true,
+              "children": [
+                { "id": "ORG-0087", "name": "안전기획부", "kind": "department" }
+              ]
+            },
+            {
+              "id": "ORG-0088",
+              "name": "정보보호최고책임자",
+              "kind": "responsible_officer",
+              "assignable": true,
+              "children": [
+                { "id": "ORG-0089", "name": "정보보호총괄부", "kind": "department" },
+                { "id": "ORG-0090", "name": "정보보호운영부", "kind": "department" }
+              ]
+            },
+            {
+              "id": "ORG-0091",
+              "name": "사회공헌·브랜드본부",
+              "kind": "headquarters",
+              "assignable": true,
+              "children": [
+                { "id": "ORG-0092", "name": "브랜드홍보부", "kind": "department" },
+                { "id": "ORG-0093", "name": "사회공헌부", "kind": "department" },
+                { "id": "ORG-0094", "name": "IBK스포츠단", "kind": "unit" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

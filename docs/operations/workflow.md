@@ -28,6 +28,7 @@ sequenceDiagram
     Note over CRON: 매일 08:00·16:00 KST (cron 0 23 / 0 7 UTC)
     CRON->>GH: workflow_dispatch 호출
     GH->>JOB: 단일 Job 시작
+    JOB->>JOB: PRECHECK 조직 정본·생성물·실행부서 검증
     JOB->>TG: STEP0 시작 알림 "⚙️ 브리핑 생성 시작"
     JOB->>CRAWLER: STEP1 node fss_crawler.js --date DATE
     Note over CRAWLER: 일시장애 대비 최대 3회 재시도
@@ -54,6 +55,7 @@ sequenceDiagram
     │  (수동: gh workflow run "IBK FSS Sanction Brief" --ref main)
     ▼
 [GitHub Actions 단일 Job(실행당 1) — .github/workflows/daily-brief.yml]
+    ├─ PRECHECK  org_tools.js  ── 조직버전·생성물·실행부서 검증(실패 시 수집 전 중단)
     ├─ 시작 알림  notify_telegram.js  ─── "⚙️ {DATE} 브리핑 생성 시작합니다."
     ├─ STEP1  fss_crawler.js  ── FSS 2소스 수집 + seen_ids dedup (최대 3회 재시도, 120초 간격)
     │            → reports/{DATE}/{SLOT}/crawl_result.json (신규건만 graded[])
@@ -138,6 +140,7 @@ Cloudflare Workers Cron (08:00 KST = 23:00 UTC / 16:00 KST = 07:00 UTC, cron 0 2
 
 ```
 brief Job (.github/workflows/daily-brief.yml, ubuntu-latest):
+  PRECHECK 조직 정본                      — npm run org:validate + org:generate:check + runtime audit
   STEP0  시작 알림 (Telegram)           — node notify_telegram.js --msg "⚙️ … 시작"
   STEP1  수집 (FSS 2소스 직접 스크래핑)  — node fss_crawler.js --date DATE  (최대 3회 재시도, 120초 간격)
   STEP2  분석 (Claude Haiku)             — node analyst.js --date DATE      (exit 0=정상/1=fallback/2=치명)

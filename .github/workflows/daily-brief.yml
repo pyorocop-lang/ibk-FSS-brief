@@ -48,6 +48,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: PRECHECK 조직 정본 사전검사
+        run: |
+          npm run org:validate
+          npm run org:generate:check
+          node org_tools.js audit --runtime
+
       - name: 시작 알림 (Telegram)
         run: node notify_telegram.js --msg "⚙️ ${TODAY} 브리핑 생성 시작합니다."
         env:

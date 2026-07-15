@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "allowed_evidence_for_automatic_assignment": ["official", "user_confirmed"],
+  "mappings": [
+    { "mapping_id": "MAP-2026H2-001", "subject": "데이터혁신부 업무", "target_id": "ORG-0062", "evidence_type": "user_confirmed", "status": "confirmed", "confirmed_on": "2026-07-15" },
+    { "mapping_id": "MAP-2026H2-002", "subject": "WM사업부 업무", "target_id": "ORG-0024", "evidence_type": "user_confirmed", "status": "confirmed", "confirmed_on": "2026-07-15" },
+    { "mapping_id": "MAP-2026H2-003", "subject": "브랜드전략부 업무", "target_id": "ORG-0092", "evidence_type": "user_confirmed", "status": "confirmed", "confirmed_on": "2026-07-15" },
+    { "mapping_id": "MAP-2026H2-004", "subject": "BCP·안전 관련 업무", "target_id": "ORG-0087", "evidence_type": "user_confirmed", "status": "confirmed", "confirmed_on": "2026-07-15" },
+    { "mapping_id": "MAP-2026H2-005", "subject": "AI 거버넌스 업무", "target_id": "ORG-0060", "evidence_type": "user_confirmed", "status": "confirmed", "confirmed_on": "2026-07-15" },
+    { "mapping_id": "MAP-2026H2-006", "subject": "회계·내부회계·공시 업무", "target_id": "ORG-0038", "evidence_type": "user_confirmed", "status": "confirmed", "confirmed_on": "2026-07-15" },
+    { "mapping_id": "MAP-2026H2-007", "subject": "리스크관리 업무", "target_id": "ORG-0073", "evidence_type": "user_confirmed", "status": "confirmed", "confirmed_on": "2026-07-15" },
+    { "mapping_id": "MAP-2026H2-008", "subject": "방카슈랑스 업무", "target_id": "ORG-0024", "evidence_type": "user_confirmed", "status": "confirmed", "confirmed_on": "2026-07-15" }
+  ]
+}

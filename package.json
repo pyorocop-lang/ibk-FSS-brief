@@ -1,6 +1,11 @@
 {
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "org:validate": "node org_tools.js validate",
+    "org:generate": "node org_tools.js generate",
+    "org:generate:check": "node org_tools.js generate --check",
+    "org:audit": "node org_tools.js audit",
+    "org:scaffold": "node org_tools.js scaffold"
   },
   "dependencies": {
     "docx": "^9.7.1",
