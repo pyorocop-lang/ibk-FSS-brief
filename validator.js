@@ -36,6 +36,7 @@
 
 const fs   = require("fs");
 const path = require("path");
+const { isCurrentDepartment } = require("./org_registry");
 
 // ─── CLI 인수 ──────────────────────────────────────────────────
 function getArg(name, def = "") {
@@ -107,6 +108,15 @@ function validateItem(item, idx) {
   if (!item.ctrl_insight || item.ctrl_insight.trim() === "") {
     warn("B4", label, "ctrl_insight 없음 — Analyst Agent(Claude API) 미실행 의심");
   }
+
+  // ── B5. 현행 조직 정본 대조 ──
+  const assigned = [item.dept, ...(Array.isArray(item.related_depts) ? item.related_depts : [])]
+    .filter(Boolean);
+  assigned.forEach(name => {
+    if (!isCurrentDepartment(name)) {
+      err("B5", label, `현행 조직 정본에 없는 부서명: "${name}"`);
+    }
+  });
 
   // ── A1. 핵심 선행 ──
   // what_changes[0]이 "~입니다/바뀝니다/됩니다"처럼 변화 서술로 시작하는지

@@ -18,6 +18,7 @@
 const https = require("https");
 const fs    = require("fs");
 const path  = require("path");
+const { isCurrentDepartment } = require("./org_registry");
 
 const ROOT          = __dirname;
 const { reportDir } = require("./runslot");
@@ -134,11 +135,18 @@ function fallbackDept(text) {
   if (/채권|추심|채무조정|신용회복|고정이하/.test(text))           return { dept: "여신관리부",     related: ["기업개선부"] };
   // 정본 = knowledge/ibk_mapping_rules.md (개인·신용정보 소관은 준법지원부가 아니라 정보보호총괄부,
   //   전자금융 소관은 개인디지털사업부, IT보안은 정보보호총괄부 — 세 갈래를 뭉뚱그리면 부서가 틀린다).
-  if (/신용정보|개인정보|마이데이터|정보유출/.test(text))          return { dept: "정보보호총괄부", related: ["데이터혁신부", "준법지원부"] };
+  if (/마이데이터|데이터\s*활용/.test(text))                      return { dept: "AX데이터혁신부", related: ["정보보호총괄부"] };
+  if (/신용정보|개인정보|정보유출/.test(text))                    return { dept: "정보보호총괄부", related: ["AX데이터혁신부", "준법지원부"] };
   if (/전자금융|오픈뱅킹|비대면/.test(text))                       return { dept: "개인디지털사업부", related: ["IT내부통제부"] };
   if (/IT보안|사이버|정보보호|전산/.test(text))                    return { dept: "정보보호총괄부", related: ["IT내부통제부"] };
   if (/불완전판매|적합성|적정성|설명의무|소비자|민원|투자권유/.test(text)) return { dept: "금융소비자보호부", related: ["금융소비자지원부"] };
-  if (/펀드|신탁|WM|자산관리|일임|이해상충|충실의무|운용/.test(text)) return { dept: "자산관리사업부", related: ["신탁부", "WM사업부"] };
+  if (/방카슈랑스/.test(text))                                    return { dept: "자산관리사업부", related: [] };
+  if (/펀드|신탁|WM|자산관리|일임|이해상충|충실의무|운용/.test(text)) return { dept: "자산관리사업부", related: ["신탁부"] };
+  if (/AI\s*거버넌스|AI\s*윤리/.test(text))                      return { dept: "AX디지털전략부", related: [] };
+  if (/회계|내부회계|재무제표|공시/.test(text))                    return { dept: "경영관리부", related: [] };
+  if (/BCP|비상계획|재난|안전관리|물리보안/.test(text))           return { dept: "안전기획부", related: [] };
+  if (/브랜드|홍보/.test(text))                                   return { dept: "브랜드홍보부", related: [] };
+  if (/리스크관리|위험관리|BIS|자본적정성|ALM|유동성위험|금리위험/.test(text)) return { dept: "리스크총괄부", related: [] };
   if (/카드/.test(text))                                          return { dept: "카드사업부",     related: ["카드지원부"] };
   if (/지배구조|내부통제|준법|겸직|전결/.test(text))               return { dept: "내부통제총괄부", related: ["준법지원부", "검사부"] };
   return { dept: "내부통제총괄부", related: ["준법지원부"] };
@@ -199,6 +207,14 @@ ${(item.bodyText || "(원문 없음 — 기관명·유형 기반 분석)").slice
 function applyAnalysis(item, r) {
   const gradeMap = { "상": "상", "중": "중", "하": "하", RED: "상", ORANGE: "중", GREEN: "하" };
   const finalGrade = gradeMap[r.risk_grade] || item.grade || "중";
+  const dept = String(r.dept || "내부통제총괄부").trim();
+  const related = Array.isArray(r.related_depts)
+    ? r.related_depts.slice(0, 2).map(name => String(name).trim()).filter(Boolean)
+    : [];
+  const invalid = [dept, ...related].filter(name => !isCurrentDepartment(name));
+  if (invalid.length > 0) {
+    throw new Error(`현행 조직 정본에 없는 부서명: ${[...new Set(invalid)].join(", ")}`);
+  }
   return {
     ...item,
     grade:         finalGrade,
@@ -206,8 +222,8 @@ function applyAnalysis(item, r) {
     what_changes:  Array.isArray(r.what_changes) ? r.what_changes.slice(0, 2) : [],
     our_action:    Array.isArray(r.our_action)   ? r.our_action.slice(0, 3)   : [],
     ctrl_insight:  r.ctrl_insight || "",
-    dept:          r.dept || "내부통제총괄부",
-    related_depts: Array.isArray(r.related_depts) ? r.related_depts.slice(0, 2) : [],
+    dept,
+    related_depts: related.filter(name => name !== dept),
     tg_key:        (r.tg_key || "").slice(0, 20),
     sanction_type: r.sanction_type || "",
     risk_basis:    r.risk_basis || "",
@@ -235,7 +251,7 @@ async function analyzePool(items, useApi, concurrency) {
 }
 
 // ─── MAIN ─────────────────────────────────────────────────────
-(async function main() {
+async function main() {
   console.log(`\n[ANALYST] 시작 — ${TODAY} (model=${MODEL})`);
   if (!fs.existsSync(CRAWL_PATH)) { console.error(`[ANALYST] crawl_result.json 없음: ${CRAWL_PATH}`); process.exit(2); }
   let crawlData;
@@ -266,4 +282,8 @@ async function analyzePool(items, useApi, concurrency) {
   const fb = analyzed.filter(it => it._fallback).length;
   console.log(`[ANALYST] 완료 — ${analyzed.length}건 (fallback ${fb}) / 종합등급 ${crawlData.overallGrade} → ${CRAWL_PATH}`);
   process.exit(fb > 0 && !useApi ? 1 : 0);
-})();
+}
+
+if (require.main === module) main();
+
+module.exports = { fallbackDept, fallbackAnalyze, applyAnalysis, classifyWorkflow, riskFromText };

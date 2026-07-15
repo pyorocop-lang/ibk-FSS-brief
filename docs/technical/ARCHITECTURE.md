@@ -90,7 +90,7 @@ GitHub Actions의 schedule cron은 최대 약 ~12시간의 지연·누락이 확
 | STEP 2 | `analyst.js` | Claude Haiku LLM 분석 (신규 `graded[]`만). exit 0=정상 / 1=fallback / 2=치명중단 |
 | STEP 3 | `briefV2.js` | DOCX 보고서 생성 + `tgMsg` 기록 |
 | STEP 4 | `validator.js` | 품질 검증 (validation_result.json) |
-| STEP 5 | `archivist.js` | 로그 정리·메타 기록·보관 정책 적용 (`--status ok|error`) |
+| STEP 5 | `archivist.js` | 로그 정리·메타 기록·보관 정책 적용 (`--status ok\|error`) |
 | STEP 6 | 감사 커밋 | `reports/{DATE}/{SLOT}/`(crawl_result·run_meta)·`state/seen_ids.json`·`run_manifest.jsonl` git 커밋·push |
 | — | Artifact 업로드 | `reports/{DATE}/{SLOT}/` → `fss-brief-{DATE}-{SLOT}` (90일) |
 | — | 완료/오류 알림 | `notify_telegram.js` (성공 시 `--from-crawl-result`로 tgMsg 전송 / 실패 시 오류 알림) |
