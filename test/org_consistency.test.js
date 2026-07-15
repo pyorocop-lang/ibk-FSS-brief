@@ -46,9 +46,11 @@ const fallbackCases = [
 
 test("조직 정본은 현행 핵심 부서를 포함하고 폐지부서를 제외한다", () => {
   assert.equal(CURRENT_ORG_VERSION, "2026-H2");
-  assert.equal(CURRENT_DEPARTMENTS.size, 94);
+  assert.equal(CURRENT_DEPARTMENTS.size, 91);
   assert.equal(isCurrentDepartment("검사부"), true);
   assert.equal(getCurrentOrganization("검사부").id, "ORG-0001");
+  for (const role of ["AML보고책임자", "재난·안전관리책임자", "정보보호최고책임자"])
+    assert.equal(isCurrentDepartment(role), false, role);
   for (const [, dept] of expected) assert.equal(isCurrentDepartment(dept), true, dept);
   for (const old of ["데이터혁신부", "WM사업부", "브랜드전략부", "재무회계부", "리스크관리부", "방카슈랑스사업부"])
     assert.equal(isCurrentDepartment(old), false, old);
@@ -81,6 +83,16 @@ test("분석 병합은 비현행 부서명을 거부한다", () => {
     () => applyAnalysis({}, { dept: "WM사업부", related_depts: [], risk_grade: "중" }),
     /현행 조직 정본에 없는 부서명/
   );
+});
+
+test("분석 병합은 책임자 역할을 담당부서로 허용하지 않는다", () => {
+  for (const role of ["AML보고책임자", "재난·안전관리책임자", "정보보호최고책임자"]) {
+    assert.throws(
+      () => applyAnalysis({}, { dept: role, related_depts: [], risk_grade: "중" }),
+      /현행 조직 정본에 없는 부서명/,
+      role
+    );
+  }
 });
 
 test("분석 병합은 조직버전과 안정 ID를 함께 기록한다", () => {

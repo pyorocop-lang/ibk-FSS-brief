@@ -6,7 +6,6 @@ const path = require("path");
 const ROOT = __dirname;
 const ORG_ROOT = path.join(ROOT, "knowledge", "org");
 const ACTIVE_PATH = path.join(ORG_ROOT, "active.json");
-const CHANGE_PATH = path.join(ORG_ROOT, "changes", "2026-H2.json");
 const DUTY_MAPPING_PATH = path.join(ORG_ROOT, "duty_mappings.json");
 const ORG_CHART_PATH = path.join(ROOT, "knowledge", "ibk_org_chart.md");
 const GENERATED_REGISTRY_PATH = path.join(ROOT, "knowledge", "generated", "ibk_current_org_registry.md");
@@ -30,8 +29,13 @@ function loadOrganizationData(activePath = ACTIVE_PATH) {
   if (!fs.existsSync(versionPath)) {
     throw new Error(`활성 조직 버전 파일 없음: ${path.relative(ROOT, versionPath)}`);
   }
+  const realOrgRoot = fs.realpathSync(orgRoot);
+  const realVersionPath = fs.realpathSync(versionPath);
+  if (!realVersionPath.startsWith(`${realOrgRoot}${path.sep}`)) {
+    throw new Error("active.json의 version_file 심볼릭 링크가 knowledge/org 밖을 가리킴");
+  }
   const version = readJson(versionPath);
-  return { active, version, activePath, versionPath };
+  return { active, version, activePath, versionPath, orgRoot };
 }
 
 function flattenStructure(nodes, parentId = null, depth = 0, out = []) {
@@ -61,7 +65,9 @@ function validateOrganizationData(options = {}) {
   const data = loadOrganizationData(options.activePath || ACTIVE_PATH);
   const errors = [];
   const { active, version } = data;
+  const validationDate = options.validationDate || new Date().toISOString().slice(0, 10);
   const units = flattenStructure(version.structure);
+  const documented = units.filter(unit => /^ORG-\d{4}$/.test(unit.id));
   const assignable = units.filter(unit => unit.assignable);
   const idMap = new Map();
   const nameMap = new Map();
@@ -69,7 +75,7 @@ function validateOrganizationData(options = {}) {
   if (active.active_version !== version.version) errors.push("active_version과 version 파일의 version 불일치");
   if (active.effective_from !== version.effective_from) errors.push("active.json과 version 파일의 시행일 불일치");
   if (version.status !== "active") errors.push(`활성 포인터가 active 상태가 아닌 버전을 가리킴: ${version.status}`);
-  if ((version.effective_from || "") > new Date().toISOString().slice(0, 10)) errors.push("시행일 전 조직버전은 활성화할 수 없음");
+  if ((version.effective_from || "") > validationDate) errors.push("시행일 전 조직버전은 활성화할 수 없음");
   if (!/^\d{4}-H[12]$/.test(version.version || "")) errors.push(`잘못된 반기 버전: ${version.version || "(없음)"}`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(version.effective_from || "")) errors.push("잘못된 effective_from");
   if (!Array.isArray(version.sources) || version.sources.length < 2) errors.push("공식 출처가 2개 미만");
@@ -83,11 +89,19 @@ function validateOrganizationData(options = {}) {
     if (nameMap.has(unit.name)) errors.push(`중복 조직명: ${unit.name}`);
     idMap.set(unit.id, unit);
     nameMap.set(unit.name, unit);
-    if (unit.parent_id && !units.some(parent => parent.id === unit.parent_id)) errors.push(`상위 조직 없음: ${unit.id} → ${unit.parent_id}`);
   }
-  if (assignable.length !== 94) errors.push(`2026-H2 자동배정 조직 수 오류: ${assignable.length} (기대 94)`);
+  if (!Number.isInteger(version.expected_unit_count) || version.expected_unit_count < 1) {
+    errors.push("expected_unit_count 누락·오류");
+  } else if (documented.length !== version.expected_unit_count) {
+    errors.push(`${version.version} 현행 조직 수 오류: ${documented.length} (버전 정본 기대 ${version.expected_unit_count})`);
+  }
+  if (!Number.isInteger(version.expected_assignable_count) || version.expected_assignable_count < 1) {
+    errors.push("expected_assignable_count 누락·오류");
+  } else if (assignable.length !== version.expected_assignable_count) {
+    errors.push(`${version.version} 자동배정 조직 수 오류: ${assignable.length} (버전 정본 기대 ${version.expected_assignable_count})`);
+  }
 
-  const changePath = options.changePath || path.join(ORG_ROOT, "changes", `${version.version}.json`);
+  const changePath = options.changePath || path.join(data.orgRoot, "changes", `${version.version}.json`);
   const changes = readJson(changePath);
   if (changes.version !== version.version) errors.push("변경명세 version 불일치");
   const allowedChangeTypes = new Set(["create", "rename", "move", "merge", "split", "abolish", "no_successor"]);
@@ -108,6 +122,7 @@ function validateOrganizationData(options = {}) {
     if (mappingIds.has(mapping.mapping_id)) errors.push(`중복 업무매핑 ID: ${mapping.mapping_id}`);
     mappingIds.add(mapping.mapping_id);
     if (!idMap.has(mapping.target_id)) errors.push(`업무매핑 대상 ID 없음: ${mapping.target_id}`);
+    else if (!idMap.get(mapping.target_id).assignable) errors.push(`업무매핑 대상이 자동배정 불가 조직: ${mapping.mapping_id}/${mapping.target_id}`);
     if (!knownEvidence.has(mapping.evidence_type)) errors.push(`알 수 없는 증거등급: ${mapping.mapping_id}/${mapping.evidence_type}`);
     if (!knownMappingStatus.has(mapping.status)) errors.push(`알 수 없는 업무매핑 상태: ${mapping.mapping_id}/${mapping.status}`);
     if (mapping.status === "confirmed" && !allowedEvidence.has(mapping.evidence_type)) {
@@ -117,7 +132,7 @@ function validateOrganizationData(options = {}) {
 
   if (options.compareMarkdown !== false) {
     const markdownNames = parseCurrentOrgChart(options.orgChartPath || ORG_CHART_PATH);
-    const canonicalNames = new Set(assignable.map(unit => unit.name));
+    const canonicalNames = new Set(documented.map(unit => unit.name));
     const missing = [...canonicalNames].filter(name => !markdownNames.has(name));
     const extra = [...markdownNames].filter(name => !canonicalNames.has(name));
     if (missing.length) errors.push(`조직도 Markdown 누락: ${missing.join(", ")}`);
@@ -125,11 +140,11 @@ function validateOrganizationData(options = {}) {
   }
 
   if (errors.length) throw new Error(errors.join("\n"));
-  return { ...data, units, assignable, idMap, nameMap, changes, dutyMappings };
+  return { ...data, units, documented, assignable, idMap, nameMap, changes, dutyMappings };
 }
 
 function renderGeneratedRegistry(validated = validateOrganizationData()) {
-  const { version, assignable, units } = validated;
+  const { version, documented, assignable, units } = validated;
   const byId = new Map(units.map(unit => [unit.id, unit]));
   const rows = assignable.map(unit => {
     const parent = byId.get(unit.parent_id);
@@ -139,7 +154,7 @@ function renderGeneratedRegistry(validated = validateOrganizationData()) {
     "# IBK 현행 조직 레지스트리 (자동 생성)",
     "",
     "> 이 파일은 `knowledge/org/versions/`의 활성 정본에서 생성됩니다. 직접 수정하지 마세요.",
-    `> 조직버전: ${version.version} / 시행기준: ${version.effective_from} / 자동배정 가능 조직: ${assignable.length}개`,
+    `> 조직버전: ${version.version} / 시행기준: ${version.effective_from} / 현행 조직: ${documented.length}개 / 자동배정 가능 조직: ${assignable.length}개`,
     "",
     "| 조직 ID | 현행 조직명 | 유형 | 상위 조직 |",
     "|---|---|---|---|",
@@ -149,7 +164,7 @@ function renderGeneratedRegistry(validated = validateOrganizationData()) {
 }
 
 module.exports = {
-  ROOT, ORG_ROOT, ACTIVE_PATH, CHANGE_PATH, DUTY_MAPPING_PATH, ORG_CHART_PATH,
+  ROOT, ORG_ROOT, ACTIVE_PATH, DUTY_MAPPING_PATH, ORG_CHART_PATH,
   GENERATED_REGISTRY_PATH, TRANSITION_HEADING, readJson, loadOrganizationData,
   flattenStructure, parseCurrentOrgChart, validateOrganizationData, renderGeneratedRegistry,
 };

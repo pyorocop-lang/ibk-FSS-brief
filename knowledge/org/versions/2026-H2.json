@@ -4,6 +4,8 @@
   "effective_from": "2026-07-14",
   "effective_to": null,
   "status": "active",
+  "expected_unit_count": 94,
+  "expected_assignable_count": 91,
   "sources": [
     {
       "name": "(26.7.14.) 직제규정 전문.pdf",
@@ -283,7 +285,7 @@
               "id": "ORG-0080",
               "name": "AML보고책임자",
               "kind": "responsible_officer",
-              "assignable": true,
+              "assignable": false,
               "children": [
                 { "id": "ORG-0081", "name": "자금세탁방지부", "kind": "department" }
               ]
@@ -310,7 +312,7 @@
               "id": "ORG-0086",
               "name": "재난·안전관리책임자",
               "kind": "responsible_officer",
-              "assignable": true,
+              "assignable": false,
               "children": [
                 { "id": "ORG-0087", "name": "안전기획부", "kind": "department" }
               ]
@@ -319,7 +321,7 @@
               "id": "ORG-0088",
               "name": "정보보호최고책임자",
               "kind": "responsible_officer",
-              "assignable": true,
+              "assignable": false,
               "children": [
                 { "id": "ORG-0089", "name": "정보보호총괄부", "kind": "department" },
                 { "id": "ORG-0090", "name": "정보보호운영부", "kind": "department" }

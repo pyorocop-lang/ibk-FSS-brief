@@ -3,13 +3,15 @@
   "$id": "https://ibk.example/schemas/organization-version.json",
   "title": "IBK organization version",
   "type": "object",
-  "required": ["schema_version", "version", "effective_from", "status", "sources", "structure"],
+  "required": ["schema_version", "version", "effective_from", "status", "expected_unit_count", "expected_assignable_count", "sources", "structure"],
   "properties": {
     "schema_version": { "type": "integer", "minimum": 1 },
     "version": { "type": "string", "pattern": "^[0-9]{4}-H[12]$" },
     "effective_from": { "type": "string", "format": "date" },
     "effective_to": { "type": ["string", "null"], "format": "date" },
     "status": { "enum": ["draft", "scheduled", "active", "retired"] },
+    "expected_unit_count": { "type": "integer", "minimum": 1 },
+    "expected_assignable_count": { "type": "integer", "minimum": 1 },
     "sources": {
       "type": "array",
       "minItems": 2,

@@ -1,11 +1,15 @@
 # 변경 이력
 
 ## 2026-07-15 (반기 조직개편 자동화)
+- fix: 다음 반기의 조직 수를 코드 상수 94가 아니라 버전별 `expected_unit_count`·`expected_assignable_count`로 검증해 신설·폐지 시 코드 수정이 필요 없도록 했다.
+- fix: 개인 역할인 AML보고책임자·재난안전관리책임자·정보보호최고책임자를 자동배정 대상에서 제외하고 하위 현업부서만 허용했다.
+- fix: 전역 감사를 런타임 JS·workflow·에이전트 프롬프트·생성 지식과 과거 `our_action`·`ctrl_insight`·`tgMsg`까지 확대했다.
+- fix: CI 경로가 하이픈형 `knowledge/ibk-*.md`를 놓치지 않도록 보완하고 scaffold를 임시파일·롤백 방식으로 변경했다.
 - feat: 반기별 JSON 조직 정본·안정 `org_id`·시행일·출처 해시·변경명세·업무승계 증거등급을 도입했다.
 - refactor: `org_registry.js`가 Markdown 불릿 대신 `knowledge/org/active.json`이 지정한 버전 정본을 읽도록 전환했다.
 - feat: `org:validate`·`org:generate`·`org:audit` 명령과 자동 생성 현행 조직 레지스트리를 추가했다.
 - ci: 조직 정본·생성물·전역 배정·회귀 테스트 전용 workflow와 일일 브리핑 PRECHECK를 추가했다.
-- test: 안정 ID·계층·출처·생성물 드리프트·추정 증거의 자동배정 차단 회귀검증을 추가했다.
+- test: 안정 ID·계층·출처·생성물 드리프트·추정 증거 차단과 2027-H1 조직 수 변경·scaffold 원자성 회귀검증을 추가했다.
 - docs: 1월·7월 조직개편의 D-30~D+7 운영 플레이북을 추가했다.
 
 ## 2026-07-15 (조직 정본 전역 정합성)

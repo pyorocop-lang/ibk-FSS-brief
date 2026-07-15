@@ -1,7 +1,7 @@
 # IBK 현행 조직 레지스트리 (자동 생성)
 
 > 이 파일은 `knowledge/org/versions/`의 활성 정본에서 생성됩니다. 직접 수정하지 마세요.
-> 조직버전: 2026-H2 / 시행기준: 2026-07-14 / 자동배정 가능 조직: 94개
+> 조직버전: 2026-H2 / 시행기준: 2026-07-14 / 현행 조직: 94개 / 자동배정 가능 조직: 91개
 
 | 조직 ID | 현행 조직명 | 유형 | 상위 조직 |
 |---|---|---|---|
@@ -84,15 +84,12 @@
 | ORG-0077 | 금융소비자지원부 | department | 금융소비자보호그룹 |
 | ORG-0078 | 준법지원부 | department | 준법감시인 |
 | ORG-0079 | 내부통제총괄부 | department | 준법감시인 |
-| ORG-0080 | AML보고책임자 | responsible_officer | 준법감시인 |
 | ORG-0081 | 자금세탁방지부 | department | AML보고책임자 |
 | ORG-0082 | 중기산업연구실 | office | IBK경제연구소 |
 | ORG-0083 | 경제경영연구실 | office | IBK경제연구소 |
 | ORG-0084 | 비서실 | office | 기타 직속 조직 |
 | ORG-0085 | 정도경영실 | office | 기타 직속 조직 |
-| ORG-0086 | 재난·안전관리책임자 | responsible_officer | 기타 직속 조직 |
 | ORG-0087 | 안전기획부 | department | 재난·안전관리책임자 |
-| ORG-0088 | 정보보호최고책임자 | responsible_officer | 기타 직속 조직 |
 | ORG-0089 | 정보보호총괄부 | department | 정보보호최고책임자 |
 | ORG-0090 | 정보보호운영부 | department | 정보보호최고책임자 |
 | ORG-0091 | 사회공헌·브랜드본부 | headquarters | 기타 직속 조직 |

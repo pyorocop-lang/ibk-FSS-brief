@@ -5,7 +5,7 @@ on:
     paths:
       - "knowledge/org/**"
       - "knowledge/generated/**"
-      - "knowledge/ibk_*.md"
+      - "knowledge/ibk*.md"
       - "analyst.js"
       - "validator.js"
       - "org_*.js"
@@ -17,7 +17,7 @@ on:
     paths:
       - "knowledge/org/**"
       - "knowledge/generated/**"
-      - "knowledge/ibk_*.md"
+      - "knowledge/ibk*.md"
       - "analyst.js"
       - "validator.js"
       - "org_*.js"
