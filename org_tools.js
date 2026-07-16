@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const {
-  ROOT, ORG_ROOT, GENERATED_REGISTRY_PATH, readJson, flattenStructure,
+  ROOT, ORG_ROOT, GENERATED_REGISTRY_PATH, readJson, flattenStructure, countKinds,
   validateOrganizationData, renderGeneratedRegistry,
 } = require("./org_data");
 
@@ -194,6 +194,7 @@ function deriveOrganizationChanges(baseVersion, targetVersion) {
     counts: {
       units: targetUnits.filter(unit => /^ORG-\d{4}$/.test(unit.id)).length,
       assignable: targetUnits.filter(unit => unit.assignable).length,
+      byKind: countKinds(targetUnits),
     },
   };
 }
@@ -211,6 +212,21 @@ function resolveDraftVersion(orgRoot, baseVersion, requestedVersion) {
     .map(version => version.version);
   if (drafts.length !== 1) throw new Error(`계획 대상 draft를 하나로 특정할 수 없음: ${drafts.join(", ") || "없음"} (--version 사용)`);
   return drafts[0];
+}
+
+function backupExistingPlan(changePath) {
+  const stamp = `${Date.now()}-${process.pid}`;
+  for (let attempt = 0; attempt < 1000; attempt += 1) {
+    const suffix = attempt === 0 ? stamp : `${stamp}-${attempt}`;
+    const backupPath = `${changePath}.${suffix}.bak`;
+    try {
+      fs.copyFileSync(changePath, backupPath, fs.constants.COPYFILE_EXCL);
+      return backupPath;
+    } catch (error) {
+      if (error.code !== "EEXIST") throw error;
+    }
+  }
+  throw new Error(`변경명세 백업 경로를 확보할 수 없음: ${path.relative(ROOT, changePath)}`);
 }
 
 function plan({ version, orgRoot = ORG_ROOT, force = false } = {}) {
@@ -239,6 +255,8 @@ function plan({ version, orgRoot = ORG_ROOT, force = false } = {}) {
     changes: derived.changes,
   };
   fs.mkdirSync(path.dirname(changePath), { recursive: true });
+  let backupPath = null;
+  if (force && existing?.changes?.length) backupPath = backupExistingPlan(changePath);
   const tempPath = `${changePath}.${process.pid}-${Date.now()}.tmp`;
   try {
     fs.writeFileSync(tempPath, `${JSON.stringify(output, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
@@ -252,11 +270,13 @@ function plan({ version, orgRoot = ORG_ROOT, force = false } = {}) {
     version: target.version,
     basedOnVersion: current.version.version,
     changePath,
+    backupPath,
     changes: derived.changes.length,
     counts: derived.counts,
     declaredCounts: {
       units: target.expected_unit_count,
       assignable: target.expected_assignable_count,
+      byKind: target.expected_kind_counts,
     },
     pendingSuccessors: derived.pendingSuccessors,
     warnings: derived.warnings,

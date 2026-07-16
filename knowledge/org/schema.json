@@ -3,7 +3,7 @@
   "$id": "https://ibk.example/schemas/organization-version.json",
   "title": "IBK organization version",
   "type": "object",
-  "required": ["schema_version", "version", "effective_from", "status", "expected_unit_count", "expected_assignable_count", "sources", "structure"],
+  "required": ["schema_version", "version", "effective_from", "status", "expected_unit_count", "expected_assignable_count", "expected_kind_counts", "sources", "structure"],
   "properties": {
     "schema_version": { "type": "integer", "minimum": 1 },
     "version": { "type": "string", "pattern": "^[0-9]{4}-H[12]$" },
@@ -13,6 +13,11 @@
     "based_on_version": { "type": "string", "pattern": "^[0-9]{4}-H[12]$" },
     "expected_unit_count": { "type": "integer", "minimum": 1 },
     "expected_assignable_count": { "type": "integer", "minimum": 1 },
+    "expected_kind_counts": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
     "sources": {
       "type": "array",
       "minItems": 3,
