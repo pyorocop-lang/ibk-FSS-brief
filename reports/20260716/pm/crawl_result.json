@@ -1,0 +1,1518 @@
+{
+  "dateCode": "20260716",
+  "runSlot": "pm",
+  "crawledAt": "2026-07-16T07:00:26.334Z",
+  "source": "FSS 제재공시(openInfo) + 경영유의(openInfoImpr) 스크래핑",
+  "collectMode": "scrape",
+  "ledgerSeeded": false,
+  "newItemBasis": "scan-window-diff",
+  "prevCrawlFile": "reports/20260716/am/crawl_result.json",
+  "totalFetched": 100,
+  "items": [
+    {
+      "key": "202400534_1",
+      "source": "제재공시",
+      "org": "네이버파이낸셜㈜",
+      "actionRequestDate": "2026-07-10",
+      "dept": "외환감독국",
+      "firstSeenDate": "20260716",
+      "firstSeenSlot": "pm",
+      "listRank": 3,
+      "listingLagDays": 6,
+      "listedOutOfOrder": true,
+      "actionDate": "2026-07-10",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_01_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EC%A0%9C%EC%9E%AC%EB%82%B4%EC%9A%A9+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+          "name": "202400534_01_260716_네이버파이낸셜㈜_제재내용 공개안.pdf"
+        }
+      ],
+      "bodyText": "- 1 - 제재내용 공개안 1.금융기관명:네이버파이낸셜(주) 2.제재조치일:2026.7.10. 3.제재조치내용 제재대상제재내용 직원주의1명 4.제재대상사실 가.주의사항 (1)고객확인의무위반 「특정금융거래정보의보고및이용등에관한법률」제5조의2제1항에 의하면전자금융업자등은금융거래등을이용한자금세탁행위등을방지하기 위하여고객의신원,실제소유자등고객확인을실시하여야하는데도, 국내전자지급결제대행업자인회사는2021.9.30.A사 * 와해외결제서비스 업무(전자지급결제대행)제휴계약을체결하면서해외결제서비스의자금정산 업무를담당하는B사 ** 에대한고객확인의무를이행하지않았음 *2021.9.30.A사에대한고객확인의무는이행 **제휴계약의별도정산약정에의하면,B사는네이버파이낸셜(주)로부터국내이용자의해외 결제에대한정산대금을직접입금받아해외가맹점에정산하는업무를담당하는계약 당사자로고객확인의무대상 <관련법규> 1.「특정금융거래정보의보고및이용등에관한법률」제5조의2제1항 2.「특정금융거래정보의보고및이용등에관한법률시행령」제10조의4제2호,제10조의5제2항",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-16&pageIndex=1&examMgmtNo=202400534&emOpenSeq=1",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-16&pageIndex=1&examMgmtNo=202400534&emOpenSeq=1",
+      "examMgmtNo": "202400534",
+      "emOpenSeq": "1",
+      "grade": "중",
+      "score": 2,
+      "isIBK": false,
+      "bankTarget": false,
+      "tier": "T3",
+      "tierLabel": "주변",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260716/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 3,
+        "seqNo": "209",
+        "listTotal": 211,
+        "prevListTotal": 210,
+        "checksum": "211 − 210 = 1 == 신규 1 − 삭제 0"
+      }
+    },
+    {
+      "key": "202400534_12",
+      "source": "경영유의",
+      "org": "네이버파이낸셜㈜",
+      "actionRequestDate": "2026-07-10",
+      "dept": "외환감독국",
+      "firstSeenDate": "20260716",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 6,
+      "listedOutOfOrder": true,
+      "actionDate": "",
+      "sanctionTargets": null,
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_12_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EA%B2%BD%EC%98%81%EC%9C%A0%EC%9D%98%EC%82%AC%ED%95%AD+%EB%93%B1+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+          "name": "202400534_12_260716_네이버파이낸셜㈜_경영유의사항+등+공개안.pdf"
+        }
+      ],
+      "bodyText": "- 1 - 경영유의사항 등 공개안 1.금융기관명:네이버파이낸셜(주) 2.조치일:2026.7.10. 3.조치내용 대상내용 기관경영유의사항2건 4.조치대상사실 가.경영유의사항 (1)「외국환거래법」상확인의무업무절차강화 「외국환거래법」제10조제1항에의하면전문외국환업무취급업자등은 고객과의대외거래나지급또는수령이「외국환거래법」상허가를받았거나 신고를한것인지여부를확인하여야하므로,회사는외국환업무취급시정상 가맹점여부,취급품목등증빙서류를통해반드시확인하여야하는세부항목을 정하고확인을위한절차를체계적으로마련하는것이바람직함에도, 회사는전자지급결제정산대행계약을맺은해외PG사의오프라인가맹점에대하여 등록심사및사후관리를제대로수행하지않아해외PG사의오프라인가맹점이 불법또는허위가맹점에해당하는지여부를확인하지못할우려가있으며, 정산대금을해외송금하는경우에도해외가맹점의결제건수.총액만단순 확인하고거래품목을형식적으로만받거나품목을확인하지않아이상거래여부 등을확인하지못할우려가있음 - 2 - <조치할사항> 따라서회사는해외PG사의해외가맹점에대해등록심사및사후관리를 면밀히하여허위가맹점여부등을확인하고,정산대금해외송금시에거래품목을 제대로파악하는등「외국환거래법」상확인의무이행에유의하시기바람 (2)주기적고객확인의무업무절차강화 회사의내규등에따르면계속거래고객의경우거래행위를고려한자금세탁 행위등의위험도를평가하여주기적으로고객확인을수행하도록규정 * 하고있으나, *고위험으로평가된경우에는1년주기로,고위험으로평가되지않은경우에는3년주기로 고객확인을수행하도록규정 회사는내규상정해진고객확인주기가도래하였음에도,일부계속거래 고객에대해고객확인절차를이행하지아니하는등내규에서정한고객확인 재이행절차를미흡하게운영하였음 <조치할사항> 따라서회사는주기적고객확인의무미이행고객현황보고등을수립하여 내규에서정한주기적인고객확인절차가이행될수있도록유의하시기바람",
+      "detailUrl": null,
+      "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_12_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EA%B2%BD%EC%98%81%EC%9C%A0%EC%9D%98%EC%82%AC%ED%95%AD+%EB%93%B1+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+      "grade": "중",
+      "score": 2,
+      "isIBK": false,
+      "bankTarget": false,
+      "tier": "T3",
+      "tierLabel": "주변",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260716/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "69",
+        "listTotal": 69,
+        "prevListTotal": 68,
+        "checksum": "69 − 68 = 1 == 신규 1 − 삭제 0"
+      }
+    }
+  ],
+  "graded": [
+    {
+      "key": "202400534_1",
+      "source": "제재공시",
+      "org": "네이버파이낸셜㈜",
+      "actionRequestDate": "2026-07-10",
+      "dept": "외환사업부",
+      "firstSeenDate": "20260716",
+      "firstSeenSlot": "pm",
+      "listRank": 3,
+      "listingLagDays": 6,
+      "listedOutOfOrder": true,
+      "actionDate": "2026-07-10",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_01_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EC%A0%9C%EC%9E%AC%EB%82%B4%EC%9A%A9+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+          "name": "202400534_01_260716_네이버파이낸셜㈜_제재내용 공개안.pdf"
+        }
+      ],
+      "bodyText": "- 1 - 제재내용 공개안 1.금융기관명:네이버파이낸셜(주) 2.제재조치일:2026.7.10. 3.제재조치내용 제재대상제재내용 직원주의1명 4.제재대상사실 가.주의사항 (1)고객확인의무위반 「특정금융거래정보의보고및이용등에관한법률」제5조의2제1항에 의하면전자금융업자등은금융거래등을이용한자금세탁행위등을방지하기 위하여고객의신원,실제소유자등고객확인을실시하여야하는데도, 국내전자지급결제대행업자인회사는2021.9.30.A사 * 와해외결제서비스 업무(전자지급결제대행)제휴계약을체결하면서해외결제서비스의자금정산 업무를담당하는B사 ** 에대한고객확인의무를이행하지않았음 *2021.9.30.A사에대한고객확인의무는이행 **제휴계약의별도정산약정에의하면,B사는네이버파이낸셜(주)로부터국내이용자의해외 결제에대한정산대금을직접입금받아해외가맹점에정산하는업무를담당하는계약 당사자로고객확인의무대상 <관련법규> 1.「특정금융거래정보의보고및이용등에관한법률」제5조의2제1항 2.「특정금융거래정보의보고및이용등에관한법률시행령」제10조의4제2호,제10조의5제2항",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-16&pageIndex=1&examMgmtNo=202400534&emOpenSeq=1",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-16&pageIndex=1&examMgmtNo=202400534&emOpenSeq=1",
+      "examMgmtNo": "202400534",
+      "emOpenSeq": "1",
+      "grade": "중",
+      "score": 2,
+      "isIBK": false,
+      "bankTarget": false,
+      "tier": "T3",
+      "tierLabel": "주변",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260716/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 3,
+        "seqNo": "209",
+        "listTotal": 211,
+        "prevListTotal": 210,
+        "checksum": "211 − 210 = 1 == 신규 1 − 삭제 0"
+      },
+      "title": "네이버파이낸셜㈜",
+      "what_changes": [
+        "해외 결제 서비스 제휴사(B사)에 대한 고객확인(KYC)을 하지 않았어요. 정산 대금을 직접 받는 제휴사도 고객확인 대상이었는데 빠뜨렸어요."
+      ],
+      "our_action": [
+        "외환사업부 담당자라면 해외 결제 제휴사나 정산 파트너에 대한 고객확인 절차가 IBK에는 빠진 게 없는지 점검해 보세요.",
+        "자금세탁방지부 담당자라면 국내 전자금융 거래에서 해외 자금 흐름이 있을 때 중간 정산자에 대한 KYC 요건을 확인해 보세요."
+      ],
+      "ctrl_insight": "외환사업부의 해외 결제 제휴·정산 프로세스에도 같은 점검 지점이 있어요. 직접 고객확인 대상이 아니어 보이는 제휴사도 자금 정산 역할을 하면 AML 대상이 될 수 있거든요.",
+      "related_depts": [
+        "자금세탁방지부"
+      ],
+      "org_version": "2026-H2",
+      "dept_id": "ORG-0004",
+      "related_dept_ids": [
+        "ORG-0081"
+      ],
+      "tg_key": "네이버파이낸셜·KYC 미이행·직원주의",
+      "sanction_type": "직원주의",
+      "risk_basis": "직원주의(경미) 1명, AML 고객확인 의무 위반, 2026.07.10 제재",
+      "workflow_type": "D",
+      "term": {
+        "word": "고객확인의무(KYC)",
+        "def": "금융거래 상대방이 실제로 누구인지, 자금이 정당한 출처인지 확인하는 의무",
+        "src": "네이버파이낸셜 제재, 특금법"
+      },
+      "_llm": true,
+      "_fallback": false
+    },
+    {
+      "key": "202400534_12",
+      "source": "경영유의",
+      "org": "네이버파이낸셜㈜",
+      "actionRequestDate": "2026-07-10",
+      "dept": "자금세탁방지부",
+      "firstSeenDate": "20260716",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 6,
+      "listedOutOfOrder": true,
+      "actionDate": "",
+      "sanctionTargets": null,
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_12_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EA%B2%BD%EC%98%81%EC%9C%A0%EC%9D%98%EC%82%AC%ED%95%AD+%EB%93%B1+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+          "name": "202400534_12_260716_네이버파이낸셜㈜_경영유의사항+등+공개안.pdf"
+        }
+      ],
+      "bodyText": "- 1 - 경영유의사항 등 공개안 1.금융기관명:네이버파이낸셜(주) 2.조치일:2026.7.10. 3.조치내용 대상내용 기관경영유의사항2건 4.조치대상사실 가.경영유의사항 (1)「외국환거래법」상확인의무업무절차강화 「외국환거래법」제10조제1항에의하면전문외국환업무취급업자등은 고객과의대외거래나지급또는수령이「외국환거래법」상허가를받았거나 신고를한것인지여부를확인하여야하므로,회사는외국환업무취급시정상 가맹점여부,취급품목등증빙서류를통해반드시확인하여야하는세부항목을 정하고확인을위한절차를체계적으로마련하는것이바람직함에도, 회사는전자지급결제정산대행계약을맺은해외PG사의오프라인가맹점에대하여 등록심사및사후관리를제대로수행하지않아해외PG사의오프라인가맹점이 불법또는허위가맹점에해당하는지여부를확인하지못할우려가있으며, 정산대금을해외송금하는경우에도해외가맹점의결제건수.총액만단순 확인하고거래품목을형식적으로만받거나품목을확인하지않아이상거래여부 등을확인하지못할우려가있음 - 2 - <조치할사항> 따라서회사는해외PG사의해외가맹점에대해등록심사및사후관리를 면밀히하여허위가맹점여부등을확인하고,정산대금해외송금시에거래품목을 제대로파악하는등「외국환거래법」상확인의무이행에유의하시기바람 (2)주기적고객확인의무업무절차강화 회사의내규등에따르면계속거래고객의경우거래행위를고려한자금세탁 행위등의위험도를평가하여주기적으로고객확인을수행하도록규정 * 하고있으나, *고위험으로평가된경우에는1년주기로,고위험으로평가되지않은경우에는3년주기로 고객확인을수행하도록규정 회사는내규상정해진고객확인주기가도래하였음에도,일부계속거래 고객에대해고객확인절차를이행하지아니하는등내규에서정한고객확인 재이행절차를미흡하게운영하였음 <조치할사항> 따라서회사는주기적고객확인의무미이행고객현황보고등을수립하여 내규에서정한주기적인고객확인절차가이행될수있도록유의하시기바람",
+      "detailUrl": null,
+      "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_12_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EA%B2%BD%EC%98%81%EC%9C%A0%EC%9D%98%EC%82%AC%ED%95%AD+%EB%93%B1+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+      "grade": "중",
+      "score": 2,
+      "isIBK": false,
+      "bankTarget": false,
+      "tier": "T3",
+      "tierLabel": "주변",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260716/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "69",
+        "listTotal": 69,
+        "prevListTotal": 68,
+        "checksum": "69 − 68 = 1 == 신규 1 − 삭제 0"
+      },
+      "title": "네이버파이낸셜㈜",
+      "what_changes": [
+        "해외 PG사의 오프라인 가맹점에 대해 등록심사와 사후관리를 제대로 하지 않아, 불법·허위 가맹점 여부를 확인하지 못할 우려가 있었어요.",
+        "정산대금을 해외송금할 때 거래품목을 형식적으로만 받거나 확인하지 않아, 이상거래 여부를 파악하지 못했어요."
+      ],
+      "our_action": [
+        "외환사업부 담당자라면 해외 송금 거래 시 PG사·가맹점의 등록 및 관리 절차가 IBK에서도 제대로 갖춰져 있는지 점검해 보세요. 특히 가맹점 심사·사후모니터링 체크리스트와 거래품목 확인 프로세스가 실제로 작동하는지 살펴보세요.",
+        "자금세탁방지부 담당자라면 IBK의 주기적 고객확인 내규가 실제로 운영되는지 점검해 보세요. 고위험 고객(1년 주기)·일반 고객(3년 주기) 재확인 기한이 도래했을 때 놓친 건 없는지, 미이행 고객 현황 보고 체계가 작동하는지 꼭 살펴보세요."
+      ],
+      "ctrl_insight": "외환사업부의 해외 송금·결제 프로세스와 자금세탁방지부의 주기적 고객확인 운영에서 유사한 점검 지점이 있어요. 해외 거래처 실사(due diligence) 기록이 남아 있는지, 고객확인 주기 도래 시 자동 알림 및 추적 시스템이 제대로 작동하는지 보면 같은 문제를 피할 수 있어요.",
+      "related_depts": [
+        "외환사업부"
+      ],
+      "org_version": "2026-H2",
+      "dept_id": "ORG-0081",
+      "related_dept_ids": [
+        "ORG-0004"
+      ],
+      "tg_key": "네이버파이낸셜·외국환 고객확인",
+      "sanction_type": "경영유의",
+      "risk_basis": "경영유의 2건 지적 (외국환거래법 위반 우려, 주기적 고객확인 미이행) — FSS 2026.07.10",
+      "workflow_type": "D",
+      "term": {
+        "word": "주기적 고객확인(periodic CDD)",
+        "def": "처음 확인 후 계속 거래하는 고객을 고정기간마다 다시 확인해 자금세탁·테러자금 위험을 재평가하는 의무",
+        "src": "경영유의·외국환거래법, 자금세탁방지"
+      },
+      "_llm": true,
+      "_fallback": false
+    }
+  ],
+  "newItems": [
+    {
+      "key": "202400534_1",
+      "source": "제재공시",
+      "org": "네이버파이낸셜㈜",
+      "actionRequestDate": "2026-07-10",
+      "dept": "외환감독국",
+      "firstSeenDate": "20260716",
+      "firstSeenSlot": "pm",
+      "listRank": 3,
+      "listingLagDays": 6,
+      "listedOutOfOrder": true,
+      "actionDate": "2026-07-10",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_01_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EC%A0%9C%EC%9E%AC%EB%82%B4%EC%9A%A9+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+          "name": "202400534_01_260716_네이버파이낸셜㈜_제재내용 공개안.pdf"
+        }
+      ],
+      "bodyText": "- 1 - 제재내용 공개안 1.금융기관명:네이버파이낸셜(주) 2.제재조치일:2026.7.10. 3.제재조치내용 제재대상제재내용 직원주의1명 4.제재대상사실 가.주의사항 (1)고객확인의무위반 「특정금융거래정보의보고및이용등에관한법률」제5조의2제1항에 의하면전자금융업자등은금융거래등을이용한자금세탁행위등을방지하기 위하여고객의신원,실제소유자등고객확인을실시하여야하는데도, 국내전자지급결제대행업자인회사는2021.9.30.A사 * 와해외결제서비스 업무(전자지급결제대행)제휴계약을체결하면서해외결제서비스의자금정산 업무를담당하는B사 ** 에대한고객확인의무를이행하지않았음 *2021.9.30.A사에대한고객확인의무는이행 **제휴계약의별도정산약정에의하면,B사는네이버파이낸셜(주)로부터국내이용자의해외 결제에대한정산대금을직접입금받아해외가맹점에정산하는업무를담당하는계약 당사자로고객확인의무대상 <관련법규> 1.「특정금융거래정보의보고및이용등에관한법률」제5조의2제1항 2.「특정금융거래정보의보고및이용등에관한법률시행령」제10조의4제2호,제10조의5제2항",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-16&pageIndex=1&examMgmtNo=202400534&emOpenSeq=1",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-16&pageIndex=1&examMgmtNo=202400534&emOpenSeq=1",
+      "examMgmtNo": "202400534",
+      "emOpenSeq": "1",
+      "grade": "중",
+      "score": 2,
+      "isIBK": false,
+      "bankTarget": false,
+      "tier": "T3",
+      "tierLabel": "주변",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260716/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 3,
+        "seqNo": "209",
+        "listTotal": 211,
+        "prevListTotal": 210,
+        "checksum": "211 − 210 = 1 == 신규 1 − 삭제 0"
+      }
+    },
+    {
+      "key": "202400534_12",
+      "source": "경영유의",
+      "org": "네이버파이낸셜㈜",
+      "actionRequestDate": "2026-07-10",
+      "dept": "외환감독국",
+      "firstSeenDate": "20260716",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 6,
+      "listedOutOfOrder": true,
+      "actionDate": "",
+      "sanctionTargets": null,
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_12_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EA%B2%BD%EC%98%81%EC%9C%A0%EC%9D%98%EC%82%AC%ED%95%AD+%EB%93%B1+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+          "name": "202400534_12_260716_네이버파이낸셜㈜_경영유의사항+등+공개안.pdf"
+        }
+      ],
+      "bodyText": "- 1 - 경영유의사항 등 공개안 1.금융기관명:네이버파이낸셜(주) 2.조치일:2026.7.10. 3.조치내용 대상내용 기관경영유의사항2건 4.조치대상사실 가.경영유의사항 (1)「외국환거래법」상확인의무업무절차강화 「외국환거래법」제10조제1항에의하면전문외국환업무취급업자등은 고객과의대외거래나지급또는수령이「외국환거래법」상허가를받았거나 신고를한것인지여부를확인하여야하므로,회사는외국환업무취급시정상 가맹점여부,취급품목등증빙서류를통해반드시확인하여야하는세부항목을 정하고확인을위한절차를체계적으로마련하는것이바람직함에도, 회사는전자지급결제정산대행계약을맺은해외PG사의오프라인가맹점에대하여 등록심사및사후관리를제대로수행하지않아해외PG사의오프라인가맹점이 불법또는허위가맹점에해당하는지여부를확인하지못할우려가있으며, 정산대금을해외송금하는경우에도해외가맹점의결제건수.총액만단순 확인하고거래품목을형식적으로만받거나품목을확인하지않아이상거래여부 등을확인하지못할우려가있음 - 2 - <조치할사항> 따라서회사는해외PG사의해외가맹점에대해등록심사및사후관리를 면밀히하여허위가맹점여부등을확인하고,정산대금해외송금시에거래품목을 제대로파악하는등「외국환거래법」상확인의무이행에유의하시기바람 (2)주기적고객확인의무업무절차강화 회사의내규등에따르면계속거래고객의경우거래행위를고려한자금세탁 행위등의위험도를평가하여주기적으로고객확인을수행하도록규정 * 하고있으나, *고위험으로평가된경우에는1년주기로,고위험으로평가되지않은경우에는3년주기로 고객확인을수행하도록규정 회사는내규상정해진고객확인주기가도래하였음에도,일부계속거래 고객에대해고객확인절차를이행하지아니하는등내규에서정한고객확인 재이행절차를미흡하게운영하였음 <조치할사항> 따라서회사는주기적고객확인의무미이행고객현황보고등을수립하여 내규에서정한주기적인고객확인절차가이행될수있도록유의하시기바람",
+      "detailUrl": null,
+      "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_12_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EA%B2%BD%EC%98%81%EC%9C%A0%EC%9D%98%EC%82%AC%ED%95%AD+%EB%93%B1+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+      "grade": "중",
+      "score": 2,
+      "isIBK": false,
+      "bankTarget": false,
+      "tier": "T3",
+      "tierLabel": "주변",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260716/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "69",
+        "listTotal": 69,
+        "prevListTotal": 68,
+        "checksum": "69 − 68 = 1 == 신규 1 − 삭제 0"
+      }
+    }
+  ],
+  "newGraded": [
+    {
+      "key": "202400534_1",
+      "source": "제재공시",
+      "org": "네이버파이낸셜㈜",
+      "actionRequestDate": "2026-07-10",
+      "dept": "외환사업부",
+      "firstSeenDate": "20260716",
+      "firstSeenSlot": "pm",
+      "listRank": 3,
+      "listingLagDays": 6,
+      "listedOutOfOrder": true,
+      "actionDate": "2026-07-10",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_01_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EC%A0%9C%EC%9E%AC%EB%82%B4%EC%9A%A9+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+          "name": "202400534_01_260716_네이버파이낸셜㈜_제재내용 공개안.pdf"
+        }
+      ],
+      "bodyText": "- 1 - 제재내용 공개안 1.금융기관명:네이버파이낸셜(주) 2.제재조치일:2026.7.10. 3.제재조치내용 제재대상제재내용 직원주의1명 4.제재대상사실 가.주의사항 (1)고객확인의무위반 「특정금융거래정보의보고및이용등에관한법률」제5조의2제1항에 의하면전자금융업자등은금융거래등을이용한자금세탁행위등을방지하기 위하여고객의신원,실제소유자등고객확인을실시하여야하는데도, 국내전자지급결제대행업자인회사는2021.9.30.A사 * 와해외결제서비스 업무(전자지급결제대행)제휴계약을체결하면서해외결제서비스의자금정산 업무를담당하는B사 ** 에대한고객확인의무를이행하지않았음 *2021.9.30.A사에대한고객확인의무는이행 **제휴계약의별도정산약정에의하면,B사는네이버파이낸셜(주)로부터국내이용자의해외 결제에대한정산대금을직접입금받아해외가맹점에정산하는업무를담당하는계약 당사자로고객확인의무대상 <관련법규> 1.「특정금융거래정보의보고및이용등에관한법률」제5조의2제1항 2.「특정금융거래정보의보고및이용등에관한법률시행령」제10조의4제2호,제10조의5제2항",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-16&pageIndex=1&examMgmtNo=202400534&emOpenSeq=1",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-16&pageIndex=1&examMgmtNo=202400534&emOpenSeq=1",
+      "examMgmtNo": "202400534",
+      "emOpenSeq": "1",
+      "grade": "중",
+      "score": 2,
+      "isIBK": false,
+      "bankTarget": false,
+      "tier": "T3",
+      "tierLabel": "주변",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260716/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 3,
+        "seqNo": "209",
+        "listTotal": 211,
+        "prevListTotal": 210,
+        "checksum": "211 − 210 = 1 == 신규 1 − 삭제 0"
+      },
+      "title": "네이버파이낸셜㈜",
+      "what_changes": [
+        "해외 결제 서비스 제휴사(B사)에 대한 고객확인(KYC)을 하지 않았어요. 정산 대금을 직접 받는 제휴사도 고객확인 대상이었는데 빠뜨렸어요."
+      ],
+      "our_action": [
+        "외환사업부 담당자라면 해외 결제 제휴사나 정산 파트너에 대한 고객확인 절차가 IBK에는 빠진 게 없는지 점검해 보세요.",
+        "자금세탁방지부 담당자라면 국내 전자금융 거래에서 해외 자금 흐름이 있을 때 중간 정산자에 대한 KYC 요건을 확인해 보세요."
+      ],
+      "ctrl_insight": "외환사업부의 해외 결제 제휴·정산 프로세스에도 같은 점검 지점이 있어요. 직접 고객확인 대상이 아니어 보이는 제휴사도 자금 정산 역할을 하면 AML 대상이 될 수 있거든요.",
+      "related_depts": [
+        "자금세탁방지부"
+      ],
+      "org_version": "2026-H2",
+      "dept_id": "ORG-0004",
+      "related_dept_ids": [
+        "ORG-0081"
+      ],
+      "tg_key": "네이버파이낸셜·KYC 미이행·직원주의",
+      "sanction_type": "직원주의",
+      "risk_basis": "직원주의(경미) 1명, AML 고객확인 의무 위반, 2026.07.10 제재",
+      "workflow_type": "D",
+      "term": {
+        "word": "고객확인의무(KYC)",
+        "def": "금융거래 상대방이 실제로 누구인지, 자금이 정당한 출처인지 확인하는 의무",
+        "src": "네이버파이낸셜 제재, 특금법"
+      },
+      "_llm": true,
+      "_fallback": false
+    },
+    {
+      "key": "202400534_12",
+      "source": "경영유의",
+      "org": "네이버파이낸셜㈜",
+      "actionRequestDate": "2026-07-10",
+      "dept": "자금세탁방지부",
+      "firstSeenDate": "20260716",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 6,
+      "listedOutOfOrder": true,
+      "actionDate": "",
+      "sanctionTargets": null,
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_12_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EA%B2%BD%EC%98%81%EC%9C%A0%EC%9D%98%EC%82%AC%ED%95%AD+%EB%93%B1+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+          "name": "202400534_12_260716_네이버파이낸셜㈜_경영유의사항+등+공개안.pdf"
+        }
+      ],
+      "bodyText": "- 1 - 경영유의사항 등 공개안 1.금융기관명:네이버파이낸셜(주) 2.조치일:2026.7.10. 3.조치내용 대상내용 기관경영유의사항2건 4.조치대상사실 가.경영유의사항 (1)「외국환거래법」상확인의무업무절차강화 「외국환거래법」제10조제1항에의하면전문외국환업무취급업자등은 고객과의대외거래나지급또는수령이「외국환거래법」상허가를받았거나 신고를한것인지여부를확인하여야하므로,회사는외국환업무취급시정상 가맹점여부,취급품목등증빙서류를통해반드시확인하여야하는세부항목을 정하고확인을위한절차를체계적으로마련하는것이바람직함에도, 회사는전자지급결제정산대행계약을맺은해외PG사의오프라인가맹점에대하여 등록심사및사후관리를제대로수행하지않아해외PG사의오프라인가맹점이 불법또는허위가맹점에해당하는지여부를확인하지못할우려가있으며, 정산대금을해외송금하는경우에도해외가맹점의결제건수.총액만단순 확인하고거래품목을형식적으로만받거나품목을확인하지않아이상거래여부 등을확인하지못할우려가있음 - 2 - <조치할사항> 따라서회사는해외PG사의해외가맹점에대해등록심사및사후관리를 면밀히하여허위가맹점여부등을확인하고,정산대금해외송금시에거래품목을 제대로파악하는등「외국환거래법」상확인의무이행에유의하시기바람 (2)주기적고객확인의무업무절차강화 회사의내규등에따르면계속거래고객의경우거래행위를고려한자금세탁 행위등의위험도를평가하여주기적으로고객확인을수행하도록규정 * 하고있으나, *고위험으로평가된경우에는1년주기로,고위험으로평가되지않은경우에는3년주기로 고객확인을수행하도록규정 회사는내규상정해진고객확인주기가도래하였음에도,일부계속거래 고객에대해고객확인절차를이행하지아니하는등내규에서정한고객확인 재이행절차를미흡하게운영하였음 <조치할사항> 따라서회사는주기적고객확인의무미이행고객현황보고등을수립하여 내규에서정한주기적인고객확인절차가이행될수있도록유의하시기바람",
+      "detailUrl": null,
+      "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400534_12_260716_%EB%84%A4%EC%9D%B4%EB%B2%84%ED%8C%8C%EC%9D%B4%EB%82%B8%EC%85%9C%E3%88%9C_%EA%B2%BD%EC%98%81%EC%9C%A0%EC%9D%98%EC%82%AC%ED%95%AD+%EB%93%B1+%EA%B3%B5%EA%B0%9C%EC%95%88.pdf",
+      "grade": "중",
+      "score": 2,
+      "isIBK": false,
+      "bankTarget": false,
+      "tier": "T3",
+      "tierLabel": "주변",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260716/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "69",
+        "listTotal": 69,
+        "prevListTotal": 68,
+        "checksum": "69 − 68 = 1 == 신규 1 − 삭제 0"
+      },
+      "title": "네이버파이낸셜㈜",
+      "what_changes": [
+        "해외 PG사의 오프라인 가맹점에 대해 등록심사와 사후관리를 제대로 하지 않아, 불법·허위 가맹점 여부를 확인하지 못할 우려가 있었어요.",
+        "정산대금을 해외송금할 때 거래품목을 형식적으로만 받거나 확인하지 않아, 이상거래 여부를 파악하지 못했어요."
+      ],
+      "our_action": [
+        "외환사업부 담당자라면 해외 송금 거래 시 PG사·가맹점의 등록 및 관리 절차가 IBK에서도 제대로 갖춰져 있는지 점검해 보세요. 특히 가맹점 심사·사후모니터링 체크리스트와 거래품목 확인 프로세스가 실제로 작동하는지 살펴보세요.",
+        "자금세탁방지부 담당자라면 IBK의 주기적 고객확인 내규가 실제로 운영되는지 점검해 보세요. 고위험 고객(1년 주기)·일반 고객(3년 주기) 재확인 기한이 도래했을 때 놓친 건 없는지, 미이행 고객 현황 보고 체계가 작동하는지 꼭 살펴보세요."
+      ],
+      "ctrl_insight": "외환사업부의 해외 송금·결제 프로세스와 자금세탁방지부의 주기적 고객확인 운영에서 유사한 점검 지점이 있어요. 해외 거래처 실사(due diligence) 기록이 남아 있는지, 고객확인 주기 도래 시 자동 알림 및 추적 시스템이 제대로 작동하는지 보면 같은 문제를 피할 수 있어요.",
+      "related_depts": [
+        "외환사업부"
+      ],
+      "org_version": "2026-H2",
+      "dept_id": "ORG-0081",
+      "related_dept_ids": [
+        "ORG-0004"
+      ],
+      "tg_key": "네이버파이낸셜·외국환 고객확인",
+      "sanction_type": "경영유의",
+      "risk_basis": "경영유의 2건 지적 (외국환거래법 위반 우려, 주기적 고객확인 미이행) — FSS 2026.07.10",
+      "workflow_type": "D",
+      "term": {
+        "word": "주기적 고객확인(periodic CDD)",
+        "def": "처음 확인 후 계속 거래하는 고객을 고정기간마다 다시 확인해 자금세탁·테러자금 위험을 재평가하는 의무",
+        "src": "경영유의·외국환거래법, 자금세탁방지"
+      },
+      "_llm": true,
+      "_fallback": false
+    }
+  ],
+  "backfilled": [],
+  "completeness": {
+    "제재공시": {
+      "ok": true,
+      "listTotal": 211,
+      "prevListTotal": 210,
+      "expectedDelta": 1,
+      "actualDelta": 1,
+      "newCount": 1,
+      "deletedCount": 0,
+      "reason": "일치",
+      "fullScan": false,
+      "pagesScanned": 5,
+      "backfilled": 0,
+      "deletedKeys": []
+    },
+    "경영유의": {
+      "ok": true,
+      "listTotal": 69,
+      "prevListTotal": 68,
+      "expectedDelta": 1,
+      "actualDelta": 1,
+      "newCount": 1,
+      "deletedCount": 0,
+      "reason": "일치",
+      "fullScan": false,
+      "pagesScanned": 5,
+      "backfilled": 0,
+      "deletedKeys": []
+    }
+  },
+  "scanWindow": {
+    "제재공시": {
+      "pagesScanned": 5,
+      "rowsScanned": 50,
+      "fullScan": false,
+      "listTotal": 211,
+      "prevListTotal": 210,
+      "topDate": "2026-07-14",
+      "floorDate": "2026-05-29",
+      "floorLookbackDays": 48
+    },
+    "경영유의": {
+      "pagesScanned": 5,
+      "rowsScanned": 50,
+      "fullScan": false,
+      "listTotal": 69,
+      "prevListTotal": 68,
+      "topDate": "2026-07-10",
+      "floorDate": "2026-02-05",
+      "floorLookbackDays": 161
+    }
+  },
+  "warnings": [],
+  "scanAudit": [
+    {
+      "source": "제재공시",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:28.890Z",
+      "keySchema": "v1",
+      "listTotal": 211,
+      "bodySha256": "sha256:6a30edb92292e590bdeddfc2f2e742e2b86d02300d3e368efb370054d4736dbc",
+      "keys": [
+        "202500653_2",
+        "202500568_2",
+        "202400534_1",
+        "202500608_1",
+        "202500659_1",
+        "202500616_1",
+        "202500615_1",
+        "202400378_1",
+        "202500424_1",
+        "202500683_1"
+      ],
+      "rows": [
+        {
+          "key": "202500653_2",
+          "listRank": 1,
+          "seqNo": "211",
+          "org": "라온저축은행",
+          "actionRequestDate": "2026-07-14"
+        },
+        {
+          "key": "202500568_2",
+          "listRank": 2,
+          "seqNo": "210",
+          "org": "토스증권 주식회사",
+          "actionRequestDate": "2026-07-14"
+        },
+        {
+          "key": "202400534_1",
+          "listRank": 3,
+          "seqNo": "209",
+          "org": "네이버파이낸셜㈜",
+          "actionRequestDate": "2026-07-10"
+        },
+        {
+          "key": "202500608_1",
+          "listRank": 4,
+          "seqNo": "208",
+          "org": "유퍼스트보험마케팅㈜",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202500659_1",
+          "listRank": 5,
+          "seqNo": "207",
+          "org": "메가㈜",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202500616_1",
+          "listRank": 6,
+          "seqNo": "206",
+          "org": "DB생명보험주식회사",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202500615_1",
+          "listRank": 7,
+          "seqNo": "205",
+          "org": "아너스금융서비스",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202400378_1",
+          "listRank": 8,
+          "seqNo": "204",
+          "org": "(주)인슈코아",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500424_1",
+          "listRank": 9,
+          "seqNo": "203",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500683_1",
+          "listRank": 10,
+          "seqNo": "202",
+          "org": "케이에프지㈜",
+          "actionRequestDate": "2026-07-06"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:30.522Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:ff55fd455ddcda3d25ca5fb37958f7c4f8e41bb46269e583f20f83934e4243db",
+      "keys": [
+        "202400801_1",
+        "202500415_1",
+        "202300746_5",
+        "202400733_2",
+        "202400536_1",
+        "202500072_1",
+        "202400537_1",
+        "202400207_1",
+        "202300145_7",
+        "202400745_1"
+      ],
+      "rows": [
+        {
+          "key": "202400801_1",
+          "listRank": 11,
+          "seqNo": "201",
+          "org": "굿리치주식회사",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500415_1",
+          "listRank": 12,
+          "seqNo": "200",
+          "org": "DB손해보험주식회사",
+          "actionRequestDate": "2026-07-02"
+        },
+        {
+          "key": "202300746_5",
+          "listRank": 13,
+          "seqNo": "199",
+          "org": "주식회사 하나은행",
+          "actionRequestDate": "2026-07-02"
+        },
+        {
+          "key": "202400733_2",
+          "listRank": 14,
+          "seqNo": "198",
+          "org": "롯데손해보험주식회사",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202400536_1",
+          "listRank": 15,
+          "seqNo": "197",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500072_1",
+          "listRank": 16,
+          "seqNo": "196",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202400537_1",
+          "listRank": 17,
+          "seqNo": "195",
+          "org": "악사손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202400207_1",
+          "listRank": 18,
+          "seqNo": "194",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-06-29"
+        },
+        {
+          "key": "202300145_7",
+          "listRank": 19,
+          "seqNo": "193",
+          "org": "흥국생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202400745_1",
+          "listRank": 20,
+          "seqNo": "192",
+          "org": "신한라이프생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 3,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=3",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:32.094Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:2741230f93876be87a8234db0f0f332ab924487a37efb03b6416eb93c54cfa7e",
+      "keys": [
+        "202400743_1",
+        "202200546_3",
+        "202500038_1",
+        "202400337_3",
+        "202300334_1",
+        "202500609_1",
+        "202500612_1",
+        "202500611_1",
+        "202400003_3",
+        "202300449_6"
+      ],
+      "rows": [
+        {
+          "key": "202400743_1",
+          "listRank": 21,
+          "seqNo": "191",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202200546_3",
+          "listRank": 22,
+          "seqNo": "190",
+          "org": "아이비케이신용정보 주식회사",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202500038_1",
+          "listRank": 23,
+          "seqNo": "189",
+          "org": "한국양계농협",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202400337_3",
+          "listRank": 24,
+          "seqNo": "188",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202300334_1",
+          "listRank": 25,
+          "seqNo": "187",
+          "org": "지알이파트너스자산운용 주식회사",
+          "actionRequestDate": "2026-06-24"
+        },
+        {
+          "key": "202500609_1",
+          "listRank": 26,
+          "seqNo": "186",
+          "org": "케이지에이에셋㈜",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202500612_1",
+          "listRank": 27,
+          "seqNo": "185",
+          "org": "신한금융플러스 주식회사",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202500611_1",
+          "listRank": 28,
+          "seqNo": "184",
+          "org": "한국보험금융(주)",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202400003_3",
+          "listRank": 29,
+          "seqNo": "183",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-06-19"
+        },
+        {
+          "key": "202300449_6",
+          "listRank": 30,
+          "seqNo": "182",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 4,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=4",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:36.108Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:295e53065b384526d2decbc0d880f46c5c002755bc645429cd9d3d22a2a4404e",
+      "keys": [
+        "202500333_1",
+        "202500332_1",
+        "202500331_1",
+        "202500330_1",
+        "202500329_1",
+        "202500328_1",
+        "202500327_1",
+        "202500326_1",
+        "202500325_1",
+        "202500324_1"
+      ],
+      "rows": [
+        {
+          "key": "202500333_1",
+          "listRank": 31,
+          "seqNo": "181",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500332_1",
+          "listRank": 32,
+          "seqNo": "180",
+          "org": "㈜영진에셋",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500331_1",
+          "listRank": 33,
+          "seqNo": "179",
+          "org": "한솔금융서비스 주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500330_1",
+          "listRank": 34,
+          "seqNo": "178",
+          "org": "(주)은성라이프",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500329_1",
+          "listRank": 35,
+          "seqNo": "177",
+          "org": "에이티에셋(주)",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500328_1",
+          "listRank": 36,
+          "seqNo": "176",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500327_1",
+          "listRank": 37,
+          "seqNo": "175",
+          "org": "메가㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500326_1",
+          "listRank": 38,
+          "seqNo": "174",
+          "org": "엑셀금융서비스 주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500325_1",
+          "listRank": 39,
+          "seqNo": "173",
+          "org": "(주)엠에스보험대리점",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500324_1",
+          "listRank": 40,
+          "seqNo": "172",
+          "org": "인카금융서비스㈜",
+          "actionRequestDate": "2026-06-18"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 5,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=5",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:39.505Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:bbbb3af9cbd4769c85a17f35892610f42968fadfb89510abde1305d74b80438d",
+      "keys": [
+        "202500323_1",
+        "202500322_1",
+        "202500321_1",
+        "202500320_1",
+        "202500319_1",
+        "202500158_1",
+        "202400599_3",
+        "202500493_1",
+        "202400339_1",
+        "202400077_2"
+      ],
+      "rows": [
+        {
+          "key": "202500323_1",
+          "listRank": 41,
+          "seqNo": "171",
+          "org": "리더스금융판매㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500322_1",
+          "listRank": 42,
+          "seqNo": "170",
+          "org": "흥국화재해상보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500321_1",
+          "listRank": 43,
+          "seqNo": "169",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500320_1",
+          "listRank": 44,
+          "seqNo": "168",
+          "org": "삼성화재해상보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500319_1",
+          "listRank": 45,
+          "seqNo": "167",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500158_1",
+          "listRank": 46,
+          "seqNo": "166",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-06-17"
+        },
+        {
+          "key": "202400599_3",
+          "listRank": 47,
+          "seqNo": "165",
+          "org": "우리은행",
+          "actionRequestDate": "2026-06-15"
+        },
+        {
+          "key": "202500493_1",
+          "listRank": 48,
+          "seqNo": "164",
+          "org": "에스비아이저축은행",
+          "actionRequestDate": "2026-06-09"
+        },
+        {
+          "key": "202400339_1",
+          "listRank": 49,
+          "seqNo": "163",
+          "org": "에이알에이코리아자산운용",
+          "actionRequestDate": "2026-06-08"
+        },
+        {
+          "key": "202400077_2",
+          "listRank": 50,
+          "seqNo": "162",
+          "org": "케이와이자산운용",
+          "actionRequestDate": "2026-05-29"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:49.462Z",
+      "keySchema": "v1",
+      "listTotal": 69,
+      "bodySha256": "sha256:16b2465972f891237eea5169519a96d7e329904d842e1f1f5868a74355e07ef1",
+      "keys": [
+        "202400534_12",
+        "202400801_12",
+        "202600088_11",
+        "202600130_11",
+        "202400536_12",
+        "202500601_11",
+        "202600178_11",
+        "202500038_12",
+        "202600082_11",
+        "202600019_11"
+      ],
+      "rows": [
+        {
+          "key": "202400534_12",
+          "listRank": 1,
+          "seqNo": "69",
+          "org": "네이버파이낸셜㈜",
+          "actionRequestDate": "2026-07-10"
+        },
+        {
+          "key": "202400801_12",
+          "listRank": 2,
+          "seqNo": "68",
+          "org": "굿리치주식회사",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202600088_11",
+          "listRank": 3,
+          "seqNo": "67",
+          "org": "순창농협",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202600130_11",
+          "listRank": 4,
+          "seqNo": "66",
+          "org": "여수농협",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202400536_12",
+          "listRank": 5,
+          "seqNo": "65",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500601_11",
+          "listRank": 6,
+          "seqNo": "64",
+          "org": "BNP파리바",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202600178_11",
+          "listRank": 7,
+          "seqNo": "63",
+          "org": "웰컴자산운용 주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500038_12",
+          "listRank": 8,
+          "seqNo": "62",
+          "org": "한국양계농협",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202600082_11",
+          "listRank": 9,
+          "seqNo": "61",
+          "org": "우리은행",
+          "actionRequestDate": "2026-06-24"
+        },
+        {
+          "key": "202600019_11",
+          "listRank": 10,
+          "seqNo": "60",
+          "org": "대전충남양계농협",
+          "actionRequestDate": "2026-06-10"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:51.755Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:b9b5f5efade8eb6ed104f216c8ee0a73ead16ca0aa5ed04d2b56acfc1d21028f",
+      "keys": [
+        "202500493_12",
+        "202500742_11",
+        "202600087_11",
+        "202500139_11",
+        "202500002_12",
+        "202300039_11",
+        "202300654_12",
+        "202300807_12",
+        "202500511_12",
+        "202500643_11"
+      ],
+      "rows": [
+        {
+          "key": "202500493_12",
+          "listRank": 11,
+          "seqNo": "59",
+          "org": "에스비아이저축은행",
+          "actionRequestDate": "2026-06-09"
+        },
+        {
+          "key": "202500742_11",
+          "listRank": 12,
+          "seqNo": "58",
+          "org": "국민은행",
+          "actionRequestDate": "2026-06-01"
+        },
+        {
+          "key": "202600087_11",
+          "listRank": 13,
+          "seqNo": "57",
+          "org": "한국자산신탁",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202500139_11",
+          "listRank": 14,
+          "seqNo": "56",
+          "org": "비엔케이캐피탈㈜",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202500002_12",
+          "listRank": 15,
+          "seqNo": "55",
+          "org": "서울으뜸",
+          "actionRequestDate": "2026-05-26"
+        },
+        {
+          "key": "202300039_11",
+          "listRank": 16,
+          "seqNo": "54",
+          "org": "한화생명보험주식회사",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300654_12",
+          "listRank": 17,
+          "seqNo": "53",
+          "org": "청운",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300807_12",
+          "listRank": 18,
+          "seqNo": "52",
+          "org": "전주동부",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202500511_12",
+          "listRank": 19,
+          "seqNo": "51",
+          "org": "시그니처자산운용㈜",
+          "actionRequestDate": "2026-05-19"
+        },
+        {
+          "key": "202500643_11",
+          "listRank": 20,
+          "seqNo": "50",
+          "org": "삼성 금융복합기업집단",
+          "actionRequestDate": "2026-05-14"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 3,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=3",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:53.907Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:e96ce24bcc231e872070ec50d4231b32c94ea1c8f96174431928d61eb79555e1",
+      "keys": [
+        "202400693_12",
+        "202500121_12",
+        "202500015_11",
+        "202500743_11",
+        "202400481_15",
+        "202500795_11",
+        "202500810_11",
+        "202500653_11",
+        "202500680_11",
+        "202500819_11"
+      ],
+      "rows": [
+        {
+          "key": "202400693_12",
+          "listRank": 21,
+          "seqNo": "49",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-05-13"
+        },
+        {
+          "key": "202500121_12",
+          "listRank": 22,
+          "seqNo": "48",
+          "org": "하나자산신탁",
+          "actionRequestDate": "2026-05-06"
+        },
+        {
+          "key": "202500015_11",
+          "listRank": 23,
+          "seqNo": "47",
+          "org": "도이치은행",
+          "actionRequestDate": "2026-04-27"
+        },
+        {
+          "key": "202500743_11",
+          "listRank": 24,
+          "seqNo": "46",
+          "org": "우리은행",
+          "actionRequestDate": "2026-04-27"
+        },
+        {
+          "key": "202400481_15",
+          "listRank": 25,
+          "seqNo": "45",
+          "org": "국민은행",
+          "actionRequestDate": "2026-04-24"
+        },
+        {
+          "key": "202500795_11",
+          "listRank": 26,
+          "seqNo": "44",
+          "org": "농협은행주식회사",
+          "actionRequestDate": "2026-04-21"
+        },
+        {
+          "key": "202500810_11",
+          "listRank": 27,
+          "seqNo": "43",
+          "org": "유니온상호저축은행",
+          "actionRequestDate": "2026-04-17"
+        },
+        {
+          "key": "202500653_11",
+          "listRank": 28,
+          "seqNo": "42",
+          "org": "라온저축은행",
+          "actionRequestDate": "2026-04-16"
+        },
+        {
+          "key": "202500680_11",
+          "listRank": 29,
+          "seqNo": "41",
+          "org": "하나캐피탈㈜",
+          "actionRequestDate": "2026-04-15"
+        },
+        {
+          "key": "202500819_11",
+          "listRank": 30,
+          "seqNo": "40",
+          "org": "제이비우리캐피탈㈜",
+          "actionRequestDate": "2026-04-15"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 4,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=4",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:56.030Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:5d8a942cefd062ab694f53d34b54fd286ab8313476a081fa98ef1185b458941c",
+      "keys": [
+        "202500751_11",
+        "202500461_11",
+        "202500356_11",
+        "202500357_11",
+        "202500162_11",
+        "202500161_11",
+        "202500163_11",
+        "202500160_11",
+        "202500651_12",
+        "202500100_12"
+      ],
+      "rows": [
+        {
+          "key": "202500751_11",
+          "listRank": 31,
+          "seqNo": "39",
+          "org": "교통은행",
+          "actionRequestDate": "2026-04-13"
+        },
+        {
+          "key": "202500461_11",
+          "listRank": 32,
+          "seqNo": "38",
+          "org": "현대하이라이프손해사정 주식회사",
+          "actionRequestDate": "2026-04-09"
+        },
+        {
+          "key": "202500356_11",
+          "listRank": 33,
+          "seqNo": "37",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500357_11",
+          "listRank": 34,
+          "seqNo": "36",
+          "org": "KB증권주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500162_11",
+          "listRank": 35,
+          "seqNo": "35",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500161_11",
+          "listRank": 36,
+          "seqNo": "34",
+          "org": "미래에셋증권 주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500163_11",
+          "listRank": 37,
+          "seqNo": "33",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500160_11",
+          "listRank": 38,
+          "seqNo": "32",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500651_12",
+          "listRank": 39,
+          "seqNo": "31",
+          "org": "광주어룡",
+          "actionRequestDate": "2026-04-03"
+        },
+        {
+          "key": "202500100_12",
+          "listRank": 40,
+          "seqNo": "30",
+          "org": "양주축산농협",
+          "actionRequestDate": "2026-03-24"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 5,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=5",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-16T07:00:58.123Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:2178e6fb1a324ec702b1a121439d78b62347ec1748f3f1de7d7be75e10785ce2",
+      "keys": [
+        "202500517_11",
+        "202500099_12",
+        "202300848_13",
+        "202500588_11",
+        "202400548_12",
+        "202500444_12",
+        "202400095_13",
+        "202500801_11",
+        "202500594_11",
+        "202400545_12"
+      ],
+      "rows": [
+        {
+          "key": "202500517_11",
+          "listRank": 41,
+          "seqNo": "29",
+          "org": "㈜케이비국민카드",
+          "actionRequestDate": "2026-03-13"
+        },
+        {
+          "key": "202500099_12",
+          "listRank": 42,
+          "seqNo": "28",
+          "org": "순천농협",
+          "actionRequestDate": "2026-03-12"
+        },
+        {
+          "key": "202300848_13",
+          "listRank": 43,
+          "seqNo": "27",
+          "org": "농협손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202500588_11",
+          "listRank": 44,
+          "seqNo": "26",
+          "org": "뱅크오브아메리카은행",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202400548_12",
+          "listRank": 45,
+          "seqNo": "25",
+          "org": "하나손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202500444_12",
+          "listRank": 46,
+          "seqNo": "24",
+          "org": "KB라이프생명보험",
+          "actionRequestDate": "2026-02-19"
+        },
+        {
+          "key": "202400095_13",
+          "listRank": 47,
+          "seqNo": "23",
+          "org": "한국자산신탁",
+          "actionRequestDate": "2026-02-12"
+        },
+        {
+          "key": "202500801_11",
+          "listRank": 48,
+          "seqNo": "22",
+          "org": "디에이치저축은행",
+          "actionRequestDate": "2026-02-11"
+        },
+        {
+          "key": "202500594_11",
+          "listRank": 49,
+          "seqNo": "21",
+          "org": "미래에셋증권 주식회사",
+          "actionRequestDate": "2026-02-10"
+        },
+        {
+          "key": "202400545_12",
+          "listRank": 50,
+          "seqNo": "20",
+          "org": "(주)리더스에셋어드바이저",
+          "actionRequestDate": "2026-02-05"
+        }
+      ]
+    }
+  ],
+  "noUpdate": false,
+  "error": null,
+  "analyzedAt": "2026-07-16T07:01:18.257Z",
+  "analyzeMode": "llm",
+  "overallGrade": "중",
+  "term": {
+    "word": "고객확인의무(KYC)",
+    "def": "금융거래 상대방이 실제로 누구인지, 자금이 정당한 출처인지 확인하는 의무",
+    "src": "네이버파이낸셜 제재, 특금법"
+  },
+  "tgMsg": "🔔 금융감독원 제재·경영유의 브리핑 (16:01)\n금감원 신규 확인 · IBK 유관 없음\n✅ 주변기관(환전·대부·대리점 등) 2건은 참고용 — 보고서에만 수록"
+}
