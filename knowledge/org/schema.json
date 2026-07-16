@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ibk.example/schemas/organization-version.json",
+  "title": "IBK organization version",
+  "type": "object",
+  "required": ["schema_version", "version", "effective_from", "status", "expected_unit_count", "expected_assignable_count", "sources", "structure"],
+  "properties": {
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "version": { "type": "string", "pattern": "^[0-9]{4}-H[12]$" },
+    "effective_from": { "type": "string", "format": "date" },
+    "effective_to": { "type": ["string", "null"], "format": "date" },
+    "status": { "enum": ["draft", "scheduled", "active", "retired"] },
+    "based_on_version": { "type": "string", "pattern": "^[0-9]{4}-H[12]$" },
+    "expected_unit_count": { "type": "integer", "minimum": 1 },
+    "expected_assignable_count": { "type": "integer", "minimum": 1 },
+    "sources": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "sha256"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "type": { "enum": ["official_regulation", "official_org_chart", "official_comparison_table", "official_duty_allocation"] },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "structure": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/unit" }
+    }
+  },
+  "$defs": {
+    "unit": {
+      "type": "object",
+      "required": ["id", "name", "kind"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Z0-9-]+$" },
+        "name": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "minLength": 1 },
+        "assignable": { "type": "boolean" },
+        "children": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/unit" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

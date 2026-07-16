@@ -1,0 +1,49 @@
+name: IBK Organization Consistency
+
+on:
+  pull_request:
+    paths:
+      - "knowledge/org/**"
+      - "knowledge/generated/**"
+      - "knowledge/ibk*.md"
+      - "analyst.js"
+      - "validator.js"
+      - "org_*.js"
+      - "test/org_*.test.js"
+      - "package*.json"
+      - ".github/workflows/**"
+  push:
+    branches: [main]
+    paths:
+      - "knowledge/org/**"
+      - "knowledge/generated/**"
+      - "knowledge/ibk*.md"
+      - "analyst.js"
+      - "validator.js"
+      - "org_*.js"
+      - "test/org_*.test.js"
+      - "package*.json"
+      - ".github/workflows/**"
+
+permissions:
+  contents: read
+
+jobs:
+  organization-consistency:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: 구조화 조직 정본 검증
+        run: npm run org:validate
+      - name: 자동 생성물 드리프트 검사
+        run: npm run org:generate:check
+      - name: 코드·문서·과거 분석 전역 감사
+        run: npm run org:audit
+      - name: 전체 회귀 테스트
+        run: npm test

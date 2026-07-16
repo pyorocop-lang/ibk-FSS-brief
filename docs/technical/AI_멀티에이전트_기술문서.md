@@ -74,13 +74,15 @@ Cloudflare Workers Cron(08:00·16:00 KST) → workflow_dispatch
 지식 베이스(knowledge/)   = "무엇을 참고하나" (자주 갱신)
   ├ tone-guide.md          라이팅 8원칙(해요체) — analyst 주입
   ├ ibk-dept-mapping.md    부서 매핑
-  ├ ibk_org_chart.md       조직도(검사부 등)
+  ├ org/                   반기별 JSON 조직 정본·변경명세·업무승계 증거
+  ├ generated/ibk_current_org_registry.md  LLM 주입용 현행 조직(자동 생성)
+  ├ ibk_org_chart.md       조직도 설명·변경이력(정본과 자동 대조)
   ├ ibk_mapping_rules.md   제재유형-내규 매핑
   ├ ibk_action_rules.md    부서 배정·점검 액션 규칙
   └ fss_tier_methodology.md 기관 계층(T0~T3)×위험도 방법론(수집기 인라인 참조)
 ```
 
-> 패턴: **컨텍스트 엔지니어링 / 지식-코드 분리**. `knowledge/*.md`만 고치면 재배포 없이 AI 동작이 바뀐다. 조직 개편·제재유형 변화 같은 *지식 변화*를 코드 변경 없이 반영 — 운영 민첩성과 거버넌스(지식의 단일 출처)를 동시에 확보. (정본은 `knowledge/`, 루트 동명 파일은 포인터 stub)
+> 패턴: **컨텍스트 엔지니어링 / 지식-코드 분리**. 일반 지식은 `knowledge/*.md`, 조직은 `knowledge/org/versions/*.json`을 정본으로 관리한다. 조직 변경 시 자동 생성·전역 감사를 거쳐 LLM과 코드가 같은 활성 버전을 사용한다.
 
 ---
 

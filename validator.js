@@ -36,7 +36,9 @@
 
 const fs   = require("fs");
 const path = require("path");
-const { isCurrentDepartment } = require("./org_registry");
+const {
+  CURRENT_ORG_VERSION, isCurrentDepartment, getCurrentOrganization,
+} = require("./org_registry");
 
 // ─── CLI 인수 ──────────────────────────────────────────────────
 function getArg(name, def = "") {
@@ -117,6 +119,19 @@ function validateItem(item, idx) {
       err("B5", label, `현행 조직 정본에 없는 부서명: "${name}"`);
     }
   });
+  if (item.org_version && item.org_version !== CURRENT_ORG_VERSION) {
+    warn("B6", label, `분석 조직버전(${item.org_version})이 현행(${CURRENT_ORG_VERSION})과 다름`);
+  }
+  if (item.dept_id && isCurrentDepartment(item.dept)) {
+    const expectedId = getCurrentOrganization(item.dept).id;
+    if (item.dept_id !== expectedId) err("B6", label, `부서 ID·명칭 불일치: ${item.dept_id} / ${item.dept}`);
+  }
+  if (Array.isArray(item.related_dept_ids) && Array.isArray(item.related_depts)) {
+    const expectedIds = item.related_depts.filter(isCurrentDepartment).map(name => getCurrentOrganization(name).id);
+    if (JSON.stringify(item.related_dept_ids) !== JSON.stringify(expectedIds)) {
+      err("B6", label, "협조부서 ID·명칭 불일치");
+    }
+  }
 
   // ── A1. 핵심 선행 ──
   // what_changes[0]이 "~입니다/바뀝니다/됩니다"처럼 변화 서술로 시작하는지

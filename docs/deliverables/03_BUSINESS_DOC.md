@@ -78,7 +78,7 @@ flowchart LR
     subgraph PROMPT["시스템 프롬프트 조립 (실행 시 동적 주입)"]
         BASE["agents/analyst_system_prompt.md<br/>(제재 벤치마킹 분석 지침)"]
         K1["knowledge/tone-guide.md<br/>해요체 8원칙 — 단정 금지·제안형"]
-        K2["knowledge/ibk_org_chart.md<br/>+ ibk-dept-mapping.md (부서 배정)"]
+        K2["knowledge/org/ 반기별 조직 정본<br/>+ generated 현행 조직표 + 부서매핑"]
         K3["knowledge/ibk_mapping_rules.md<br/>+ ibk_action_rules.md (점검 액션)"]
     end
 

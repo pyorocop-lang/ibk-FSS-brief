@@ -282,7 +282,8 @@ LLM 프롬프트와 비즈니스 지식을 코드에서 분리해 관리한다.
 | `agents/analyst_system_prompt.md` | LLM 분석·글쓰기 시스템 프롬프트 | 드물게 (원칙 변경 시) |
 | `knowledge/fss_tier_methodology.md` | 기관 계층(T0~T3) × 제재강도 중요도 방법론 | 방법론 조정 시 |
 | `knowledge/ibk-dept-mapping.md` | IBK 공식 부서 매핑 | 조직 개편 시 |
-| `knowledge/ibk_org_chart.md` | IBK 조직도 | 조직 개편 시 |
+| `knowledge/org/versions/*.json` | 반기별 IBK 조직 정본·안정 ID·시행일 | 1월·7월 조직개편 시 |
+| `knowledge/generated/ibk_current_org_registry.md` | LLM·사람용 현행 조직표(자동 생성) | 직접 수정 금지 |
 | `knowledge/ibk_mapping_rules.md` | 제재 유형-내규 매핑 테이블 | 규정 개정 시 |
 | `knowledge/ibk_action_rules.md` | 부서별 점검 액션 규칙 | 필요 시 |
 | `knowledge/ibk-keywords.md` | Tier 키워드 사전 | 필요 시 추가 |
