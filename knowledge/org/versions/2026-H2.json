@@ -6,6 +6,19 @@
   "status": "active",
   "expected_unit_count": 94,
   "expected_assignable_count": 91,
+  "expected_kind_counts": {
+    "center": 11,
+    "container": 2,
+    "department": 71,
+    "division": 5,
+    "executive": 1,
+    "group": 15,
+    "headquarters": 4,
+    "institute": 1,
+    "office": 4,
+    "responsible_officer": 3,
+    "unit": 1
+  },
   "sources": [
     {
       "name": "(26.7.14.) 직제규정 전문.pdf",

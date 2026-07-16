@@ -54,6 +54,7 @@ test("다음 반기의 조직 수는 코드 수정 없이 버전 선언값으로
     future.structure[0].children.push({ id: "ORG-0095", name: "미래신설부", kind: "department" });
     future.expected_unit_count = 95;
     future.expected_assignable_count = 92;
+    future.expected_kind_counts.department = 72;
     fs.writeFileSync(path.join(versionsDir, "2027-H1.json"), JSON.stringify(future), "utf8");
     fs.writeFileSync(path.join(changesDir, "2027-H1.json"), JSON.stringify({
       schema_version: 1,
@@ -85,6 +86,52 @@ test("다음 반기의 조직 수는 코드 수정 없이 버전 선언값으로
       () => validateOrganizationData(validationOptions),
       /2027-H1 자동배정 조직 수 오류: 92 \(버전 정본 기대 91\)/
     );
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("그룹·부문 등 비 ORG 노드도 유형별 선언 수로 검증한다", () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ibk-org-kind-count-"));
+  const versionsDir = path.join(dir, "versions");
+  const changesDir = path.join(dir, "changes");
+  fs.mkdirSync(versionsDir, { recursive: true });
+  fs.mkdirSync(changesDir, { recursive: true });
+  try {
+    const current = validateOrganizationData();
+    const future = JSON.parse(JSON.stringify(current.version));
+    future.version = "2027-H1";
+    future.effective_from = "2027-01-01";
+    future.status = "active";
+    future.structure.push({ id: "GRP-FUTURE", name: "미래신설그룹", kind: "group", assignable: false });
+    fs.writeFileSync(path.join(versionsDir, "2027-H1.json"), JSON.stringify(future), "utf8");
+    fs.writeFileSync(path.join(changesDir, "2027-H1.json"), JSON.stringify({
+      schema_version: 1,
+      version: "2027-H1",
+      effective_from: "2027-01-01",
+      changes: [{ type: "create", to_id: "GRP-FUTURE", evidence_type: "official_comparison_table" }],
+    }), "utf8");
+    const activePath = path.join(dir, "active.json");
+    fs.writeFileSync(activePath, JSON.stringify({
+      schema_version: 1,
+      active_version: "2027-H1",
+      version_file: "versions/2027-H1.json",
+      effective_from: "2027-01-01",
+    }), "utf8");
+    const options = {
+      activePath,
+      dutyMappingPath: DUTY_MAPPING_PATH,
+      compareMarkdown: false,
+      validationDate: "2027-01-01",
+    };
+
+    assert.throws(
+      () => validateOrganizationData(options),
+      /2027-H1 조직 유형 수 오류: group 16 \(버전 정본 기대 15\)/
+    );
+    future.expected_kind_counts.group = 16;
+    fs.writeFileSync(path.join(versionsDir, "2027-H1.json"), JSON.stringify(future), "utf8");
+    assert.equal(validateOrganizationData(options).kindCounts.group, 16);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
@@ -137,7 +184,7 @@ test("org:plan은 안정 ID로 신설·명칭변경·이동·폐지를 도출하
     { type: "create", to_id: "ORG-0003", evidence_type: "official_comparison_table" },
   ]);
   assert.deepEqual(result.pendingSuccessors.map(item => item.from_name), ["폐지부"]);
-  assert.deepEqual(result.counts, { units: 2, assignable: 2 });
+  assert.deepEqual(result.counts, { units: 2, assignable: 2, byKind: { container: 3, department: 2 } });
 });
 
 test("org:plan은 scaffold 초안에 자동 변경명세를 쓰되 수동 명세를 덮어쓰지 않는다", () => {
@@ -166,8 +213,12 @@ test("org:plan은 scaffold 초안에 자동 변경명세를 쓰되 수동 명세
     fs.writeFileSync(scaffolded.versionPath, `${JSON.stringify(draft, null, 2)}\n`, "utf8");
     assert.doesNotThrow(() => validateOrganizationData({ version: "2027-H1", orgRoot: dir, compareMarkdown: false }));
 
+    const originalPlan = fs.readFileSync(scaffolded.changePath, "utf8");
     assert.throws(() => plan({ version: "2027-H1", orgRoot: dir }), /기존 변경명세를 덮어쓸 수 없음/);
-    assert.doesNotThrow(() => plan({ version: "2027-H1", orgRoot: dir, force: true }));
+    const forced = plan({ version: "2027-H1", orgRoot: dir, force: true });
+    assert.ok(forced.backupPath.endsWith(".bak"));
+    assert.equal(fs.readFileSync(forced.backupPath, "utf8"), originalPlan);
+    assert.equal(fs.readdirSync(path.dirname(scaffolded.changePath)).filter(name => name.endsWith(".bak")).length, 1);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }

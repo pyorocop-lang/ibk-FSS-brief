@@ -60,6 +60,12 @@ function flattenStructure(nodes, parentId = null, depth = 0, out = []) {
   return out;
 }
 
+function countKinds(units) {
+  const counts = {};
+  for (const unit of units) counts[unit.kind] = (counts[unit.kind] || 0) + 1;
+  return Object.fromEntries(Object.entries(counts).sort(([left], [right]) => left.localeCompare(right)));
+}
+
 function parseCurrentOrgChart(filePath = ORG_CHART_PATH) {
   const text = fs.readFileSync(filePath, "utf8");
   if (!text.includes(TRANSITION_HEADING)) {
@@ -84,6 +90,7 @@ function validateOrganizationData(options = {}) {
   const units = flattenStructure(version.structure);
   const documented = units.filter(unit => /^ORG-\d{4}$/.test(unit.id));
   const assignable = units.filter(unit => unit.assignable);
+  const kindCounts = countKinds(units);
   const idMap = new Map();
   const nameMap = new Map();
 
@@ -122,6 +129,21 @@ function validateOrganizationData(options = {}) {
     errors.push("expected_assignable_count 누락·오류");
   } else if (assignable.length !== version.expected_assignable_count) {
     errors.push(`${version.version} 자동배정 조직 수 오류: ${assignable.length} (버전 정본 기대 ${version.expected_assignable_count})`);
+  }
+  const expectedKindCounts = version.expected_kind_counts;
+  if (!expectedKindCounts || typeof expectedKindCounts !== "object" || Array.isArray(expectedKindCounts)) {
+    errors.push("expected_kind_counts 누락·오류");
+  } else {
+    const allKinds = new Set([...Object.keys(kindCounts), ...Object.keys(expectedKindCounts)]);
+    for (const kind of [...allKinds].sort()) {
+      const expected = expectedKindCounts[kind];
+      const actual = kindCounts[kind] || 0;
+      if (!Number.isInteger(expected) || expected < 0) {
+        errors.push(`expected_kind_counts.${kind} 누락·오류`);
+      } else if (actual !== expected) {
+        errors.push(`${version.version} 조직 유형 수 오류: ${kind} ${actual} (버전 정본 기대 ${expected})`);
+      }
+    }
   }
 
   const changePath = options.changePath || path.join(data.orgRoot, "changes", `${version.version}.json`);
@@ -163,7 +185,7 @@ function validateOrganizationData(options = {}) {
   }
 
   if (errors.length) throw new Error(errors.join("\n"));
-  return { ...data, units, documented, assignable, idMap, nameMap, changes, dutyMappings };
+  return { ...data, units, documented, assignable, kindCounts, idMap, nameMap, changes, dutyMappings };
 }
 
 function renderGeneratedRegistry(validated = validateOrganizationData()) {
@@ -189,5 +211,5 @@ function renderGeneratedRegistry(validated = validateOrganizationData()) {
 module.exports = {
   ROOT, ORG_ROOT, ACTIVE_PATH, DUTY_MAPPING_PATH, ORG_CHART_PATH,
   GENERATED_REGISTRY_PATH, TRANSITION_HEADING, readJson, loadOrganizationData,
-  loadOrganizationVersion, flattenStructure, parseCurrentOrgChart, validateOrganizationData, renderGeneratedRegistry,
+  loadOrganizationVersion, flattenStructure, countKinds, parseCurrentOrgChart, validateOrganizationData, renderGeneratedRegistry,
 };
