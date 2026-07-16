@@ -1,5 +1,14 @@
 # 변경 이력
 
+## 2026-07-15 (조직 정본 전역 정합성)
+- fix: Claude 교차검증에서 발견된 `검사부` 레지스트리 누락을 정정하고, 분석 검증 예외를 정상 fallback(exit 1)이 아닌 치명 오류(exit 2)로 중단하도록 보완했다.
+- fix: `analyst.js` fallback의 폐지부서(`데이터혁신부`, `WM사업부`) 출력을 현행 부서로 교체하고 사용자 확인 업무매핑 8건을 반영했다.
+- fix: 분석 프롬프트에서 현행 공식 부서인 `경영전략부`를 금지하던 상충을 제거했다.
+- feat: `org_registry.js`를 추가해 analyst와 validator가 `knowledge/ibk_org_chart.md`의 현행 부서명 집합을 공동 사용한다.
+- feat: LLM이 비현행 부서명을 반환하면 fallback으로 전환하고, validator가 `dept`·`related_depts`를 조직 정본과 대조해 B5 오류로 차단한다.
+- test: 조직 매핑 8건을 포함한 fallback 전체 18개 경로, `검사부`, 정본 구간 경계와 비현행 부서 차단 회귀 테스트를 추가했다.
+- docs: 전역 Markdown 표 검사에서 발견한 `ARCHITECTURE.md`의 미이스케이프 파이프를 정정했다.
+
 ## 2026-07-13 (감사부서 명칭)
 - fix: `analyst.js` fallback의 감사부서 명칭을 정본과 정합 — ~~감사부~~ → **검사부**
   - 왜: IBK 감사부서 공식명칭이 `감사부`/`검사부`로 상충한다고 보류해 둔 건. 실제 확인 결과 **정본(`ibk_mapping_rules.md` §19·§67·§163)·`ibk_org_chart.md`·`ibk-keywords.md`·`ibk_action_rules.md`가 모두 `검사부`로 일치**하고, 어긋난 곳은 `analyst.js:143`의 `related` 한 곳뿐이었다. 정본 기준으로 코드를 맞춘다(상충 아님, 코드 단독 오기).

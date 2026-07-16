@@ -18,6 +18,7 @@
 | **에이전트 6종 역할·입출력** | [technical/AGENT_ORG_CHART.md](technical/AGENT_ORG_CHART.md) | 개발 |
 | **DOCX 보고서 레이아웃 실측값** | [technical/SKILL.md](technical/SKILL.md) | 개발 (수정 시 briefV2.js 동반) |
 | **설계 패턴·신뢰성 엔지니어링(에이전틱 매핑)** | [technical/AI_멀티에이전트_기술문서.md](technical/AI_멀티에이전트_기술문서.md) | 기술팀·개발 |
+| **2026-07-15 조직정보 전역 정합성 점검 결과** | [technical/ORG_CONSISTENCY_AUDIT_20260715.md](technical/ORG_CONSISTENCY_AUDIT_20260715.md) | 개발·감사 |
 | **매일 어떻게 도는가 (실행 절차·오류 대응)** | [operations/workflow.md](operations/workflow.md) | 운영 |
 | **공식 산출 문서 세트 (보고·인수인계·질의)** | [deliverables/](deliverables/01_SOD.md) — SOD·BRD·업무·기술·Q&A·개선사항 | 보고·인수인계 |
 | **최근 개선사항(2026-07) — 무엇을·왜 바꿨나 (건별)** | [deliverables/06_개선사항_2026-07.md](deliverables/06_개선사항_2026-07.md) | 경영진·실무자 |
