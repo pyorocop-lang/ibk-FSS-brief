@@ -49,3 +49,4 @@
 {"date":"20260720","timestamp":"2026-07-19 23:00:48","status":"ok","duration_sec":0,"crawl_total":0,"ibk_count":0,"urgent_count":0,"report_ok":true,"error_msg":""}
 {"date":"20260720","timestamp":"2026-07-20 07:00:47","status":"ok","duration_sec":0,"crawl_total":0,"ibk_count":0,"urgent_count":0,"report_ok":true,"error_msg":""}
 {"date":"20260721","timestamp":"2026-07-20 23:01:11","status":"ok","duration_sec":0,"crawl_total":2,"ibk_count":2,"urgent_count":1,"report_ok":true,"error_msg":""}
+{"date":"20260721","timestamp":"2026-07-21 07:01:12","status":"ok","duration_sec":0,"crawl_total":1,"ibk_count":1,"urgent_count":1,"report_ok":true,"error_msg":""}
