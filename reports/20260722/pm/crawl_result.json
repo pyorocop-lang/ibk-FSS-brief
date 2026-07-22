@@ -1,0 +1,1272 @@
+{
+  "dateCode": "20260722",
+  "runSlot": "pm",
+  "crawledAt": "2026-07-22T07:00:42.327Z",
+  "source": "FSS 제재공시(openInfo) + 경영유의(openInfoImpr) 스크래핑",
+  "collectMode": "scrape",
+  "ledgerSeeded": false,
+  "newItemBasis": "scan-window-diff",
+  "prevCrawlFile": "reports/20260722/am/crawl_result.json",
+  "totalFetched": 100,
+  "items": [
+    {
+      "key": "202400649_1",
+      "source": "제재공시",
+      "org": "주식회사 제이엠씨자산운용",
+      "actionRequestDate": "2026-07-22",
+      "dept": "금융투자검사3국",
+      "firstSeenDate": "20260722",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 0,
+      "listedOutOfOrder": false,
+      "actionDate": "2026-07-22",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400649_01_%EC%A0%9C%EC%9E%AC%EB%82%B4%EC%9A%A9+%EA%B3%B5%EA%B0%9C%EC%95%88%28%28%EC%A3%BC%29%EC%A0%9C%EC%9D%B4%EC%97%A0%EC%94%A8%EC%9E%90%EC%82%B0%EC%9A%B4%EC%9A%A9%29.pdf",
+          "name": "202400649_01_제재내용 공개안((주)제이엠씨자산운용).pdf"
+        }
+      ],
+      "bodyText": "제재내용 공개안 1.금융회사명:(주)제이엠씨자산운용(舊 (주)알디자산운용) 2.제재조치일:2026.7.22. 3.제재조치내용 제재대상제재내용 기관과태료(30백만원)부과 임원 (1명) 주의적경고 과태료(10.8백만원)부과 4.제재대상사실 가.임원의겸직제한위반 □금융회사의상근임원은다른영리법인의상시적인업무에종사할수없는데도, ◦(주)제이엠씨자산운용(이하‘회사’)의前대표이사 * 甲(2020.4.27.~2024.7.31.)은 2020.4.27.~2021.10.19.기간중A의사내이사로등기하고 *現제이엠씨자산운용(舊알디자산운용)등기이사 ◦2022.4.19.~2022.5.31.기간중B의사내이사(대표이사)로등기하여다른영리 법인의상시적인업무에종사한사실이있음 <관련법규> 1.｢지배구조법｣ 제10조제1항 나.집합투자규약을위반한집합투자재산운용 □집합투자업자는집합투자규약을위반하여집합투자재산을운용하여서는아니 되는데도, ◦회사는㉮ 및㉯ 펀드의집합투자규약(신탁계약서)상설정일로부터6개월 이내에｢벤처기업법｣ 제2조제2항에따른투자비율(이하‘벤처신주비율’)을 자산총액의15%이상,이를포함한벤처기업등에대한투자비율(이하‘벤처 투자비율’)을자산총액의50%이상으로하고,동요건을갖춘날부터매6개월 마다각각의평균비율을유지하도록제한하였으나, -㉮펀드는2020.9.15.최초로요건을달성한이후,2020.9.15.~2022.3.14.기간 중의벤처신주비율이최소투자비율인15%에미달,벤처투자비율이최소 투자비율인50%에미달하였으며, -㉯펀드는2021.11.30.최초로요건을달성한이후,2022.5.30.~2022.11.29.기간 중의벤처투자비율이최소투자비율인50%에미달하는등집합투자규약에 규정된투자대상자산의취득한도를각각위반하여집합투자재산을운용한 사실이있음 <관련법규> 1.｢자본시장법｣ 제85조제8호 2.｢자본시장법시행령｣ 제87조제4항제1호",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-22&pageIndex=1&examMgmtNo=202400649&emOpenSeq=1",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-22&pageIndex=1&examMgmtNo=202400649&emOpenSeq=1",
+      "examMgmtNo": "202400649",
+      "emOpenSeq": "1",
+      "grade": "상",
+      "score": 5,
+      "isIBK": false,
+      "bankTarget": true,
+      "tier": "T2",
+      "tierLabel": "인접금융",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260722/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "215",
+        "listTotal": 215,
+        "prevListTotal": 214,
+        "checksum": "215 − 214 = 1 == 신규 1 − 삭제 0"
+      }
+    }
+  ],
+  "graded": [
+    {
+      "key": "202400649_1",
+      "source": "제재공시",
+      "org": "주식회사 제이엠씨자산운용",
+      "actionRequestDate": "2026-07-22",
+      "dept": "자산관리사업부",
+      "firstSeenDate": "20260722",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 0,
+      "listedOutOfOrder": false,
+      "actionDate": "2026-07-22",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400649_01_%EC%A0%9C%EC%9E%AC%EB%82%B4%EC%9A%A9+%EA%B3%B5%EA%B0%9C%EC%95%88%28%28%EC%A3%BC%29%EC%A0%9C%EC%9D%B4%EC%97%A0%EC%94%A8%EC%9E%90%EC%82%B0%EC%9A%B4%EC%9A%A9%29.pdf",
+          "name": "202400649_01_제재내용 공개안((주)제이엠씨자산운용).pdf"
+        }
+      ],
+      "bodyText": "제재내용 공개안 1.금융회사명:(주)제이엠씨자산운용(舊 (주)알디자산운용) 2.제재조치일:2026.7.22. 3.제재조치내용 제재대상제재내용 기관과태료(30백만원)부과 임원 (1명) 주의적경고 과태료(10.8백만원)부과 4.제재대상사실 가.임원의겸직제한위반 □금융회사의상근임원은다른영리법인의상시적인업무에종사할수없는데도, ◦(주)제이엠씨자산운용(이하‘회사’)의前대표이사 * 甲(2020.4.27.~2024.7.31.)은 2020.4.27.~2021.10.19.기간중A의사내이사로등기하고 *現제이엠씨자산운용(舊알디자산운용)등기이사 ◦2022.4.19.~2022.5.31.기간중B의사내이사(대표이사)로등기하여다른영리 법인의상시적인업무에종사한사실이있음 <관련법규> 1.｢지배구조법｣ 제10조제1항 나.집합투자규약을위반한집합투자재산운용 □집합투자업자는집합투자규약을위반하여집합투자재산을운용하여서는아니 되는데도, ◦회사는㉮ 및㉯ 펀드의집합투자규약(신탁계약서)상설정일로부터6개월 이내에｢벤처기업법｣ 제2조제2항에따른투자비율(이하‘벤처신주비율’)을 자산총액의15%이상,이를포함한벤처기업등에대한투자비율(이하‘벤처 투자비율’)을자산총액의50%이상으로하고,동요건을갖춘날부터매6개월 마다각각의평균비율을유지하도록제한하였으나, -㉮펀드는2020.9.15.최초로요건을달성한이후,2020.9.15.~2022.3.14.기간 중의벤처신주비율이최소투자비율인15%에미달,벤처투자비율이최소 투자비율인50%에미달하였으며, -㉯펀드는2021.11.30.최초로요건을달성한이후,2022.5.30.~2022.11.29.기간 중의벤처투자비율이최소투자비율인50%에미달하는등집합투자규약에 규정된투자대상자산의취득한도를각각위반하여집합투자재산을운용한 사실이있음 <관련법규> 1.｢자본시장법｣ 제85조제8호 2.｢자본시장법시행령｣ 제87조제4항제1호",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-22&pageIndex=1&examMgmtNo=202400649&emOpenSeq=1",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-22&pageIndex=1&examMgmtNo=202400649&emOpenSeq=1",
+      "examMgmtNo": "202400649",
+      "emOpenSeq": "1",
+      "grade": "중",
+      "score": 5,
+      "isIBK": false,
+      "bankTarget": true,
+      "tier": "T2",
+      "tierLabel": "인접금융",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260722/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "215",
+        "listTotal": 215,
+        "prevListTotal": 214,
+        "checksum": "215 − 214 = 1 == 신규 1 − 삭제 0"
+      },
+      "title": "주식회사 제이엠씨자산운용",
+      "what_changes": [
+        "제이엠씨자산운용에 과태료가 부과됐어요."
+      ],
+      "our_action": [
+        "자산관리사업부 담당자라면 관련 통제 절차를 점검해 보세요."
+      ],
+      "ctrl_insight": "자산관리사업부의 유사 업무 점검 여지를 살펴보세요.",
+      "related_depts": [
+        "신탁부"
+      ],
+      "org_version": "2026-H2",
+      "dept_id": "ORG-0024",
+      "related_dept_ids": [
+        "ORG-0025"
+      ],
+      "tg_key": "제이엠씨자산운용 제재",
+      "sanction_type": "과태료",
+      "risk_basis": "경영유의/기관경고·주의/과징금 수준",
+      "workflow_type": "D+E",
+      "term": null,
+      "_llm": false,
+      "_fallback": true,
+      "_api_error": "You have reached your specified API usage limits. You will regain access on 2026-08-01 at 00:00 UTC."
+    }
+  ],
+  "newItems": [
+    {
+      "key": "202400649_1",
+      "source": "제재공시",
+      "org": "주식회사 제이엠씨자산운용",
+      "actionRequestDate": "2026-07-22",
+      "dept": "금융투자검사3국",
+      "firstSeenDate": "20260722",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 0,
+      "listedOutOfOrder": false,
+      "actionDate": "2026-07-22",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400649_01_%EC%A0%9C%EC%9E%AC%EB%82%B4%EC%9A%A9+%EA%B3%B5%EA%B0%9C%EC%95%88%28%28%EC%A3%BC%29%EC%A0%9C%EC%9D%B4%EC%97%A0%EC%94%A8%EC%9E%90%EC%82%B0%EC%9A%B4%EC%9A%A9%29.pdf",
+          "name": "202400649_01_제재내용 공개안((주)제이엠씨자산운용).pdf"
+        }
+      ],
+      "bodyText": "제재내용 공개안 1.금융회사명:(주)제이엠씨자산운용(舊 (주)알디자산운용) 2.제재조치일:2026.7.22. 3.제재조치내용 제재대상제재내용 기관과태료(30백만원)부과 임원 (1명) 주의적경고 과태료(10.8백만원)부과 4.제재대상사실 가.임원의겸직제한위반 □금융회사의상근임원은다른영리법인의상시적인업무에종사할수없는데도, ◦(주)제이엠씨자산운용(이하‘회사’)의前대표이사 * 甲(2020.4.27.~2024.7.31.)은 2020.4.27.~2021.10.19.기간중A의사내이사로등기하고 *現제이엠씨자산운용(舊알디자산운용)등기이사 ◦2022.4.19.~2022.5.31.기간중B의사내이사(대표이사)로등기하여다른영리 법인의상시적인업무에종사한사실이있음 <관련법규> 1.｢지배구조법｣ 제10조제1항 나.집합투자규약을위반한집합투자재산운용 □집합투자업자는집합투자규약을위반하여집합투자재산을운용하여서는아니 되는데도, ◦회사는㉮ 및㉯ 펀드의집합투자규약(신탁계약서)상설정일로부터6개월 이내에｢벤처기업법｣ 제2조제2항에따른투자비율(이하‘벤처신주비율’)을 자산총액의15%이상,이를포함한벤처기업등에대한투자비율(이하‘벤처 투자비율’)을자산총액의50%이상으로하고,동요건을갖춘날부터매6개월 마다각각의평균비율을유지하도록제한하였으나, -㉮펀드는2020.9.15.최초로요건을달성한이후,2020.9.15.~2022.3.14.기간 중의벤처신주비율이최소투자비율인15%에미달,벤처투자비율이최소 투자비율인50%에미달하였으며, -㉯펀드는2021.11.30.최초로요건을달성한이후,2022.5.30.~2022.11.29.기간 중의벤처투자비율이최소투자비율인50%에미달하는등집합투자규약에 규정된투자대상자산의취득한도를각각위반하여집합투자재산을운용한 사실이있음 <관련법규> 1.｢자본시장법｣ 제85조제8호 2.｢자본시장법시행령｣ 제87조제4항제1호",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-22&pageIndex=1&examMgmtNo=202400649&emOpenSeq=1",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-22&pageIndex=1&examMgmtNo=202400649&emOpenSeq=1",
+      "examMgmtNo": "202400649",
+      "emOpenSeq": "1",
+      "grade": "상",
+      "score": 5,
+      "isIBK": false,
+      "bankTarget": true,
+      "tier": "T2",
+      "tierLabel": "인접금융",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260722/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "215",
+        "listTotal": 215,
+        "prevListTotal": 214,
+        "checksum": "215 − 214 = 1 == 신규 1 − 삭제 0"
+      }
+    }
+  ],
+  "newGraded": [
+    {
+      "key": "202400649_1",
+      "source": "제재공시",
+      "org": "주식회사 제이엠씨자산운용",
+      "actionRequestDate": "2026-07-22",
+      "dept": "자산관리사업부",
+      "firstSeenDate": "20260722",
+      "firstSeenSlot": "pm",
+      "listRank": 1,
+      "listingLagDays": 0,
+      "listedOutOfOrder": false,
+      "actionDate": "2026-07-22",
+      "sanctionTargets": {
+        "기관": "",
+        "임원": "",
+        "직원": ""
+      },
+      "attachments": [
+        {
+          "url": "https://www.fss.or.kr/fss.hpdownload?path=/dtm/opn/&file=202400649_01_%EC%A0%9C%EC%9E%AC%EB%82%B4%EC%9A%A9+%EA%B3%B5%EA%B0%9C%EC%95%88%28%28%EC%A3%BC%29%EC%A0%9C%EC%9D%B4%EC%97%A0%EC%94%A8%EC%9E%90%EC%82%B0%EC%9A%B4%EC%9A%A9%29.pdf",
+          "name": "202400649_01_제재내용 공개안((주)제이엠씨자산운용).pdf"
+        }
+      ],
+      "bodyText": "제재내용 공개안 1.금융회사명:(주)제이엠씨자산운용(舊 (주)알디자산운용) 2.제재조치일:2026.7.22. 3.제재조치내용 제재대상제재내용 기관과태료(30백만원)부과 임원 (1명) 주의적경고 과태료(10.8백만원)부과 4.제재대상사실 가.임원의겸직제한위반 □금융회사의상근임원은다른영리법인의상시적인업무에종사할수없는데도, ◦(주)제이엠씨자산운용(이하‘회사’)의前대표이사 * 甲(2020.4.27.~2024.7.31.)은 2020.4.27.~2021.10.19.기간중A의사내이사로등기하고 *現제이엠씨자산운용(舊알디자산운용)등기이사 ◦2022.4.19.~2022.5.31.기간중B의사내이사(대표이사)로등기하여다른영리 법인의상시적인업무에종사한사실이있음 <관련법규> 1.｢지배구조법｣ 제10조제1항 나.집합투자규약을위반한집합투자재산운용 □집합투자업자는집합투자규약을위반하여집합투자재산을운용하여서는아니 되는데도, ◦회사는㉮ 및㉯ 펀드의집합투자규약(신탁계약서)상설정일로부터6개월 이내에｢벤처기업법｣ 제2조제2항에따른투자비율(이하‘벤처신주비율’)을 자산총액의15%이상,이를포함한벤처기업등에대한투자비율(이하‘벤처 투자비율’)을자산총액의50%이상으로하고,동요건을갖춘날부터매6개월 마다각각의평균비율을유지하도록제한하였으나, -㉮펀드는2020.9.15.최초로요건을달성한이후,2020.9.15.~2022.3.14.기간 중의벤처신주비율이최소투자비율인15%에미달,벤처투자비율이최소 투자비율인50%에미달하였으며, -㉯펀드는2021.11.30.최초로요건을달성한이후,2022.5.30.~2022.11.29.기간 중의벤처투자비율이최소투자비율인50%에미달하는등집합투자규약에 규정된투자대상자산의취득한도를각각위반하여집합투자재산을운용한 사실이있음 <관련법규> 1.｢자본시장법｣ 제85조제8호 2.｢자본시장법시행령｣ 제87조제4항제1호",
+      "detailUrl": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-22&pageIndex=1&examMgmtNo=202400649&emOpenSeq=1",
+      "url": "https://www.fss.or.kr/fss/job/openInfo/view.do?menuNo=200476&sdate=2026-01-01&edate=2026-07-22&pageIndex=1&examMgmtNo=202400649&emOpenSeq=1",
+      "examMgmtNo": "202400649",
+      "emOpenSeq": "1",
+      "grade": "중",
+      "score": 5,
+      "isIBK": false,
+      "bankTarget": true,
+      "tier": "T2",
+      "tierLabel": "인접금융",
+      "newnessProof": {
+        "rule": "레저에 없는 키 (레저는 전 페이지 시드로 목록 전체를 덮는다)",
+        "keySchema": "v1",
+        "prevCrawlFile": "reports/20260722/am/crawl_result.json",
+        "prevWindowKeys": 50,
+        "prevWindowDepth": 5,
+        "absentFromPrevWindow": true,
+        "ledgerCovered": true,
+        "page": 1,
+        "listRank": 1,
+        "seqNo": "215",
+        "listTotal": 215,
+        "prevListTotal": 214,
+        "checksum": "215 − 214 = 1 == 신규 1 − 삭제 0"
+      },
+      "title": "주식회사 제이엠씨자산운용",
+      "what_changes": [
+        "제이엠씨자산운용에 과태료가 부과됐어요."
+      ],
+      "our_action": [
+        "자산관리사업부 담당자라면 관련 통제 절차를 점검해 보세요."
+      ],
+      "ctrl_insight": "자산관리사업부의 유사 업무 점검 여지를 살펴보세요.",
+      "related_depts": [
+        "신탁부"
+      ],
+      "org_version": "2026-H2",
+      "dept_id": "ORG-0024",
+      "related_dept_ids": [
+        "ORG-0025"
+      ],
+      "tg_key": "제이엠씨자산운용 제재",
+      "sanction_type": "과태료",
+      "risk_basis": "경영유의/기관경고·주의/과징금 수준",
+      "workflow_type": "D+E",
+      "term": null,
+      "_llm": false,
+      "_fallback": true,
+      "_api_error": "You have reached your specified API usage limits. You will regain access on 2026-08-01 at 00:00 UTC."
+    }
+  ],
+  "backfilled": [],
+  "completeness": {
+    "제재공시": {
+      "ok": true,
+      "listTotal": 215,
+      "prevListTotal": 214,
+      "expectedDelta": 1,
+      "actualDelta": 1,
+      "newCount": 1,
+      "deletedCount": 0,
+      "reason": "일치",
+      "fullScan": false,
+      "pagesScanned": 5,
+      "backfilled": 0,
+      "deletedKeys": []
+    },
+    "경영유의": {
+      "ok": true,
+      "listTotal": 71,
+      "prevListTotal": 71,
+      "expectedDelta": 0,
+      "actualDelta": 0,
+      "newCount": 0,
+      "deletedCount": 0,
+      "reason": "일치",
+      "fullScan": false,
+      "pagesScanned": 5,
+      "backfilled": 0,
+      "deletedKeys": []
+    }
+  },
+  "scanWindow": {
+    "제재공시": {
+      "pagesScanned": 5,
+      "rowsScanned": 50,
+      "fullScan": false,
+      "listTotal": 215,
+      "prevListTotal": 214,
+      "topDate": "2026-07-22",
+      "floorDate": "2026-06-17",
+      "floorLookbackDays": 35
+    },
+    "경영유의": {
+      "pagesScanned": 5,
+      "rowsScanned": 50,
+      "fullScan": false,
+      "listTotal": 71,
+      "prevListTotal": 71,
+      "topDate": "2026-07-14",
+      "floorDate": "2026-02-11",
+      "floorLookbackDays": 161
+    }
+  },
+  "warnings": [],
+  "scanAudit": [
+    {
+      "source": "제재공시",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:00:44.265Z",
+      "keySchema": "v1",
+      "listTotal": 215,
+      "bodySha256": "sha256:639c12efd3a239aace0a6f111f7e049393c552d3839f3e52f7400fc5fd48442d",
+      "keys": [
+        "202400649_1",
+        "202500653_2",
+        "202500568_2",
+        "202500516_1",
+        "202500255_1",
+        "202400534_1",
+        "202500608_1",
+        "202200354_1",
+        "202500659_1",
+        "202500616_1"
+      ],
+      "rows": [
+        {
+          "key": "202400649_1",
+          "listRank": 1,
+          "seqNo": "215",
+          "org": "주식회사 제이엠씨자산운용",
+          "actionRequestDate": "2026-07-22"
+        },
+        {
+          "key": "202500653_2",
+          "listRank": 2,
+          "seqNo": "214",
+          "org": "라온저축은행",
+          "actionRequestDate": "2026-07-14"
+        },
+        {
+          "key": "202500568_2",
+          "listRank": 3,
+          "seqNo": "213",
+          "org": "토스증권 주식회사",
+          "actionRequestDate": "2026-07-14"
+        },
+        {
+          "key": "202500516_1",
+          "listRank": 4,
+          "seqNo": "212",
+          "org": "KB증권주식회사",
+          "actionRequestDate": "2026-07-14"
+        },
+        {
+          "key": "202500255_1",
+          "listRank": 5,
+          "seqNo": "211",
+          "org": "월드에셋대부 주식회사",
+          "actionRequestDate": "2026-07-13"
+        },
+        {
+          "key": "202400534_1",
+          "listRank": 6,
+          "seqNo": "210",
+          "org": "네이버파이낸셜㈜",
+          "actionRequestDate": "2026-07-10"
+        },
+        {
+          "key": "202500608_1",
+          "listRank": 7,
+          "seqNo": "209",
+          "org": "유퍼스트보험마케팅㈜",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202200354_1",
+          "listRank": 8,
+          "seqNo": "208",
+          "org": "현대자산운용",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202500659_1",
+          "listRank": 9,
+          "seqNo": "207",
+          "org": "메가㈜",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202500616_1",
+          "listRank": 10,
+          "seqNo": "206",
+          "org": "DB생명보험주식회사",
+          "actionRequestDate": "2026-07-07"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:00:45.848Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:8ff1298b398f3c756863e04098a49b42b56bff73a219d8ec13738641346e70bb",
+      "keys": [
+        "202500615_1",
+        "202400378_1",
+        "202500424_1",
+        "202500683_1",
+        "202400801_1",
+        "202500415_1",
+        "202300746_5",
+        "202400733_2",
+        "202400536_1",
+        "202500072_1"
+      ],
+      "rows": [
+        {
+          "key": "202500615_1",
+          "listRank": 11,
+          "seqNo": "205",
+          "org": "아너스금융서비스",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202400378_1",
+          "listRank": 12,
+          "seqNo": "204",
+          "org": "(주)인슈코아",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500424_1",
+          "listRank": 13,
+          "seqNo": "203",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500683_1",
+          "listRank": 14,
+          "seqNo": "202",
+          "org": "케이에프지㈜",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202400801_1",
+          "listRank": 15,
+          "seqNo": "201",
+          "org": "굿리치주식회사",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202500415_1",
+          "listRank": 16,
+          "seqNo": "200",
+          "org": "DB손해보험주식회사",
+          "actionRequestDate": "2026-07-02"
+        },
+        {
+          "key": "202300746_5",
+          "listRank": 17,
+          "seqNo": "199",
+          "org": "주식회사 하나은행",
+          "actionRequestDate": "2026-07-02"
+        },
+        {
+          "key": "202400733_2",
+          "listRank": 18,
+          "seqNo": "198",
+          "org": "롯데손해보험주식회사",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202400536_1",
+          "listRank": 19,
+          "seqNo": "197",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500072_1",
+          "listRank": 20,
+          "seqNo": "196",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-06-30"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 3,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=3",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:00:47.476Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:a9d892c0c655ad336dc7472553ac27c0372e47e6c8033611f3447579055e3c9b",
+      "keys": [
+        "202400537_1",
+        "202400207_1",
+        "202300145_7",
+        "202400745_1",
+        "202400743_1",
+        "202200546_3",
+        "202500038_1",
+        "202400337_3",
+        "202300334_1",
+        "202500609_1"
+      ],
+      "rows": [
+        {
+          "key": "202400537_1",
+          "listRank": 21,
+          "seqNo": "195",
+          "org": "악사손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202400207_1",
+          "listRank": 22,
+          "seqNo": "194",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-06-29"
+        },
+        {
+          "key": "202300145_7",
+          "listRank": 23,
+          "seqNo": "193",
+          "org": "흥국생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202400745_1",
+          "listRank": 24,
+          "seqNo": "192",
+          "org": "신한라이프생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202400743_1",
+          "listRank": 25,
+          "seqNo": "191",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-26"
+        },
+        {
+          "key": "202200546_3",
+          "listRank": 26,
+          "seqNo": "190",
+          "org": "아이비케이신용정보 주식회사",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202500038_1",
+          "listRank": 27,
+          "seqNo": "189",
+          "org": "한국양계농협",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202400337_3",
+          "listRank": 28,
+          "seqNo": "188",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-06-25"
+        },
+        {
+          "key": "202300334_1",
+          "listRank": 29,
+          "seqNo": "187",
+          "org": "지알이파트너스자산운용 주식회사",
+          "actionRequestDate": "2026-06-24"
+        },
+        {
+          "key": "202500609_1",
+          "listRank": 30,
+          "seqNo": "186",
+          "org": "케이지에이에셋㈜",
+          "actionRequestDate": "2026-06-22"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 4,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=4",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:00:49.818Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:04b6369a8516279592335196ee9047172513aaa4339e6a90f0cc2295d0f1c25e",
+      "keys": [
+        "202500612_1",
+        "202500611_1",
+        "202400003_3",
+        "202300449_6",
+        "202500333_1",
+        "202500332_1",
+        "202500331_1",
+        "202500330_1",
+        "202500329_1",
+        "202500328_1"
+      ],
+      "rows": [
+        {
+          "key": "202500612_1",
+          "listRank": 31,
+          "seqNo": "185",
+          "org": "신한금융플러스 주식회사",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202500611_1",
+          "listRank": 32,
+          "seqNo": "184",
+          "org": "한국보험금융(주)",
+          "actionRequestDate": "2026-06-22"
+        },
+        {
+          "key": "202400003_3",
+          "listRank": 33,
+          "seqNo": "183",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-06-19"
+        },
+        {
+          "key": "202300449_6",
+          "listRank": 34,
+          "seqNo": "182",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500333_1",
+          "listRank": 35,
+          "seqNo": "181",
+          "org": "㈜글로벌금융판매",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500332_1",
+          "listRank": 36,
+          "seqNo": "180",
+          "org": "㈜영진에셋",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500331_1",
+          "listRank": 37,
+          "seqNo": "179",
+          "org": "한솔금융서비스 주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500330_1",
+          "listRank": 38,
+          "seqNo": "178",
+          "org": "(주)은성라이프",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500329_1",
+          "listRank": 39,
+          "seqNo": "177",
+          "org": "에이티에셋(주)",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500328_1",
+          "listRank": 40,
+          "seqNo": "176",
+          "org": "지에이코리아주식회사",
+          "actionRequestDate": "2026-06-18"
+        }
+      ]
+    },
+    {
+      "source": "제재공시",
+      "page": 5,
+      "url": "https://www.fss.or.kr/fss/job/openInfo/list.do?menuNo=200476&pageIndex=5",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:00:52.484Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:cd3b0915cac31e898869da568887936e1c0de91b46e6c3d1cb34507cb86f9523",
+      "keys": [
+        "202500327_1",
+        "202500326_1",
+        "202500325_1",
+        "202500324_1",
+        "202500323_1",
+        "202500322_1",
+        "202500321_1",
+        "202500320_1",
+        "202500319_1",
+        "202500158_1"
+      ],
+      "rows": [
+        {
+          "key": "202500327_1",
+          "listRank": 41,
+          "seqNo": "175",
+          "org": "메가㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500326_1",
+          "listRank": 42,
+          "seqNo": "174",
+          "org": "엑셀금융서비스 주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500325_1",
+          "listRank": 43,
+          "seqNo": "173",
+          "org": "(주)엠에스보험대리점",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500324_1",
+          "listRank": 44,
+          "seqNo": "172",
+          "org": "인카금융서비스㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500323_1",
+          "listRank": 45,
+          "seqNo": "171",
+          "org": "리더스금융판매㈜",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500322_1",
+          "listRank": 46,
+          "seqNo": "170",
+          "org": "흥국화재해상보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500321_1",
+          "listRank": 47,
+          "seqNo": "169",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500320_1",
+          "listRank": 48,
+          "seqNo": "168",
+          "org": "삼성화재해상보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500319_1",
+          "listRank": 49,
+          "seqNo": "167",
+          "org": "삼성생명보험주식회사",
+          "actionRequestDate": "2026-06-18"
+        },
+        {
+          "key": "202500158_1",
+          "listRank": 50,
+          "seqNo": "166",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-06-17"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 1,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=1",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:00:59.007Z",
+      "keySchema": "v1",
+      "listTotal": 71,
+      "bodySha256": "sha256:5238e7442b228e238fd63490f54f9994e42ab6dd7d0170a40d0751fe5afce1b0",
+      "keys": [
+        "202500516_12",
+        "202400534_12",
+        "202200354_12",
+        "202400801_12",
+        "202600088_11",
+        "202600130_11",
+        "202400536_12",
+        "202500601_11",
+        "202600178_11",
+        "202500038_12"
+      ],
+      "rows": [
+        {
+          "key": "202500516_12",
+          "listRank": 1,
+          "seqNo": "71",
+          "org": "KB증권주식회사",
+          "actionRequestDate": "2026-07-14"
+        },
+        {
+          "key": "202400534_12",
+          "listRank": 2,
+          "seqNo": "70",
+          "org": "네이버파이낸셜㈜",
+          "actionRequestDate": "2026-07-10"
+        },
+        {
+          "key": "202200354_12",
+          "listRank": 3,
+          "seqNo": "69",
+          "org": "현대자산운용",
+          "actionRequestDate": "2026-07-07"
+        },
+        {
+          "key": "202400801_12",
+          "listRank": 4,
+          "seqNo": "68",
+          "org": "굿리치주식회사",
+          "actionRequestDate": "2026-07-06"
+        },
+        {
+          "key": "202600088_11",
+          "listRank": 5,
+          "seqNo": "67",
+          "org": "순창농협",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202600130_11",
+          "listRank": 6,
+          "seqNo": "66",
+          "org": "여수농협",
+          "actionRequestDate": "2026-07-01"
+        },
+        {
+          "key": "202400536_12",
+          "listRank": 7,
+          "seqNo": "65",
+          "org": "한화손해보험주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500601_11",
+          "listRank": 8,
+          "seqNo": "64",
+          "org": "BNP파리바",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202600178_11",
+          "listRank": 9,
+          "seqNo": "63",
+          "org": "웰컴자산운용 주식회사",
+          "actionRequestDate": "2026-06-30"
+        },
+        {
+          "key": "202500038_12",
+          "listRank": 10,
+          "seqNo": "62",
+          "org": "한국양계농협",
+          "actionRequestDate": "2026-06-25"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 2,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=2",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:01:01.007Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:96748a90cecfbb17ad58af35826d27d063fc96abbc73c60b64e3ce6b5c051bef",
+      "keys": [
+        "202600082_11",
+        "202600019_11",
+        "202500493_12",
+        "202500742_11",
+        "202600087_11",
+        "202500139_11",
+        "202500002_12",
+        "202300039_11",
+        "202300654_12",
+        "202300807_12"
+      ],
+      "rows": [
+        {
+          "key": "202600082_11",
+          "listRank": 11,
+          "seqNo": "61",
+          "org": "우리은행",
+          "actionRequestDate": "2026-06-24"
+        },
+        {
+          "key": "202600019_11",
+          "listRank": 12,
+          "seqNo": "60",
+          "org": "대전충남양계농협",
+          "actionRequestDate": "2026-06-10"
+        },
+        {
+          "key": "202500493_12",
+          "listRank": 13,
+          "seqNo": "59",
+          "org": "에스비아이저축은행",
+          "actionRequestDate": "2026-06-09"
+        },
+        {
+          "key": "202500742_11",
+          "listRank": 14,
+          "seqNo": "58",
+          "org": "국민은행",
+          "actionRequestDate": "2026-06-01"
+        },
+        {
+          "key": "202600087_11",
+          "listRank": 15,
+          "seqNo": "57",
+          "org": "한국자산신탁",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202500139_11",
+          "listRank": 16,
+          "seqNo": "56",
+          "org": "비엔케이캐피탈㈜",
+          "actionRequestDate": "2026-05-29"
+        },
+        {
+          "key": "202500002_12",
+          "listRank": 17,
+          "seqNo": "55",
+          "org": "서울으뜸",
+          "actionRequestDate": "2026-05-26"
+        },
+        {
+          "key": "202300039_11",
+          "listRank": 18,
+          "seqNo": "54",
+          "org": "한화생명보험주식회사",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300654_12",
+          "listRank": 19,
+          "seqNo": "53",
+          "org": "청운",
+          "actionRequestDate": "2026-05-21"
+        },
+        {
+          "key": "202300807_12",
+          "listRank": 20,
+          "seqNo": "52",
+          "org": "전주동부",
+          "actionRequestDate": "2026-05-21"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 3,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=3",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:01:02.991Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:5be5fe6076e97cec16f2b765e7de192653b62de6e2d68ec6f67a0ff7e62c721b",
+      "keys": [
+        "202500511_12",
+        "202500643_11",
+        "202400693_12",
+        "202500121_12",
+        "202500015_11",
+        "202500743_11",
+        "202400481_15",
+        "202500795_11",
+        "202500810_11",
+        "202500653_11"
+      ],
+      "rows": [
+        {
+          "key": "202500511_12",
+          "listRank": 21,
+          "seqNo": "51",
+          "org": "시그니처자산운용㈜",
+          "actionRequestDate": "2026-05-19"
+        },
+        {
+          "key": "202500643_11",
+          "listRank": 22,
+          "seqNo": "50",
+          "org": "삼성 금융복합기업집단",
+          "actionRequestDate": "2026-05-14"
+        },
+        {
+          "key": "202400693_12",
+          "listRank": 23,
+          "seqNo": "49",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-05-13"
+        },
+        {
+          "key": "202500121_12",
+          "listRank": 24,
+          "seqNo": "48",
+          "org": "하나자산신탁",
+          "actionRequestDate": "2026-05-06"
+        },
+        {
+          "key": "202500015_11",
+          "listRank": 25,
+          "seqNo": "47",
+          "org": "도이치은행",
+          "actionRequestDate": "2026-04-27"
+        },
+        {
+          "key": "202500743_11",
+          "listRank": 26,
+          "seqNo": "46",
+          "org": "우리은행",
+          "actionRequestDate": "2026-04-27"
+        },
+        {
+          "key": "202400481_15",
+          "listRank": 27,
+          "seqNo": "45",
+          "org": "국민은행",
+          "actionRequestDate": "2026-04-24"
+        },
+        {
+          "key": "202500795_11",
+          "listRank": 28,
+          "seqNo": "44",
+          "org": "농협은행주식회사",
+          "actionRequestDate": "2026-04-21"
+        },
+        {
+          "key": "202500810_11",
+          "listRank": 29,
+          "seqNo": "43",
+          "org": "유니온상호저축은행",
+          "actionRequestDate": "2026-04-17"
+        },
+        {
+          "key": "202500653_11",
+          "listRank": 30,
+          "seqNo": "42",
+          "org": "라온저축은행",
+          "actionRequestDate": "2026-04-16"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 4,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=4",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:01:04.747Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:efc821138c52d9c2a9cebb228245f1197477fad2049a1022e4e7a79e1b6bfbdc",
+      "keys": [
+        "202500680_11",
+        "202500819_11",
+        "202500751_11",
+        "202500461_11",
+        "202500356_11",
+        "202500357_11",
+        "202500162_11",
+        "202500161_11",
+        "202500163_11",
+        "202500160_11"
+      ],
+      "rows": [
+        {
+          "key": "202500680_11",
+          "listRank": 31,
+          "seqNo": "41",
+          "org": "하나캐피탈㈜",
+          "actionRequestDate": "2026-04-15"
+        },
+        {
+          "key": "202500819_11",
+          "listRank": 32,
+          "seqNo": "40",
+          "org": "제이비우리캐피탈㈜",
+          "actionRequestDate": "2026-04-15"
+        },
+        {
+          "key": "202500751_11",
+          "listRank": 33,
+          "seqNo": "39",
+          "org": "교통은행",
+          "actionRequestDate": "2026-04-13"
+        },
+        {
+          "key": "202500461_11",
+          "listRank": 34,
+          "seqNo": "38",
+          "org": "현대하이라이프손해사정 주식회사",
+          "actionRequestDate": "2026-04-09"
+        },
+        {
+          "key": "202500356_11",
+          "listRank": 35,
+          "seqNo": "37",
+          "org": "NH투자증권",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500357_11",
+          "listRank": 36,
+          "seqNo": "36",
+          "org": "KB증권주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500162_11",
+          "listRank": 37,
+          "seqNo": "35",
+          "org": "한국투자증권",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500161_11",
+          "listRank": 38,
+          "seqNo": "34",
+          "org": "미래에셋증권 주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500163_11",
+          "listRank": 39,
+          "seqNo": "33",
+          "org": "신한투자증권 주식회사",
+          "actionRequestDate": "2026-04-07"
+        },
+        {
+          "key": "202500160_11",
+          "listRank": 40,
+          "seqNo": "32",
+          "org": "삼성증권(주)",
+          "actionRequestDate": "2026-04-07"
+        }
+      ]
+    },
+    {
+      "source": "경영유의",
+      "page": 5,
+      "url": "https://www.fss.or.kr/fss/job/openInfoImpr/list.do?menuNo=200483&pageIndex=5",
+      "status": 200,
+      "rowCount": 10,
+      "fetchedAt": "2026-07-22T07:01:06.517Z",
+      "keySchema": "v1",
+      "bodySha256": "sha256:d4f08c3df24dbdea6822394d8046abbf2784d9b1ca0579b3604f1155714f7fa4",
+      "keys": [
+        "202500651_12",
+        "202500100_12",
+        "202500517_11",
+        "202500099_12",
+        "202300848_13",
+        "202500588_11",
+        "202400548_12",
+        "202500444_12",
+        "202400095_13",
+        "202500801_11"
+      ],
+      "rows": [
+        {
+          "key": "202500651_12",
+          "listRank": 41,
+          "seqNo": "31",
+          "org": "광주어룡",
+          "actionRequestDate": "2026-04-03"
+        },
+        {
+          "key": "202500100_12",
+          "listRank": 42,
+          "seqNo": "30",
+          "org": "양주축산농협",
+          "actionRequestDate": "2026-03-24"
+        },
+        {
+          "key": "202500517_11",
+          "listRank": 43,
+          "seqNo": "29",
+          "org": "㈜케이비국민카드",
+          "actionRequestDate": "2026-03-13"
+        },
+        {
+          "key": "202500099_12",
+          "listRank": 44,
+          "seqNo": "28",
+          "org": "순천농협",
+          "actionRequestDate": "2026-03-12"
+        },
+        {
+          "key": "202300848_13",
+          "listRank": 45,
+          "seqNo": "27",
+          "org": "농협손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202500588_11",
+          "listRank": 46,
+          "seqNo": "26",
+          "org": "뱅크오브아메리카은행",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202400548_12",
+          "listRank": 47,
+          "seqNo": "25",
+          "org": "하나손해보험주식회사",
+          "actionRequestDate": "2026-02-27"
+        },
+        {
+          "key": "202500444_12",
+          "listRank": 48,
+          "seqNo": "24",
+          "org": "KB라이프생명보험",
+          "actionRequestDate": "2026-02-19"
+        },
+        {
+          "key": "202400095_13",
+          "listRank": 49,
+          "seqNo": "23",
+          "org": "한국자산신탁",
+          "actionRequestDate": "2026-02-12"
+        },
+        {
+          "key": "202500801_11",
+          "listRank": 50,
+          "seqNo": "22",
+          "org": "디에이치저축은행",
+          "actionRequestDate": "2026-02-11"
+        }
+      ]
+    }
+  ],
+  "noUpdate": false,
+  "error": null,
+  "analyzedAt": "2026-07-22T07:01:07.139Z",
+  "analyzeMode": "llm",
+  "overallGrade": "중",
+  "term": null,
+  "tgMsg": "🔔 금융감독원 제재·경영유의 브리핑 (16:01)\n금감원 신규 중 IBK 유관 1건\n\n🔶 제재대상: 주식회사 제이엠씨자산운용 [인접금융] · 2026.07.22 · 과태료\n\n• 왜 제재를 받았나요?\n   제이엠씨자산운용에 과태료가 부과됐어요.\n\n• IBK에서도 발생 가능한가요?\n   (키워드 추정 — 검토 필요) 자산관리사업부의 유사 업무 점검 여지를 살펴보세요.\n\n• 이런 부분을 점검하시면 좋아요\n   자산관리사업부 담당자라면 관련 통제 절차를 점검해 보세요."
+}
